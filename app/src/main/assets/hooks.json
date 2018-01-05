@@ -1,0 +1,153 @@
+/*
+    This file is part of XPrivacy/Lua.
+
+    XPrivacy/Lua is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    XPrivacy/Lua is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with XPrivacy/Lua.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2017-2018 Marcel Bokhorst (M66B)
+ */
+
+[
+  // Location
+  // https://developer.android.com/reference/android/location/LocationManager.html
+  // https://developer.android.com/reference/android/location/Location.html
+  // https://developer.android.com/reference/android/os/Bundle.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "Bundle.get\/location",
+    "author": "M66B",
+    "className": "android.os.BaseBundle",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.Object",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@bundle_get_location"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "Location.createFromParcel",
+    "author": "M66B",
+    "className": "android.location.Location",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.location.Location",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@location_createfromparcel"
+  },
+  // Record audio
+  // https://developer.android.com/reference/android/media/AudioRecord.html
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioRecord.startRecording",
+    "author": "M66B",
+    "className": "android.media.AudioRecord",
+    "methodName": "startRecording",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_no_result"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioRecord.startRecording(MediaSyncEvent)",
+    "author": "M66B",
+    "className": "android.media.AudioRecord",
+    "methodName": "startRecording",
+    "parameterTypes": [
+      "android.media.MediaSyncEvent"
+    ],
+    "returnType": "void",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_no_result"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioRecord.stop",
+    "author": "M66B",
+    "className": "android.media.AudioRecord",
+    "methodName": "stop",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_no_result"
+  },
+  // Record audio
+  // https://developer.android.com/reference/android/media/MediaRecorder.html
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "MediaRecorder.setAudioSource",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "setAudioSource",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_setaudiosource"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "MediaRecorder.start",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "start",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_start"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "MediaRecorder.stop",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "stop",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_start"
+  }
+]

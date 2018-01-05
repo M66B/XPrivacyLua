@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name" translatable="false">XPrivacyLua</string>
+    <string name="channel_privacy" translatable="false">XPrivacyLua</string>
+
+    <string name="title_license" translatable="false">
+        This app is meant to be used to protect your privacy.
+        <![CDATA[<br><br>]]>Copyright 2017-%1$d Marcel Bokhorst. All rights reserved.
+        <![CDATA[<br><br>]]>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+        <![CDATA[<br><br>]]>This program is distributed in the hope that it will be useful but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <![CDATA[<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License</a>]]> for more details.
+        <![CDATA[<br><br><strong>LuaJ</strong><br>]]>Copyright 2007-2013 LuaJ. All rights reserved. See the <![CDATA[<a href="http://luaj.sourceforge.net/license.txt">license</a>]]>.
+        <![CDATA[<br><br><b>Glide</b><br>]]>Copyright 2014 Google, Inc. All rights reserved. See the <![CDATA[<a href="https://raw.githubusercontent.com/bumptech/glide/master/LICENSE">license</a>]]>.
+        <![CDATA[<br><br><b>Android Support Library</b><br>]]>Copyright 2011 The Android Open Source Project. See the <![CDATA[<a href="https://android.googlesource.com/platform/frameworks/support/+/master/LICENSE.txt">license</a>]]>.
+   </string>
+    <string name="title_accept">I accept</string>
+    <string name="title_deny">I deny</string>
+
+    <string name="title_restrict">Restrict</string>
+
+    <string name="title_help_instructions">Tap on an app icon or name and tick the restriction to apply it.</string>
+    <string name="title_help_installed">Restriction installed</string>
+    <string name="title_help_persistent">Applying restrictions requires a device restart</string>
+    <string name="title_help_exception">Applying restriction failed (tap icon to show why)</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_show_all">Show all apps</string>
+    <string name="menu_notify_new">Notify new apps</string>
+    <string name="menu_restrict_new">Restrict new apps</string>
+    <string name="menu_donate">Donate</string>
+
+    <string name="msg_no_service">Module not running or updated</string>
+    <string name="msg_new_app">New app installed</string>
+    <string name="msg_exception">Error in %1$s</string>
+
+    <string name="group_get_location">Get location</string>
+    <string name="group_record_audio">Record audio</string>
+</resources>
