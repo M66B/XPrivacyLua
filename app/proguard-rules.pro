@@ -20,5 +20,17 @@
 # hide the original source file name.
 -renamesourcefileattribute SourceFile
 
+#XPrivacyLua
 -keep class eu.faircode.xlua.Xposed {*; }
 -keep class eu.faircode.xlua.XParam {*; }
+
+#LuaJ
+-dontwarn org.luaj.vm2.**
+
+#Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep enum com.bumptech.glide.** {*; }
+
+#Support library
+-keep class android.support.v7.widget.** { *; }
