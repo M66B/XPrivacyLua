@@ -29,6 +29,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,8 +40,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class FragmentMain extends Fragment {
     private final static String TAG = "XLua.Main";
@@ -46,8 +47,6 @@ public class FragmentMain extends Fragment {
     private boolean showAll = false;
     private String query = null;
     private AdapterApp rvAdapter;
-
-    private ExecutorService executor = Executors.newCachedThreadPool();
 
     @Override
     @Nullable
@@ -85,7 +84,9 @@ public class FragmentMain extends Fragment {
         getActivity().registerReceiver(packageChangedReceiver, piff);
 
         // Load data
-        updateData();
+        Log.i(TAG, "Starting data loader");
+        getActivity().getSupportLoaderManager().restartLoader(
+                ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
     }
 
     @Override
@@ -101,28 +102,6 @@ public class FragmentMain extends Fragment {
         getActivity().unregisterReceiver(packageChangedReceiver);
     }
 
-    private void updateData() {
-        executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    IService client = XService.getClient();
-                    final List<XHook> hooks = client.getHooks();
-                    final List<XApp> apps = client.getApps();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            rvAdapter.set(showAll, query, hooks, apps);
-                        }
-                    });
-                } catch (Throwable ex) {
-                    Log.e(TAG, Log.getStackTraceString(ex));
-                    Snackbar.make(getView(), ex.toString(), Snackbar.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
     public void setShowAll(boolean showAll) {
         this.showAll = showAll;
         if (rvAdapter != null)
@@ -135,11 +114,56 @@ public class FragmentMain extends Fragment {
             rvAdapter.getFilter().filter(query);
     }
 
+    LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
+        @Override
+        public Loader<DataHolder> onCreateLoader(int id, Bundle args) {
+            return new DataLoader(getContext());
+        }
+
+        @Override
+        public void onLoadFinished(Loader<DataHolder> loader, DataHolder data) {
+            if (data.exception == null)
+                rvAdapter.set(showAll, query, data.hooks, data.apps);
+            else {
+                Log.e(TAG, Log.getStackTraceString(data.exception));
+                Snackbar.make(getView(), data.exception.toString(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<DataHolder> loader) {
+            // Do nothing
+        }
+    };
+
+    private static class DataLoader extends AsyncTaskLoader<DataHolder> {
+        DataLoader(Context context) {
+            super(context);
+        }
+
+        @Nullable
+        @Override
+        public DataHolder loadInBackground() {
+            Log.i(TAG, "Data loader started");
+            DataHolder data = new DataHolder();
+            try {
+                IService client = XService.getClient();
+                data.hooks = client.getHooks();
+                data.apps = client.getApps();
+            } catch (Throwable ex) {
+                data.exception = ex;
+            }
+            Log.i(TAG, "Data loader finished");
+            return data;
+        }
+    }
+
     private IEventListener.Stub eventListener = new IEventListener.Stub() {
         @Override
         public void usageDataChanged() throws RemoteException {
             Log.i(TAG, "Usage data changed");
-            updateData();
+            getActivity().getSupportLoaderManager().restartLoader(
+                    ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }
     };
 
@@ -150,7 +174,14 @@ public class FragmentMain extends Fragment {
             String pkg = intent.getData().getSchemeSpecificPart();
             int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
             Log.i(TAG, "pkg=" + pkg + ":" + uid);
-            updateData();
+            getActivity().getSupportLoaderManager().restartLoader(
+                    ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }
     };
+
+    private static class DataHolder {
+        List<XHook> hooks = null;
+        List<XApp> apps = null;
+        Throwable exception = null;
+    }
 }

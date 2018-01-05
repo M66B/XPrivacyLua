@@ -68,6 +68,7 @@ public class ActivityMain extends AppCompatActivity {
 
     private AlertDialog firstRunDialog = null;
 
+    public static final int LOADER_DATA = 1;
     public static final String EXTRA_SEARCH_PACKAGE = "package";
 
     @Override
