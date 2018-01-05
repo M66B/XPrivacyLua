@@ -308,12 +308,14 @@ public class XService extends IService.Stub {
                 try {
                     for (String hookid : hookids)
                         if (delete) {
-                            Log.i(TAG, packageName + ":" + uid + " deleted " + hookid);
-                            db.delete("assignment",
+                            Log.i(TAG, packageName + ":" + uid + "/" + hookid + " deleted");
+                            long rows = db.delete("assignment",
                                     "hook = ? AND package = ? AND uid = ?",
                                     new String[]{hookid, packageName, Integer.toString(uid)});
+                            if (rows < 0)
+                                throw new Throwable("Error deleting assignment");
                         } else {
-                            Log.i(TAG, packageName + ":" + uid + " added " + hookid);
+                            Log.i(TAG, packageName + ":" + uid + "/" + hookid + " added");
                             ContentValues cv = new ContentValues();
                             cv.put("package", packageName);
                             cv.put("uid", uid);
@@ -322,8 +324,8 @@ public class XService extends IService.Stub {
                             cv.put("used", -1);
                             cv.put("restricted", 0);
                             cv.putNull("exception");
-                            long row = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
-                            if (row < 0)
+                            long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                            if (rows < 0)
                                 throw new Throwable("Error inserting assignment");
                         }
 
@@ -470,7 +472,7 @@ public class XService extends IService.Stub {
                                 "package = ? AND uid = ? AND hook = ?",
                                 new String[]{packageName, Integer.toString(uid), hookid});
                         if (rows < 1)
-                            throw new Throwable("Error updating assignment");
+                            Log.i(TAG, packageName + ":" + uid + "/" + hookid + " not updated");
 
                         db.setTransactionSuccessful();
                     } finally {
