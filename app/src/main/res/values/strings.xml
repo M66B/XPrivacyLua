@@ -32,6 +32,7 @@
     <string name="msg_new_app">New app installed</string>
     <string name="msg_exception">Error in %1$s</string>
 
+    <string name="group_get_account">Get account info</string>
     <string name="group_get_location">Get location</string>
     <string name="group_record_audio">Record audio</string>
 </resources>

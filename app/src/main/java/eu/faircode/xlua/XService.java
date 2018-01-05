@@ -220,7 +220,7 @@ public class XService extends IService.Stub {
                 app.icon = ai.icon;
                 app.label = (String) pm.getApplicationLabel(ai);
                 app.enabled = (ai.enabled && pmenabled);
-                app.persistent = (ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0;
+                app.persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 || ai.uid == Process.SYSTEM_UID);
                 app.assignments = new ArrayList<>();
                 apps.put(app.packageName + ":" + app.uid, app);
             }
@@ -242,7 +242,7 @@ public class XService extends IService.Stub {
                 try {
                     Cursor cursor = null;
                     try {
-                        int start = Util.getUserUid(userid, Process.FIRST_APPLICATION_UID);
+                        int start = Util.getUserUid(userid, 0);
                         int end = Util.getUserUid(userid, Process.LAST_APPLICATION_UID);
                         cursor = db.query(
                                 "assignment",
@@ -308,12 +308,12 @@ public class XService extends IService.Stub {
                 try {
                     for (String hookid : hookids)
                         if (delete) {
-                            Log.i(TAG, "Delete " + hookid + " from " + packageName + ":" + uid);
+                            Log.i(TAG, packageName + ":" + uid + " deleted " + hookid);
                             db.delete("assignment",
                                     "hook = ? AND package = ? AND uid = ?",
                                     new String[]{hookid, packageName, Integer.toString(uid)});
                         } else {
-                            Log.i(TAG, "Assign " + hookid + " to " + packageName + ":" + uid);
+                            Log.i(TAG, packageName + ":" + uid + " added " + hookid);
                             ContentValues cv = new ContentValues();
                             cv.put("package", packageName);
                             cv.put("uid", uid);
@@ -408,6 +408,7 @@ public class XService extends IService.Stub {
             StrictMode.setThreadPolicy(originalPolicy);
         }
 
+        Log.i(TAG, packageName + ":" + uid + " hooks=" + result.size());
         return result;
     }
 
@@ -483,10 +484,8 @@ public class XService extends IService.Stub {
                 throw new RemoteException(ex.toString());
             }
 
-            // Notify usage
-            Message message = this.handler.obtainMessage();
-            message.what = EventHandler.EVENT_DATA_CHANGED;
-            this.handler.sendMessage(message);
+            // Notify data changed
+            this.notify(EventHandler.EVENT_DATA_CHANGED, new Bundle());
 
             // Notify exception
             if (data.containsKey("exception")) {
@@ -533,9 +532,12 @@ public class XService extends IService.Stub {
     public void notify(int what, Bundle data) {
         enforcePermission();
 
-        Message message = this.handler.obtainMessage();
-        message.what = what;
-        this.handler.sendMessage(message);
+        // System might not be ready
+        if (this.handler != null) {
+            Message message = this.handler.obtainMessage();
+            message.what = what;
+            this.handler.sendMessage(message);
+        }
     }
 
     @Override
@@ -699,11 +701,11 @@ public class XService extends IService.Stub {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // public void killApplication(String pkg, int appId, int userId, String reason)
             Method m = am.getClass().getDeclaredMethod("killApplication", String.class, int.class, int.class, String.class);
-            m.invoke(am, pkg, appid, userid, "XLua");
+            m.invoke(am, pkg, appid, userid, "XPrivacyLua");
         } else {
             // public void killApplicationWithAppId(String pkg, int appid, String reason)
             Method m = am.getClass().getDeclaredMethod("killApplicationWithAppId", String.class, int.class, String.class);
-            m.invoke(am, pkg, uid, "XLua");
+            m.invoke(am, pkg, uid, "XPrivacyLua");
         }
         // public void killUid(int appId, int userId, String reason)
     }
