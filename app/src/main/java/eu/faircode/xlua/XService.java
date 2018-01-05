@@ -211,6 +211,9 @@ public class XService extends IService.Stub {
             // Get installed apps for current user
             PackageManager pm = createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0)) {
+                if (ai.uid == Process.SYSTEM_UID)
+                    continue;
+
                 int enabled = pm.getApplicationEnabledSetting(ai.packageName);
                 boolean pmenabled = (enabled == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
                         enabled == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);

@@ -78,7 +78,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             // Create service, hook android
                             try {
                                 service = new XService(param.thisObject, hooks, loader);
-                                hookPackage("android", loader);
+                                //hookPackage("android", loader);
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);
