@@ -210,12 +210,15 @@ public class XService extends IService.Stub {
             // Get installed apps for current user
             PackageManager pm = createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0)) {
+                int enabled = pm.getApplicationEnabledSetting(ai.packageName);
+                boolean pmenabled = (enabled == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
+                        enabled == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
                 XApp app = new XApp();
                 app.uid = ai.uid;
                 app.packageName = ai.packageName;
                 app.icon = ai.icon;
                 app.label = (String) pm.getApplicationLabel(ai);
-                app.enabled = ai.enabled;
+                app.enabled = (ai.enabled && pmenabled);
                 app.persistent = (ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0;
                 app.assignments = new ArrayList<>();
                 apps.put(app.packageName + ":" + app.uid, app);
