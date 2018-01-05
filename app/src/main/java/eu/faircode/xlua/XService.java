@@ -147,6 +147,7 @@ public class XService extends IService.Stub {
             Log.i(TAG, "Registering package listener user=" + userid);
             IntentFilter ifPackageAdd = new IntentFilter();
             ifPackageAdd.addAction(Intent.ACTION_PACKAGE_ADDED);
+            ifPackageAdd.addAction(Intent.ACTION_PACKAGE_CHANGED);
             ifPackageAdd.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED);
             ifPackageAdd.addDataScheme("package");
             createContextForUser(context, userid).registerReceiver(packageChangedReceiver, ifPackageAdd);
@@ -484,7 +485,7 @@ public class XService extends IService.Stub {
 
             // Notify usage
             Message message = this.handler.obtainMessage();
-            message.what = 1;
+            message.what = EventHandler.EVENT_DATA_CHANGED;
             this.handler.sendMessage(message);
 
             // Notify exception
@@ -526,6 +527,15 @@ public class XService extends IService.Stub {
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
         }
+    }
+
+    @Override
+    public void notify(int what, Bundle data) {
+        enforcePermission();
+
+        Message message = this.handler.obtainMessage();
+        message.what = what;
+        this.handler.sendMessage(message);
     }
 
     @Override
@@ -776,51 +786,56 @@ public class XService extends IService.Stub {
                     hookids.add(hook.getId());
 
                 String self = XService.class.getPackage().getName();
+                IService client = getClient();
+
                 if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
                     // Check for self
-                    if (self.equals(packageName))
-                        return;
+                    if (!self.equals(packageName)) {
+                        // Restrict app
+                        if (Boolean.parseBoolean(getClient().getSetting(userid, "global", "restrict_new_apps")))
+                            client.assignHooks(hookids, packageName, uid, false, false);
 
-                    // Restrict app
-                    if (Boolean.parseBoolean(getClient().getSetting(userid, "global", "restrict_new_apps")))
-                        getClient().assignHooks(hookids, packageName, uid, false, false);
+                        // Notify new app
+                        if (Boolean.parseBoolean(getClient().getSetting(userid, "global", "notify_new_apps"))) {
+                            Context ctx = createContextForUser(context, userid);
+                            PackageManager pm = ctx.getPackageManager();
+                            Resources resources = pm.getResourcesForApplication(self);
 
-                    // Notify new app
-                    if (!Boolean.parseBoolean(getClient().getSetting(userid, "global", "notify_new_apps")))
-                        return;
+                            Notification.Builder builder = new Notification.Builder(ctx);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                                builder.setChannelId(cChannelName);
+                            builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+                            builder.setContentTitle(resources.getString(R.string.msg_new_app));
+                            builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
 
-                    Context ctx = createContextForUser(context, userid);
-                    PackageManager pm = ctx.getPackageManager();
-                    Resources resources = pm.getResourcesForApplication(self);
+                            builder.setPriority(Notification.PRIORITY_HIGH);
+                            builder.setCategory(Notification.CATEGORY_STATUS);
+                            builder.setVisibility(Notification.VISIBILITY_SECRET);
 
-                    Notification.Builder builder = new Notification.Builder(ctx);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                        builder.setChannelId(cChannelName);
-                    builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
-                    builder.setContentTitle(resources.getString(R.string.msg_new_app));
-                    builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
+                            // Main
+                            Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                            main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                            PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                            builder.setContentIntent(pi);
 
-                    builder.setPriority(Notification.PRIORITY_HIGH);
-                    builder.setCategory(Notification.CATEGORY_STATUS);
-                    builder.setVisibility(Notification.VISIBILITY_SECRET);
+                            builder.setAutoCancel(true);
 
-                    // Main
-                    Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
-                    main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
-                    builder.setContentIntent(pi);
+                            notifyAsUser(ctx, "xlua_new_app", uid, builder.build(), userid);
+                        }
+                    }
 
-                    builder.setAutoCancel(true);
-
-                    notifyAsUser(ctx, "xlua_new_app", uid, builder.build(), userid);
+                } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_CHANGED)) {
+                    // Do nothing
 
                 } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_FULLY_REMOVED)) {
                     if (self.equals(packageName)) {
                         if (userid == 0) // owner/system
-                            getClient().clearData();
+                            client.clearData();
                     } else
-                        getClient().assignHooks(hookids, packageName, uid, true, false);
+                        client.assignHooks(hookids, packageName, uid, true, false);
                 }
+
+                client.notify(EventHandler.EVENT_PACKAGE_CHANGED, new Bundle());
             } catch (Throwable ex) {
                 Log.e(TAG, Log.getStackTraceString(ex));
                 XposedBridge.log(ex);
@@ -829,6 +844,9 @@ public class XService extends IService.Stub {
     };
 
     private class EventHandler extends Handler {
+        static final int EVENT_DATA_CHANGED = 1;
+        static final int EVENT_PACKAGE_CHANGED = 2;
+
         EventHandler(Looper looper) {
             super(looper);
         }
@@ -848,8 +866,15 @@ public class XService extends IService.Stub {
                 List<IEventListener> dead = new ArrayList<>();
                 for (IEventListener listener : listeners)
                     try {
-                        Log.i(TAG, "Notify usage changed listener=" + listener);
-                        listener.usageDataChanged();
+                        Log.i(TAG, "Notify changed what=" + msg.what + " listener=" + listener);
+                        switch (msg.what) {
+                            case EVENT_DATA_CHANGED:
+                                listener.dataChanged();
+                                break;
+                            case EVENT_PACKAGE_CHANGED:
+                                listener.packageChanged();
+                                break;
+                        }
                     } catch (RemoteException ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
                         if (ex instanceof DeadObjectException)

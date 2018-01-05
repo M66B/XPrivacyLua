@@ -19,10 +19,7 @@
 
 package eu.faircode.xlua;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
@@ -75,14 +72,6 @@ public class FragmentMain extends Fragment {
             Log.e(TAG, Log.getStackTraceString(ex));
         }
 
-        // Listen for package changes
-        IntentFilter piff = new IntentFilter();
-        piff.addAction(Intent.ACTION_PACKAGE_ADDED); // installed
-        piff.addAction(Intent.ACTION_PACKAGE_CHANGED); // enabled/disabled
-        piff.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED); // uninstalled
-        piff.addDataScheme("package");
-        getActivity().registerReceiver(packageChangedReceiver, piff);
-
         // Load data
         Log.i(TAG, "Starting data loader");
         getActivity().getSupportLoaderManager().restartLoader(
@@ -98,8 +87,6 @@ public class FragmentMain extends Fragment {
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
         }
-
-        getActivity().unregisterReceiver(packageChangedReceiver);
     }
 
     public void setShowAll(boolean showAll) {
@@ -160,20 +147,15 @@ public class FragmentMain extends Fragment {
 
     private IEventListener.Stub eventListener = new IEventListener.Stub() {
         @Override
-        public void usageDataChanged() throws RemoteException {
-            Log.i(TAG, "Usage data changed");
+        public void dataChanged() throws RemoteException {
+            Log.i(TAG, "Data changed");
             getActivity().getSupportLoaderManager().restartLoader(
                     ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }
-    };
 
-    private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            String pkg = intent.getData().getSchemeSpecificPart();
-            int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-            Log.i(TAG, "pkg=" + pkg + ":" + uid);
+        public void packageChanged() throws RemoteException {
+            Log.i(TAG, "Package changed");
             getActivity().getSupportLoaderManager().restartLoader(
                     ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }

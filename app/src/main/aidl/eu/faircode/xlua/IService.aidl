@@ -24,20 +24,22 @@ import eu.faircode.xlua.XApp;
 import eu.faircode.xlua.IEventListener;
 
 interface IService {
+    // This needs to be the first method
     int getVersion();
 
     List<XHook> getHooks();
     List<XApp> getApps();
-    oneway void assignHooks(in List<String> hookid, String packageName, int uid, boolean delete, boolean kill);
+    void assignHooks(in List<String> hookid, String packageName, int uid, boolean delete, boolean kill);
     List<XHook> getAssignedHooks(String packageName, int uid);
 
-    oneway void registerEventListener(IEventListener listener);
-    oneway void unregisterEventListener(IEventListener listener);
+    void registerEventListener(IEventListener listener);
+    void unregisterEventListener(IEventListener listener);
 
-    oneway void report(String hookid, String packageName, int uid, String event, in Bundle data);
+    void report(String hookid, String packageName, int uid, String event, in Bundle data);
+    void notify(int what, in Bundle data);
 
     String getSetting(int userid, String category, String name);
-    oneway void putSetting(int userid, String category, String name, String value);
+    void putSetting(int userid, String category, String name, String value);
 
-    oneway void clearData();
+    void clearData();
 }

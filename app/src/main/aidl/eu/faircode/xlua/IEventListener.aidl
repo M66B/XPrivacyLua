@@ -20,5 +20,6 @@
 package eu.faircode.xlua;
 
 interface IEventListener {
-    oneway void usageDataChanged();
+     void dataChanged();
+     void packageChanged();
 }
