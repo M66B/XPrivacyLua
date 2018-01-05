@@ -74,7 +74,7 @@ public class XService extends IService.Stub {
     private int version = -1;
     private EventHandler handler = null;
     private HandlerThread handlerThread = new HandlerThread("NotifyHandler");
-    private final List<IEventListener> listeners = new ArrayList<>();
+    private final List<EventListener> listeners = new ArrayList<>();
 
     private SQLiteDatabase db = null;
     private ReentrantReadWriteLock dbLock = new ReentrantReadWriteLock(true);
@@ -415,13 +415,13 @@ public class XService extends IService.Stub {
     public void registerEventListener(final IEventListener listener) throws RemoteException {
         Log.i(TAG, "Registering listener=" + listener);
         synchronized (listeners) {
-            listeners.add(listener);
+            listeners.add(new EventListener(listener));
             listener.asBinder().linkToDeath(new DeathRecipient() {
                 @Override
                 public void binderDied() {
                     Log.i(TAG, "Died listener=" + listener);
                     synchronized (listeners) {
-                        listeners.remove(listener);
+                        listeners.remove(new EventListener(listener));
                     }
                 }
             }, 0);
@@ -432,7 +432,7 @@ public class XService extends IService.Stub {
     public void unregisterEventListener(IEventListener listener) throws RemoteException {
         Log.i(TAG, "Unregistering listener=" + listener);
         synchronized (listeners) {
-            listeners.remove(listener);
+            listeners.remove(new EventListener(listener));
         }
     }
 
@@ -788,7 +788,7 @@ public class XService extends IService.Stub {
                 String self = XService.class.getPackage().getName();
                 IService client = getClient();
 
-                if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
+                if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
                     // Check for self
                     if (!self.equals(packageName)) {
                         // Restrict app
@@ -824,10 +824,10 @@ public class XService extends IService.Stub {
                         }
                     }
 
-                } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_CHANGED)) {
+                } else if (Intent.ACTION_PACKAGE_CHANGED.equals(intent.getAction())) {
                     // Do nothing
 
-                } else if (intent.getAction().equals(Intent.ACTION_PACKAGE_FULLY_REMOVED)) {
+                } else if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction())) {
                     if (self.equals(packageName)) {
                         if (userid == 0) // owner/system
                             client.clearData();
@@ -842,6 +842,35 @@ public class XService extends IService.Stub {
             }
         }
     };
+
+    private class EventListener {
+        private IEventListener listener;
+
+        EventListener(IEventListener listener) {
+            this.listener = listener;
+        }
+
+        void dataChanged() throws RemoteException {
+            this.listener.dataChanged();
+        }
+
+        void packageChanged() throws RemoteException {
+            this.listener.packageChanged();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof EventListener))
+                return false;
+            EventListener other = (EventListener) obj;
+            return this.listener.asBinder().equals(other.listener.asBinder());
+        }
+
+        @Override
+        public String toString() {
+            return this.listener.asBinder().toString();
+        }
+    }
 
     private class EventHandler extends Handler {
         static final int EVENT_DATA_CHANGED = 1;
@@ -863,8 +892,8 @@ public class XService extends IService.Stub {
 
             // Notify listeners
             synchronized (listeners) {
-                List<IEventListener> dead = new ArrayList<>();
-                for (IEventListener listener : listeners)
+                List<EventListener> dead = new ArrayList<>();
+                for (EventListener listener : listeners)
                     try {
                         Log.i(TAG, "Notify changed what=" + msg.what + " listener=" + listener);
                         switch (msg.what) {
@@ -881,7 +910,7 @@ public class XService extends IService.Stub {
                             dead.add(listener);
                     }
 
-                for (IEventListener listener : dead) {
+                for (EventListener listener : dead) {
                     Log.w(TAG, "Removing listener=" + listener);
                     listeners.remove(listener);
                 }
