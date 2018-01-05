@@ -18,6 +18,25 @@
  */
 
 [
+  // Read account info
+  // https://developer.android.com/reference/android/accounts/AccountManager.html
+  // https://developer.android.com/reference/android/accounts/Account.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Account",
+    "name": "Account.createFromParcel",
+    "author": "M66B",
+    "className": "android.accounts.Account",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.accounts.Account",
+    "minSdk": 5,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@account_createfromparcel"
+  },
   // Location
   // https://developer.android.com/reference/android/location/LocationManager.html
   // https://developer.android.com/reference/android/location/Location.html
