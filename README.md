@@ -20,6 +20,11 @@ Installation
 * Download and install the [Xposed framework](http://forum.xda-developers.com/xposed)
 * Download and install the [XPrivacyLua module](http://repo.xposed.info/module/eu.faircode.xlua)
 
+Donations
+---------
+
+See [here](https://lua.xprivacy.eu/) about how you can donate.
+
 Attribution
 -----------
 
