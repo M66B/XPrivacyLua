@@ -116,7 +116,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         hookPackage(lpparam.packageName, lpparam.classLoader);
     }
 
-    private void hookPackage(final String pkg, ClassLoader loader) {
+    private void hookPackage(final String packageName, ClassLoader loader) {
         try {
             final int uid = Process.myUid();
             final IService client = XService.getClient();
@@ -125,13 +125,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 int start = Util.getUserUid(userid, 99000);
                 int end = Util.getUserUid(userid, 99999);
                 if (uid >= start && uid <= end) {
-                    Log.w(TAG, "Isolated process pkg=" + pkg + ":" + uid);
+                    Log.w(TAG, "Isolated process " + packageName + ":" + uid + " pid=" + Process.myPid());
                     return;
                 } else
-                    throw new Throwable("Service not running pkg=" + pkg + ":" + uid);
+                    throw new Throwable("Service not accessible in " + packageName + ":" + uid);
             }
 
-            for (final XHook hook : client.getAssignedHooks(pkg, uid))
+            List<XHook> hooks = client.getAssignedHooks(packageName, uid);
+            for (final XHook hook : hooks)
                 try {
                     // Compile script
                     InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
@@ -197,14 +198,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     // Run function
                                     Varargs result = func.invoke(
                                             CoerceJavaToLua.coerce(hook),
-                                            CoerceJavaToLua.coerce(new XParam(pkg, uid, param))
+                                            CoerceJavaToLua.coerce(new XParam(packageName, uid, param))
                                     );
 
                                     // Report use
                                     Bundle data = new Bundle();
                                     data.putString("function", function);
                                     data.putInt("restricted", result.arg1().checkboolean() ? 1 : 0);
-                                    client.report(hook.getId(), pkg, uid, "use", data);
+                                    client.report(hook.getId(), packageName, uid, "use", data);
                                 }
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
@@ -215,7 +216,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     data.putString("function", function);
                                     data.putString("exception", ex.toString());
                                     data.putString("stacktrace", Log.getStackTraceString(ex));
-                                    client.report(hook.getId(), pkg, uid, "use", data);
+                                    client.report(hook.getId(), packageName, uid, "use", data);
                                 } catch (RemoteException ignored) {
                                 }
                             }
@@ -223,7 +224,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     });
 
                     // Report install
-                    client.report(hook.getId(), pkg, uid, "install", new Bundle());
+                    client.report(hook.getId(), packageName, uid, "install", new Bundle());
                 } catch (Throwable ex) {
                     Log.e(TAG, Log.getStackTraceString(ex));
 
@@ -232,10 +233,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         Bundle data = new Bundle();
                         data.putString("exception", ex.toString());
                         data.putString("stacktrace", Log.getStackTraceString(ex));
-                        client.report(hook.getId(), pkg, uid, "install", data);
+                        client.report(hook.getId(), packageName, uid, "install", data);
                     } catch (RemoteException ignored) {
                     }
                 }
+
+            Log.i(TAG, "Hooked " + packageName + ":" + uid + " count=" + hooks.size());
+
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
             XposedBridge.log(ex);

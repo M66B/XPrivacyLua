@@ -41,5 +41,5 @@ interface IService {
     String getSetting(int userid, String category, String name);
     void putSetting(int userid, String category, String name, String value);
 
-    void clearData();
+    void clearData(int userid);
 }

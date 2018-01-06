@@ -7,6 +7,8 @@ Features
 --------
 
 * Simple to use
+* Manage any user or system app
+* Multi-user support
 * Free and open source
 
 Compatibility

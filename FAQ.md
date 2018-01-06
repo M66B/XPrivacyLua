@@ -7,7 +7,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ1"></a>
 **(1) How can I clear all data?**
 
-You can clear all data by uninstalling XPrivacyLua as the owner user.
+You can clear all data for all users by uninstalling XPrivacyLua while it is running as the primary user.
+
+Secondary users can clear their own data by uninstalling XPrivacyLua while it is running.
 
 <a name="FAQ2"></a>
 **(2) Can I run XPrivacy and XPrivacyLua side by side?**

@@ -414,7 +414,6 @@ public class XService extends IService.Stub {
             StrictMode.setThreadPolicy(originalPolicy);
         }
 
-        Log.i(TAG, packageName + ":" + uid + " hooks=" + result.size());
         return result;
     }
 
@@ -624,18 +623,31 @@ public class XService extends IService.Stub {
     }
 
     @Override
-    public void clearData() throws RemoteException {
+    public void clearData(int userid) throws RemoteException {
         enforcePermission();
 
-        Log.i(TAG, "Clearing data");
+        Log.i(TAG, "Clearing data user=" + userid);
         try {
             SQLiteDatabase db = getDb();
             this.dbLock.writeLock().lock();
             try {
                 db.beginTransaction();
                 try {
-                    db.delete("assignment", null, null);
-                    db.delete("setting", null, null);
+                    if (userid == 0) {
+                        db.delete("assignment", null, null);
+                        db.delete("setting", null, null);
+                    } else {
+                        int start = Util.getUserUid(userid, 0);
+                        int end = Util.getUserUid(userid, Process.LAST_APPLICATION_UID);
+                        db.delete(
+                                "assignment",
+                                "uid >= ? AND uid <= ?",
+                                new String[]{Integer.toString(start), Integer.toString(end)});
+                        db.delete(
+                                "setting",
+                                "user = ?",
+                                new String[]{Integer.toString(userid)});
+                    }
 
                     db.setTransactionSuccessful();
                 } finally {
@@ -837,10 +849,9 @@ public class XService extends IService.Stub {
                     // Do nothing
 
                 } else if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction())) {
-                    if (self.equals(packageName)) {
-                        if (userid == 0) // owner/system
-                            client.clearData();
-                    } else
+                    if (self.equals(packageName))
+                        client.clearData(userid);
+                    else
                         client.assignHooks(hookids, packageName, uid, true, false);
                 }
 
