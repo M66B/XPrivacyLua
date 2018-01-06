@@ -19,6 +19,7 @@
 
 package eu.faircode.xlua;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
@@ -40,6 +41,7 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -70,27 +72,45 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
                     final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                    Class<?> clAM = Class.forName("com.android.server.am.ActivityManagerService", false, loader);
+                    Class<?> clsAM = Class.forName("com.android.server.am.ActivityManagerService", false, loader);
 
-                    XposedBridge.hookAllConstructors(clAM, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            // Create service, hook android
-                            try {
-                                service = new XService(param.thisObject, hooks, loader);
-                                hookPackage("android", loader);
-                            } catch (Throwable ex) {
-                                Log.e(TAG, Log.getStackTraceString(ex));
-                                XposedBridge.log(ex);
+                    try {
+                        Constructor<?> ctorAM = clsAM.getConstructor(Context.class);
+                        XposedBridge.hookMethod(ctorAM, new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                try {
+                                    // Create service, hook android
+                                    service = new XService(param.thisObject, (Context) param.args[0], hooks, loader);
+                                    hookPackage("android", loader);
+                                } catch (Throwable ex) {
+                                    Log.e(TAG, Log.getStackTraceString(ex));
+                                    XposedBridge.log(ex);
+                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (NoSuchMethodException ignored) {
+                        Log.i(TAG, "Falling back to hooking all am ctors");
+                        XposedBridge.hookAllConstructors(clsAM, new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                try {
+                                    // Create service, hook android
+                                    service = new XService(param.thisObject, null, hooks, loader);
+                                    hookPackage("android", loader);
+                                } catch (Throwable ex) {
+                                    Log.e(TAG, Log.getStackTraceString(ex));
+                                    XposedBridge.log(ex);
+                                }
+                            }
+                        });
+                    }
 
-                    XposedBridge.hookAllMethods(clAM, "systemReady", new XC_MethodHook() {
+                    XposedBridge.hookAllMethods(clsAM, "systemReady", new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            // Initialize service
                             try {
+                                // Initialize service
                                 if (service != null)
                                     service.systemReady();
                             } catch (Throwable ex) {

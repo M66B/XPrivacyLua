@@ -85,24 +85,37 @@ public class XService extends IService.Stub {
     private final static String cServiceName = "user.xlua";
     private final static int cBatchEvenDuration = 1000; // milliseconds
 
-    XService(Object am, List<XHook> hooks, ClassLoader loader) throws Throwable {
+    XService(Object am, Context context, List<XHook> hooks, ClassLoader loader) throws Throwable {
         Log.i(TAG, "Registering service " + cServiceName);
 
         this.am = am;
+        this.context = context;
 
-        // Get context
-        Field fContext = null;
-        Class<?> cAm = am.getClass();
-        while (cAm != null && fContext == null)
-            try {
-                fContext = cAm.getDeclaredField("mContext");
-                fContext.setAccessible(true);
-                context = (Context) fContext.get(am);
-            } catch (NoSuchFieldException ignored) {
+        // Search for context
+        if (this.context == null) {
+            Class<?> cAm = am.getClass();
+            while (cAm != null && this.context == null) {
+                for (Field field : cAm.getDeclaredFields())
+                    if ("android.content.Context".equals(field.getType().getName())) {
+                        field.setAccessible(true);
+                        this.context = (Context) field.get(am);
+                        Log.i(TAG, "Context found in " + cAm + " as " + field.getName());
+                        break;
+                    }
                 cAm = cAm.getSuperclass();
             }
-        if (fContext == null)
-            throw new Throwable("mContext not found");
+        }
+
+        if (this.context == null) {
+            Class<?> cAm = am.getClass();
+            while (cAm != null) {
+                Log.i(TAG, "Class " + cAm);
+                for (Field field : cAm.getDeclaredFields())
+                    Log.i(TAG, "Field " + field);
+                cAm = cAm.getSuperclass();
+            }
+            throw new Throwable("Context not found");
+        }
 
         // Register service (adb: service list)
         Class<?> cServiceManager = Class.forName("android.os.ServiceManager", false, loader);
@@ -119,6 +132,9 @@ public class XService extends IService.Stub {
 
     void systemReady() throws Throwable {
         Log.i(TAG, "System ready");
+
+        if (this.context == null)
+            return;
 
         // Get module version
         String self = XService.class.getPackage().getName();
