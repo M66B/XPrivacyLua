@@ -17,8 +17,6 @@
 
 function after(hook, param)
     result = param:getResult()
-    log('Account type=' .. result.type .. ' name=' .. result.name)
-    account = luajava.newInstance('android.accounts.Account', result.type, 'privacy@private.com')
-    param:setResult(account)
+    result.name = 'privacy@private.com'
     return true
 end

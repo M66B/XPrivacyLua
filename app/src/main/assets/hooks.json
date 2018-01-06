@@ -34,7 +34,7 @@
     "returnType": "android.accounts.Account",
     "minSdk": 5,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@account_createfromparcel"
   },
   // Location
