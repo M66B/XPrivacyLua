@@ -18,29 +18,9 @@
  */
 
 [
-  // Read account info
-  // https://developer.android.com/reference/android/accounts/AccountManager.html
-  // https://developer.android.com/reference/android/accounts/Account.html
-  {
-    "collection": "Privacy",
-    "group": "Get.Account",
-    "name": "Account.createFromParcel",
-    "author": "M66B",
-    "className": "android.accounts.Account",
-    "methodName": "CREATOR:createFromParcel",
-    "parameterTypes": [
-      "android.os.Parcel"
-    ],
-    "returnType": "android.accounts.Account",
-    "minSdk": 5,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@account_createfromparcel"
-  },
-  // Location
-  // https://developer.android.com/reference/android/location/LocationManager.html
-  // https://developer.android.com/reference/android/location/Location.html
+  // Get location
   // https://developer.android.com/reference/android/os/Bundle.html
+  // https://developer.android.com/reference/android/location/Location.html
   {
     "collection": "Privacy",
     "group": "Get.Location",
@@ -72,6 +52,42 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@location_createfromparcel"
+  },
+  // Read account
+  // https://developer.android.com/reference/android/accounts/Account.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Account",
+    "name": "Account.createFromParcel",
+    "author": "M66B",
+    "className": "android.accounts.Account",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.accounts.Account",
+    "minSdk": 5,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@account_createfromparcel"
+  },
+  // Read clipboard
+  // https://developer.android.com/reference/android/content/ClipData.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Clipboard",
+    "name": "ClipData.createFromParcel",
+    "author": "M66B",
+    "className": "android.content.ClipData",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.content.ClipData",
+    "minSdk": 11,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@clipdata_createfromparcel"
   },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html

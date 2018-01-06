@@ -190,7 +190,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     globals.set("log", new OneArgFunction() {
                                         @Override
                                         public LuaValue call(LuaValue arg) {
-                                            Log.i(TAG, arg.checkjstring());
+                                            Log.i(TAG, packageName + ":" + uid + " " + arg.checkjstring());
                                             return LuaValue.NIL;
                                         }
                                     });
@@ -238,7 +238,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
                 }
 
-            Log.i(TAG, "Hooked " + packageName + ":" + uid + " count=" + hooks.size());
+            Log.i(TAG, "Loaded " + packageName + ":" + uid + " hooks=" + hooks.size());
 
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
