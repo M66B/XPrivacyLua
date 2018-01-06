@@ -43,12 +43,16 @@ public class ActivityHelp extends AppCompatActivity {
 
         TextView tvVersion = findViewById(R.id.tvVersion);
         TextView tvLicense = findViewById(R.id.tvLicense);
+        TextView tvInstructions = findViewById(R.id.tvInstructions);
+
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
+        tvInstructions.setMovementMethod(LinkMovementMethod.getInstance());
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
         tvVersion.setText(Util.getSelfVersionName(this));
         tvLicense.setText(Html.fromHtml(getString(R.string.title_license, year)));
+        tvInstructions.setText(Html.fromHtml(getString(R.string.title_help_instructions)));
     }
 
     @Override
