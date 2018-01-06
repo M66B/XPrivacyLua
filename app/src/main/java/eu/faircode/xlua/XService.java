@@ -69,7 +69,7 @@ public class XService extends IService.Stub {
 
     private Object am;
     private Context context;
-    private final Map<String, XHook> hooks = new HashMap<>();
+    private static final Map<String, XHook> idHooks = new HashMap<>();
 
     private int version = -1;
     private EventHandler handler = null;
@@ -81,6 +81,7 @@ public class XService extends IService.Stub {
 
     private static IService client = null;
 
+    private final static int cBatchSize = 50;
     private final static String cChannelName = "xlua";
     private final static String cServiceName = "user.xlua";
     private final static int cBatchEvenDuration = 1000; // milliseconds
@@ -125,7 +126,7 @@ public class XService extends IService.Stub {
 
         // Register built-in hooks
         for (XHook hook : hooks)
-            this.hooks.put(hook.getId(), hook);
+            idHooks.put(hook.getId(), hook);
 
         Log.i(TAG, "Registered service " + cServiceName + " hooks=" + hooks.size());
     }
@@ -210,12 +211,12 @@ public class XService extends IService.Stub {
     }
 
     @Override
-    public List<XHook> getHooks() throws RemoteException {
-        return new ArrayList<>(hooks.values());
+    public void getHooks(IHookReceiver receiver) throws RemoteException {
+        receiver.transfer(new ArrayList<>(idHooks.values()), true);
     }
 
     @Override
-    public List<XApp> getApps() throws RemoteException {
+    public void getApps(IAppReceiver receiver) throws RemoteException {
         Map<String, XApp> apps = new HashMap<>();
 
         int cuid = Binder.getCallingUid();
@@ -283,8 +284,8 @@ public class XService extends IService.Stub {
                             String hookid = cursor.getString(colHook);
                             if (apps.containsKey(pkg + ":" + uid)) {
                                 XApp app = apps.get(pkg + ":" + uid);
-                                if (hooks.containsKey(hookid)) {
-                                    XAssignment assignment = new XAssignment(hooks.get(hookid));
+                                if (idHooks.containsKey(hookid)) {
+                                    XAssignment assignment = new XAssignment(idHooks.get(hookid));
                                     assignment.installed = cursor.getLong(colInstalled);
                                     assignment.used = cursor.getLong(colUsed);
                                     assignment.restricted = (cursor.getInt(colRestricted) == 1);
@@ -312,7 +313,12 @@ public class XService extends IService.Stub {
             throw new RemoteException(ex.toString());
         }
 
-        return new ArrayList<>(apps.values());
+        List<XApp> list = new ArrayList<>(apps.values());
+        for (int i = 0; i < list.size(); i += cBatchSize) {
+            List<XApp> sublist = list.subList(i, Math.min(list.size(), i + cBatchSize));
+            Log.i(TAG, "Transferring apps=" + sublist.size() + "@" + i + " of " + list.size());
+            receiver.transfer(sublist, i + cBatchSize >= list.size());
+        }
     }
 
     @Override
@@ -404,8 +410,8 @@ public class XService extends IService.Stub {
                             int colHook = cursor.getColumnIndex("hook");
                             while (cursor.moveToNext()) {
                                 String hookid = cursor.getString(colHook);
-                                if (hooks.containsKey(hookid)) {
-                                    XHook hook = hooks.get(hookid);
+                                if (idHooks.containsKey(hookid)) {
+                                    XHook hook = idHooks.get(hookid);
                                     result.add(hook);
                                 } else
                                     Log.w(TAG, "Hook " + hookid + " not found");
@@ -793,7 +799,7 @@ public class XService extends IService.Stub {
                 cv.put("installed", -1);
                 cv.putNull("exception");
                 long rows = db.update("assignment", cv, null, null);
-                Log.i(TAG, "Set hooks uninstalled count=" + rows);
+                Log.i(TAG, "Reset assigned hook data count=" + rows);
 
                 this.db = db;
             } catch (Throwable ex) {
@@ -819,7 +825,7 @@ public class XService extends IService.Stub {
                 Log.i(TAG, "pkg=" + packageName + ":" + uid);
 
                 List<String> hookids = new ArrayList<>();
-                for (XHook hook : getClient().getHooks())
+                for (XHook hook : idHooks.values())
                     hookids.add(hook.getId());
 
                 String self = XService.class.getPackage().getName();

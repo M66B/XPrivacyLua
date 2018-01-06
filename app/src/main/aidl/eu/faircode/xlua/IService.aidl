@@ -21,14 +21,16 @@ package eu.faircode.xlua;
 
 import eu.faircode.xlua.XHook;
 import eu.faircode.xlua.XApp;
+import eu.faircode.xlua.IHookReceiver;
+import eu.faircode.xlua.IAppReceiver;
 import eu.faircode.xlua.IEventListener;
 
 interface IService {
     // This needs to be the first method
     int getVersion();
 
-    List<XHook> getHooks();
-    List<XApp> getApps();
+    void getHooks(IHookReceiver receiver);
+    void getApps(IAppReceiver receiver);
     void assignHooks(in List<String> hookid, String packageName, int uid, boolean delete, boolean kill);
     List<XHook> getAssignedHooks(String packageName, int uid);
 

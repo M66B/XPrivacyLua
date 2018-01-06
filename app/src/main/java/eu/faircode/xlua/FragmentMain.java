@@ -36,7 +36,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class FragmentMain extends Fragment {
     private final static String TAG = "XLua.Main";
@@ -44,6 +48,8 @@ public class FragmentMain extends Fragment {
     private boolean showAll = false;
     private String query = null;
     private AdapterApp rvAdapter;
+
+    private final static int cBatchTimeOut = 5; //seconds
 
     @Override
     @Nullable
@@ -124,6 +130,8 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
+        private CountDownLatch latch;
+
         DataLoader(Context context) {
             super(context);
         }
@@ -132,15 +140,43 @@ public class FragmentMain extends Fragment {
         @Override
         public DataHolder loadInBackground() {
             Log.i(TAG, "Data loader started");
-            DataHolder data = new DataHolder();
+            final DataHolder data = new DataHolder();
             try {
                 IService client = XService.getClient();
-                data.hooks = client.getHooks();
-                data.apps = client.getApps();
+
+                latch = new CountDownLatch(1);
+                client.getHooks(new IHookReceiver.Stub() {
+                    @Override
+                    public void transfer(List<XHook> hooks, boolean last) throws RemoteException {
+                        Log.i(TAG, "Received hooks=" + hooks.size() + " last=" + last);
+                        data.hooks.addAll(hooks);
+                        if (last)
+                            latch.countDown();
+                    }
+                });
+                if (!latch.await(cBatchTimeOut, TimeUnit.SECONDS))
+                    throw new TimeoutException("Hooks");
+
+                latch = new CountDownLatch(1);
+                client.getApps(new IAppReceiver.Stub() {
+                    @Override
+                    public void transfer(List<XApp> apps, boolean last) throws RemoteException {
+                        Log.i(TAG, "Received apps=" + apps.size() + " last=" + last);
+                        data.apps.addAll(apps);
+                        if (last)
+                            latch.countDown();
+                    }
+                });
+                if (!latch.await(cBatchTimeOut, TimeUnit.SECONDS))
+                    throw new TimeoutException("Applications");
+
             } catch (Throwable ex) {
+                data.hooks.clear();
+                data.apps.clear();
                 data.exception = ex;
             }
-            Log.i(TAG, "Data loader finished");
+
+            Log.i(TAG, "Data loader finished hooks=" + data.hooks.size() + " apps=" + data.apps.size());
             return data;
         }
     }
@@ -162,8 +198,8 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataHolder {
-        List<XHook> hooks = null;
-        List<XApp> apps = null;
+        List<XHook> hooks = new ArrayList<>();
+        List<XApp> apps = new ArrayList<>();
         Throwable exception = null;
     }
 }
