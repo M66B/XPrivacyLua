@@ -78,7 +78,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             // Create service, hook android
                             try {
                                 service = new XService(param.thisObject, hooks, loader);
-                                //hookPackage("android", loader);
+                                hookPackage("android", loader);
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);
@@ -109,8 +109,10 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     }
 
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (Process.myUid() == Process.SYSTEM_UID)
+        if ("android".equals(lpparam.packageName)) {
+            Log.i(TAG, "Loaded " + lpparam.packageName);
             return;
+        }
         hookPackage(lpparam.packageName, lpparam.classLoader);
     }
 

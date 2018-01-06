@@ -211,19 +211,20 @@ public class XService extends IService.Stub {
             // Get installed apps for current user
             PackageManager pm = createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0)) {
-                if (ai.uid == Process.SYSTEM_UID)
-                    continue;
+                int esetting = pm.getApplicationEnabledSetting(ai.packageName);
+                boolean enabled = (ai.enabled &&
+                        (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
+                                esetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED));
+                boolean persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 ||
+                        "android".equals(ai.packageName));
 
-                int enabled = pm.getApplicationEnabledSetting(ai.packageName);
-                boolean pmenabled = (enabled == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
-                        enabled == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
                 XApp app = new XApp();
                 app.uid = ai.uid;
                 app.packageName = ai.packageName;
                 app.icon = ai.icon;
                 app.label = (String) pm.getApplicationLabel(ai);
-                app.enabled = (ai.enabled && pmenabled);
-                app.persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 || ai.uid == Process.SYSTEM_UID);
+                app.enabled = enabled;
+                app.persistent = persistent;
                 app.assignments = new ArrayList<>();
                 apps.put(app.packageName + ":" + app.uid, app);
             }
@@ -701,16 +702,17 @@ public class XService extends IService.Stub {
     private void killApp(String pkg, int uid) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         int appid = Util.getAppId(uid);
         int userid = Util.getUserId(uid);
+        String reason = "xlua";
         Log.i(TAG, "Killing " + pkg + ":" + appid + ":" + userid);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // public void killApplication(String pkg, int appId, int userId, String reason)
             Method m = am.getClass().getDeclaredMethod("killApplication", String.class, int.class, int.class, String.class);
-            m.invoke(am, pkg, appid, userid, "XPrivacyLua");
+            m.invoke(am, pkg, appid, userid, reason);
         } else {
             // public void killApplicationWithAppId(String pkg, int appid, String reason)
             Method m = am.getClass().getDeclaredMethod("killApplicationWithAppId", String.class, int.class, String.class);
-            m.invoke(am, pkg, uid, "XPrivacyLua");
+            m.invoke(am, pkg, uid, reason);
         }
         // public void killUid(int appId, int userId, String reason)
     }
