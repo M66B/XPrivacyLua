@@ -16,7 +16,8 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    param:getResult():setLatitude(0)
-    param:getResult():setLongitude(0)
+    result = param:getResult()
+    result:setLatitude(0)
+    result:setLongitude(0)
     return true
 end

@@ -18,10 +18,10 @@
 function after(hook, param)
     key = param:getArg(0)
     if key == 'location' then
-        loc = luajava.newInstance('android.location.Location', 'privacy')
-        loc:setLatitude(0)
-        loc:setLongitude(0)
-        param:setResult(loc)
+        fake = luajava.newInstance('android.location.Location', 'privacy')
+        fake:setLatitude(0)
+        fake:setLongitude(0)
+        param:setResult(fake)
         return true
     else
         return false
