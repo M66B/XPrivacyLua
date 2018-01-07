@@ -22,7 +22,7 @@
     <string name="menu_restrict_new">限制新安裝程式</string>
     <string name="menu_donate">捐贈</string>
 
-    <string name="msg_no_service">模組尚未執行或是剛更新，請重啟裝置</string>
+    <string name="msg_no_service">模組尚未執行或是剛更新</string>
     <string name="msg_new_app">有新安裝程式</string>
     <string name="msg_exception">發生錯誤 %1$s</string>
 
