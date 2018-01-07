@@ -1,0 +1,33 @@
+<resources>
+    <string name="title_accept">接受</string>
+    <string name="title_deny">拒絕</string>
+
+    <string name="title_restrict">限制</string>
+
+    <string name="title_help_instructions">
+        按下程式圖示或名稱，然後勾選限制即可套用。
+        一般情況下，程式會立即停止並套用（或刪除）限制，
+        但是某些程式需要重啟裝置才能套用限制（見下方圖示）。
+        <![CDATA[<br><br>]]>長按程式圖示或名稱，可以開啟程式。
+        <![CDATA[<br><br>]]>按 <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ_zh-TW.md">這裡</a>]]> 查看更多常見問題。
+    </string>
+    <string name="title_help_installed">限制已套用</string>
+    <string name="title_help_persistent">需要重啟裝置才能套用限制</string>
+    <string name="title_help_exception">限制失敗（按下圖示顯示原因）</string>
+
+    <string name="menu_search">搜尋</string>
+    <string name="menu_help">幫助</string>
+    <string name="menu_show_all">顯示所有程式</string>
+    <string name="menu_notify_new">通知新安裝程式</string>
+    <string name="menu_restrict_new">限制新安裝程式</string>
+    <string name="menu_donate">捐贈</string>
+
+    <string name="msg_no_service">模組尚未執行或是剛更新</string>
+    <string name="msg_new_app">有新安裝程式</string>
+    <string name="msg_exception">發生錯誤 %1$s</string>
+
+    <string name="group_get_location">讀取位置</string>
+    <string name="group_read_account">讀取帳戶名稱</string>
+    <string name="group_read_clipboard">讀取剪貼簿資料</string>
+    <string name="group_record_audio">錄音</string>
+</resources>
