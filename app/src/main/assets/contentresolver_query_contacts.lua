@@ -15,13 +15,20 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function after(hook, param)
-    key = param:getArgument(0)
-    if key == 'location' then
-        fake = luajava.newInstance('android.location.Location', 'privacy')
-        fake:setLatitude(0)
-        fake:setLongitude(0)
-        param:setResult(fake)
+function before(hook, param)
+    uri = param:getArgument(0)
+    if uri == nil then
+        return false
+    elseif uri:getAuthority() == 'com.android.contacts' then
+        path = uri:getPath()
+        query = uri:getQuery()
+        if path == nil then
+            path = ''
+        end
+        if query == nil then
+            query = ''
+        end
+        log(param:getPackageName() .. ' path=' .. path .. ' query=' .. query)
         return true
     else
         return false

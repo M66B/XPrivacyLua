@@ -412,6 +412,11 @@ public class XService extends IService.Stub {
                                 String hookid = cursor.getString(colHook);
                                 if (idHooks.containsKey(hookid)) {
                                     XHook hook = idHooks.get(hookid);
+                                    if ("android.content.ContentResolver".equals(hook.getClassName())) {
+                                        String className = this.context.getContentResolver().getClass().getName();
+                                        hook.setClassName(className);
+                                        Log.i(TAG, hook.getId() + " class name=" + className);
+                                    }
                                     result.add(hook);
                                 } else
                                     Log.w(TAG, "Hook " + hookid + " not found");

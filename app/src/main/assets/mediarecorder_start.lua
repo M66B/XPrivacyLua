@@ -17,10 +17,10 @@
 
 function before(hook, param)
     source = param:getValue('source')
-    if source ~= nil then
+    if source == nil then
+        return false
+    else
         param:setResult(nil)
         return true
-    else
-        return false
     end
 end

@@ -82,7 +82,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 try {
                                     // Create service, hook android
                                     service = new XService(param.thisObject, (Context) param.args[0], hooks, loader);
-                                    hookPackage("android", loader);
                                 } catch (Throwable ex) {
                                     Log.e(TAG, Log.getStackTraceString(ex));
                                     XposedBridge.log(ex);
@@ -97,7 +96,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 try {
                                     // Create service, hook android
                                     service = new XService(param.thisObject, null, hooks, loader);
-                                    hookPackage("android", loader);
                                 } catch (Throwable ex) {
                                     Log.e(TAG, Log.getStackTraceString(ex));
                                     XposedBridge.log(ex);
@@ -111,8 +109,10 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             try {
                                 // Initialize service
-                                if (service != null)
+                                if (service != null) {
                                     service.systemReady();
+                                    hookPackage("android", loader);
+                                }
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);
@@ -177,7 +177,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     Class<?> ret = resolveClass(hook.getReturnType(), loader);
 
                     // Get method
-                    Method method = cls.getDeclaredMethod(m[m.length - 1], params);
+                    Method method = resolveMethod(cls, m[m.length - 1], params);
 
                     // Check return type
                     if (!method.getReturnType().equals(ret))
@@ -275,6 +275,18 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             return Void.TYPE;
         else
             return Class.forName(name, false, loader);
+    }
+
+    private static Method resolveMethod(Class<?> cls, String name, Class<?>[] params) throws NoSuchMethodException {
+        while (cls != null)
+            try {
+                return cls.getDeclaredMethod(name, params);
+            } catch (NoSuchMethodException ex) {
+                cls = cls.getSuperclass();
+                if (cls == null)
+                    throw ex;
+            }
+        throw new NoSuchMethodException(name);
     }
 
     private static List<XHook> readHooks(String apk) {

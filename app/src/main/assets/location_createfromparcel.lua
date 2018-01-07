@@ -17,7 +17,11 @@
 
 function after(hook, param)
     result = param:getResult()
-    result:setLatitude(0)
-    result:setLongitude(0)
-    return true
+    if result == nil then
+        return false
+    else
+        result:setLatitude(0)
+        result:setLongitude(0)
+        return true
+    end
 end

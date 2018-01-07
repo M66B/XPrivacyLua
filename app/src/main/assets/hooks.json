@@ -18,6 +18,68 @@
  */
 
 [
+  // Get contacts
+  // https://developer.android.com/reference/android/content/ContentResolver.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver/query1",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_contacts"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver/query16",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_contacts"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver/query26",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_contacts"
+  },
   // Get location
   // https://developer.android.com/reference/android/os/Bundle.html
   // https://developer.android.com/reference/android/location/Location.html

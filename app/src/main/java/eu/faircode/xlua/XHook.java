@@ -100,7 +100,11 @@ public class XHook implements Parcelable {
         return this.luaScript;
     }
 
-    public void setLuaScript(String script) {
+    void setClassName(String name) {
+        this.className = name;
+    }
+
+    void setLuaScript(String script) {
         this.luaScript = script;
     }
 

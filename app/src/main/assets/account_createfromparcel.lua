@@ -17,6 +17,10 @@
 
 function after(hook, param)
     result = param:getResult()
-    result.name = 'privacy@private.com'
-    return true
+    if result == nil then
+        return false
+    else
+        result.name = 'privacy@private.com'
+        return true
+    end
 end

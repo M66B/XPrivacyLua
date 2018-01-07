@@ -59,7 +59,7 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
-    public Object getArg(int index) {
+    public Object getArgument(int index) {
         return this.param.args[index];
     }
 
