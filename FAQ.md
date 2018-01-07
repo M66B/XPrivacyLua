@@ -1,8 +1,8 @@
 XPrivacyLua
 ===========
 
-Frequently Asked Questions (FAQ)
---------------------------------
+Frequently Asked Questions
+--------------------------
 
 <a name="FAQ1"></a>
 **(1) How can I clear all data?**
@@ -27,4 +27,4 @@ This message means either that:
 
 <br>
 
-If you have another question, you can ask it in [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
+If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).

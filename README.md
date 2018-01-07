@@ -14,13 +14,18 @@ Features
 Compatibility
 -------------
 
-XPrivacyLua is supported on Android 6 Marshmallow and later.
+XPrivacyLua is supported on Android 6.0 Marshmallow and later.
 
 Installation
 ------------
 
-* Download and install the [Xposed framework](http://forum.xda-developers.com/xposed)
-* Download and install the [XPrivacyLua module](http://repo.xposed.info/module/eu.faircode.xlua)
+* Download, install and activate the [Xposed framework](http://forum.xda-developers.com/xposed)
+* Download, install and activate the [XPrivacyLua module](http://repo.xposed.info/module/eu.faircode.xlua)
+
+Frequently Asked Questions
+--------------------------
+
+See [here](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md) for a list.
 
 Donations
 ---------
