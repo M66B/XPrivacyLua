@@ -21,9 +21,10 @@ function after(hook, param)
     if uri == nil or uri:getPath() == nil or cursor == nil then
         return false
     elseif uri:getAuthority() == 'com.android.contacts' then
-        prefix = string.gmatch(uri:getPath(), '%w+')()
-        if prefix ~= 'profile' then
-            log('restricting ' .. param:getPackageName() .. uri:getPath() .. ' prefix=' .. prefix)
+        prefix = string.gmatch(uri:getPath(), '[^/]+')()
+        if prefix == 'provider_status' then
+            return false
+        else
             cursor = param:getResult()
             result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
             result:setExtras(cursor:getExtras())
@@ -34,9 +35,6 @@ function after(hook, param)
             end
             param:setResult(result);
             return true
-        else
-            log('not restricting ' .. param:getPackageName() .. uri:getPath())
-            return false
         end
     else
         return false
