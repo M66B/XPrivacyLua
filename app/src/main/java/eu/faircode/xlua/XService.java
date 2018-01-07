@@ -837,6 +837,10 @@ public class XService extends IService.Stub {
                 IService client = getClient();
 
                 if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+                    // Check for update
+                    if (intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
+                        return;
+
                     // Check for self
                     if (!self.equals(packageName)) {
                         // Restrict app
