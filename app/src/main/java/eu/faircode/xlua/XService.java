@@ -125,10 +125,9 @@ public class XService extends IService.Stub {
         mAddService.invoke(null, cServiceName, this, true);
 
         // Register built-in hooks
-        for (XHook hook : hooks)
-            idHooks.put(hook.getId(), hook);
+        setHooks(hooks);
 
-        Log.i(TAG, "Registered service " + cServiceName + " hooks=" + hooks.size());
+        Log.i(TAG, "Registered service " + cServiceName);
     }
 
     void systemReady() throws Throwable {
@@ -208,6 +207,15 @@ public class XService extends IService.Stub {
     @Override
     public int getVersion() throws RemoteException {
         return this.version;
+    }
+
+    @Override
+    public void setHooks(List<XHook> hooks) {
+        enforcePermission();
+
+        for (XHook hook : hooks)
+            idHooks.put(hook.getId(), hook);
+        Log.i(TAG, "Set hooks=" + hooks.size());
     }
 
     @Override

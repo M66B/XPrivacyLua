@@ -29,6 +29,7 @@ interface IService {
     // This needs to be the first method
     int getVersion();
 
+    void setHooks(in List<XHook> hooks);
     void getHooks(IHookReceiver receiver);
     void getApps(IAppReceiver receiver);
     void assignHooks(in List<String> hookid, String packageName, int uid, boolean delete, boolean kill);

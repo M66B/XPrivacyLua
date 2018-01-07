@@ -144,6 +144,11 @@ public class FragmentMain extends Fragment {
             try {
                 IService client = XService.getClient();
 
+                if (Util.isDebuggable(getContext())) {
+                    String apk = getContext().getApplicationInfo().publicSourceDir;
+                    client.setHooks(XHook.readHooks(apk));
+                }
+
                 latch = new CountDownLatch(1);
                 client.getHooks(new IHookReceiver.Stub() {
                     @Override

@@ -20,13 +20,10 @@
 package eu.faircode.xlua;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
-
-import org.json.JSONArray;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaClosure;
@@ -39,16 +36,11 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -63,7 +55,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public void initZygote(final IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         // Read hook definitions from asset file
-        final List<XHook> hooks = readHooks(startupParam.modulePath);
+        final List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
 
         // Hook activity manager constructor
         Class<?> at = Class.forName("android.app.ActivityThread");
@@ -287,69 +279,5 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     throw ex;
             }
         throw new NoSuchMethodException(name);
-    }
-
-    private static List<XHook> readHooks(String apk) {
-        ZipFile zipFile = null;
-        try {
-            zipFile = new ZipFile(apk);
-            ZipEntry zipEntry = zipFile.getEntry("assets/hooks.json");
-            if (zipEntry == null)
-                throw new Throwable("assets/hooks.json not found in " + apk);
-
-            InputStream is = null;
-            try {
-                is = zipFile.getInputStream(zipEntry);
-                String json = new Scanner(is).useDelimiter("\\A").next();
-                List<XHook> hooks = new ArrayList<>();
-                JSONArray jarray = new JSONArray(json);
-                for (int i = 0; i < jarray.length(); i++) {
-                    XHook hook = XHook.fromJSONObject(jarray.getJSONObject(i));
-                    if (Build.VERSION.SDK_INT < hook.getMinSdk() || Build.VERSION.SDK_INT > hook.getMaxSdk())
-                        continue;
-
-                    // Link script
-                    String script = hook.getLuaScript();
-                    if (script.startsWith("@")) {
-                        ZipEntry luaEntry = zipFile.getEntry("assets/" + script.substring(1) + ".lua");
-                        if (luaEntry == null)
-                            Log.e(TAG, script + " not found for " + hook.getId());
-                        else {
-                            InputStream lis = null;
-                            try {
-                                lis = zipFile.getInputStream(luaEntry);
-                                script = new Scanner(lis).useDelimiter("\\A").next();
-                                hook.setLuaScript(script);
-                            } finally {
-                                if (lis != null)
-                                    try {
-                                        lis.close();
-                                    } catch (IOException ignored) {
-                                    }
-                            }
-                        }
-                    }
-
-                    if (hook.isEnabled())
-                        hooks.add(hook);
-                }
-                return hooks;
-            } finally {
-                if (is != null)
-                    try {
-                        is.close();
-                    } catch (IOException ignored) {
-                    }
-            }
-        } catch (Throwable ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-        } finally {
-            if (zipFile != null)
-                try {
-                    zipFile.close();
-                } catch (IOException ignored) {
-                }
-        }
-        return null;
     }
 }

@@ -25,6 +25,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Process;
@@ -101,6 +102,10 @@ class Util {
             Log.e(TAG, Log.getStackTraceString(ex));
             return Process.myUserHandle();
         }
+    }
+
+    public static boolean isDebuggable(Context context) {
+        return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
     static class DialogObserver implements LifecycleObserver {

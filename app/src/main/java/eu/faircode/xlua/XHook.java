@@ -19,12 +19,23 @@
 
 package eu.faircode.xlua;
 
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class XHook implements Parcelable {
     private String collection;
@@ -43,7 +54,10 @@ public class XHook implements Parcelable {
 
     private String luaScript;
 
+    private Bundle extras;
+
     public XHook() {
+        setExtras(new Bundle());
     }
 
     public String getId() {
@@ -100,12 +114,81 @@ public class XHook implements Parcelable {
         return this.luaScript;
     }
 
+    public Bundle getExtras() {
+        return this.extras;
+    }
+
     void setClassName(String name) {
         this.className = name;
     }
 
     void setLuaScript(String script) {
         this.luaScript = script;
+    }
+
+    void setExtras(Bundle extras) {
+        this.extras = extras;
+    }
+
+    static List<XHook> readHooks(String apk) throws IOException, JSONException {
+        ZipFile zipFile = null;
+        try {
+            zipFile = new ZipFile(apk);
+            ZipEntry zipEntry = zipFile.getEntry("assets/hooks.json");
+            if (zipEntry == null)
+                throw new IllegalArgumentException("assets/hooks.json not found in " + apk);
+
+            InputStream is = null;
+            try {
+                is = zipFile.getInputStream(zipEntry);
+                String json = new Scanner(is).useDelimiter("\\A").next();
+                List<XHook> hooks = new ArrayList<>();
+                JSONArray jarray = new JSONArray(json);
+                for (int i = 0; i < jarray.length(); i++) {
+                    XHook hook = XHook.fromJSONObject(jarray.getJSONObject(i));
+                    if (Build.VERSION.SDK_INT < hook.getMinSdk() || Build.VERSION.SDK_INT > hook.getMaxSdk())
+                        continue;
+
+                    // Link script
+                    String script = hook.getLuaScript();
+                    if (script.startsWith("@")) {
+                        ZipEntry luaEntry = zipFile.getEntry("assets/" + script.substring(1) + ".lua");
+                        if (luaEntry == null)
+                            throw new IllegalArgumentException(script + " not found for " + hook.getId());
+                        else {
+                            InputStream lis = null;
+                            try {
+                                lis = zipFile.getInputStream(luaEntry);
+                                script = new Scanner(lis).useDelimiter("\\A").next();
+                                hook.setLuaScript(script);
+                            } finally {
+                                if (lis != null)
+                                    try {
+                                        lis.close();
+                                    } catch (IOException ignored) {
+                                    }
+                            }
+                        }
+                    }
+
+                    if (hook.isEnabled())
+                        hooks.add(hook);
+                }
+                return hooks;
+            } finally {
+                if (is != null)
+                    try {
+                        is.close();
+                    } catch (IOException ignored) {
+                    }
+            }
+        } finally {
+            if (zipFile != null)
+                try {
+                    zipFile.close();
+                } catch (IOException ignored) {
+                }
+        }
     }
 
     public static final Parcelable.Creator<XHook> CREATOR = new Parcelable.Creator<XHook>() {
@@ -144,6 +227,8 @@ public class XHook implements Parcelable {
         out.writeInt(this.enabled ? 1 : 0);
 
         writeString(out, this.luaScript);
+
+        out.writeBundle(extras);
     }
 
     private void writeString(Parcel out, String value) {
@@ -173,6 +258,8 @@ public class XHook implements Parcelable {
         this.enabled = (in.readInt() == 1);
 
         this.luaScript = readString(in);
+
+        this.extras = in.readBundle();
     }
 
     private String readString(Parcel in) {
