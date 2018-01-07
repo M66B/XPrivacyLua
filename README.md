@@ -11,6 +11,17 @@ Features
 * Multi-user support
 * Free and open source
 
+Restrictions
+------------
+
+* Get contacts
+* Get location
+* Read account name
+* Read clipboard
+* Record audio
+
+More restrictions will be add over time.
+
 Compatibility
 -------------
 
