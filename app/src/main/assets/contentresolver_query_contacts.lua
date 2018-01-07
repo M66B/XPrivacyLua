@@ -15,21 +15,29 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function before(hook, param)
+function after(hook, param)
     uri = param:getArgument(0)
-    if uri == nil then
+    cursor = param:getResult()
+    if uri == nil or uri:getPath() == nil or cursor == nil then
         return false
     elseif uri:getAuthority() == 'com.android.contacts' then
-        path = uri:getPath()
-        query = uri:getQuery()
-        if path == nil then
-            path = ''
+        prefix = string.gmatch(uri:getPath(), '%w+')()
+        if prefix ~= 'profile' then
+            log('restricting ' .. param:getPackageName() .. uri:getPath() .. ' prefix=' .. prefix)
+            cursor = param:getResult()
+            result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
+            result:setExtras(cursor:getExtras())
+            notify = cursor:getNotificationUri()
+            if notify ~= nil then
+                log('Copy notify url')
+                result:setNotificationUri(param:getThis(), notify)
+            end
+            param:setResult(result);
+            return true
+        else
+            log('not restricting ' .. param:getPackageName() .. uri:getPath())
+            return false
         end
-        if query == nil then
-            query = ''
-        end
-        log(param:getPackageName() .. ' path=' .. path .. ' query=' .. query)
-        return true
     else
         return false
     end

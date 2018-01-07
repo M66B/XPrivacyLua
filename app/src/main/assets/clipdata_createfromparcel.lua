@@ -17,17 +17,11 @@
 
 function after(hook, param)
     result = param:getResult()
-    if result == null then
+    if result == null or result:getItemCount() == 0 then
         return false
     else
-        count = result:getItemCount()
-        log('Clip data items=' .. count)
-        if count > 0 then
-            fake = result:newPlainText('XPrivacyLua', 'Private')
-            param:setResult(fake)
-            return true
-        else
-            return false
-        end
+        fake = result:newPlainText('XPrivacyLua', 'Private')
+        param:setResult(fake)
+        return true
     end
 end

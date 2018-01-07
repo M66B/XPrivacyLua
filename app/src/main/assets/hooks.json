@@ -37,7 +37,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_contacts"
   },
   {
@@ -58,7 +58,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 16,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_contacts"
   },
   {
@@ -77,7 +77,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_contacts"
   },
   // Get location

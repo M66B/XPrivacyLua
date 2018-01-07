@@ -17,6 +17,6 @@
 
 function before(hook, param)
     source = param:getArgument(0)
-    param:putValue('source', source)
+    param:putValue('audiosource', source)
     return false
 end
