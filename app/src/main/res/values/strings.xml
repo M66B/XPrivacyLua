@@ -38,6 +38,7 @@
     <string name="msg_review_settings">Review privacy settings</string>
     <string name="msg_exception">Error in %1$s</string>
 
+    <string name="group_get_call_log">Get call log</string>
     <string name="group_get_calendars">Get calendars</string>
     <string name="group_get_contacts">Get contacts</string>
     <string name="group_get_location">Get location</string>

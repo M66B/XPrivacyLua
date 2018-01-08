@@ -15,6 +15,7 @@ Restrictions
 ------------
 
 * Get calendars
+* Get call log
 * Get contacts
 * Get location
 * Read account name

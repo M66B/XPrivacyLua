@@ -81,6 +81,69 @@
     "enabled": true,
     "luaScript": "@contentresolver_query_calendars"
   },
+  // Get call log
+  // https://developer.android.com/reference/android/provider/CallLog.html
+  // https://developer.android.com/reference/android/content/ContentResolver.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Call.log",
+    "name": "ContentResolver.query1/call_log",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_call_log"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Call.log",
+    "name": "ContentResolver.query16/call_log",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_call_log"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Call.log",
+    "name": "ContentResolver.query26/call_log",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_call_log"
+  },
   // Get contacts
   // https://developer.android.com/guide/topics/providers/contacts-provider.html
   // https://developer.android.com/reference/android/content/ContentResolver.html
