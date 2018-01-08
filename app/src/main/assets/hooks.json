@@ -18,12 +18,76 @@
  */
 
 [
+  // Get calendars
+  // https://developer.android.com/guide/topics/providers/calendar-provider.html
+  // https://developer.android.com/reference/android/content/ContentResolver.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Calendars",
+    "name": "ContentResolver.query1/calendars",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_calendars"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Calendars",
+    "name": "ContentResolver.query16/calendars",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_calendars"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Calendars",
+    "name": "ContentResolver.query26/calendars",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_calendars"
+  },
   // Get contacts
+  // https://developer.android.com/guide/topics/providers/contacts-provider.html
   // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
     "group": "Get.Contacts",
-    "name": "ContentResolver/query1",
+    "name": "ContentResolver.query1/contacts",
     "author": "M66B",
     "className": "android.content.ContentResolver",
     "methodName": "query",
@@ -43,7 +107,7 @@
   {
     "collection": "Privacy",
     "group": "Get.Contacts",
-    "name": "ContentResolver/query16",
+    "name": "ContentResolver.query16/contacts",
     "author": "M66B",
     "className": "android.content.ContentResolver",
     "methodName": "query",
@@ -64,7 +128,7 @@
   {
     "collection": "Privacy",
     "group": "Get.Contacts",
-    "name": "ContentResolver/query26",
+    "name": "ContentResolver.query26/contacts",
     "author": "M66B",
     "className": "android.content.ContentResolver",
     "methodName": "query",

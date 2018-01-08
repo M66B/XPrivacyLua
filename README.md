@@ -14,6 +14,7 @@ Features
 Restrictions
 ------------
 
+* Get calendars
 * Get contacts
 * Get location
 * Read account name
