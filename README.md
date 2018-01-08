@@ -20,7 +20,7 @@ Restrictions
 * Read clipboard
 * Record audio
 
-More restrictions will be add over time.
+More restrictions will be added over time.
 
 Compatibility
 -------------
@@ -42,6 +42,21 @@ Donations
 ---------
 
 See [here](https://lua.xprivacy.eu/) about how you can donate.
+
+Contributing
+------------
+
+*Building*
+
+Building XPrivacyLua from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
+It is expected that you can solve build problems yourself, so there is no support on building.
+
+*Translating*
+
+* You can translate the in-app texts [here](https://crowdin.com/project/xprivacylua/)
+* If your language is not listed, please send a message through [this contact form](https://contact.faircode.eu/)
+
+Please note that you agree to the license below by contributing, including the copyright.
 
 Attribution
 -----------
