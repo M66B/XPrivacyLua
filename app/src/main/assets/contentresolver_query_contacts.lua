@@ -25,14 +25,12 @@ function after(hook, param)
         if prefix == 'provider_status' then
             return false
         else
-            cursor = param:getResult()
             result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
             result:setExtras(cursor:getExtras())
             notify = cursor:getNotificationUri()
-            if notify ~= nil then
-                log('Copy notify url')
-                result:setNotificationUri(param:getThis(), notify)
-            end
+            --if notify ~= nil then
+            --    result:setNotificationUri(param:getThis(), notify)
+            --end
             param:setResult(result);
             return true
         end
