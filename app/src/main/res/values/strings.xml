@@ -35,7 +35,7 @@
     <string name="menu_donate">Donate</string>
 
     <string name="msg_no_service">Module not running or updated</string>
-    <string name="msg_new_app">New app installed</string>
+    <string name="msg_review_settings">Review privacy settings</string>
     <string name="msg_exception">Error in %1$s</string>
 
     <string name="group_get_contacts">Get contacts</string>

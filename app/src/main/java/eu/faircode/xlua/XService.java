@@ -865,7 +865,7 @@ public class XService extends IService.Stub {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                                 builder.setChannelId(cChannelName);
                             builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
-                            builder.setContentTitle(resources.getString(R.string.msg_new_app));
+                            builder.setContentTitle(resources.getString(R.string.msg_review_settings));
                             builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
 
                             builder.setPriority(Notification.PRIORITY_HIGH);
