@@ -54,7 +54,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private XService service = null;
 
     public void initZygote(final IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
-        // Hook activity manager constructor
+        Log.i(TAG, "initZygote system=" + startupParam.startsSystemServer);
+
+        // Hook system main
         Class<?> at = Class.forName("android.app.ActivityThread");
         XposedBridge.hookAllMethods(at, "systemMain", new XC_MethodHook() {
             @Override
@@ -63,13 +65,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     final ClassLoader loader = Thread.currentThread().getContextClassLoader();
                     Class<?> clsAM = Class.forName("com.android.server.am.ActivityManagerService", false, loader);
 
+                    // Hook activity manager constructor
                     try {
                         Constructor<?> ctorAM = clsAM.getConstructor(Context.class);
                         XposedBridge.hookMethod(ctorAM, new XC_MethodHook() {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 try {
-                                    // Create service, hook android
                                     List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
                                     service = new XService(param.thisObject, (Context) param.args[0], hooks, loader);
                                 } catch (Throwable ex) {
@@ -84,9 +86,32 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 try {
-                                    // Create service, hook android
+                                    Context context = null;
+                                    Class<?> cAm = param.thisObject.getClass();
+                                    while (cAm != null && context == null) {
+                                        for (Field field : cAm.getDeclaredFields())
+                                            if ("android.content.Context".equals(field.getType().getName())) {
+                                                field.setAccessible(true);
+                                                context = (Context) field.get(param.thisObject);
+                                                Log.i(TAG, "Context found in " + cAm + " as " + field.getName());
+                                                break;
+                                            }
+                                        cAm = cAm.getSuperclass();
+                                    }
+
+                                    if (context == null) {
+                                        cAm = param.thisObject.getClass();
+                                        while (cAm != null) {
+                                            Log.i(TAG, "Class " + cAm);
+                                            for (Field field : cAm.getDeclaredFields())
+                                                Log.i(TAG, "Field " + field);
+                                            cAm = cAm.getSuperclass();
+                                        }
+                                        throw new Throwable("Context not found");
+                                    }
+
                                     List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
-                                    service = new XService(param.thisObject, null, hooks, loader);
+                                    service = new XService(param.thisObject, context, hooks, loader);
                                 } catch (Throwable ex) {
                                     Log.e(TAG, Log.getStackTraceString(ex));
                                     XposedBridge.log(ex);
@@ -95,6 +120,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         });
                     }
 
+                    // Hook system ready
                     XposedBridge.hookAllMethods(clsAM, "systemReady", new XC_MethodHook() {
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
