@@ -193,7 +193,12 @@ public class XService extends IService.Stub {
 
     @Override
     public void getHooks(IHookReceiver receiver) throws RemoteException {
-        receiver.transfer(new ArrayList<>(idHooks.values()), true);
+        try {
+            receiver.transfer(new ArrayList<>(idHooks.values()), true);
+        } catch (Throwable ex) {
+            Log.e(TAG, Log.getStackTraceString(ex));
+            throw new RemoteException(ex.toString());
+        }
     }
 
     @Override
@@ -295,11 +300,15 @@ public class XService extends IService.Stub {
         }
 
         List<XApp> list = new ArrayList<>(apps.values());
-        for (int i = 0; i < list.size(); i += cBatchSize) {
-            List<XApp> sublist = list.subList(i, Math.min(list.size(), i + cBatchSize));
-            Log.i(TAG, "Transferring apps=" + sublist.size() + "@" + i + " of " + list.size());
-            receiver.transfer(sublist, i + cBatchSize >= list.size());
-        }
+        for (int i = 0; i < list.size(); i += cBatchSize)
+            try {
+                List<XApp> sublist = list.subList(i, Math.min(list.size(), i + cBatchSize));
+                Log.i(TAG, "Transferring apps=" + sublist.size() + "@" + i + " of " + list.size());
+                receiver.transfer(sublist, i + cBatchSize >= list.size());
+            } catch (Throwable ex) {
+                Log.e(TAG, Log.getStackTraceString(ex));
+                throw new RemoteException(ex.toString());
+            }
     }
 
     @Override
