@@ -52,7 +52,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -81,10 +80,10 @@ public class XService extends IService.Stub {
 
     private static IService client = null;
 
-    private final static int cBatchSize = 50;
+    private final static int cBatchSize = 10;
     private final static String cChannelName = "xlua";
     private final static String cServiceName = "user.xlua";
-    private final static int cBatchEvenDuration = 1000; // milliseconds
+    private final static int cBatchEventDuration = 1000; // milliseconds
 
     XService(Object am, Context context, List<XHook> hooks, ClassLoader loader) throws Throwable {
         Log.i(TAG, "Registering service " + cServiceName);
@@ -917,7 +916,7 @@ public class XService extends IService.Stub {
         public void handleMessage(Message msg) {
             // Batch changes
             try {
-                Thread.sleep(cBatchEvenDuration);
+                Thread.sleep(cBatchEventDuration);
                 if (handler.hasMessages(msg.what))
                     handler.removeMessages(msg.what);
             } catch (InterruptedException ignored) {
