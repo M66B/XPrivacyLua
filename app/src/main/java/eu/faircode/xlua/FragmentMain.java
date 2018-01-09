@@ -19,9 +19,11 @@
 
 package eu.faircode.xlua;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -38,9 +40,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class FragmentMain extends Fragment {
     private final static String TAG = "XLua.Main";
@@ -48,8 +47,6 @@ public class FragmentMain extends Fragment {
     private boolean showAll = false;
     private String query = null;
     private AdapterApp rvAdapter;
-
-    private final static int cBatchTimeOut = 5; //seconds
 
     @Override
     @Nullable
@@ -72,11 +69,15 @@ public class FragmentMain extends Fragment {
     public void onResume() {
         super.onResume();
 
-        try {
-            XService.getClient().registerEventListener(eventListener);
-        } catch (Throwable ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-        }
+        IntentFilter ifData = new IntentFilter(XSettings.ACTION_DATA_CHANGED);
+        getContext().registerReceiver(dataChangedReceiver, ifData);
+
+        IntentFilter ifPackage = new IntentFilter();
+        ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
+        ifPackage.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        ifPackage.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED);
+        ifPackage.addDataScheme("package");
+        getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
         // Load data
         Log.i(TAG, "Starting data loader");
@@ -88,11 +89,8 @@ public class FragmentMain extends Fragment {
     public void onPause() {
         super.onPause();
 
-        try {
-            XService.getClient().unregisterEventListener(eventListener);
-        } catch (Throwable ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-        }
+        getContext().unregisterReceiver(dataChangedReceiver);
+        getContext().unregisterReceiver(packageChangedReceiver);
     }
 
     public void setShowAll(boolean showAll) {
@@ -130,8 +128,6 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
-        private CountDownLatch latch;
-
         DataLoader(Context context) {
             super(context);
         }
@@ -142,39 +138,24 @@ public class FragmentMain extends Fragment {
             Log.i(TAG, "Data loader started");
             final DataHolder data = new DataHolder();
             try {
-                IService client = XService.getClient();
-
                 if (Util.isDebuggable(getContext())) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
-                    client.setHooks(XHook.readHooks(apk));
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList("hooks", XHook.readHooks(apk));
+                    getContext().getContentResolver()
+                            .call(XSettings.URI, "xlua", "putHooks", args);
                 }
 
-                latch = new CountDownLatch(1);
-                client.getHooks(new IHookReceiver.Stub() {
-                    @Override
-                    public void transfer(List<XHook> hooks, boolean last) throws RemoteException {
-                        Log.i(TAG, "Received hooks=" + hooks.size() + " last=" + last);
-                        data.hooks.addAll(hooks);
-                        if (last)
-                            latch.countDown();
-                    }
-                });
-                if (!latch.await(cBatchTimeOut, TimeUnit.SECONDS))
-                    throw new TimeoutException("Hooks");
+                Bundle result1 = getContext().getContentResolver()
+                        .call(XSettings.URI, "xlua", "getHooks", new Bundle());
+                Bundle result2 = getContext().getContentResolver()
+                        .call(XSettings.URI, "xlua", "getApps", new Bundle());
 
-                latch = new CountDownLatch(1);
-                client.getApps(new IAppReceiver.Stub() {
-                    @Override
-                    public void transfer(List<XApp> apps, boolean last) throws RemoteException {
-                        Log.i(TAG, "Received apps=" + apps.size() + " last=" + last);
-                        data.apps.addAll(apps);
-                        if (last)
-                            latch.countDown();
-                    }
-                });
-                if (!latch.await(cBatchTimeOut, TimeUnit.SECONDS))
-                    throw new TimeoutException("Applications");
+                result1.setClassLoader(XSettings.class.getClassLoader());
+                result2.setClassLoader(XSettings.class.getClassLoader());
 
+                data.hooks = result1.getParcelableArrayList("hooks");
+                data.apps = result2.getParcelableArrayList("apps");
             } catch (Throwable ex) {
                 data.hooks.clear();
                 data.apps.clear();
@@ -186,17 +167,19 @@ public class FragmentMain extends Fragment {
         }
     }
 
-    private IEventListener.Stub eventListener = new IEventListener.Stub() {
+    private BroadcastReceiver dataChangedReceiver = new BroadcastReceiver() {
         @Override
-        public void dataChanged() throws RemoteException {
-            Log.i(TAG, "Data changed");
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
             getActivity().getSupportLoaderManager().restartLoader(
                     ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }
+    };
 
+    private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override
-        public void packageChanged() throws RemoteException {
-            Log.i(TAG, "Package changed");
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
             getActivity().getSupportLoaderManager().restartLoader(
                     ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
         }

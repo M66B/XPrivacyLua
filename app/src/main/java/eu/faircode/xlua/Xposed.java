@@ -19,10 +19,18 @@
 
 package eu.faircode.xlua;
 
+import android.app.Application;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
-import android.os.RemoteException;
 import android.util.Log;
 
 import org.luaj.vm2.Globals;
@@ -37,9 +45,9 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -51,235 +59,244 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String TAG = "XLua.Xposed";
 
-    private XService service = null;
-
     public void initZygote(final IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         Log.i(TAG, "initZygote system=" + startupParam.startsSystemServer);
-
-        // Hook system main
-        Class<?> at = Class.forName("android.app.ActivityThread");
-        XposedBridge.hookAllMethods(at, "systemMain", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                    Class<?> clsAM = Class.forName("com.android.server.am.ActivityManagerService", false, loader);
-
-                    // Hook activity manager constructor
-                    try {
-                        Constructor<?> ctorAM = clsAM.getConstructor(Context.class);
-                        XposedBridge.hookMethod(ctorAM, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                try {
-                                    List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
-                                    service = new XService(param.thisObject, (Context) param.args[0], hooks, loader);
-                                } catch (Throwable ex) {
-                                    Log.e(TAG, Log.getStackTraceString(ex));
-                                    XposedBridge.log(ex);
-                                }
-                            }
-                        });
-                    } catch (NoSuchMethodException ignored) {
-                        Log.i(TAG, "Falling back to hooking all am ctors");
-                        XposedBridge.hookAllConstructors(clsAM, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                try {
-                                    Context context = null;
-                                    Class<?> cAm = param.thisObject.getClass();
-                                    while (cAm != null && context == null) {
-                                        for (Field field : cAm.getDeclaredFields())
-                                            if ("android.content.Context".equals(field.getType().getName())) {
-                                                field.setAccessible(true);
-                                                context = (Context) field.get(param.thisObject);
-                                                Log.i(TAG, "Context found in " + cAm + " as " + field.getName());
-                                                break;
-                                            }
-                                        cAm = cAm.getSuperclass();
-                                    }
-
-                                    if (context == null) {
-                                        cAm = param.thisObject.getClass();
-                                        while (cAm != null) {
-                                            Log.i(TAG, "Class " + cAm);
-                                            for (Field field : cAm.getDeclaredFields())
-                                                Log.i(TAG, "Field " + field);
-                                            cAm = cAm.getSuperclass();
-                                        }
-                                        throw new Throwable("Context not found");
-                                    }
-
-                                    List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
-                                    service = new XService(param.thisObject, context, hooks, loader);
-                                } catch (Throwable ex) {
-                                    Log.e(TAG, Log.getStackTraceString(ex));
-                                    XposedBridge.log(ex);
-                                }
-                            }
-                        });
-                    }
-
-                    // Hook system ready
-                    XposedBridge.hookAllMethods(clsAM, "systemReady", new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            try {
-                                // Initialize service
-                                if (service != null) {
-                                    service.systemReady();
-                                    hookPackage("android", loader);
-                                }
-                            } catch (Throwable ex) {
-                                Log.e(TAG, Log.getStackTraceString(ex));
-                                XposedBridge.log(ex);
-                            }
-                        }
-                    });
-
-                } catch (Throwable ex) {
-                    Log.e(TAG, Log.getStackTraceString(ex));
-                    XposedBridge.log(ex);
-                }
-            }
-        });
     }
 
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        final int uid = Process.myUid();
+        Log.i(TAG, "Loaded " + lpparam.packageName + ":" + uid);
+
         if ("android".equals(lpparam.packageName)) {
-            Log.i(TAG, "Loaded " + lpparam.packageName);
-            return;
-        }
-        hookPackage(lpparam.packageName, lpparam.classLoader);
-    }
-
-    private void hookPackage(final String packageName, ClassLoader loader) {
-        try {
-            final int uid = Process.myUid();
-            final IService client = XService.getClient();
-            if (client == null) {
-                int userid = Util.getUserId(uid);
-                int start = Util.getUserUid(userid, 99000);
-                int end = Util.getUserUid(userid, 99999);
-                boolean isolated = (uid >= start && uid <= end);
-                Log.w(TAG, "Service not accessible from " + packageName + ":" + uid +
-                        " pid=" + Process.myPid() + " isolated=" + isolated);
-                return;
-            }
-
-            List<XHook> hooks = client.getAssignedHooks(packageName, uid);
-            for (final XHook hook : hooks)
-                try {
-                    // Compile script
-                    InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
-                    final Prototype script = LuaC.instance.compile(is, "script");
-
-                    // Get class
-                    Class<?> cls = Class.forName(hook.getClassName(), false, loader);
-                    String[] m = hook.getMethodName().split(":");
-                    if (m.length > 1) {
-                        Field field = cls.getField(m[0]);
-                        Object obj = field.get(null);
-                        cls = obj.getClass();
-                    }
-
-                    // Get parameter types
-                    String[] p = hook.getParameterTypes();
-                    Class<?>[] params = new Class[p.length];
-                    for (int i = 0; i < p.length; i++)
-                        params[i] = resolveClass(p[i], loader);
-
-                    // Get return type
-                    Class<?> ret = resolveClass(hook.getReturnType(), loader);
-
-                    // Get method
-                    Method method = resolveMethod(cls, m[m.length - 1], params);
-
-                    // Check return type
-                    if (!method.getReturnType().equals(ret))
-                        throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + ret);
-
-                    // Hook method
-                    XposedBridge.hookMethod(method, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            execute(param, "before");
-                        }
-
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            execute(param, "after");
-                        }
-
-                        // Execute hook
-                        private void execute(MethodHookParam param, String function) {
-                            try {
-                                // Initialize LUA runtime
-                                Globals globals = JsePlatform.standardGlobals();
-                                LuaClosure closure = new LuaClosure(script, globals);
-                                closure.call();
-
-                                // Check if function exists
-                                LuaValue func = globals.get(function);
-                                if (!func.isnil()) {
-                                    // Setup globals
-                                    globals.set("log", new OneArgFunction() {
-                                        @Override
-                                        public LuaValue call(LuaValue arg) {
-                                            Log.i(TAG, packageName + ":" + uid + " " + arg.checkjstring());
-                                            return LuaValue.NIL;
-                                        }
-                                    });
-
-                                    // Run function
-                                    Varargs result = func.invoke(
-                                            CoerceJavaToLua.coerce(hook),
-                                            CoerceJavaToLua.coerce(new XParam(packageName, uid, param))
-                                    );
-
-                                    // Report use
-                                    Bundle data = new Bundle();
-                                    data.putString("function", function);
-                                    data.putInt("restricted", result.arg1().checkboolean() ? 1 : 0);
-                                    client.report(hook.getId(), packageName, uid, "use", data);
-                                }
-                            } catch (Throwable ex) {
-                                Log.e(TAG, Log.getStackTraceString(ex));
-
-                                // Report use error
-                                try {
-                                    Bundle data = new Bundle();
-                                    data.putString("function", function);
-                                    data.putString("exception", ex.toString());
-                                    data.putString("stacktrace", Log.getStackTraceString(ex));
-                                    client.report(hook.getId(), packageName, uid, "use", data);
-                                } catch (RemoteException ignored) {
-                                }
-                            }
-                        }
-                    });
-
-                    // Report install
-                    client.report(hook.getId(), packageName, uid, "install", new Bundle());
-                } catch (Throwable ex) {
-                    Log.e(TAG, Log.getStackTraceString(ex));
-
-                    // Report install error
+            // https://android.googlesource.com/platform/frameworks/base/+/master/services/core/java/com/android/server/am/ActivityManagerService.java
+            Class<?> clsAM = Class.forName("com.android.server.am.ActivityManagerService", false, lpparam.classLoader);
+            XposedBridge.hookAllMethods(clsAM, "systemReady", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     try {
-                        Bundle data = new Bundle();
-                        data.putString("exception", ex.toString());
-                        data.putString("stacktrace", Log.getStackTraceString(ex));
-                        client.report(hook.getId(), packageName, uid, "install", data);
-                    } catch (RemoteException ignored) {
+                        Log.i(TAG, "System ready");
+
+                        // Search for context
+                        Context context = null;
+                        Class<?> cAm = param.thisObject.getClass();
+                        while (cAm != null && context == null) {
+                            for (Field field : cAm.getDeclaredFields())
+                                if ("android.content.Context".equals(field.getType().getName())) {
+                                    field.setAccessible(true);
+                                    context = (Context) field.get(param.thisObject);
+                                    Log.i(TAG, "Context found in " + cAm + " as " + field.getName());
+                                    break;
+                                }
+                            cAm = cAm.getSuperclass();
+                        }
+                        if (context == null)
+                            throw new Throwable("Context not found");
+
+                        // public static UserManagerService getInstance()
+                        Class<?> clsUM = Class.forName("com.android.server.pm.UserManagerService", false, param.thisObject.getClass().getClassLoader());
+                        Object um = clsUM.getDeclaredMethod("getInstance").invoke(null);
+
+                        //  public int[] getUserIds()
+                        int[] userids = (int[]) um.getClass().getDeclaredMethod("getUserIds").invoke(um);
+
+                        // Listen for package changes
+                        for (int userid : userids) {
+                            Log.i(TAG, "Registering package listener user=" + userid);
+                            IntentFilter ifPackageAdd = new IntentFilter();
+                            ifPackageAdd.addAction(Intent.ACTION_PACKAGE_ADDED);
+                            ifPackageAdd.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED);
+                            ifPackageAdd.addDataScheme("package");
+                            Util.createContextForUser(context, userid).registerReceiver(packageChangedReceiver, ifPackageAdd);
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, Log.getStackTraceString(ex));
+                        XposedBridge.log(ex);
                     }
                 }
-
-            Log.i(TAG, "Loaded " + packageName + ":" + uid + " hooks=" + hooks.size());
-
-        } catch (Throwable ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-            XposedBridge.log(ex);
+            });
         }
+
+        if ("com.android.providers.settings".equals(lpparam.packageName)) {
+            // https://android.googlesource.com/platform/frameworks/base/+/master/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+            Class<?> clsSet = Class.forName("com.android.providers.settings.SettingsProvider", false, lpparam.classLoader);
+            Method mCall = clsSet.getMethod("call", String.class, String.class, Bundle.class);
+            XposedBridge.hookMethod(mCall, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        String method = (String) param.args[0];
+                        String arg = (String) param.args[1];
+                        Bundle extras = (Bundle) param.args[2];
+
+                        if ("xlua".equals(method)) {
+                            try {
+                                Method mGetContext = param.thisObject.getClass().getMethod("getContext");
+                                Context context = (Context) mGetContext.invoke(param.thisObject);
+                                param.setResult(XSettings.call(context, arg, extras));
+                            } catch (Throwable ex) {
+                                Log.e(TAG, Log.getStackTraceString(ex));
+                                XposedBridge.log(ex);
+                                param.setResult(null);
+                            }
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, Log.getStackTraceString(ex));
+                        XposedBridge.log(ex);
+                    }
+                }
+            });
+        }
+
+        if (!"android".equals(lpparam.packageName)) {
+            Class<?> at = Class.forName("android.app.LoadedApk", false, lpparam.classLoader);
+            XposedBridge.hookAllMethods(at, "makeApplication", new XC_MethodHook() {
+                private boolean made = false;
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        if (!made) {
+                            made = true;
+
+                            int userid = Util.getUserId(uid);
+                            int start = Util.getUserUid(userid, 99000);
+                            int end = Util.getUserUid(userid, 99999);
+                            boolean isolated = (uid >= start && uid <= end);
+
+                            if (isolated) {
+                                Log.i(TAG, "Skipping isolated " + lpparam.packageName + ":" + uid);
+                                return;
+                            }
+
+                            Bundle args = new Bundle();
+                            args.putString("packageName", lpparam.packageName);
+                            args.putInt("uid", uid);
+                            Application app = (Application) param.getResult();
+                            Bundle result = app.getContentResolver()
+                                    .call(XSettings.URI, "xlua", "getAssignedHooks", args);
+                            result.setClassLoader(XHook.class.getClassLoader());
+                            List<XHook> hooks = result.getParcelableArrayList("hooks");
+                            hookPackage(app, lpparam, uid, hooks);
+                            Log.i(TAG, "Applied " + lpparam.packageName + ":" + uid + " hooks=" + hooks.size());
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, Log.getStackTraceString(ex));
+                        XposedBridge.log(ex);
+                    }
+                }
+            });
+        }
+    }
+
+    private void hookPackage(final Context context, final XC_LoadPackage.LoadPackageParam lpparam, final int uid, List<XHook> hooks) {
+        for (final XHook hook : hooks)
+            try {
+                // Compile script
+                InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
+                final Prototype script = LuaC.instance.compile(is, "script");
+
+                // Get class
+                Class<?> cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
+                String[] m = hook.getMethodName().split(":");
+                if (m.length > 1) {
+                    Field field = cls.getField(m[0]);
+                    Object obj = field.get(null);
+                    cls = obj.getClass();
+                }
+
+                // Get parameter types
+                String[] p = hook.getParameterTypes();
+                Class<?>[] params = new Class[p.length];
+                for (int i = 0; i < p.length; i++)
+                    params[i] = resolveClass(p[i], lpparam.classLoader);
+
+                // Get return type
+                Class<?> ret = resolveClass(hook.getReturnType(), lpparam.classLoader);
+
+                // Get method
+                Method method = resolveMethod(cls, m[m.length - 1], params);
+
+                // Check return type
+                if (!method.getReturnType().equals(ret))
+                    throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + ret);
+
+                // Hook method
+                XposedBridge.hookMethod(method, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        execute(param, "before");
+                    }
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        execute(param, "after");
+                    }
+
+                    // Execute hook
+                    private void execute(MethodHookParam param, String function) {
+                        try {
+                            // Initialize LUA runtime
+                            Globals globals = JsePlatform.standardGlobals();
+                            LuaClosure closure = new LuaClosure(script, globals);
+                            closure.call();
+
+                            // Check if function exists
+                            LuaValue func = globals.get(function);
+                            if (!func.isnil()) {
+                                // Setup globals
+                                globals.set("log", new OneArgFunction() {
+                                    @Override
+                                    public LuaValue call(LuaValue arg) {
+                                        Log.i(TAG, lpparam.packageName + ":" + uid + " " + arg.checkjstring());
+                                        return LuaValue.NIL;
+                                    }
+                                });
+
+                                // Run function
+                                Varargs result = func.invoke(
+                                        CoerceJavaToLua.coerce(hook),
+                                        CoerceJavaToLua.coerce(new XParam(lpparam.packageName, uid, param))
+                                );
+
+                                // Report use
+                                Bundle data = new Bundle();
+                                data.putString("function", function);
+                                data.putInt("restricted", result.arg1().checkboolean() ? 1 : 0);
+                                report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                            }
+                        } catch (Throwable ex) {
+                            Log.e(TAG, Log.getStackTraceString(ex));
+
+                            // Report use error
+                            Bundle data = new Bundle();
+                            data.putString("function", function);
+                            data.putString("exception", Log.getStackTraceString(ex));
+                            report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                        }
+                    }
+                });
+
+                // Report install
+            } catch (Throwable ex) {
+                Log.e(TAG, Log.getStackTraceString(ex));
+
+                // Report install error
+                Bundle data = new Bundle();
+                data.putString("exception", ex.toString());
+                data.putString("stacktrace", Log.getStackTraceString(ex));
+                report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+            }
+    }
+
+    private static void report(Context context, String hook, String packageName, int uid, String event, Bundle data) {
+        Bundle args = new Bundle();
+        args.putString("hook", hook);
+        args.putString("packageName", packageName);
+        args.putInt("uid", uid);
+        args.putString("event", event);
+        args.putBundle("data", data);
+        context.getContentResolver()
+                .call(XSettings.URI, "xlua", "report", args);
     }
 
     private static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
@@ -304,4 +321,94 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             }
         throw new NoSuchMethodException(name);
     }
+
+    private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                String packageName = intent.getData().getSchemeSpecificPart();
+                int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+                int userid = Util.getUserId(uid);
+                boolean replacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false);
+                Log.i(TAG, "Received " + intent);
+
+                // Get hooks
+                Bundle result = context.getContentResolver()
+                        .call(XSettings.URI, "xlua", "getHooks", new Bundle());
+                result.setClassLoader(XSettings.class.getClassLoader());
+                List<XHook> hooks = result.getParcelableArrayList("hooks");
+
+                ArrayList<String> hookids = new ArrayList<>();
+                for (XHook hook : hooks)
+                    hookids.add(hook.getId());
+
+                String self = XSettings.class.getPackage().getName();
+                Context ctx = Util.createContextForUser(context, userid);
+
+                if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+                    if (!replacing && !self.equals(packageName)) {
+                        // Restrict app
+                        if (XSettings.getSettingBoolean(context, userid, "global", "restrict_new_apps")) {
+                            Bundle args = new Bundle();
+                            args.putStringArrayList("hooks", hookids);
+                            args.putString("packageName", packageName);
+                            args.putInt("uid", uid);
+                            args.putBoolean("delete", false);
+                            args.putBoolean("kill", false);
+                            context.getContentResolver()
+                                    .call(XSettings.URI, "xlua", "assignHooks", args);
+                        }
+
+                        // Notify new app
+                        if (XSettings.getSettingBoolean(context, userid, "global", "notify_new_apps")) {
+                            PackageManager pm = ctx.getPackageManager();
+                            Resources resources = pm.getResourcesForApplication(self);
+
+                            Notification.Builder builder = new Notification.Builder(ctx);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                                builder.setChannelId(XSettings.cChannelName);
+                            builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+                            builder.setContentTitle(resources.getString(R.string.msg_review_settings));
+                            builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
+
+                            builder.setPriority(Notification.PRIORITY_HIGH);
+                            builder.setCategory(Notification.CATEGORY_STATUS);
+                            builder.setVisibility(Notification.VISIBILITY_SECRET);
+
+                            // Main
+                            Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                            main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                            PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                            builder.setContentIntent(pi);
+
+                            builder.setAutoCancel(true);
+
+                            Util.notifyAsUser(ctx, "xlua_new_app", uid, builder.build(), userid);
+                        }
+                    }
+                } else if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction())) {
+                    if (self.equals(packageName)) {
+                        Bundle args = new Bundle();
+                        args.putInt("user", userid);
+                        context.getContentResolver()
+                                .call(XSettings.URI, "xlua", "clearData", args);
+                    } else {
+                        Bundle args = new Bundle();
+                        args.putStringArrayList("hooks", hookids);
+                        args.putString("packageName", packageName);
+                        args.putInt("uid", uid);
+                        args.putBoolean("delete", true);
+                        args.putBoolean("kill", false);
+                        context.getContentResolver()
+                                .call(XSettings.URI, "xlua", "assignHooks", args);
+
+                        Util.cancelAsUser(ctx, "xlua_new_app", uid, userid);
+                    }
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, Log.getStackTraceString(ex));
+                XposedBridge.log(ex);
+            }
+        }
+    };
 }

@@ -22,8 +22,8 @@ package eu.faircode.xlua;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Process;
-import android.support.design.widget.Snackbar;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
@@ -155,7 +155,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton compoundButton, final boolean checked) {
+        public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
             Log.i(TAG, "Check changed");
             int id = compoundButton.getId();
             if (id == R.id.cbAssigned) {
@@ -170,16 +170,18 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 executor.submit(new Runnable() {
                     @Override
                     public void run() {
-                        List<String> hookids = new ArrayList<>();
+                        ArrayList<String> hookids = new ArrayList<>();
                         for (XHook hook : hooks)
                             hookids.add(hook.getId());
-                        try {
-                            XService.getClient().assignHooks(
-                                    hookids, app.packageName, app.uid, !checked, !app.persistent);
-                        } catch (Throwable ex) {
-                            Log.e(TAG, Log.getStackTraceString(ex));
-                            Snackbar.make(itemView, ex.toString(), Snackbar.LENGTH_LONG).show();
-                        }
+
+                        Bundle args = new Bundle();
+                        args.putStringArrayList("hooks", hookids);
+                        args.putString("packageName", app.packageName);
+                        args.putInt("uid", app.uid);
+                        args.putBoolean("delete", !checked);
+                        args.putBoolean("kill", !app.persistent);
+                        compoundButton.getContext().getContentResolver()
+                                .call(XSettings.URI, "xlua", "assignHooks", args);
                     }
                 });
             }

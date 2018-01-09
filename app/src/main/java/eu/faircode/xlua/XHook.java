@@ -131,7 +131,7 @@ public class XHook implements Parcelable {
     }
 
     // Read hook definitions from asset file
-    static List<XHook> readHooks(String apk) throws IOException, JSONException {
+    static ArrayList<XHook> readHooks(String apk) throws IOException, JSONException {
         ZipFile zipFile = null;
         try {
             zipFile = new ZipFile(apk);
@@ -143,7 +143,7 @@ public class XHook implements Parcelable {
             try {
                 is = zipFile.getInputStream(zipEntry);
                 String json = new Scanner(is).useDelimiter("\\A").next();
-                List<XHook> hooks = new ArrayList<>();
+                ArrayList<XHook> hooks = new ArrayList<>();
                 JSONArray jarray = new JSONArray(json);
                 for (int i = 0; i < jarray.length(); i++) {
                     XHook hook = XHook.fromJSONObject(jarray.getJSONObject(i));

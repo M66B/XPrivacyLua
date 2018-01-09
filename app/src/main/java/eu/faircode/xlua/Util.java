@@ -20,6 +20,9 @@
 package eu.faircode.xlua;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
@@ -28,6 +31,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Process;
 import android.os.UserHandle;
 import android.util.Log;
@@ -104,7 +108,46 @@ class Util {
         }
     }
 
-    public static boolean isDebuggable(Context context) {
+    static Context createContextForUser(Context context, int userid) throws Throwable {
+        // public UserHandle(int h)
+        Class<?> clsUH = Class.forName("android.os.UserHandle");
+        Constructor<?> cUH = clsUH.getDeclaredConstructor(int.class);
+        UserHandle uh = (UserHandle) cUH.newInstance(userid);
+
+        // public Context createPackageContextAsUser(String packageName, int flags, UserHandle user)
+        Method c = context.getClass().getDeclaredMethod("createPackageContextAsUser", String.class, int.class, UserHandle.class);
+        return (Context) c.invoke(context, "android", 0, uh);
+    }
+
+    static void notifyAsUser(Context context, String tag, int id, Notification notification, int userid) throws Throwable {
+        NotificationManager nm = context.getSystemService(NotificationManager.class);
+
+        // Create notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    XSettings.cChannelName, context.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
+            channel.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
+            nm.createNotificationChannel(channel);
+        }
+
+        // public void notifyAsUser(String tag, int id, Notification notification, UserHandle user)
+        Method mNotifyAsUser = nm.getClass().getDeclaredMethod(
+                "notifyAsUser", String.class, int.class, Notification.class, UserHandle.class);
+        mNotifyAsUser.invoke(nm, tag, id, notification, Util.getUserHandle(userid));
+        Log.i(TAG, "Notified " + tag + ":" + id + " as " + userid);
+    }
+
+    static void cancelAsUser(Context context, String tag, int id, int userid) throws Throwable {
+        NotificationManager nm = context.getSystemService(NotificationManager.class);
+
+        // public void cancelAsUser(String tag, int id, UserHandle user)
+        Method mCancelAsUser = nm.getClass().getDeclaredMethod(
+                "cancelAsUser", String.class, int.class, UserHandle.class);
+        mCancelAsUser.invoke(nm, tag, id, Util.getUserHandle(userid));
+        Log.i(TAG, "Cancelled " + tag + ":" + id + " as " + userid);
+    }
+
+    static boolean isDebuggable(Context context) {
         return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 

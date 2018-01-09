@@ -25,8 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Process;
-import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -76,8 +74,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Check if service is running
-        final IService client = XService.getClient(this);
-        if (client == null) {
+        if (!XSettings.isAvailable(this)) {
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_service), Snackbar.LENGTH_INDEFINITE).show();
             return;
         }
@@ -128,70 +125,51 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         // Initialize drawer
-        try {
-            final int userId = Util.getUserId(Process.myUid());
-            boolean showAll = Boolean.parseBoolean(client.getSetting(userId, "global", "show_all_apps"));
-            boolean notifyNew = Boolean.parseBoolean(client.getSetting(userId, "global", "notify_new_apps"));
-            boolean restrictNew = Boolean.parseBoolean(client.getSetting(userId, "global", "restrict_new_apps"));
+        boolean showAll = XSettings.getSettingBoolean(this, "global", "show_all_apps");
+        boolean notifyNew = XSettings.getSettingBoolean(this, "global", "notify_new_apps");
+        boolean restrictNew = XSettings.getSettingBoolean(this, "global", "restrict_new_apps");
 
-            final ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityMain.this, R.layout.draweritem);
+        final ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityMain.this, R.layout.draweritem);
 
-            drawerArray.add(new DrawerItem(this, R.string.menu_show_all, showAll, new DrawerItem.IListener() {
-                @Override
-                public void onClick(DrawerItem item) {
-                    try {
-                        client.putSetting(userId, "global", "show_all_apps", Boolean.toString(item.isChecked()));
-                        drawerArray.notifyDataSetChanged();
-                        fragmentMain.setShowAll(item.isChecked());
-                    } catch (RemoteException ex) {
-                        Log.e(TAG, Log.getStackTraceString(ex));
-                        Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
-                    }
-                }
-            }));
+        drawerArray.add(new DrawerItem(this, R.string.menu_show_all, showAll, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                XSettings.putSettingBoolean(ActivityMain.this, "global", "show_all_apps", item.isChecked());
+                drawerArray.notifyDataSetChanged();
+                fragmentMain.setShowAll(item.isChecked());
+                //Log.e(TAG, Log.getStackTraceString(ex));
+                //Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
+            }
+        }));
 
-            drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
-                @Override
-                public void onClick(DrawerItem item) {
-                    try {
-                        client.putSetting(userId, "global", "notify_new_apps", Boolean.toString(item.isChecked()));
-                        drawerArray.notifyDataSetChanged();
-                    } catch (RemoteException ex) {
-                        Log.e(TAG, Log.getStackTraceString(ex));
-                        Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
-                    }
-                }
-            }));
+        drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                XSettings.putSettingBoolean(ActivityMain.this, "global", "notify_new_apps", item.isChecked());
+                drawerArray.notifyDataSetChanged();
+            }
+        }));
 
-            drawerArray.add(new DrawerItem(this, R.string.menu_restrict_new, restrictNew, new DrawerItem.IListener() {
-                @Override
-                public void onClick(DrawerItem item) {
-                    try {
-                        client.putSetting(userId, "global", "restrict_new_apps", Boolean.toString(item.isChecked()));
-                        drawerArray.notifyDataSetChanged();
-                    } catch (RemoteException ex) {
-                        Log.e(TAG, Log.getStackTraceString(ex));
-                        Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
-                    }
-                }
-            }));
+        drawerArray.add(new DrawerItem(this, R.string.menu_restrict_new, restrictNew, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                XSettings.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
+                drawerArray.notifyDataSetChanged();
+            }
+        }));
 
-            drawerArray.add(new DrawerItem(this, R.string.menu_donate, new DrawerItem.IListener() {
-                @Override
-                public void onClick(DrawerItem item) {
-                    Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu/"));
-                    if (browse.resolveActivity(getPackageManager()) != null)
-                        startActivity(browse);
-                }
-            }));
+        drawerArray.add(new DrawerItem(this, R.string.menu_donate, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu/"));
+                if (browse.resolveActivity(getPackageManager()) != null)
+                    startActivity(browse);
+            }
+        }));
 
-            drawerList.setAdapter(drawerArray);
+        drawerList.setAdapter(drawerArray);
 
-            fragmentMain.setShowAll(showAll);
-        } catch (RemoteException ex) {
-            Log.e(TAG, Log.getStackTraceString(ex));
-            Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
-        }
+        fragmentMain.setShowAll(showAll);
 
         checkFirstRun();
     }

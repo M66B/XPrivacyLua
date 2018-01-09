@@ -19,7 +19,6 @@
 
 package eu.faircode.xlua;
 
-import android.os.RemoteException;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -87,19 +86,6 @@ public class XParam {
     public Object getValue(String name) {
         Object value = getValueInternal(name);
         Log.i(TAG, "Get value " + this.packageName + ":" + this.uid + " " + name + "=" + value);
-        return value;
-    }
-
-    @SuppressWarnings("unused")
-    public void putSetting(String name, String value) throws RemoteException {
-        Log.i(TAG, "Put setting " + this.packageName + ":" + this.uid + " " + name + "=" + value);
-        XService.getClient().putSetting(Util.getUserId(this.uid), this.packageName, name, value);
-    }
-
-    @SuppressWarnings("unused")
-    public String getSetting(String name) throws RemoteException {
-        String value = XService.getClient().getSetting(Util.getUserId(this.uid), this.packageName, name);
-        Log.i(TAG, "Get setting " + this.packageName + ":" + this.uid + " " + name + "=" + value);
         return value;
     }
 

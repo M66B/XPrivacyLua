@@ -37,7 +37,7 @@ public class XApp implements Parcelable {
     public XApp() {
     }
 
-    static final Parcelable.Creator<XApp> CREATOR = new Parcelable.Creator<XApp>() {
+    public static final Parcelable.Creator<XApp> CREATOR = new Parcelable.Creator<XApp>() {
         public XApp createFromParcel(Parcel in) {
             return new XApp(in);
         }
