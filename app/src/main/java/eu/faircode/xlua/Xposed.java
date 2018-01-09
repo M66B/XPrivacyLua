@@ -54,9 +54,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private XService service = null;
 
     public void initZygote(final IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
-        // Read hook definitions from asset file
-        final List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
-
         // Hook activity manager constructor
         Class<?> at = Class.forName("android.app.ActivityThread");
         XposedBridge.hookAllMethods(at, "systemMain", new XC_MethodHook() {
@@ -73,6 +70,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 try {
                                     // Create service, hook android
+                                    List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
                                     service = new XService(param.thisObject, (Context) param.args[0], hooks, loader);
                                 } catch (Throwable ex) {
                                     Log.e(TAG, Log.getStackTraceString(ex));
@@ -87,6 +85,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 try {
                                     // Create service, hook android
+                                    List<XHook> hooks = XHook.readHooks(startupParam.modulePath);
                                     service = new XService(param.thisObject, null, hooks, loader);
                                 } catch (Throwable ex) {
                                     Log.e(TAG, Log.getStackTraceString(ex));
@@ -136,11 +135,10 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 int userid = Util.getUserId(uid);
                 int start = Util.getUserUid(userid, 99000);
                 int end = Util.getUserUid(userid, 99999);
-                if (uid >= start && uid <= end) {
-                    Log.w(TAG, "Isolated process " + packageName + ":" + uid + " pid=" + Process.myPid());
-                    return;
-                } else
-                    throw new Throwable("Service not accessible in " + packageName + ":" + uid);
+                boolean isolated = (uid >= start && uid <= end);
+                Log.w(TAG, "Service not accessible from " + packageName + ":" + uid +
+                        " pid=" + Process.myPid() + " isolated=" + isolated);
+                return;
             }
 
             List<XHook> hooks = client.getAssignedHooks(packageName, uid);

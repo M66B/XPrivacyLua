@@ -130,6 +130,7 @@ public class XHook implements Parcelable {
         this.extras = extras;
     }
 
+    // Read hook definitions from asset file
     static List<XHook> readHooks(String apk) throws IOException, JSONException {
         ZipFile zipFile = null;
         try {
