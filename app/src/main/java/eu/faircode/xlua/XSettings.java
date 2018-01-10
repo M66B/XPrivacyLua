@@ -92,7 +92,7 @@ class XSettings {
                 case "getVersion":
                     result = getVersion(context, extras);
                     break;
-                case "putHooks":
+                case "putHook":
                     result = putHook(context, extras);
                     break;
                 case "assignHooks":
@@ -171,7 +171,7 @@ class XSettings {
             hooks.put(hook.getId(), hook);
         }
 
-        Log.i(TAG, "Set hooks=" + hooks.size());
+        Log.i(TAG, "Put hook=" + hook.getId());
 
         return new Bundle();
     }
