@@ -327,7 +327,7 @@
     "minSdk": 3,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_no_result"
+    "luaScript": "@generic_block_method"
   },
   {
     "collection": "Privacy",
@@ -343,7 +343,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_no_result"
+    "luaScript": "@generic_block_method"
   },
   {
     "collection": "Privacy",
@@ -358,7 +358,7 @@
     "minSdk": 3,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_no_result"
+    "luaScript": "@generic_block_method"
   },
   // Record audio
   // https://developer.android.com/reference/android/media/MediaRecorder.html
@@ -455,5 +455,72 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@mediarecorder_stop"
+  },
+  // Take picture
+  // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
+  // https://developer.android.com/reference/android/hardware/Camera.html
+  {
+    "collection": "Privacy",
+    "group": "Take.Picture",
+    "name": "CameraManager2.getCameraIdList",
+    "author": "M66B",
+    "className": "android.hardware.camera2.CameraManager",
+    "methodName": "getCameraIdList",
+    "parameterTypes": [
+    ],
+    "returnType": "[Ljava.lang.String;",
+    "minSdk": 21,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_string_array"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Take.Picture",
+    "name": "CameraManager2.registerAvailabilityCallback",
+    "author": "M66B",
+    "className": "android.hardware.camera2.CameraManager",
+    "methodName": "registerAvailabilityCallback",
+    "parameterTypes": [
+      "android.hardware.camera2.CameraManager$AvailabilityCallback",
+      "android.os.Handler"
+    ],
+    "returnType": "void",
+    "minSdk": 21,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Take.Picture",
+    "name": "CameraManager2.registerTorchCallback",
+    "author": "M66B",
+    "className": "android.hardware.camera2.CameraManager",
+    "methodName": "registerTorchCallback",
+    "parameterTypes": [
+      "android.hardware.camera2.CameraManager$TorchCallback",
+      "android.os.Handler"
+    ],
+    "returnType": "void",
+    "minSdk": 23,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Take.Picture",
+    "name": "Camera.getNumberOfCameras",
+    "author": "M66B",
+    "className": "	android.hardware.Camera",
+    "methodName": "getNumberOfCameras",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 9,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@camera_getnumberof"
   }
 ]

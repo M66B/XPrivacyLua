@@ -439,7 +439,6 @@ class XSettings {
         long ident = Binder.clearCallingIdentity();
         try {
             // Notify data changed
-            // TODO: batch
             Intent intent = new Intent();
             intent.setAction(ACTION_DATA_CHANGED);
             intent.setPackage(XSettings.class.getPackage().getName());

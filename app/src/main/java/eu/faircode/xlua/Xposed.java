@@ -349,6 +349,28 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             try {
                 return cls.getDeclaredMethod(name, params);
             } catch (NoSuchMethodException ex) {
+                for (Method method : cls.getDeclaredMethods()) {
+                    if (!name.equals(method.getName()))
+                        continue;
+
+                    Class<?>[] mparams = method.getParameterTypes();
+
+                    if (mparams.length != params.length)
+                        continue;
+
+                    boolean same = true;
+                    for (int i = 0; i < mparams.length; i++) {
+                        if (!params[i].isAssignableFrom(mparams[i])) {
+                            same = false;
+                            break;
+                        }
+                    }
+                    if (!same)
+                        continue;
+
+                    Log.i(TAG, "Resolved method=" + method);
+                    return method;
+                }
                 cls = cls.getSuperclass();
                 if (cls == null)
                     throw ex;

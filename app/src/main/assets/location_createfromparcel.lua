@@ -16,7 +16,7 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    result = param:getResult()
+    local result = param:getResult()
     if result == nil then
         return false
     else

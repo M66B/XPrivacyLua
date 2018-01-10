@@ -16,9 +16,9 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    key = param:getArgument(0)
+    local key = param:getArgument(0)
     if key == 'location' then
-        fake = luajava.newInstance('android.location.Location', 'privacy')
+        local fake = luajava.newInstance('android.location.Location', 'privacy')
         fake:setLatitude(0)
         fake:setLongitude(0)
         param:setResult(fake)

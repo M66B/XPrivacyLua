@@ -16,18 +16,18 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    uri = param:getArgument(0)
-    cursor = param:getResult()
+    local uri = param:getArgument(0)
+    local cursor = param:getResult()
     if uri == nil or uri:getPath() == nil or cursor == nil then
         return false
     elseif uri:getAuthority() == 'com.android.contacts' then
-        prefix = string.gmatch(uri:getPath(), '[^/]+')()
+        local prefix = string.gmatch(uri:getPath(), '[^/]+')()
         if prefix == 'provider_status' then
             return false
         else
-            result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
+            local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
             result:setExtras(cursor:getExtras())
-            notify = cursor:getNotificationUri()
+            --notify = cursor:getNotificationUri()
             --if notify ~= nil then
             --    result:setNotificationUri(param:getThis(), notify)
             --end

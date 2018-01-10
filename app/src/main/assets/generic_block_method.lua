@@ -15,13 +15,7 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function after(hook, param)
-    local result = param:getResult()
-    if result == null or result:getItemCount() == 0 then
-        return false
-    else
-        local fake = result:newPlainText('XPrivacyLua', 'Private')
-        param:setResult(fake)
-        return true
-    end
+function before(hook, param)
+    param:setResult(nil)
+    return true
 end

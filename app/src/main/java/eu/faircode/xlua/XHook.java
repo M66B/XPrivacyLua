@@ -20,6 +20,7 @@
 package eu.faircode.xlua;
 
 import android.content.Context;
+import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -163,6 +164,10 @@ public class XHook {
                             Log.i(TAG, hook.getId() + " class name=" + className);
                         } else if ("android.content.pm.PackageManager".equals(hook.className)) {
                             String className = context.getPackageManager().getClass().getName();
+                            hook.className = className;
+                            Log.i(TAG, hook.getId() + " class name=" + className);
+                        } else if ("android.hardware.camera2.CameraManager".equals(hook.className)) {
+                            String className = context.getSystemService(CameraManager.class).getClass().getName();
                             hook.className = className;
                             Log.i(TAG, hook.getId() + " class name=" + className);
                         }

@@ -31,6 +31,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Process;
 import android.os.UserHandle;
@@ -124,8 +125,11 @@ class Util {
 
         // Create notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            PackageManager pm = context.getPackageManager();
+            String self = Util.class.getPackage().getName();
+            Resources resources = pm.getResourcesForApplication(self);
             NotificationChannel channel = new NotificationChannel(
-                    XSettings.cChannelName, context.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
+                    XSettings.cChannelName, resources.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
             channel.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
             nm.createNotificationChannel(channel);
         }

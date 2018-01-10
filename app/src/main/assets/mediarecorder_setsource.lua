@@ -16,7 +16,7 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function before(hook, param)
-    source = param:getArgument(0)
+    local source = param:getArgument(0)
     param:putValue('source', source)
     return false
 end
