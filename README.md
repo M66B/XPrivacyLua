@@ -23,6 +23,7 @@ Restrictions
 * Read clipboard
 * Record audio
 * Record video
+* Use camera
 
 More restrictions will be added over time.
 

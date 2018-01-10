@@ -461,7 +461,7 @@
   // https://developer.android.com/reference/android/hardware/Camera.html
   {
     "collection": "Privacy",
-    "group": "Take.Picture",
+    "group": "Use.Camera",
     "name": "CameraManager2.getCameraIdList",
     "author": "M66B",
     "className": "android.hardware.camera2.CameraManager",
@@ -476,7 +476,7 @@
   },
   {
     "collection": "Privacy",
-    "group": "Take.Picture",
+    "group": "Use.Camera",
     "name": "CameraManager2.registerAvailabilityCallback",
     "author": "M66B",
     "className": "android.hardware.camera2.CameraManager",
@@ -493,7 +493,7 @@
   },
   {
     "collection": "Privacy",
-    "group": "Take.Picture",
+    "group": "Use.Camera",
     "name": "CameraManager2.registerTorchCallback",
     "author": "M66B",
     "className": "android.hardware.camera2.CameraManager",
@@ -510,7 +510,7 @@
   },
   {
     "collection": "Privacy",
-    "group": "Take.Picture",
+    "group": "Use.Camera",
     "name": "Camera.open",
     "author": "M66B",
     "className": "android.hardware.Camera",
@@ -525,7 +525,7 @@
   },
   {
     "collection": "Privacy",
-    "group": "Take.Picture",
+    "group": "Use.Camera",
     "name": "Camera.open",
     "author": "M66B",
     "className": "android.hardware.Camera",
