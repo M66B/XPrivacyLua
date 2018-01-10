@@ -1,63 +1,52 @@
 package eu.faircode.xlua;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class XAssignment implements Parcelable {
+class XAssignment {
     XHook hook;
     long installed = -1;
     long used = -1;
     boolean restricted = false;
     String exception;
 
+    private XAssignment() {
+    }
+
     XAssignment(XHook hook) {
         this.hook = hook;
     }
 
-    public static final Parcelable.Creator<XAssignment> CREATOR = new Parcelable.Creator<XAssignment>() {
-        public XAssignment createFromParcel(Parcel in) {
-            return new XAssignment(in);
-        }
-
-        public XAssignment[] newArray(int size) {
-            return new XAssignment[size];
-        }
-    };
-
-    private XAssignment(Parcel in) {
-        readFromParcel(in);
+    String toJSON() throws JSONException {
+        return toJSONObject().toString(2);
     }
 
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeParcelable(this.hook, 0);
-        out.writeLong(this.installed);
-        out.writeLong(this.used);
-        out.writeInt(this.restricted ? 1 : 0);
-        writeString(out, this.exception);
+    JSONObject toJSONObject() throws JSONException {
+        JSONObject jroot = new JSONObject();
+
+        jroot.put("hook", this.hook.toJSONObject());
+        jroot.put("installed", this.installed);
+        jroot.put("used", this.used);
+        jroot.put("restricted", this.restricted);
+        jroot.put("exception", this.exception);
+
+        return jroot;
     }
 
-    private void writeString(Parcel out, String value) {
-        out.writeInt(value == null ? 1 : 0);
-        if (value != null)
-            out.writeString(value);
+    static XAssignment fromJSON(String json) throws JSONException {
+        return fromJSONObject(new JSONObject(json));
     }
 
-    private void readFromParcel(Parcel in) {
-        this.hook = in.readParcelable(XHook.class.getClassLoader());
-        this.installed = in.readLong();
-        this.used = in.readLong();
-        this.restricted = (in.readInt() == 1);
-        this.exception = readString(in);
-    }
+    static XAssignment fromJSONObject(JSONObject jroot) throws JSONException {
+        XAssignment assignment = new XAssignment();
 
-    private String readString(Parcel in) {
-        return (in.readInt() > 0 ? null : in.readString());
-    }
+        assignment.hook = XHook.fromJSONObject(jroot.getJSONObject("hook"));
+        assignment.installed = jroot.getLong("installed");
+        assignment.used = jroot.getLong("used");
+        assignment.restricted = jroot.getBoolean("restricted");
+        assignment.exception = (jroot.has("exception") ? jroot.getString("exception") : null);
 
-    @Override
-    public int describeContents() {
-        return 0;
+        return assignment;
     }
 
     @Override

@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -140,22 +141,24 @@ public class FragmentMain extends Fragment {
             try {
                 if (Util.isDebuggable(getContext())) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
-                    Bundle args = new Bundle();
-                    args.putParcelableArrayList("hooks", XHook.readHooks(apk));
-                    getContext().getContentResolver()
-                            .call(XSettings.URI, "xlua", "putHooks", args);
+                    for (XHook hook : XHook.readHooks(apk)) {
+                        Bundle args = new Bundle();
+                        args.putString("json", hook.toJSON());
+                        getContext().getContentResolver()
+                                .call(XSettings.URI, "xlua", "putHook", args);
+                    }
                 }
 
-                Bundle result1 = getContext().getContentResolver()
-                        .call(XSettings.URI, "xlua", "getHooks", new Bundle());
-                Bundle result2 = getContext().getContentResolver()
-                        .call(XSettings.URI, "xlua", "getApps", new Bundle());
+                Cursor chooks = getContext().getContentResolver()
+                        .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                while (chooks.moveToNext())
+                    data.hooks.add(XHook.fromJSON(chooks.getString(0)));
 
-                result1.setClassLoader(XSettings.class.getClassLoader());
-                result2.setClassLoader(XSettings.class.getClassLoader());
+                Cursor capps = getContext().getContentResolver()
+                        .query(XSettings.URI, new String[]{"xlua.getApps"}, null, null, null);
+                while (capps.moveToNext())
+                    data.apps.add(XApp.fromJSON(capps.getString(0)));
 
-                data.hooks = result1.getParcelableArrayList("hooks");
-                data.apps = result2.getParcelableArrayList("apps");
             } catch (Throwable ex) {
                 data.hooks.clear();
                 data.apps.clear();

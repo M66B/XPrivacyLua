@@ -19,13 +19,14 @@
 
 package eu.faircode.xlua;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class XApp implements Parcelable {
+class XApp {
     String packageName;
     int uid;
     int icon;
@@ -34,65 +35,51 @@ public class XApp implements Parcelable {
     boolean persistent;
     List<XAssignment> assignments;
 
-    public XApp() {
+    XApp() {
     }
 
-    public static final Parcelable.Creator<XApp> CREATOR = new Parcelable.Creator<XApp>() {
-        public XApp createFromParcel(Parcel in) {
-            return new XApp(in);
-        }
-
-        public XApp[] newArray(int size) {
-            return new XApp[size];
-        }
-    };
-
-    private XApp(Parcel in) {
-        readFromParcel(in);
+    String toJSON() throws JSONException {
+        return toJSONObject().toString(2);
     }
 
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        writeString(out, this.packageName);
-        out.writeInt(this.uid);
-        out.writeInt(this.icon);
-        writeString(out, this.label);
-        out.writeInt(this.enabled ? 1 : 0);
-        out.writeInt(this.persistent ? 1 : 0);
+    JSONObject toJSONObject() throws JSONException {
+        JSONObject jroot = new JSONObject();
 
-        int hookc = (this.assignments == null ? -1 : this.assignments.size());
-        out.writeInt(hookc);
-        for (int i = 0; i < hookc; i++)
-            out.writeParcelable(this.assignments.get(i), 0);
+        jroot.put("packageName", this.packageName);
+        jroot.put("uid", this.uid);
+        jroot.put("icon", this.icon);
+        jroot.put("label", this.label);
+        jroot.put("enabled", this.enabled);
+        jroot.put("persistent", this.persistent);
+
+        JSONArray jassignments = new JSONArray();
+        for (XAssignment assignment : this.assignments)
+            jassignments.put(assignment.toJSONObject());
+        jroot.put("assignments", jassignments);
+
+        return jroot;
     }
 
-    private void writeString(Parcel out, String value) {
-        out.writeInt(value == null ? 1 : 0);
-        if (value != null)
-            out.writeString(value);
+    static XApp fromJSON(String json) throws JSONException {
+        return fromJSONObject(new JSONObject(json));
     }
 
-    private void readFromParcel(Parcel in) {
-        this.packageName = readString(in);
-        this.uid = in.readInt();
-        this.icon = in.readInt();
-        this.label = readString(in);
-        this.enabled = (in.readInt() != 0);
-        this.persistent = (in.readInt() != 0);
+    static XApp fromJSONObject(JSONObject jroot) throws JSONException {
+        XApp app = new XApp();
 
-        int hookc = in.readInt();
-        this.assignments = (hookc < 0 ? null : new ArrayList<XAssignment>());
-        for (int i = 0; i < hookc; i++)
-            this.assignments.add((XAssignment) in.readParcelable(XAssignment.class.getClassLoader()));
-    }
+        app.packageName = jroot.getString("packageName");
+        app.uid = jroot.getInt("uid");
+        app.icon = jroot.getInt("icon");
+        app.label = (jroot.has("label") ? jroot.getString("label") : null);
+        app.enabled = jroot.getBoolean("enabled");
+        app.persistent = jroot.getBoolean("persistent");
 
-    private String readString(Parcel in) {
-        return (in.readInt() > 0 ? null : in.readString());
-    }
+        app.assignments = new ArrayList<>();
+        JSONArray jassignment = jroot.getJSONArray("assignments");
+        for (int i = 0; i < jassignment.length(); i++)
+            app.assignments.add(XAssignment.fromJSONObject((JSONObject) jassignment.get(i)));
 
-    @Override
-    public int describeContents() {
-        return 0;
+        return app;
     }
 
     private IListener listener = null;

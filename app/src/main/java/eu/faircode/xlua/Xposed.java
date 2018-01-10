@@ -28,6 +28,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
@@ -119,6 +121,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         if ("com.android.providers.settings".equals(lpparam.packageName)) {
             // https://android.googlesource.com/platform/frameworks/base/+/master/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
             Class<?> clsSet = Class.forName("com.android.providers.settings.SettingsProvider", false, lpparam.classLoader);
+
+            // Bundle call(String method, String arg, Bundle extras)
             Method mCall = clsSet.getMethod("call", String.class, String.class, Bundle.class);
             XposedBridge.hookMethod(mCall, new XC_MethodHook() {
                 @Override
@@ -145,6 +149,33 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
                 }
             });
+
+            // Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+            Method mQuery = clsSet.getMethod("query", Uri.class, String[].class, String.class, String[].class, String.class);
+            XposedBridge.hookMethod(mQuery, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        String[] projection = (String[]) param.args[1];
+                        String[] selection = (String[]) param.args[3];
+                        if (projection != null && projection.length > 0 &&
+                                projection[0] != null && projection[0].startsWith("xlua.")) {
+                            try {
+                                Method mGetContext = param.thisObject.getClass().getMethod("getContext");
+                                Context context = (Context) mGetContext.invoke(param.thisObject);
+                                param.setResult(XSettings.query(context, projection[0].split("\\.")[1], selection));
+                            } catch (Throwable ex) {
+                                Log.e(TAG, Log.getStackTraceString(ex));
+                                XposedBridge.log(ex);
+                                param.setResult(null);
+                            }
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, Log.getStackTraceString(ex));
+                        XposedBridge.log(ex);
+                    }
+                }
+            });
         }
 
         if (!"android".equals(lpparam.packageName)) {
@@ -157,6 +188,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     try {
                         if (!made) {
                             made = true;
+                            Application app = (Application) param.getResult();
 
                             int userid = Util.getUserId(uid);
                             int start = Util.getUserUid(userid, 99000);
@@ -168,14 +200,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 return;
                             }
 
-                            Bundle args = new Bundle();
-                            args.putString("packageName", lpparam.packageName);
-                            args.putInt("uid", uid);
-                            Application app = (Application) param.getResult();
-                            Bundle result = app.getContentResolver()
-                                    .call(XSettings.URI, "xlua", "getAssignedHooks", args);
-                            result.setClassLoader(XHook.class.getClassLoader());
-                            List<XHook> hooks = result.getParcelableArrayList("hooks");
+                            List<XHook> hooks = new ArrayList<>();
+                            Cursor cursor = app.getContentResolver()
+                                    .query(XSettings.URI, new String[]{"xlua.getAssignedHooks"},
+                                            null, new String[]{lpparam.packageName, Integer.toString(uid)},
+                                            null);
+                            while (cursor.moveToNext())
+                                hooks.add(XHook.fromJSON(cursor.getString(0)));
+
                             hookPackage(app, lpparam, uid, hooks);
                             Log.i(TAG, "Applied " + lpparam.packageName + ":" + uid + " hooks=" + hooks.size());
                         }
@@ -333,14 +365,11 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 Log.i(TAG, "Received " + intent);
 
                 // Get hooks
-                Bundle result = context.getContentResolver()
-                        .call(XSettings.URI, "xlua", "getHooks", new Bundle());
-                result.setClassLoader(XSettings.class.getClassLoader());
-                List<XHook> hooks = result.getParcelableArrayList("hooks");
-
-                ArrayList<String> hookids = new ArrayList<>();
-                for (XHook hook : hooks)
-                    hookids.add(hook.getId());
+                ArrayList<String> hooks = new ArrayList<>();
+                Cursor cursor = context.getContentResolver()
+                        .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                while (cursor.moveToNext())
+                    hooks.add(XHook.fromJSON(cursor.getString(0)).getId());
 
                 String self = XSettings.class.getPackage().getName();
                 Context ctx = Util.createContextForUser(context, userid);
@@ -350,7 +379,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Restrict app
                         if (XSettings.getSettingBoolean(context, userid, "global", "restrict_new_apps")) {
                             Bundle args = new Bundle();
-                            args.putStringArrayList("hooks", hookids);
+                            args.putStringArrayList("hooks", hooks);
                             args.putString("packageName", packageName);
                             args.putInt("uid", uid);
                             args.putBoolean("delete", false);
@@ -394,7 +423,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 .call(XSettings.URI, "xlua", "clearData", args);
                     } else {
                         Bundle args = new Bundle();
-                        args.putStringArrayList("hooks", hookids);
+                        args.putStringArrayList("hooks", hooks);
                         args.putString("packageName", packageName);
                         args.putInt("uid", uid);
                         args.putBoolean("delete", true);

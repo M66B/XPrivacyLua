@@ -31,15 +31,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.os.Process;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.util.Log;
 
 import java.io.File;
@@ -65,52 +66,94 @@ class XSettings {
 
     final static String cChannelName = "xlua";
 
-    static Uri URI = Uri.parse("content://settings/system");
+    static Uri URI = Settings.System.CONTENT_URI;
     static String ACTION_DATA_CHANGED = XSettings.class.getPackage().getName() + ".DATA_CHANGED";
 
-    static Bundle call(Context context, String arg, Bundle extras) throws Throwable {
-        Log.i(TAG, "Call " + arg + " uid=" + Process.myUid() + " cuid=" + Binder.getCallingUid());
-
+    static void update(Context context) throws Throwable {
         synchronized (lock) {
             if (version < 0)
                 version = getVersion(context);
             if (hooks == null)
-                hooks = getHooks(context);
+                hooks = loadHooks(context);
             if (db == null)
                 db = getDatabase();
         }
+    }
 
+    static Bundle call(Context context, String method, Bundle extras) throws Throwable {
+        update(context);
+
+        Bundle result = null;
         StrictMode.ThreadPolicy originalPolicy = StrictMode.getThreadPolicy();
         try {
             StrictMode.allowThreadDiskReads();
             StrictMode.allowThreadDiskWrites();
-            switch (arg) {
+            switch (method) {
                 case "getVersion":
-                    return getVersion(context, extras);
+                    result = getVersion(context, extras);
+                    break;
                 case "putHooks":
-                    return putHooks(context, extras);
-                case "getHooks":
-                    return getHooks(context, extras);
-                case "getApps":
-                    return getApps(context, extras);
+                    result = putHook(context, extras);
+                    break;
                 case "assignHooks":
-                    return assignHooks(context, extras);
-                case "getAssignedHooks":
-                    return getAssignedHooks(context, extras);
+                    result = assignHooks(context, extras);
+                    break;
                 case "report":
-                    return report(context, extras);
+                    result = report(context, extras);
+                    break;
                 case "getSetting":
-                    return getSetting(context, extras);
+                    result = getSetting(context, extras);
+                    break;
                 case "putSetting":
-                    return putSetting(context, extras);
+                    result = putSetting(context, extras);
+                    break;
                 case "clearData":
-                    return clearData(context, extras);
-                default:
-                    return null;
+                    result = clearData(context, extras);
+                    break;
             }
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
         }
+
+        Log.i(TAG, "Call " + method +
+                " uid=" + Process.myUid() +
+                " cuid=" + Binder.getCallingUid() +
+                " results=" + (result == null ? "-1" : result.keySet().size()));
+
+        return result;
+    }
+
+    static Cursor query(Context context, String method, String[] selection) throws Throwable {
+        update(context);
+
+        Cursor result = null;
+        StrictMode.ThreadPolicy originalPolicy = StrictMode.getThreadPolicy();
+        try {
+            StrictMode.allowThreadDiskReads();
+            StrictMode.allowThreadDiskWrites();
+            switch (method) {
+                case "getHooks":
+                    result = getHooks(context, selection);
+                    break;
+                case "getApps":
+                    result = getApps(context, selection);
+                    break;
+                case "getAssignedHooks":
+                    result = getAssignedHooks(context, selection);
+                    break;
+            }
+        } finally {
+            StrictMode.setThreadPolicy(originalPolicy);
+        }
+
+        Log.i(TAG, "Query " + method +
+                " uid=" + Process.myUid() +
+                " cuid=" + Binder.getCallingUid() +
+                " rows=" + (result == null ? "-1" : result.getCount()));
+
+        if (result != null)
+            result.moveToPosition(-1);
+        return result;
     }
 
     private static Bundle getVersion(Context context, Bundle extras) throws Throwable {
@@ -119,16 +162,13 @@ class XSettings {
         return result;
     }
 
-    private static Bundle putHooks(Context context, Bundle extras) throws Throwable {
+    private static Bundle putHook(Context context, Bundle extras) throws Throwable {
         enforcePermission(context);
 
-        extras.setClassLoader(XSettings.class.getClassLoader());
-        ArrayList<XHook> put = extras.getParcelableArrayList("hooks");
+        XHook hook = XHook.fromJSON(extras.getString("json"));
 
         synchronized (lock) {
-            hooks.clear();
-            for (XHook hook : put)
-                hooks.put(hook.getId(), hook);
+            hooks.put(hook.getId(), hook);
         }
 
         Log.i(TAG, "Set hooks=" + hooks.size());
@@ -136,17 +176,16 @@ class XSettings {
         return new Bundle();
     }
 
-    private static Bundle getHooks(Context context, Bundle extras) throws Throwable {
-        Bundle result = new Bundle();
-
+    private static Cursor getHooks(Context context, String[] selection) throws Throwable {
+        MatrixCursor result = new MatrixCursor(new String[]{"json"});
         synchronized (lock) {
-            result.putParcelableArrayList("hooks", new ArrayList<Parcelable>(hooks.values()));
+            for (XHook hook : hooks.values())
+                result.addRow(new String[]{hook.toJSON()});
         }
-
         return result;
     }
 
-    private static Bundle getApps(Context context, Bundle extras) throws Throwable {
+    private static Cursor getApps(Context context, String[] selection) throws Throwable {
         Map<String, XApp> apps = new HashMap<>();
 
         int cuid = Binder.getCallingUid();
@@ -237,8 +276,9 @@ class XSettings {
             dbLock.readLock().unlock();
         }
 
-        Bundle result = new Bundle();
-        result.putParcelableArrayList("apps", new ArrayList(apps.values()));
+        MatrixCursor result = new MatrixCursor(new String[]{"json"});
+        for (XApp app : apps.values())
+            result.addRow(new String[]{app.toJSON()});
         return result;
     }
 
@@ -302,11 +342,14 @@ class XSettings {
         return new Bundle();
     }
 
-    private static Bundle getAssignedHooks(Context context, Bundle extras) throws Throwable {
-        ArrayList<XHook> assigned = new ArrayList<>();
+    private static Cursor getAssignedHooks(Context context, String[] selection) throws Throwable {
+        MatrixCursor result = new MatrixCursor(new String[]{"json"});
 
-        String packageName = extras.getString("packageName");
-        int uid = extras.getInt("uid");
+        if (selection == null || selection.length != 2)
+            throw new IllegalArgumentException();
+
+        String packageName = selection[0];
+        int uid = Integer.parseInt(selection[1]);
 
         dbLock.readLock().lock();
         try {
@@ -331,7 +374,7 @@ class XSettings {
                                     hook.setClassName(className);
                                     Log.i(TAG, hook.getId() + " class name=" + className);
                                 }
-                                assigned.add(hook);
+                                result.addRow(new String[]{hook.toJSON()});
                             } else
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }
@@ -349,8 +392,6 @@ class XSettings {
             dbLock.readLock().unlock();
         }
 
-        Bundle result = new Bundle();
-        result.putParcelableArrayList("hooks", assigned);
         return result;
     }
 
@@ -582,7 +623,7 @@ class XSettings {
         return pi.versionCode;
     }
 
-    private static Map<String, XHook> getHooks(Context context) throws Throwable {
+    private static Map<String, XHook> loadHooks(Context context) throws Throwable {
         Map<String, XHook> result = new HashMap<>();
         PackageManager pm = context.getPackageManager();
         String self = XSettings.class.getPackage().getName();

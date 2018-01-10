@@ -20,10 +20,6 @@
 package eu.faircode.xlua;
 
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,12 +28,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class XHook implements Parcelable {
+public class XHook {
     private String collection;
     private String group;
     private String name;
@@ -54,10 +49,7 @@ public class XHook implements Parcelable {
 
     private String luaScript;
 
-    private Bundle extras;
-
-    public XHook() {
-        setExtras(new Bundle());
+    private XHook() {
     }
 
     public String getId() {
@@ -114,20 +106,12 @@ public class XHook implements Parcelable {
         return this.luaScript;
     }
 
-    public Bundle getExtras() {
-        return this.extras;
-    }
-
     void setClassName(String name) {
         this.className = name;
     }
 
-    void setLuaScript(String script) {
+    private void setLuaScript(String script) {
         this.luaScript = script;
-    }
-
-    void setExtras(Bundle extras) {
-        this.extras = extras;
     }
 
     // Read hook definitions from asset file
@@ -192,91 +176,11 @@ public class XHook implements Parcelable {
         }
     }
 
-    public static final Parcelable.Creator<XHook> CREATOR = new Parcelable.Creator<XHook>() {
-        public XHook createFromParcel(Parcel in) {
-            return new XHook(in);
-        }
-
-        public XHook[] newArray(int size) {
-            return new XHook[size];
-        }
-    };
-
-    private XHook(Parcel in) {
-        readFromParcel(in);
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        writeString(out, this.collection);
-        writeString(out, this.group);
-        writeString(out, this.name);
-        writeString(out, this.author);
-
-        writeString(out, this.className);
-        writeString(out, this.methodName);
-
-        int argc = (this.parameterTypes == null ? -1 : this.parameterTypes.length);
-        out.writeInt(argc);
-        for (int i = 0; i < argc; i++)
-            out.writeString(this.parameterTypes[i]);
-
-        writeString(out, this.returnType);
-
-        out.writeInt(this.minSdk);
-        out.writeInt(this.maxSdk);
-        out.writeInt(this.enabled ? 1 : 0);
-
-        writeString(out, this.luaScript);
-
-        out.writeBundle(extras);
-    }
-
-    private void writeString(Parcel out, String value) {
-        out.writeInt(value == null ? 1 : 0);
-        if (value != null)
-            out.writeString(value);
-    }
-
-    private void readFromParcel(Parcel in) {
-        this.collection = readString(in);
-        this.group = readString(in);
-        this.name = readString(in);
-        this.author = readString(in);
-
-        this.className = readString(in);
-        this.methodName = readString(in);
-
-        int argc = in.readInt();
-        this.parameterTypes = (argc < 0 ? null : new String[argc]);
-        for (int i = 0; i < argc; i++)
-            this.parameterTypes[i] = in.readString();
-
-        this.returnType = readString(in);
-
-        this.minSdk = in.readInt();
-        this.maxSdk = in.readInt();
-        this.enabled = (in.readInt() == 1);
-
-        this.luaScript = readString(in);
-
-        this.extras = in.readBundle();
-    }
-
-    private String readString(Parcel in) {
-        return (in.readInt() > 0 ? null : in.readString());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public String toJSON() throws JSONException {
+    String toJSON() throws JSONException {
         return toJSONObject().toString(2);
     }
 
-    public JSONObject toJSONObject() throws JSONException {
+    JSONObject toJSONObject() throws JSONException {
         JSONObject jroot = new JSONObject();
 
         jroot.put("collection", this.collection);
@@ -303,11 +207,11 @@ public class XHook implements Parcelable {
         return jroot;
     }
 
-    public static XHook fromJSON(String json) throws JSONException {
+    static XHook fromJSON(String json) throws JSONException {
         return fromJSONObject(new JSONObject(json));
     }
 
-    public static XHook fromJSONObject(JSONObject jroot) throws JSONException {
+    static XHook fromJSONObject(JSONObject jroot) throws JSONException {
         XHook hook = new XHook();
 
         hook.collection = jroot.getString("collection");

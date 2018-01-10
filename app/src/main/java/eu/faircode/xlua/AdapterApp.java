@@ -210,6 +210,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     }
 
     void set(boolean showAll, String query, List<XHook> hooks, List<XApp> apps) {
+        Log.i(TAG, "Set all=" + showAll + " query=" + query + " hooks= " + hooks.size() + " apps=" + apps.size());
         this.showAll = showAll;
         this.query = query;
         this.hooks = hooks;
