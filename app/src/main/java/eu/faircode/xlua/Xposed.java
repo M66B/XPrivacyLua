@@ -297,10 +297,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 );
 
                                 // Report use
-                                Bundle data = new Bundle();
-                                data.putString("function", function);
-                                data.putInt("restricted", result.arg1().checkboolean() ? 1 : 0);
-                                report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                boolean restricted = (result.arg1().checkboolean());
+                                if (restricted) {
+                                    Bundle data = new Bundle();
+                                    data.putString("function", function);
+                                    data.putInt("restricted", restricted ? 1 : 0);
+                                    report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                }
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, Log.getStackTraceString(ex));
