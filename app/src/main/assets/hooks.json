@@ -342,12 +342,12 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@mediarecorder_setaudiosource"
+    "luaScript": "@mediarecorder_setsource"
   },
   {
     "collection": "Privacy",
     "group": "Record.Audio",
-    "name": "MediaRecorder.start",
+    "name": "MediaRecorder.start.Audio",
     "author": "M66B",
     "className": "android.media.MediaRecorder",
     "methodName": "start",
@@ -362,7 +362,55 @@
   {
     "collection": "Privacy",
     "group": "Record.Audio",
-    "name": "MediaRecorder.stop",
+    "name": "MediaRecorder.stop.Audio",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "stop",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_start"
+  },
+  // Record video
+  // https://developer.android.com/reference/android/media/MediaRecorder.html
+  {
+    "collection": "Privacy",
+    "group": "Record.Video",
+    "name": "MediaRecorder.setVideoSource",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "setVideoSource",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "void",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_setsource"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Video",
+    "name": "MediaRecorder.start.Video",
+    "author": "M66B",
+    "className": "android.media.MediaRecorder",
+    "methodName": "start",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@mediarecorder_start"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Video",
+    "name": "MediaRecorder.stop.Video",
     "author": "M66B",
     "className": "android.media.MediaRecorder",
     "methodName": "stop",
