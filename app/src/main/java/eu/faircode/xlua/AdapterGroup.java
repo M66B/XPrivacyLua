@@ -209,7 +209,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         boolean exception = false;
         boolean installed = true;
         long used = -1;
-        boolean assigned = false;
+        int assigned = 0;
         for (XAssignment assignment : app.assignments)
             if (assignment.hook.getGroup().equals(holder.group)) {
                 if (assignment.exception != null)
@@ -218,7 +218,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                     installed = false;
                 if (assignment.restricted)
                     used = Math.max(used, assignment.used);
-                assigned = true;
+                assigned++;
             }
 
         Context context = holder.itemView.getContext();
@@ -227,13 +227,13 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         int resId = resources.getIdentifier("group_" + name, "string", context.getPackageName());
         name = (resId == 0 ? holder.group : resources.getString(resId));
 
-        holder.ivException.setVisibility(exception && assigned ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setVisibility(installed && assigned ? View.VISIBLE : View.GONE);
+        holder.ivException.setVisibility(exception && assigned > 0 ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setVisibility(installed && assigned > 0 ? View.VISIBLE : View.GONE);
         holder.tvUsed.setVisibility(used < 0 ? View.GONE : View.VISIBLE);
         holder.tvUsed.setText(used < 0 ? "" : DateUtils.formatDateTime(context, used,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
         holder.tvGroup.setText(name);
-        holder.cbAssigned.setChecked(assigned);
+        holder.cbAssigned.setChecked(assigned == holder.hooks.size());
 
         holder.wire();
     }
