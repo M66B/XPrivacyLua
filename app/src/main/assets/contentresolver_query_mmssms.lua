@@ -20,7 +20,9 @@ function after(hook, param)
     local cursor = param:getResult()
     if uri == nil or cursor == nil then
         return false
-    elseif uri:getAuthority() == 'mms-sms' then
+    elseif uri:getAuthority() == 'mms' or
+            uri:getAuthority() == 'sms' or
+            uri:getAuthority() == 'mms-sms' then
         local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
         result:setExtras(cursor:getExtras())
         param:setResult(result);
