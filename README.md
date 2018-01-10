@@ -19,6 +19,7 @@ Restrictions
 * Get call log
 * Get contacts
 * Get location
+* Get messages (MMS, SMS)
 * Read account name
 * Read clipboard
 * Record audio

@@ -296,7 +296,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_mmssms"
   },
   {
@@ -317,7 +317,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 16,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_mmssms"
   },
   {
@@ -336,7 +336,7 @@
     "returnType": "android.database.Cursor",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": false,
+    "enabled": true,
     "luaScript": "@contentresolver_query_mmssms"
   },
   // Read account
