@@ -276,6 +276,69 @@
     "enabled": true,
     "luaScript": "@location_createfromparcel"
   },
+  // Get MMS and SMS messages
+  // https://developer.android.com/reference/android/provider/Telephony.html
+  // https://developer.android.com/reference/android/content/ContentResolver.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query1/mmssms",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_mmssms"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query16/mmssms",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_mmssms"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query26/mmssms",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": false,
+    "luaScript": "@contentresolver_query_mmssms"
+  },
   // Read account
   // https://developer.android.com/reference/android/accounts/Account.html
   {
