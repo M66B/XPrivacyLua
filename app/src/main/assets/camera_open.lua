@@ -15,13 +15,8 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function after(hook, param)
-    local result = param:getResult()
-    if result == nil then
-        return false
-    else
-        local fake = luajava.newInstance('java.lang.RuntimeException', 'privacy')
-        param:setResult(fake)
-        return true
-    end
+function before(hook, param)
+    local fake = luajava.newInstance('java.lang.RuntimeException', 'privacy')
+    param:setResult(fake)
+    return true
 end
