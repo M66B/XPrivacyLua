@@ -238,12 +238,12 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Get parameter types
                 String[] p = hook.getParameterTypes();
-                Class<?>[] params = new Class[p.length];
+                final Class<?>[] params = new Class[p.length];
                 for (int i = 0; i < p.length; i++)
                     params[i] = resolveClass(p[i], lpparam.classLoader);
 
                 // Get return type
-                Class<?> ret = resolveClass(hook.getReturnType(), lpparam.classLoader);
+                final Class<?> ret = resolveClass(hook.getReturnType(), lpparam.classLoader);
 
                 // Get method
                 Method method = resolveMethod(cls, m[m.length - 1], params);
@@ -287,7 +287,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 // Run function
                                 Varargs result = func.invoke(
                                         CoerceJavaToLua.coerce(hook),
-                                        CoerceJavaToLua.coerce(new XParam(lpparam.packageName, uid, param))
+                                        CoerceJavaToLua.coerce(new XParam(lpparam.packageName, uid, param, params, ret))
                                 );
 
                                 // Report use

@@ -33,13 +33,17 @@ public class XParam {
     private String packageName;
     private int uid;
     private XC_MethodHook.MethodHookParam param;
+    private Class<?>[] paramTypes;
+    private Class<?> returnType;
 
     private static final Map<Object, Map<String, Object>> nv = new WeakHashMap<>();
 
-    public XParam(String packageName, int uid, XC_MethodHook.MethodHookParam mhparam) {
+    public XParam(String packageName, int uid, XC_MethodHook.MethodHookParam mhparam, Class<?>[] paramTypes, Class<?> returnType) {
         this.packageName = packageName;
         this.uid = uid;
         this.param = mhparam;
+        this.paramTypes = paramTypes;
+        this.returnType = returnType;
     }
 
     @SuppressWarnings("unused")
@@ -63,6 +67,16 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
+    public void setArgument(int index, Object value) {
+        if (index < 0 || index >= this.paramTypes.length)
+            throw new ArrayIndexOutOfBoundsException("Argument #" + index);
+        if (value != null && !this.paramTypes[index].isInstance(value))
+            throw new IllegalArgumentException(
+                    "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value);
+        this.param.args[index] = value;
+    }
+
+    @SuppressWarnings("unused")
     public Object getResult() {
         return this.param.getResult();
     }
@@ -70,6 +84,8 @@ public class XParam {
     @SuppressWarnings("unused")
     public void setResult(Object result) {
         Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result + " class=" + (result == null ? "null" : result.getClass().getName()));
+        if (result != null && !this.returnType.isInstance(result))
+            throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
         this.param.setResult(result);
     }
 
