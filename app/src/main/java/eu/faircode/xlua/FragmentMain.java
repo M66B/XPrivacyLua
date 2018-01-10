@@ -131,6 +131,7 @@ public class FragmentMain extends Fragment {
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
         DataLoader(Context context) {
             super(context);
+            setUpdateThrottle(1000);
         }
 
         @Nullable
