@@ -95,7 +95,7 @@ public class XParam {
 
     @SuppressWarnings("unused")
     public Object getResult() throws Throwable {
-        return this.param.getResultOrThrowable();
+        return this.param.getResult();
     }
 
     @SuppressWarnings("unused")
