@@ -151,7 +151,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             Intent intent = view.getContext().getPackageManager().getLaunchIntentForPackage(app.packageName);
             if (intent != null)
                 view.getContext().startActivity(intent);
-            return (intent != null);
+            return true;
         }
 
         @Override
