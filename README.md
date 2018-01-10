@@ -14,6 +14,7 @@ Features
 Restrictions
 ------------
 
+* Get applications
 * Get calendars
 * Get call log
 * Get contacts
@@ -21,6 +22,7 @@ Restrictions
 * Read account name
 * Read clipboard
 * Record audio
+* Record video
 
 More restrictions will be added over time.
 
@@ -38,7 +40,13 @@ Installation
 Frequently Asked Questions
 --------------------------
 
-See [here](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md) for a list.
+See [here](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md) for a list of often asked questions.
+
+Support
+-------
+
+* For support on Xposed, please go [here](http://forum.xda-developers.com/xposed)
+* For support on XPrivacyLua, please go [here](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663)
 
 Donations
 ---------
