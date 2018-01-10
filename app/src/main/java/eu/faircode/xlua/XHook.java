@@ -19,7 +19,9 @@
 
 package eu.faircode.xlua;
 
+import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +35,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class XHook {
+    private final static String TAG = "XLua.XHook";
+
     private String collection;
     private String group;
     private String name;
@@ -106,16 +110,12 @@ public class XHook {
         return this.luaScript;
     }
 
-    void setClassName(String name) {
-        this.className = name;
-    }
-
     private void setLuaScript(String script) {
         this.luaScript = script;
     }
 
     // Read hook definitions from asset file
-    static ArrayList<XHook> readHooks(String apk) throws IOException, JSONException {
+    static ArrayList<XHook> readHooks(Context context, String apk) throws IOException, JSONException {
         ZipFile zipFile = null;
         try {
             zipFile = new ZipFile(apk);
@@ -156,8 +156,18 @@ public class XHook {
                         }
                     }
 
-                    if (hook.isEnabled())
+                    if (hook.isEnabled()) {
+                        if ("android.content.ContentResolver".equals(hook.className)) {
+                            String className = context.getContentResolver().getClass().getName();
+                            hook.className = className;
+                            Log.i(TAG, hook.getId() + " class name=" + className);
+                        } else if ("android.content.pm.PackageManager".equals(hook.className)) {
+                            String className = context.getPackageManager().getClass().getName();
+                            hook.className = className;
+                            Log.i(TAG, hook.getId() + " class name=" + className);
+                        }
                         hooks.add(hook);
+                    }
                 }
                 return hooks;
             } finally {

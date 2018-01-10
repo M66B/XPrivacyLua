@@ -369,11 +369,6 @@ class XSettings {
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
-                                if ("android.content.ContentResolver".equals(hook.getClassName())) {
-                                    String className = context.getContentResolver().getClass().getName();
-                                    hook.setClassName(className);
-                                    Log.i(TAG, hook.getId() + " class name=" + className);
-                                }
                                 result.addRow(new String[]{hook.toJSON()});
                             } else
                                 Log.w(TAG, "Hook " + hookid + " not found");
@@ -628,7 +623,7 @@ class XSettings {
         PackageManager pm = context.getPackageManager();
         String self = XSettings.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
-        for (XHook hook : XHook.readHooks(ai.publicSourceDir))
+        for (XHook hook : XHook.readHooks(context, ai.publicSourceDir))
             result.put(hook.getId(), hook);
         Log.i(TAG, "Loaded hooks=" + result.size());
         return result;

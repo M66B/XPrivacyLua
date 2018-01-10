@@ -142,7 +142,7 @@ public class FragmentMain extends Fragment {
             try {
                 if (Util.isDebuggable(getContext())) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
-                    for (XHook hook : XHook.readHooks(apk)) {
+                    for (XHook hook : XHook.readHooks(getContext(), apk)) {
                         Bundle args = new Bundle();
                         args.putString("json", hook.toJSON());
                         getContext().getContentResolver()
