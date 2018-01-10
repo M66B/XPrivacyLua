@@ -511,16 +511,32 @@
   {
     "collection": "Privacy",
     "group": "Take.Picture",
-    "name": "Camera.getNumberOfCameras",
+    "name": "Camera.open",
     "author": "M66B",
-    "className": "	android.hardware.Camera",
-    "methodName": "getNumberOfCameras",
+    "className": "android.hardware.Camera",
+    "methodName": "open",
     "parameterTypes": [
     ],
-    "returnType": "int",
+    "returnType": "android.hardware.Camera",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@camera_open"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Take.Picture",
+    "name": "Camera.open",
+    "author": "M66B",
+    "className": "android.hardware.Camera",
+    "methodName": "open",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "android.hardware.Camera",
     "minSdk": 9,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@camera_getnumberof"
+    "luaScript": "@camera_open"
   }
 ]

@@ -83,10 +83,14 @@ public class XParam {
 
     @SuppressWarnings("unused")
     public void setResult(Object result) {
-        Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result + " class=" + (result == null ? "null" : result.getClass().getName()));
-        if (result != null && !this.returnType.isInstance(result))
-            throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
-        this.param.setResult(result);
+        if (result instanceof Throwable)
+            this.param.setThrowable((Throwable) result);
+        else {
+            Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
+            if (result != null && !this.returnType.isInstance(result))
+                throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
+            this.param.setResult(result);
+        }
     }
 
     @SuppressWarnings("unused")

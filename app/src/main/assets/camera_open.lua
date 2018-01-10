@@ -17,10 +17,11 @@
 
 function after(hook, param)
     local result = param:getResult()
-    if result > 0 then
-        param:setResult(0)
-        return true
-    else
+    if result == nil then
         return false
+    else
+        local fake = luajava.newInstance('java.lang.RuntimeException', 'privacy')
+        param:setResult(fake)
+        return true
     end
 end
