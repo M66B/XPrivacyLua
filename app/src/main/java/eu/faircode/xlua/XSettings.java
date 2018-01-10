@@ -69,7 +69,7 @@ class XSettings {
     static Uri URI = Settings.System.CONTENT_URI;
     static String ACTION_DATA_CHANGED = XSettings.class.getPackage().getName() + ".DATA_CHANGED";
 
-    static void update(Context context) throws Throwable {
+    static void loadData(Context context) throws Throwable {
         synchronized (lock) {
             if (version < 0)
                 version = getVersion(context);
@@ -81,7 +81,7 @@ class XSettings {
     }
 
     static Bundle call(Context context, String method, Bundle extras) throws Throwable {
-        update(context);
+        loadData(context);
 
         Bundle result = null;
         StrictMode.ThreadPolicy originalPolicy = StrictMode.getThreadPolicy();
@@ -124,7 +124,7 @@ class XSettings {
     }
 
     static Cursor query(Context context, String method, String[] selection) throws Throwable {
-        update(context);
+        loadData(context);
 
         Cursor result = null;
         StrictMode.ThreadPolicy originalPolicy = StrictMode.getThreadPolicy();
@@ -673,6 +673,12 @@ class XSettings {
                 }
             }
 
+            deleteHook(db, "Privacy.ContentResolver/query1");
+            deleteHook(db, "Privacy.ContentResolver/query16");
+            deleteHook(db, "Privacy.ContentResolver/query26");
+            renameHook(db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
+            renameHook(db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
+
             // Reset usage data
             ContentValues cv = new ContentValues();
             cv.put("installed", -1);
@@ -681,8 +687,31 @@ class XSettings {
             Log.i(TAG, "Reset assigned hook data count=" + rows);
 
             return db;
+        } catch (Throwable ex) {
+            db.close();
+            throw ex;
         } finally {
             dbLock.writeLock().unlock();
+        }
+    }
+
+    static void renameHook(SQLiteDatabase db, String oldId, String newId) {
+        try {
+            ContentValues cvMediaStart = new ContentValues();
+            cvMediaStart.put("hook", oldId);
+            long rows = db.update("assignment", cvMediaStart, "hook = ?", new String[]{newId});
+            Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " rows=" + rows);
+        } catch (Throwable ex) {
+            Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " ex=" + ex.getMessage());
+        }
+    }
+
+    static void deleteHook(SQLiteDatabase db, String id) {
+        try {
+            long rows = db.delete("assignment", "hook = ?", new String[]{id});
+            Log.i(TAG, "Deleted hook " + id + " rows=" + rows);
+        } catch (Throwable ex) {
+            Log.i(TAG, "Deleted hook " + id + " ex=" + ex.getMessage());
         }
     }
 
