@@ -21,7 +21,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="msg_no_service">Modul nicht aktiv oder aktualisiert</string>
   <string name="msg_review_settings">Datenschutzeinstellungen ansehen</string>
   <string name="msg_exception">Fehler in %1$s</string>
-  <string name="group_get_applications">Get applications</string>
+  <string name="group_get_applications">Anwendungsliste erhalten</string>
   <string name="group_get_call_log">Anrufliste lesen</string>
   <string name="group_get_calendars">Kalenderinformationen lesen</string>
   <string name="group_get_contacts">Kontakte lesen</string>
@@ -29,5 +29,6 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_read_account">Accountnamen lesen</string>
   <string name="group_read_clipboard">Zwischenablage lesen</string>
   <string name="group_record_audio">Audio aufnehmen</string>
-  <string name="group_record_video">Record video</string>
+  <string name="group_record_video">Video aufzeichnen</string>
+  <string name="group_use_camera">Use camera</string>
 </resources>

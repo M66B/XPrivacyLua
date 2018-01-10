@@ -32,4 +32,5 @@
   <string name="group_read_clipboard">Panoyu oku</string>
   <string name="group_record_audio">Sesi kaydet</string>
   <string name="group_record_video">Record video</string>
+  <string name="group_use_camera">Use camera</string>
 </resources>
