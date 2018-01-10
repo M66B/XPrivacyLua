@@ -23,6 +23,7 @@
   <string name="msg_no_service">Module non exécuté ou mis à jour</string>
   <string name="msg_review_settings">Vérifier les paramètres de confidentialité</string>
   <string name="msg_exception">Erreur dans %1$s</string>
+  <string name="group_get_applications">Get applications</string>
   <string name="group_get_call_log">Obtenir le journal des appels</string>
   <string name="group_get_calendars">Obtenir les calendriers</string>
   <string name="group_get_contacts">Obtenir les contacts</string>
@@ -30,4 +31,5 @@
   <string name="group_read_account">Lire le nom du compte</string>
   <string name="group_read_clipboard">Lire le presse-papiers</string>
   <string name="group_record_audio">Enregistrer de l\'audio</string>
+  <string name="group_record_video">Record video</string>
 </resources>
