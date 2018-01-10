@@ -35,15 +35,21 @@ public class XParam {
     private XC_MethodHook.MethodHookParam param;
     private Class<?>[] paramTypes;
     private Class<?> returnType;
+    private ClassLoader loader;
 
     private static final Map<Object, Map<String, Object>> nv = new WeakHashMap<>();
 
-    public XParam(String packageName, int uid, XC_MethodHook.MethodHookParam mhparam, Class<?>[] paramTypes, Class<?> returnType) {
+    public XParam(
+            String packageName, int uid,
+            XC_MethodHook.MethodHookParam param,
+            Class<?>[] paramTypes, Class<?> returnType,
+            ClassLoader loader) {
         this.packageName = packageName;
         this.uid = uid;
-        this.param = mhparam;
+        this.param = param;
         this.paramTypes = paramTypes;
         this.returnType = returnType;
+        this.loader = loader;
     }
 
     @SuppressWarnings("unused")
@@ -54,6 +60,11 @@ public class XParam {
     @SuppressWarnings("unused")
     public int getUid() {
         return this.uid;
+    }
+
+    @SuppressWarnings("unused")
+    public ClassLoader getClassLoader() {
+        return this.loader;
     }
 
     @SuppressWarnings("unused")
@@ -77,8 +88,14 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
-    public Object getResult() {
-        return this.param.getResult();
+    public boolean hasException() {
+        Log.i(TAG, "Throwable=" + this.param.getThrowable());
+        return (this.param.getThrowable() != null);
+    }
+
+    @SuppressWarnings("unused")
+    public Object getResult() throws Throwable {
+        return this.param.getResultOrThrowable();
     }
 
     @SuppressWarnings("unused")

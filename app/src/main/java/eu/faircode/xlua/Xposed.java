@@ -238,15 +238,15 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Get parameter types
                 String[] p = hook.getParameterTypes();
-                final Class<?>[] params = new Class[p.length];
+                final Class<?>[] paramTypes = new Class[p.length];
                 for (int i = 0; i < p.length; i++)
-                    params[i] = resolveClass(p[i], lpparam.classLoader);
+                    paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
 
                 // Get return type
                 final Class<?> ret = resolveClass(hook.getReturnType(), lpparam.classLoader);
 
                 // Get method
-                Method method = resolveMethod(cls, m[m.length - 1], params);
+                Method method = resolveMethod(cls, m[m.length - 1], paramTypes);
 
                 // Check return type
                 if (!method.getReturnType().equals(ret))
@@ -279,7 +279,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 globals.set("log", new OneArgFunction() {
                                     @Override
                                     public LuaValue call(LuaValue arg) {
-                                        Log.i(TAG, lpparam.packageName + ":" + uid + " " + arg.checkjstring());
+                                        Log.i(TAG, "Log " +
+                                                lpparam.packageName + ":" + uid + " " +
+                                                arg.toString() + " type=" + arg.typename());
                                         return LuaValue.NIL;
                                     }
                                 });
@@ -287,7 +289,10 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 // Run function
                                 Varargs result = func.invoke(
                                         CoerceJavaToLua.coerce(hook),
-                                        CoerceJavaToLua.coerce(new XParam(lpparam.packageName, uid, param, params, ret))
+                                        CoerceJavaToLua.coerce(new XParam(
+                                                lpparam.packageName, uid,
+                                                param, paramTypes, ret,
+                                                lpparam.classLoader))
                                 );
 
                                 // Report use

@@ -457,57 +457,8 @@
     "luaScript": "@mediarecorder_stop"
   },
   // Take picture
-  // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
   // https://developer.android.com/reference/android/hardware/Camera.html
-  {
-    "collection": "Privacy",
-    "group": "Use.Camera",
-    "name": "CameraManager2.getCameraIdList",
-    "author": "M66B",
-    "className": "android.hardware.camera2.CameraManager",
-    "methodName": "getCameraIdList",
-    "parameterTypes": [
-    ],
-    "returnType": "[Ljava.lang.String;",
-    "minSdk": 21,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_empty_string_array"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Use.Camera",
-    "name": "CameraManager2.registerAvailabilityCallback",
-    "author": "M66B",
-    "className": "android.hardware.camera2.CameraManager",
-    "methodName": "registerAvailabilityCallback",
-    "parameterTypes": [
-      "android.hardware.camera2.CameraManager$AvailabilityCallback",
-      "android.os.Handler"
-    ],
-    "returnType": "void",
-    "minSdk": 21,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_block_method"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Use.Camera",
-    "name": "CameraManager2.registerTorchCallback",
-    "author": "M66B",
-    "className": "android.hardware.camera2.CameraManager",
-    "methodName": "registerTorchCallback",
-    "parameterTypes": [
-      "android.hardware.camera2.CameraManager$TorchCallback",
-      "android.os.Handler"
-    ],
-    "returnType": "void",
-    "minSdk": 23,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_block_method"
-  },
+  // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
   {
     "collection": "Privacy",
     "group": "Use.Camera",
@@ -538,5 +489,23 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@camera_open"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Camera",
+    "name": "CameraManager2.openCamera",
+    "author": "M66B",
+    "className": "android.hardware.camera2.CameraManager",
+    "methodName": "openCamera",
+    "parameterTypes": [
+      "java.lang.String",
+      "android.hardware.camera2.CameraDevice$StateCallback",
+      "android.os.Handler"
+    ],
+    "returnType": "void",
+    "minSdk": 21,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@camera2_open"
   }
 ]
