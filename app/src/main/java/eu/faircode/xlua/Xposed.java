@@ -101,6 +101,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         //  public int[] getUserIds()
                         int[] userids = (int[]) um.getClass().getDeclaredMethod("getUserIds").invoke(um);
 
+
                         // Listen for package changes
                         for (int userid : userids) {
                             Log.i(TAG, "Registering package listener user=" + userid);
