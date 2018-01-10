@@ -225,7 +225,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         Resources resources = holder.itemView.getContext().getResources();
         String name = holder.group.toLowerCase().replaceAll("[^a-z]", "_");
         int resId = resources.getIdentifier("group_" + name, "string", context.getPackageName());
-        name = (resId < 0 ? holder.group : resources.getString(resId));
+        name = (resId == 0 ? holder.group : resources.getString(resId));
 
         holder.ivException.setVisibility(exception && assigned ? View.VISIBLE : View.GONE);
         holder.ivInstalled.setVisibility(installed && assigned ? View.VISIBLE : View.GONE);

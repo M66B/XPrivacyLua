@@ -69,6 +69,7 @@ public class XParam {
 
     @SuppressWarnings("unused")
     public void setResult(Object result) {
+        Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result + " class=" + (result == null ? "null" : result.getClass().getName()));
         this.param.setResult(result);
     }
 

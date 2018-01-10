@@ -16,10 +16,12 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    if param:getResult() == nil then
+    list = param:getResult()
+    if list == nil or list:size() == 0 then
         return false
     else
-        param:setResult(nil)
+        result = luajava.newInstance('java.util.ArrayList')
+        param:setResult(result)
         return true
     end
 end

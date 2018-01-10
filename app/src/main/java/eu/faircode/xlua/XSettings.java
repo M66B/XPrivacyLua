@@ -197,7 +197,8 @@ class XSettings {
             // Get installed apps for current user
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
-                if (!"android".equals(ai.packageName)) {
+                if (!"android".equals(ai.packageName) &&
+                        !XSettings.class.getPackage().getName().equals(ai.packageName)) {
                     int esetting = pm.getApplicationEnabledSetting(ai.packageName);
                     boolean enabled = (ai.enabled &&
                             (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||

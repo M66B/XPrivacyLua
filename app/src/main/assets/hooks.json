@@ -18,6 +18,40 @@
  */
 
 [
+  // Get applications
+  // https://developer.android.com/reference/android/content/pm/PackageManager.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getInstalledApplications",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getInstalledApplications",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getInstalledPackages",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getInstalledPackages",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
   // Get calendars
   // https://developer.android.com/guide/topics/providers/calendar-provider.html
   // https://developer.android.com/reference/android/content/ContentResolver.html
@@ -372,7 +406,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@mediarecorder_start"
+    "luaScript": "@mediarecorder_stop"
   },
   // Record video
   // https://developer.android.com/reference/android/media/MediaRecorder.html
@@ -420,6 +454,6 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@mediarecorder_start"
+    "luaScript": "@mediarecorder_stop"
   }
 ]
