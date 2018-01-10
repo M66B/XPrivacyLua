@@ -25,6 +25,12 @@ This message means either that:
 * The XPrivacyLua module is not running: check if XPrivacyLua is enabled in the Xposed installer app and make sure you restarted your device after installing/updating XPrivacyLua.
 * There is a problem with the XPrivacyLua service: check the Xposed log in the Xposed installer app for XPrivacyLua problems.
 
+<a name="FAQ4"></a>
+**(4) Why are some check boxes disabled?**
+
+A check box (tick box) will be shown disabled when the underlying restriction groups are not all enabled.
+Ideally this should be shown as the third state of a tri-state check box, but Android doesn't provide such check boxes.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
