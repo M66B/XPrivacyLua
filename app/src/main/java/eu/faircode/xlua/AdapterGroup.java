@@ -20,16 +20,17 @@
 package eu.faircode.xlua;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         ImageView ivInstalled;
         TextView tvUsed;
         TextView tvGroup;
-        CheckBox cbAssigned;
+        AppCompatCheckBox cbAssigned;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -130,6 +131,8 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                     if (checked)
                         for (XHook hook : hooks)
                             app.assignments.add(new XAssignment(hook));
+
+                    notifyItemChanged(getAdapterPosition());
                     app.notifyChanged();
 
                     executor.submit(new Runnable() {
@@ -233,7 +236,11 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         holder.tvUsed.setText(used < 0 ? "" : DateUtils.formatDateTime(context, used,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
         holder.tvGroup.setText(name);
-        holder.cbAssigned.setChecked(assigned == holder.hooks.size());
+        holder.cbAssigned.setChecked(assigned > 0);
+        holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
+                assigned == holder.hooks.size()
+                        ? R.color.colorAccent
+                        : android.R.color.darker_gray, null)));
 
         holder.wire();
     }

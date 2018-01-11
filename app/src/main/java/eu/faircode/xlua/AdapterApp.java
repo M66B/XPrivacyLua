@@ -21,11 +21,14 @@ package eu.faircode.xlua;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,7 +37,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -77,7 +79,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         TextView tvUid;
         TextView tvPackage;
         ImageView ivPersistent;
-        CheckBox cbAssigned;
+        AppCompatCheckBox cbAssigned;
         RecyclerView rvGroup;
 
         AdapterGroup adapter;
@@ -165,6 +167,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 } else
                     app.assignments.clear();
 
+                notifyItemChanged(getAdapterPosition());
                 adapter.set(app, hooks);
 
                 executor.submit(new Runnable() {
@@ -406,6 +409,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         holder.app = filtered.get(position);
         holder.app.setListener(holder);
 
+        Resources resources = holder.itemView.getContext().getResources();
+
         // App icon
         if (holder.app.icon <= 0)
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
@@ -425,8 +430,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         // Assignment info
         holder.cbAssigned.setChecked(holder.app.assignments.size() > 0);
-        holder.cbAssigned.setEnabled(
-                holder.app.assignments.size() == 0 || holder.app.assignments.size() == hooks.size());
+        holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
+                holder.app.assignments.size() == hooks.size()
+                        ? R.color.colorAccent
+                        : android.R.color.darker_gray, null)));
         holder.adapter.set(holder.app, hooks);
 
         holder.updateExpand();
