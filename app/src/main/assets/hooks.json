@@ -337,7 +337,7 @@
     "enabled": true,
     "luaScript": "@location_createfromparcel"
   },
-  // Get MMS and SMS messages
+  // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.html
   // https://developer.android.com/reference/android/content/ContentResolver.html
   {
@@ -400,6 +400,88 @@
     "enabled": true,
     "luaScript": "@contentresolver_query_mmssms"
   },
+  // Get sensors
+  // https://developer.android.com/reference/android/hardware/SensorManager.html
+  {
+    "collection": "Privacy",
+    "group": "Get.Sensors",
+    "name": "SensorManager.getDefaultSensor",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDefaultSensor",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "android.hardware.Sensor",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Sensors",
+    "name": "SensorManager.getDefaultSensor/wakeup",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDefaultSensor",
+    "parameterTypes": [
+      "int",
+      "boolean"
+    ],
+    "returnType": "android.hardware.Sensor",
+    "minSdk": 21,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Sensors",
+    "name": "SensorManager.getDynamicSensorList",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDynamicSensorList",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 24,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Sensors",
+    "name": "SensorManager.getSensorList",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getSensorList",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Sensors",
+    "name": "SensorManager.getSensors",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getSensors",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_zero_value"
+  },
   // Read account
   // https://developer.android.com/reference/android/accounts/Account.html
   {
@@ -435,88 +517,6 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@clipdata_createfromparcel"
-  },
-  // Read sensors
-  // https://developer.android.com/reference/android/hardware/SensorManager.html
-  {
-    "collection": "Privacy",
-    "group": "Read.Sensors",
-    "name": "SensorManager.getDefaultSensor",
-    "author": "M66B",
-    "className": "android.hardware.SensorManager",
-    "methodName": "getDefaultSensor",
-    "parameterTypes": [
-      "int"
-    ],
-    "returnType": "android.hardware.Sensor",
-    "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_null_value"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Sensors",
-    "name": "SensorManager.getDefaultSensor/wakeup",
-    "author": "M66B",
-    "className": "android.hardware.SensorManager",
-    "methodName": "getDefaultSensor",
-    "parameterTypes": [
-      "int",
-      "boolean"
-    ],
-    "returnType": "android.hardware.Sensor",
-    "minSdk": 21,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_null_value"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Sensors",
-    "name": "SensorManager.getDynamicSensorList",
-    "author": "M66B",
-    "className": "android.hardware.SensorManager",
-    "methodName": "getDynamicSensorList",
-    "parameterTypes": [
-      "int"
-    ],
-    "returnType": "java.util.List",
-    "minSdk": 24,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_empty_list"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Sensors",
-    "name": "SensorManager.getSensorList",
-    "author": "M66B",
-    "className": "android.hardware.SensorManager",
-    "methodName": "getSensorList",
-    "parameterTypes": [
-      "int"
-    ],
-    "returnType": "java.util.List",
-    "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_empty_list"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Sensors",
-    "name": "SensorManager.getSensors",
-    "author": "M66B",
-    "className": "android.hardware.SensorManager",
-    "methodName": "getSensors",
-    "parameterTypes": [
-    ],
-    "returnType": "int",
-    "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_zero_value"
   },
   // Read telephony data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html

@@ -44,6 +44,7 @@
     <string name="group_get_contacts">Get contacts</string>
     <string name="group_get_location">Get location</string>
     <string name="group_get_messages">Get messages</string>
+    <string name="group_get_sensors">Get sensors</string>
     <string name="group_read_account">Read account name</string>
     <string name="group_read_clipboard">Read clipboard</string>
     <string name="group_read_telephony">Read telephony data</string>
