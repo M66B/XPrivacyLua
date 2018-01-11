@@ -226,16 +226,16 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
         Context context = holder.itemView.getContext();
         Resources resources = holder.itemView.getContext().getResources();
-        String name = holder.group.toLowerCase().replaceAll("[^a-z]", "_");
-        int resId = resources.getIdentifier("group_" + name, "string", context.getPackageName());
-        name = (resId == 0 ? holder.group : resources.getString(resId));
+        String group = holder.group.toLowerCase().replaceAll("[^a-z]", "_");
+        int resId = resources.getIdentifier("group_" + group, "string", context.getPackageName());
+        group = (resId == 0 ? holder.group : resources.getString(resId));
 
         holder.ivException.setVisibility(exception && assigned > 0 ? View.VISIBLE : View.GONE);
         holder.ivInstalled.setVisibility(installed && assigned > 0 ? View.VISIBLE : View.GONE);
         holder.tvUsed.setVisibility(used < 0 ? View.GONE : View.VISIBLE);
         holder.tvUsed.setText(used < 0 ? "" : DateUtils.formatDateTime(context, used,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
-        holder.tvGroup.setText(name);
+        holder.tvGroup.setText(group);
         holder.cbAssigned.setChecked(assigned > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
                 assigned == holder.hooks.size()

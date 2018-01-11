@@ -53,6 +53,7 @@ public class XHook {
     private int minSdk;
     private int maxSdk;
     private boolean enabled;
+    private boolean notify;
 
     private String luaScript;
 
@@ -103,6 +104,10 @@ public class XHook {
 
     public int getMaxSdk() {
         return this.maxSdk;
+    }
+
+    public boolean doNotify() {
+        return this.notify;
     }
 
     public boolean isEnabled() {
@@ -231,6 +236,7 @@ public class XHook {
         jroot.put("minSdk", this.minSdk);
         jroot.put("maxSdk", this.maxSdk);
         jroot.put("enabled", this.enabled);
+        jroot.put("notify", this.notify);
 
         jroot.put("luaScript", this.luaScript);
 
@@ -260,8 +266,9 @@ public class XHook {
         hook.returnType = jroot.getString("returnType");
 
         hook.minSdk = jroot.getInt("minSdk");
-        hook.maxSdk = jroot.getInt("maxSdk");
-        hook.enabled = jroot.getBoolean("enabled");
+        hook.maxSdk = (jroot.has("maxSdk") ? jroot.getInt("maxSdk") : 999);
+        hook.enabled = (jroot.has("enabled") ? jroot.getBoolean("enabled") : true);
+        hook.notify = (jroot.has("notify") ? jroot.getBoolean("notify") : false);
 
         hook.luaScript = jroot.getString("luaScript");
 

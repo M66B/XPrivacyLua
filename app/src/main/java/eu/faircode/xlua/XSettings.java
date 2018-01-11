@@ -398,7 +398,7 @@ class XSettings {
 
     @SuppressLint("MissingPermission")
     private static Bundle report(Context context, Bundle extras) throws Throwable {
-        String hook = extras.getString("hook");
+        String hookid = extras.getString("hook");
         String packageName = extras.getString("packageName");
         int uid = extras.getInt("uid");
         String event = extras.getString("event");
@@ -407,7 +407,7 @@ class XSettings {
         if (uid != Binder.getCallingUid())
             throw new SecurityException();
 
-        Log.i(TAG, "Hook " + hook + " pkg=" + packageName + ":" + uid + " event=" + event);
+        Log.i(TAG, "Hook " + hookid + " pkg=" + packageName + ":" + uid + " event=" + event);
         for (String key : data.keySet())
             Log.i(TAG, key + "=" + data.get(key));
 
@@ -429,9 +429,9 @@ class XSettings {
 
                 long rows = db.update("assignment", cv,
                         "package = ? AND uid = ? AND hook = ?",
-                        new String[]{packageName, Integer.toString(uid), hook});
+                        new String[]{packageName, Integer.toString(uid), hookid});
                 if (rows < 1)
-                    Log.i(TAG, packageName + ":" + uid + "/" + hook + " not updated");
+                    Log.i(TAG, packageName + ":" + uid + "/" + hookid + " not updated");
 
                 db.setTransactionSuccessful();
             } finally {
@@ -451,18 +451,61 @@ class XSettings {
             intent.putExtra("uid", uid);
             context.sendBroadcastAsUser(intent, Util.getUserHandle(uid));
 
+            Context ctx = Util.createContextForUser(context, Util.getUserId(uid));
+            PackageManager pm = ctx.getPackageManager();
+            String self = XSettings.class.getPackage().getName();
+            Resources resources = pm.getResourcesForApplication(self);
+
+            // Notify usage
+            if ("use".equals(event) && data.getInt("restricted", 0) == 1) {
+                // Get hook
+                XHook hook = null;
+                synchronized (lock) {
+                    if (hooks.containsKey(hookid))
+                        hook = hooks.get(hookid);
+                }
+
+                if (hook.doNotify()) {
+                    // Get group name
+                    String group = hookid;
+                    if (hook != null) {
+                        String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
+                        int resId = resources.getIdentifier("group_" + name, "string", context.getPackageName());
+                        if (resId != 0)
+                            group = resources.getString(resId);
+                    }
+
+                    // Build notification
+                    Notification.Builder builder = new Notification.Builder(ctx);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        builder.setChannelId(cChannelName);
+                    builder.setSmallIcon(android.R.drawable.ic_dialog_info);
+                    builder.setContentTitle(resources.getString(R.string.msg_usage, group));
+                    builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
+
+                    builder.setPriority(Notification.PRIORITY_DEFAULT);
+                    builder.setCategory(Notification.CATEGORY_STATUS);
+                    builder.setVisibility(Notification.VISIBILITY_SECRET);
+
+                    // Main
+                    Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                    main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                    builder.setContentIntent(pi);
+
+                    builder.setAutoCancel(true);
+
+                    Util.notifyAsUser(ctx, "xlua_usage", uid, builder.build(), Util.getUserId(uid));
+                }
+            }
+
             // Notify exception
             if (data.containsKey("exception")) {
-                Context ctx = Util.createContextForUser(context, Util.getUserId(uid));
-                PackageManager pm = ctx.getPackageManager();
-                String self = XSettings.class.getPackage().getName();
-                Resources resources = pm.getResourcesForApplication(self);
-
                 Notification.Builder builder = new Notification.Builder(ctx);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     builder.setChannelId(cChannelName);
                 builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
-                builder.setContentTitle(resources.getString(R.string.msg_exception, hook));
+                builder.setContentTitle(resources.getString(R.string.msg_exception, hookid));
                 builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
 
                 builder.setPriority(Notification.PRIORITY_HIGH);

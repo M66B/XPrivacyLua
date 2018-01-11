@@ -34,8 +34,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -49,8 +47,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -65,8 +61,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -81,8 +75,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -97,8 +89,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -113,8 +103,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   // Get calendars
@@ -135,8 +123,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -156,8 +142,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -175,8 +159,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   // Get call log
@@ -197,8 +179,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -218,8 +198,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -237,8 +215,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   // Get contacts
@@ -261,8 +237,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -282,8 +256,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -301,8 +273,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -321,8 +291,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -342,8 +310,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -361,8 +327,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 24,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   // Get location
@@ -380,7 +344,6 @@
     ],
     "returnType": "java.lang.Object",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@bundle_get_location"
   },
@@ -396,8 +359,6 @@
     ],
     "returnType": "android.location.Location",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@location_createfromparcel"
   },
   // Get messages
@@ -422,8 +383,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -443,8 +402,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -462,8 +419,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -482,8 +437,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -503,8 +456,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -522,8 +473,6 @@
     ],
     "returnType": "android.database.Cursor",
     "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@contentresolver_query"
   },
   {
@@ -537,8 +486,6 @@
     ],
     "returnType": "java.util.ArrayList",
     "minSdk": 4,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_empty_list"
   },
   // Get sensors
@@ -555,7 +502,6 @@
     ],
     "returnType": "android.hardware.Sensor",
     "minSdk": 3,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -572,7 +518,6 @@
     ],
     "returnType": "android.hardware.Sensor",
     "minSdk": 21,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -588,7 +533,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 24,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_empty_list"
   },
@@ -604,7 +548,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 3,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_empty_list"
   },
@@ -619,7 +562,6 @@
     ],
     "returnType": "int",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_zero_value"
   },
@@ -637,8 +579,6 @@
     ],
     "returnType": "android.accounts.Account",
     "minSdk": 5,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@account_createfromparcel"
   },
   // Read clipboard
@@ -655,8 +595,6 @@
     ],
     "returnType": "android.content.ClipData",
     "minSdk": 11,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@clipdata_createfromparcel"
   },
   // Read telephony data
@@ -673,7 +611,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -689,7 +626,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 23,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -704,7 +640,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 18,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -719,7 +654,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -735,7 +669,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -751,7 +684,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -766,7 +698,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -782,7 +713,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -798,7 +728,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -813,7 +742,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -828,7 +756,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "maxSdk": 999,
     "enabled": false,
     "luaScript": "@generic_null_value"
   },
@@ -845,8 +772,6 @@
     ],
     "returnType": "void",
     "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_block_method"
   },
   {
@@ -861,8 +786,6 @@
     ],
     "returnType": "void",
     "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_block_method"
   },
   {
@@ -876,8 +799,6 @@
     ],
     "returnType": "void",
     "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@generic_block_method"
   },
   // Record audio
@@ -894,8 +815,6 @@
     ],
     "returnType": "void",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@mediarecorder_setsource"
   },
   {
@@ -909,8 +828,7 @@
     ],
     "returnType": "void",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
+    "notify": true,
     "luaScript": "@mediarecorder_start"
   },
   {
@@ -924,8 +842,6 @@
     ],
     "returnType": "void",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@mediarecorder_stop"
   },
   // Record video
@@ -942,8 +858,6 @@
     ],
     "returnType": "void",
     "minSdk": 3,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@mediarecorder_setsource"
   },
   {
@@ -957,8 +871,7 @@
     ],
     "returnType": "void",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
+    "notify": true,
     "luaScript": "@mediarecorder_start"
   },
   {
@@ -972,8 +885,6 @@
     ],
     "returnType": "void",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
     "luaScript": "@mediarecorder_stop"
   },
   // Take picture
@@ -990,8 +901,7 @@
     ],
     "returnType": "android.hardware.Camera",
     "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
+    "notify": true,
     "luaScript": "@camera_open"
   },
   {
@@ -1006,8 +916,7 @@
     ],
     "returnType": "android.hardware.Camera",
     "minSdk": 9,
-    "maxSdk": 999,
-    "enabled": true,
+    "notify": true,
     "luaScript": "@camera_open"
   },
   {
@@ -1024,8 +933,7 @@
     ],
     "returnType": "void",
     "minSdk": 21,
-    "maxSdk": 999,
-    "enabled": true,
+    "notify": true,
     "luaScript": "@camera2_open"
   }
 ]
