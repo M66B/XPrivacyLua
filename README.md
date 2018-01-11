@@ -17,14 +17,15 @@ Restrictions
 * Get applications
 * Get calendars
 * Get call log
-* Get contacts
+* Get contacts (including blocked numbers)
 * Get location
 * Get messages (MMS, SMS)
-* Read account name
+* Read account name (mostly e-mail address)
 * Read clipboard
+* Read telephony data (phone number, IMEI, etc)
 * Record audio
 * Record video
-* Use camera
+* Use camera (take picture)
 
 More restrictions will be added over time.
 
