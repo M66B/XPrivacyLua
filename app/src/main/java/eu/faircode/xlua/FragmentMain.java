@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -38,6 +39,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,9 @@ public class FragmentMain extends Fragment {
 
     private boolean showAll = false;
     private String query = null;
+    private ProgressBar pbApplication;
+    private RecyclerView rvApplication;
+    private Group grpApplication;
     private AdapterApp rvAdapter;
 
     @Override
@@ -54,8 +59,11 @@ public class FragmentMain extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View main = inflater.inflate(R.layout.restrictions, container, false);
 
+        pbApplication = main.findViewById(R.id.pbApplication);
+        grpApplication = main.findViewById(R.id.grpApplication);
+
         // Initialize app list
-        RecyclerView rvApplication = main.findViewById(R.id.rvApplication);
+        rvApplication = main.findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(false);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setAutoMeasureEnabled(true);
@@ -114,9 +122,11 @@ public class FragmentMain extends Fragment {
 
         @Override
         public void onLoadFinished(Loader<DataHolder> loader, DataHolder data) {
-            if (data.exception == null)
+            if (data.exception == null) {
                 rvAdapter.set(showAll, query, data.hooks, data.apps);
-            else {
+                pbApplication.setVisibility(View.GONE);
+                grpApplication.setVisibility(View.VISIBLE);
+            } else {
                 Log.e(TAG, Log.getStackTraceString(data.exception));
                 Snackbar.make(getView(), data.exception.toString(), Snackbar.LENGTH_LONG).show();
             }
