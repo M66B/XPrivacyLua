@@ -52,6 +52,70 @@
     "enabled": true,
     "luaScript": "@generic_empty_list"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "ActivityManager.getRecentTasks",
+    "author": "M66B",
+    "className": "android.app.ActivityManager",
+    "methodName": "getRecentTasks",
+    "parameterTypes": [
+      "int",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "ActivityManager.getRunningAppProcesses",
+    "author": "M66B",
+    "className": "android.app.ActivityManager",
+    "methodName": "getRunningAppProcesses",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "ActivityManager.getRunningServices",
+    "author": "M66B",
+    "className": "android.app.ActivityManager",
+    "methodName": "getRunningServices",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "ActivityManager.getRunningTasks",
+    "author": "M66B",
+    "className": "android.app.ActivityManager",
+    "methodName": "getRunningTasks",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
   // Get calendars
   // https://developer.android.com/guide/topics/providers/calendar-provider.html
   // https://developer.android.com/reference/android/content/ContentResolver.html

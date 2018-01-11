@@ -19,6 +19,7 @@
 
 package eu.faircode.xlua;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
@@ -177,6 +178,10 @@ public class XHook {
                         Log.i(TAG, hook.getId() + " class name=" + className);
                     } else if ("android.telephony.TelephonyManager".equals(hook.className)) {
                         String className = context.getSystemService(Context.TELEPHONY_SERVICE).getClass().getName();
+                        hook.className = className;
+                        Log.i(TAG, hook.getId() + " class name=" + className);
+                    } else if ("android.app.ActivityManager".equals(hook.className)) {
+                        String className = context.getSystemService(ActivityManager.class).getClass().getName();
                         hook.className = className;
                         Log.i(TAG, hook.getId() + " class name=" + className);
                     }
