@@ -8,8 +8,8 @@
         Appuyez sur l\'icône d\'une appli ou le nom puis cochez une restriction pour l\'appliquer.
         Si possible, les applis sont automatiquement stoppées pour immédiatement appliquer (ou retirer) les restrictions,
         mais appliquer les restrictions à certaines applis peut nécessiter un redémarrage (voir les icônes ci-dessous).
-        <![CDATA[<br><br>]]>;Un appui long sur le nom d\'une appli ou l\'icône lance l\'appli.
-        <![CDATA[<br><br>]]>;Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]>; pour les questions fréquemment posées.
+        <![CDATA[<br><br>]]>Un appui long sur le nom d\'une appli ou l\'icône lance l\'appli.
+        <![CDATA[<br><br>]]>Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
   <string name="title_help_persistent">Appliquer des restrictions requiert un redémarrage</string>
@@ -29,6 +29,7 @@
   <string name="group_get_contacts">Voir les contacts</string>
   <string name="group_get_location">Obtenir la localisation</string>
   <string name="group_get_messages">Voir les messages</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Lire le nom du compte</string>
   <string name="group_read_clipboard">Lire le presse-papiers</string>
   <string name="group_read_telephony">Lire les données téléphoniques</string>

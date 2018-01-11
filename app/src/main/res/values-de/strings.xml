@@ -7,8 +7,8 @@
   <string name="title_help_instructions">
 Tippen Sie auf ein App-Symbol oder einen App-Namen und aktivieren Sie eine Beschränkung, um diese anzuwenden.
 Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort anzuwenden (oder zu entfernen), jedoch erfordern manche Beschränkungen einen Geräteneustart (siehe Symbole unten).
-<![CDATA[<br><br>]]>;Den App-Namen lange gedrückt halten oder direkt auf das Symbol tippen, um die App zu starten.
-<![CDATA[<br><br>]]>;Bitte<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]>;für häufig gestellte Fragen berühren.    </string>
+<![CDATA[<br><br>]]>Den App-Namen lange gedrückt halten oder direkt auf das Symbol tippen, um die App zu starten.
+<![CDATA[<br><br>]]>Bitte<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]>für häufig gestellte Fragen berühren.    </string>
   <string name="title_help_installed">Beschränkung installiert</string>
   <string name="title_help_persistent">Das Anwenden von Beschränkungen erfordert einen Neustart des Gerätes</string>
   <string name="title_help_exception">Anwenden der Beschränkung fehlgeschlagen (Icon antippen für mehr Informationen)</string>
@@ -27,6 +27,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_get_contacts">Kontakte lesen</string>
   <string name="group_get_location">Standort abfragen</string>
   <string name="group_get_messages">Nachrichten abrufen</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Accountnamen lesen</string>
   <string name="group_read_clipboard">Zwischenablage lesen</string>
   <string name="group_read_telephony">Telefondaten lesen</string>

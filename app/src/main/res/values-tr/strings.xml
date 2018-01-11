@@ -29,6 +29,7 @@
   <string name="group_get_contacts">Kişileri al</string>
   <string name="group_get_location">Konumu al</string>
   <string name="group_get_messages">Get messages</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Hesap adını oku</string>
   <string name="group_read_clipboard">Panoyu oku</string>
   <string name="group_read_telephony">Read telephony data</string>

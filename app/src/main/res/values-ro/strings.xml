@@ -30,6 +30,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aici</a>]]>; pentr
   <string name="group_get_contacts">Obține contactele</string>
   <string name="group_get_location">Obține locatia</string>
   <string name="group_get_messages">Get messages</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Citește numele contului</string>
   <string name="group_read_clipboard">Citește clipboard</string>
   <string name="group_read_telephony">Read telephony data</string>

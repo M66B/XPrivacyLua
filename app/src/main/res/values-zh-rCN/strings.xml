@@ -29,6 +29,7 @@
   <string name="group_get_contacts">获取联系人</string>
   <string name="group_get_location">获取位置</string>
   <string name="group_get_messages">获取短信</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">读取帐户名称</string>
   <string name="group_read_clipboard">读取剪贴板</string>
   <string name="group_read_telephony">Read telephony data</string>

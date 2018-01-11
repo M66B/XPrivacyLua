@@ -31,6 +31,7 @@
   <string name="group_get_contacts">Obtener los contactos</string>
   <string name="group_get_location">Obtener la ubicación</string>
   <string name="group_get_messages">Obtener mensajes</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Leer el nombre de la cuenta</string>
   <string name="group_read_clipboard">Leer el portapapeles</string>
   <string name="group_read_telephony">Read telephony data</string>

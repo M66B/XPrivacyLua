@@ -29,6 +29,7 @@
   <string name="group_get_contacts">Dostęp do kontaktów</string>
   <string name="group_get_location">Dostęp do lokalizacji</string>
   <string name="group_get_messages">Odczyt wiadomości</string>
+  <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Odczyt nazwy konta</string>
   <string name="group_read_clipboard">Odczyt schowka</string>
   <string name="group_read_telephony">Read telephony data</string>
