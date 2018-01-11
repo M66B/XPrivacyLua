@@ -436,6 +436,88 @@
     "enabled": true,
     "luaScript": "@clipdata_createfromparcel"
   },
+  // Read sensors
+  // https://developer.android.com/reference/android/hardware/SensorManager.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Sensors",
+    "name": "SensorManager.getDefaultSensor",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDefaultSensor",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "android.hardware.Sensor",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Sensors",
+    "name": "SensorManager.getDefaultSensor/wakeup",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDefaultSensor",
+    "parameterTypes": [
+      "int",
+      "boolean"
+    ],
+    "returnType": "android.hardware.Sensor",
+    "minSdk": 21,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Sensors",
+    "name": "SensorManager.getDynamicSensorList",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getDynamicSensorList",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 24,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Sensors",
+    "name": "SensorManager.getSensorList",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getSensorList",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 3,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Sensors",
+    "name": "SensorManager.getSensors",
+    "author": "M66B",
+    "className": "android.hardware.SensorManager",
+    "methodName": "getSensors",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_zero_value"
+  },
   // Read telephony data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html
   {
@@ -451,7 +533,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -467,7 +549,7 @@
     "minSdk": 23,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -482,7 +564,7 @@
     "minSdk": 18,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -497,7 +579,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -513,7 +595,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -528,7 +610,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -543,7 +625,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -559,7 +641,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -574,7 +656,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -589,7 +671,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   {
     "collection": "Privacy",
@@ -604,7 +686,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@generic_null"
+    "luaScript": "@generic_null_value"
   },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html

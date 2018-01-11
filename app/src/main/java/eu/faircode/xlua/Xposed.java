@@ -210,7 +210,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 hooks.add(XHook.fromJSON(cursor.getString(0)));
 
                             hookPackage(app, lpparam, uid, hooks);
-                            Log.i(TAG, "Applied " + lpparam.packageName + ":" + uid + " hooks=" + hooks.size());
+                            //Log.i(TAG, "Applied " + lpparam.packageName + ":" + uid + " hooks=" + hooks.size());
                         }
                     } catch (Throwable ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
@@ -343,7 +343,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     }
 
     private static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        if ("int".equals(name))
+        if ("boolean".equals(name))
+            return boolean.class;
+        else if ("int".equals(name))
             return int.class;
         else if ("long".equals(name))
             return long.class;
