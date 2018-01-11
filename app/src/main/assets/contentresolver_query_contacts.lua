@@ -20,11 +20,13 @@ function after(hook, param)
     local cursor = param:getResult()
     if uri == nil or uri:getPath() == nil or cursor == nil then
         return false
-    elseif uri:getAuthority() == 'com.android.contacts' then
+    elseif uri:getAuthority() == 'icc' -- SIM ADN, FDN, SDN
+            or uri:getAuthority() == 'com.android.contacts' then
         local prefix = string.gmatch(uri:getPath(), '[^/]+')()
         if prefix == 'provider_status' then
             return false
         else
+            log(uri)
             local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
             --result:setExtras(cursor:getExtras())
             --notify = cursor:getNotificationUri()

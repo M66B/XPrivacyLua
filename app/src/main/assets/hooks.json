@@ -181,6 +181,7 @@
   // Get contacts
   // https://developer.android.com/guide/topics/providers/contacts-provider.html
   // https://developer.android.com/reference/android/provider/BlockedNumberContract.html
+  // https://android.googlesource.com/platform/frameworks/opt/telephony/+/master/src/java/com/android/internal/telephony/IccProvider.java
   // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
