@@ -19,39 +19,8 @@
 
 [
   // Get applications
+  // https://developer.android.com/reference/android/app/ActivityManager.html
   // https://developer.android.com/reference/android/content/pm/PackageManager.html
-  {
-    "collection": "Privacy",
-    "group": "Get.Applications",
-    "name": "PackageManager.getInstalledApplications",
-    "author": "M66B",
-    "className": "android.content.pm.PackageManager",
-    "methodName": "getInstalledApplications",
-    "parameterTypes": [
-      "int"
-    ],
-    "returnType": "java.util.List",
-    "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_empty_list"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Get.Applications",
-    "name": "PackageManager.getInstalledPackages",
-    "author": "M66B",
-    "className": "android.content.pm.PackageManager",
-    "methodName": "getInstalledPackages",
-    "parameterTypes": [
-      "int"
-    ],
-    "returnType": "java.util.List",
-    "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@generic_empty_list"
-  },
   {
     "collection": "Privacy",
     "group": "Get.Applications",
@@ -116,9 +85,40 @@
     "enabled": true,
     "luaScript": "@generic_empty_list"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getInstalledApplications",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getInstalledApplications",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getInstalledPackages",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getInstalledPackages",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_empty_list"
+  },
   // Get calendars
-  // https://developer.android.com/guide/topics/providers/calendar-provider.html
-  // https://developer.android.com/reference/android/content/ContentResolver.html
+  // https://developer.android.com/guide/topics/providers/calendar-provider.html API 14
   {
     "collection": "Privacy",
     "group": "Get.Calendars",
@@ -180,8 +180,7 @@
     "luaScript": "@contentresolver_query"
   },
   // Get call log
-  // https://developer.android.com/reference/android/provider/CallLog.html
-  // https://developer.android.com/reference/android/content/ContentResolver.html
+  // https://developer.android.com/reference/android/provider/CallLog.html API 1
   {
     "collection": "Privacy",
     "group": "Get.Call.log",
@@ -243,10 +242,9 @@
     "luaScript": "@contentresolver_query"
   },
   // Get contacts
-  // https://developer.android.com/guide/topics/providers/contacts-provider.html
-  // https://developer.android.com/reference/android/provider/BlockedNumberContract.html
+  // https://developer.android.com/guide/topics/providers/contacts-provider.html API 5
+  // https://developer.android.com/reference/android/provider/BlockedNumberContract.html API 24
   // https://android.googlesource.com/platform/frameworks/opt/telephony/+/master/src/java/com/android/internal/telephony/IccProvider.java
-  // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
     "group": "Get.Contacts",
@@ -362,7 +360,7 @@
       "android.os.CancellationSignal"
     ],
     "returnType": "android.database.Cursor",
-    "minSdk": 26,
+    "minSdk": 24,
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@contentresolver_query"
@@ -403,10 +401,11 @@
     "luaScript": "@location_createfromparcel"
   },
   // Get messages
-  // https://developer.android.com/reference/android/provider/Telephony.html
-  // https://developer.android.com/reference/android/telephony/SmsManager.html
+  // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
+  // https://developer.android.com/reference/android/provider/Telephony.MmsSms.html API 19
+  // https://developer.android.com/reference/android/provider/VoicemailContract.html API 14
+  // https://developer.android.com/reference/android/telephony/SmsManager.html API 4
   // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/provider/VoicemailContract.java
-  // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
     "group": "Get.Messages",
@@ -537,7 +536,7 @@
     "parameterTypes": [
     ],
     "returnType": "java.util.ArrayList",
-    "minSdk": 1,
+    "minSdk": 4,
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@generic_empty_list"
