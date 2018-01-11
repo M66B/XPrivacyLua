@@ -20,10 +20,8 @@ Restrictions
 * Get contacts (including blocked numbers)
 * Get location
 * Get messages (MMS, SMS)
-* Get sensors
 * Read account name (mostly e-mail address)
 * Read clipboard
-* Read telephony data (phone number, IMEI, etc)
 * Record audio
 * Record video
 * Use camera (take pictures)

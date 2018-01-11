@@ -180,7 +180,8 @@ class XSettings {
         MatrixCursor result = new MatrixCursor(new String[]{"json"});
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                result.addRow(new String[]{hook.toJSON()});
+                if (hook.isEnabled())
+                    result.addRow(new String[]{hook.toJSON()});
         }
         return result;
     }
@@ -370,7 +371,8 @@ class XSettings {
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
-                                result.addRow(new String[]{hook.toJSON()});
+                                if (hook.isEnabled())
+                                    result.addRow(new String[]{hook.toJSON()});
                             } else
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }

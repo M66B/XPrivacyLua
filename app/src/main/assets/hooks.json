@@ -415,7 +415,7 @@
     "returnType": "android.hardware.Sensor",
     "minSdk": 3,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -432,7 +432,7 @@
     "returnType": "android.hardware.Sensor",
     "minSdk": 21,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -448,7 +448,7 @@
     "returnType": "java.util.List",
     "minSdk": 24,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -464,7 +464,7 @@
     "returnType": "java.util.List",
     "minSdk": 3,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -479,7 +479,7 @@
     "returnType": "int",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_zero_value"
   },
   // Read account
@@ -527,12 +527,13 @@
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getDeviceId",
+    // IMEI, MEID, ESN
     "parameterTypes": [
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -548,7 +549,7 @@
     "returnType": "java.lang.String",
     "minSdk": 23,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -563,7 +564,7 @@
     "returnType": "java.lang.String",
     "minSdk": 18,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -578,7 +579,7 @@
     "returnType": "java.lang.String",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -594,7 +595,7 @@
     "returnType": "java.lang.String",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -604,12 +605,13 @@
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getLine1Number",
+    // MSISDN
     "parameterTypes": [
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -624,7 +626,7 @@
     "returnType": "java.lang.String",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -640,7 +642,7 @@
     "returnType": "java.lang.String",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -650,12 +652,13 @@
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getNetworkSpecifier",
+    // subscription ID pinned to the TelephonyManager
     "parameterTypes": [
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -670,7 +673,7 @@
     "returnType": "java.lang.String",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -685,7 +688,7 @@
     "returnType": "java.lang.String",
     "minSdk": 1,
     "maxSdk": 999,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   // Record audio
