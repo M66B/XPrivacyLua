@@ -89,8 +89,11 @@ public class XParam {
 
     @SuppressWarnings("unused")
     public boolean hasException() {
-        Log.i(TAG, "Throwable=" + this.param.getThrowable());
-        return (this.param.getThrowable() != null);
+        boolean has = (this.param.getThrowable() != null);
+        if (has)
+            Log.i(TAG, this.packageName + ":" + this.uid + " " + param.method.getName() +
+                    " throwable=" + this.param.getThrowable());
+        return has;
     }
 
     @SuppressWarnings("unused")
