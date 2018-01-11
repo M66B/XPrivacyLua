@@ -178,6 +178,7 @@ public class XHook {
 
                     hooks.add(hook);
                 }
+
                 return hooks;
             } finally {
                 if (is != null)

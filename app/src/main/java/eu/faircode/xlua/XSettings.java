@@ -625,7 +625,8 @@ class XSettings {
         PackageManager pm = context.getPackageManager();
         String self = XSettings.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
-        for (XHook hook : XHook.readHooks(context, ai.publicSourceDir))
+        List<XHook> hooks = XHook.readHooks(context, ai.publicSourceDir);
+        for (XHook hook : hooks)
             result.put(hook.getId(), hook);
         Log.i(TAG, "Loaded hooks=" + result.size());
         return result;
