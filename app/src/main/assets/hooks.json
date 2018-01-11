@@ -340,6 +340,7 @@
   },
   // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.html
+  // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/provider/VoicemailContract.java
   // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
@@ -400,6 +401,66 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@contentresolver_query_mmssms"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query1/voicemail",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_voicemail"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query16/voicemail",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_voicemail"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "ContentResolver.query26/voicemail",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_voicemail"
   },
   // Get sensors
   // https://developer.android.com/reference/android/hardware/SensorManager.html
