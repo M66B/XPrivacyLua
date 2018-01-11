@@ -179,7 +179,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             });
         }
 
-        if (!"android".equals(lpparam.packageName)) {
+        if (!"android".equals(lpparam.packageName) &&
+                !Xposed.class.getPackage().getName().equals(lpparam.packageName)) {
             Class<?> at = Class.forName("android.app.LoadedApk", false, lpparam.classLoader);
             XposedBridge.hookAllMethods(at, "makeApplication", new XC_MethodHook() {
                 private boolean made = false;
@@ -406,7 +407,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 while (cursor.moveToNext())
                     hooks.add(XHook.fromJSON(cursor.getString(0)).getId());
 
-                String self = XSettings.class.getPackage().getName();
+                String self = Xposed.class.getPackage().getName();
                 Context ctx = Util.createContextForUser(context, userid);
 
                 if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
