@@ -375,6 +375,131 @@
     "enabled": true,
     "luaScript": "@clipdata_createfromparcel"
   },
+  // Read telephony data
+  // https://developer.android.com/reference/android/telephony/TelephonyManager.html
+  // https://developer.android.com/reference/android/provider/BlockedNumberContract.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getDeviceId",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getDeviceId",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getDeviceId/slot",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getDeviceId",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 23,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getImei",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getImei",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getImei/slot",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getImei",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@generic_null"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "ContentResolver.query1/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "ContentResolver.query16/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "ContentResolver.query26/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
+  },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html
   {
@@ -540,7 +665,7 @@
   {
     "collection": "Privacy",
     "group": "Use.Camera",
-    "name": "Camera.open",
+    "name": "Camera.open/camera",
     "author": "M66B",
     "className": "android.hardware.Camera",
     "methodName": "open",

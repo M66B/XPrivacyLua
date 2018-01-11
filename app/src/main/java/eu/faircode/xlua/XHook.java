@@ -170,6 +170,10 @@ public class XHook {
                             String className = context.getSystemService(CameraManager.class).getClass().getName();
                             hook.className = className;
                             Log.i(TAG, hook.getId() + " class name=" + className);
+                        } else if ("android.telephony.TelephonyManager".equals(hook.className)) {
+                            String className = context.getSystemService(Context.TELEPHONY_SERVICE).getClass().getName();
+                            hook.className = className;
+                            Log.i(TAG, hook.getId() + " class name=" + className);
                         }
                         hooks.add(hook);
                     }

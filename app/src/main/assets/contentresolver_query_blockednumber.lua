@@ -20,7 +20,7 @@ function after(hook, param)
     local cursor = param:getResult()
     if uri == nil or cursor == nil then
         return false
-    elseif uri:getAuthority() == 'com.android.calendar' then
+    elseif uri:getAuthority() == 'com.android.blockednumber' then
         local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
         param:setResult(result);
         return true

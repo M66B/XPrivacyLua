@@ -25,7 +25,6 @@ function after(hook, param)
             uri:getAuthority() == 'mms-sms' or
             uri:getAuthority() == 'com.google.android.apps.messaging.shared.datamodel.BugleContentProvider' then
         local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
-        result:setExtras(cursor:getExtras())
         param:setResult(result);
         return true
     else

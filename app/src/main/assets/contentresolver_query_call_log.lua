@@ -22,7 +22,6 @@ function after(hook, param)
         return false
     elseif uri:getAuthority() == 'call_log' or uri:getAuthority() == 'call_log_shadow' then
         local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
-        result:setExtras(cursor:getExtras())
         param:setResult(result);
         return true
     else

@@ -26,7 +26,7 @@ function after(hook, param)
             return false
         else
             local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
-            result:setExtras(cursor:getExtras())
+            --result:setExtras(cursor:getExtras())
             --notify = cursor:getNotificationUri()
             --if notify ~= nil then
             --    result:setNotificationUri(param:getThis(), notify)

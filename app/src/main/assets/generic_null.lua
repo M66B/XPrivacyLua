@@ -16,15 +16,11 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    local uri = param:getArgument(0)
-    local cursor = param:getResult()
-    if uri == nil or cursor == nil then
+    local result = param:getResult()
+    if result == nil then
         return false
-    elseif uri:getAuthority() == 'com.android.calendar' then
-        local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
-        param:setResult(result);
-        return true
     else
-        return false
+        param:setResult(null)
+        return true
     end
 end
