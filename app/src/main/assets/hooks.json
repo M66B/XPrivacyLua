@@ -180,6 +180,7 @@
   },
   // Get contacts
   // https://developer.android.com/guide/topics/providers/contacts-provider.html
+  // https://developer.android.com/reference/android/provider/BlockedNumberContract.html
   // https://developer.android.com/reference/android/content/ContentResolver.html
   {
     "collection": "Privacy",
@@ -240,6 +241,66 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@contentresolver_query_contacts"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver.query1/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver.query16/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Contacts",
+    "name": "ContentResolver.query26/blockednumber",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "maxSdk": 999,
+    "enabled": true,
+    "luaScript": "@contentresolver_query_blockednumber"
   },
   // Get location
   // https://developer.android.com/reference/android/os/Bundle.html
@@ -377,7 +438,6 @@
   },
   // Read telephony data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html
-  // https://developer.android.com/reference/android/provider/BlockedNumberContract.html
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
@@ -545,66 +605,6 @@
     "maxSdk": 999,
     "enabled": true,
     "luaScript": "@generic_null"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Telephony",
-    "name": "ContentResolver.query1/blockednumber",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "[Ljava.lang.String;",
-      "java.lang.String"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 1,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Telephony",
-    "name": "ContentResolver.query16/blockednumber",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "android.os.CancellationSignal"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 16,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Telephony",
-    "name": "ContentResolver.query26/blockednumber",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "android.os.Bundle",
-      "android.os.CancellationSignal"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 26,
-    "maxSdk": 999,
-    "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
   },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html
