@@ -73,7 +73,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_calendars"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -94,7 +94,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_calendars"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -113,7 +113,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_calendars"
+    "luaScript": "@contentresolver_query"
   },
   // Get call log
   // https://developer.android.com/reference/android/provider/CallLog.html
@@ -136,7 +136,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_call_log"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -157,7 +157,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_call_log"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -176,7 +176,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_call_log"
+    "luaScript": "@contentresolver_query"
   },
   // Get contacts
   // https://developer.android.com/guide/topics/providers/contacts-provider.html
@@ -201,7 +201,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_contacts"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -222,7 +222,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_contacts"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -241,7 +241,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_contacts"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -261,7 +261,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -282,7 +282,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -301,7 +301,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_blockednumber"
+    "luaScript": "@contentresolver_query"
   },
   // Get location
   // https://developer.android.com/reference/android/os/Bundle.html
@@ -361,7 +361,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_mmssms"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -382,7 +382,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_mmssms"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -401,7 +401,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_mmssms"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -421,7 +421,7 @@
     "minSdk": 1,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_voicemail"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -442,7 +442,7 @@
     "minSdk": 16,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_voicemail"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
@@ -461,7 +461,7 @@
     "minSdk": 26,
     "maxSdk": 999,
     "enabled": true,
-    "luaScript": "@contentresolver_query_voicemail"
+    "luaScript": "@contentresolver_query"
   },
   {
     "collection": "Privacy",
