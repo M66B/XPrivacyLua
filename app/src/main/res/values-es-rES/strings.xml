@@ -25,14 +25,16 @@
   <string name="msg_no_service">El módulo no está en ejecución o se encuentra desactualizado</string>
   <string name="msg_review_settings">Revisa la configuración de privacidad</string>
   <string name="msg_exception">Error en %1$s</string>
-  <string name="group_get_applications">Get applications</string>
+  <string name="group_get_applications">Obtener aplicaciones</string>
   <string name="group_get_call_log">Obtener historial de llamadas</string>
   <string name="group_get_calendars">Obtener los calendarios</string>
   <string name="group_get_contacts">Obtener los contactos</string>
   <string name="group_get_location">Obtener la ubicación</string>
+  <string name="group_get_messages">Obtener mensajes</string>
   <string name="group_read_account">Leer el nombre de la cuenta</string>
   <string name="group_read_clipboard">Leer el portapapeles</string>
+  <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Grabar audio</string>
-  <string name="group_record_video">Record video</string>
-  <string name="group_use_camera">Use camera</string>
+  <string name="group_record_video">Grabar video</string>
+  <string name="group_use_camera">Utilizar la cámara</string>
 </resources>

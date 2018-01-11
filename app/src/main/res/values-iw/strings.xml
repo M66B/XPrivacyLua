@@ -28,8 +28,10 @@
   <string name="group_get_calendars">קבלת לוח שנה</string>
   <string name="group_get_contacts">קבלת אנשי קשר</string>
   <string name="group_get_location">קבלת מיקום</string>
+  <string name="group_get_messages">Get messages</string>
   <string name="group_read_account">קריאת שם החשבון</string>
   <string name="group_read_clipboard">קריאת לוח העתקה</string>
+  <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">הקלטת שמע</string>
   <string name="group_record_video">Record video</string>
   <string name="group_use_camera">Use camera</string>

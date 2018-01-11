@@ -5,9 +5,9 @@
   <string name="title_deny">我拒绝</string>
   <string name="title_restrict">限制</string>
   <string name="title_help_instructions">
-        点击一个应用程序图标或名称，勾选一条限制选项并点击应用。
-        如果可能, 应用程序会自动停止并立即执行应用 (或删除) 限制，
-        但对于某些应用程序，若想生效需要重新启动设备 (请参见下面的图标)。
+        点击应用程序图标或名称，勾选你需要的限制选项并应用。
+        理想情况下, 应用程序会自动停止以应用 (或删除) 新的限制，
+        对于某些应用程序，若想限制生效则需要重新启动设备 (请参见下面的图标)。
         <![CDATA[<br><br>]]>;长按应用名称或图标启动应用程序。
         <![CDATA[<br><br>]]>;请参阅<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">此处</a>]]>; 了解常见问题。
     </string>
@@ -23,14 +23,16 @@
   <string name="msg_no_service">模块没有运行或没有更新</string>
   <string name="msg_review_settings">查看隐私设置</string>
   <string name="msg_exception">在 %1$s 中发生错误</string>
-  <string name="group_get_applications">Get applications</string>
+  <string name="group_get_applications">获取应用程序</string>
   <string name="group_get_call_log">获取通话记录</string>
   <string name="group_get_calendars">获取日历</string>
   <string name="group_get_contacts">获取联系人</string>
   <string name="group_get_location">获取位置</string>
+  <string name="group_get_messages">获取短信</string>
   <string name="group_read_account">读取帐户名称</string>
   <string name="group_read_clipboard">读取剪贴板</string>
+  <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">录音</string>
-  <string name="group_record_video">Record video</string>
-  <string name="group_use_camera">Use camera</string>
+  <string name="group_record_video">录制视频</string>
+  <string name="group_use_camera">使用相机</string>
 </resources>

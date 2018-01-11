@@ -8,8 +8,8 @@
         Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenie, aby je zastosować.
         Jeśli to możliwe, aplikacje zostaną automatycznie zatrzymane, aby od razu zastosować (lub usunąć) ograniczenia,
         ale zastosowanie ograniczeń dla niektórych aplikacji wymaga ponownego uruchomienia urządzenia (zobacz ikony poniżej).
-        <![CDATA[<br><br>]]>;Przytrzymaj nazwę lub ikonę aplikacji, aby uruchomić aplikację.
-        <![CDATA[<br><br>]]>;Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">tutaj</a>]]>; odpowiedzi na często zadawane pytania.
+        <![CDATA[<br><br>]]>Przytrzymaj nazwę lub ikonę aplikacji, aby uruchomić aplikację.
+        <![CDATA[<br><br>]]>Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">tutaj</a>]]> odpowiedzi na często zadawane pytania.
     </string>
   <string name="title_help_installed">Ograniczenie zastosowane</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
@@ -28,9 +28,11 @@
   <string name="group_get_calendars">Dostęp do kalendarza</string>
   <string name="group_get_contacts">Dostęp do kontaktów</string>
   <string name="group_get_location">Dostęp do lokalizacji</string>
+  <string name="group_get_messages">Odczyt wiadomości</string>
   <string name="group_read_account">Odczyt nazwy konta</string>
   <string name="group_read_clipboard">Odczyt schowka</string>
+  <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>
-  <string name="group_use_camera">Use camera</string>
+  <string name="group_use_camera">Użycie aparatu</string>
 </resources>
