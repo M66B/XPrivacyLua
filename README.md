@@ -19,7 +19,7 @@ Restrictions
 * Get call log
 * Get contacts (including blocked numbers)
 * Get location
-* Get messages (MMS, SMS)
+* Get messages (MMS, SMS, SIM, voicemail)
 * Read account name (mostly e-mail address)
 * Read clipboard
 * Record audio

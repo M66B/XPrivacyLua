@@ -83,7 +83,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         Class<?> cAm = param.thisObject.getClass();
                         while (cAm != null && context == null) {
                             for (Field field : cAm.getDeclaredFields())
-                                if ("android.content.Context".equals(field.getType().getName())) {
+                                if (field.getType().equals(Context.class)) {
                                     field.setAccessible(true);
                                     context = (Context) field.get(param.thisObject);
                                     Log.i(TAG, "Context found in " + cAm + " as " + field.getName());
@@ -357,37 +357,49 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     }
 
     private static Method resolveMethod(Class<?> cls, String name, Class<?>[] params) throws NoSuchMethodException {
-        while (cls != null)
-            try {
-                return cls.getDeclaredMethod(name, params);
-            } catch (NoSuchMethodException ex) {
-                for (Method method : cls.getDeclaredMethods()) {
-                    if (!name.equals(method.getName()))
-                        continue;
+        try {
+            Class<?> c = cls;
+            while (c != null && !c.equals(Object.class))
+                try {
+                    return c.getDeclaredMethod(name, params);
+                } catch (NoSuchMethodException ex) {
+                    for (Method method : c.getDeclaredMethods()) {
+                        if (!name.equals(method.getName()))
+                            continue;
 
-                    Class<?>[] mparams = method.getParameterTypes();
+                        Class<?>[] mparams = method.getParameterTypes();
 
-                    if (mparams.length != params.length)
-                        continue;
+                        if (mparams.length != params.length)
+                            continue;
 
-                    boolean same = true;
-                    for (int i = 0; i < mparams.length; i++) {
-                        if (!params[i].isAssignableFrom(mparams[i])) {
-                            same = false;
-                            break;
+                        boolean same = true;
+                        for (int i = 0; i < mparams.length; i++) {
+                            if (!params[i].isAssignableFrom(mparams[i])) {
+                                same = false;
+                                break;
+                            }
                         }
-                    }
-                    if (!same)
-                        continue;
+                        if (!same)
+                            continue;
 
-                    Log.i(TAG, "Resolved method=" + method);
-                    return method;
+                        Log.i(TAG, "Resolved method=" + method);
+                        return method;
+                    }
+                    c = c.getSuperclass();
+                    if (c == null)
+                        throw ex;
                 }
-                cls = cls.getSuperclass();
-                if (cls == null)
-                    throw ex;
+            throw new NoSuchMethodException(name);
+        } catch (NoSuchMethodException ex) {
+            Class<?> c = cls;
+            while (c != null && !c.equals(Object.class)) {
+                Log.i(TAG, c.toString());
+                for (Method method : c.getDeclaredMethods())
+                    Log.i(TAG, "- " + method.toString());
+                c = c.getSuperclass();
             }
-        throw new NoSuchMethodException(name);
+            throw ex;
+        }
     }
 
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
