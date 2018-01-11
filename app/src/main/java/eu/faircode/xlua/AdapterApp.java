@@ -168,7 +168,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     app.assignments.clear();
 
                 notifyItemChanged(getAdapterPosition());
-                adapter.set(app, hooks);
 
                 executor.submit(new Runnable() {
                     @Override
