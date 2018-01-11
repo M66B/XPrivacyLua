@@ -253,12 +253,15 @@ class XSettings {
                             XApp app = apps.get(pkg + ":" + uid);
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
-                                    XAssignment assignment = new XAssignment(hooks.get(hookid));
-                                    assignment.installed = cursor.getLong(colInstalled);
-                                    assignment.used = cursor.getLong(colUsed);
-                                    assignment.restricted = (cursor.getInt(colRestricted) == 1);
-                                    assignment.exception = cursor.getString(colException);
-                                    app.assignments.add(assignment);
+                                    XHook hook = hooks.get(hookid);
+                                    if (hook.isEnabled()) {
+                                        XAssignment assignment = new XAssignment(hook);
+                                        assignment.installed = cursor.getLong(colInstalled);
+                                        assignment.used = cursor.getLong(colUsed);
+                                        assignment.restricted = (cursor.getInt(colRestricted) == 1);
+                                        assignment.exception = cursor.getString(colException);
+                                        app.assignments.add(assignment);
+                                    }
                                 } else
                                     Log.w(TAG, "Hook " + hookid + " not found");
                             }
