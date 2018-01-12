@@ -470,7 +470,7 @@ class XSettings {
                     String group = hookid;
                     if (hook != null) {
                         String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
-                        int resId = resources.getIdentifier("group_" + name, "string", context.getPackageName());
+                        int resId = resources.getIdentifier("group_" + name, "string", self);
                         if (resId != 0)
                             group = resources.getString(resId);
                     }
