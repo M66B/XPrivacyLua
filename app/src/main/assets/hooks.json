@@ -896,6 +896,7 @@
   // Take picture
   // https://developer.android.com/reference/android/hardware/Camera.html
   // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
+  // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/hardware/Camera.java
   {
     "collection": "Privacy",
     "group": "Use.Camera",
@@ -922,6 +923,22 @@
     ],
     "returnType": "android.hardware.Camera",
     "minSdk": 9,
+    "notify": true,
+    "luaScript": "@camera_open"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Camera",
+    "name": "Camera.openLegacy/camera",
+    "author": "M66B",
+    "className": "android.hardware.Camera",
+    "methodName": "openLegacy",
+    "parameterTypes": [
+      "int",
+      "int"
+    ],
+    "returnType": "android.hardware.Camera",
+    "minSdk": 21,
     "notify": true,
     "luaScript": "@camera_open"
   },
