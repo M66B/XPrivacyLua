@@ -20,6 +20,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="menu_donate">Spenden</string>
   <string name="msg_no_service">Modul nicht aktiv oder aktualisiert</string>
   <string name="msg_review_settings">Datenschutzeinstellungen ansehen</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">Fehler in %1$s</string>
   <string name="group_get_applications">Anwendungsliste erhalten</string>
   <string name="group_get_call_log">Anrufliste lesen</string>
@@ -27,7 +28,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_get_contacts">Kontakte lesen</string>
   <string name="group_get_location">Standort abfragen</string>
   <string name="group_get_messages">Nachrichten abrufen</string>
-  <string name="group_get_sensors">Get sensors</string>
+  <string name="group_get_sensors">Sensoren lesen</string>
   <string name="group_read_account">Accountnamen lesen</string>
   <string name="group_read_clipboard">Zwischenablage lesen</string>
   <string name="group_read_telephony">Telefondaten lesen</string>

@@ -23,6 +23,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aici</a>]]>; pentr
   <string name="menu_donate">Donează</string>
   <string name="msg_no_service">Modulul nu rulează sau a fost actualizat</string>
   <string name="msg_review_settings">Revizuiește setările private</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">Eroare in %1$s</string>
   <string name="group_get_applications">Get applications</string>
   <string name="group_get_call_log">Obţine jurnalul de apeluri</string>

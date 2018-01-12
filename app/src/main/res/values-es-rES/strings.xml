@@ -6,12 +6,10 @@
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
         Pulsa en el ícono o nombre de una app y marca una restricción para aplicarla.
-        Si es posible, las apps se detienen automáticamente para aplicar (o eliminar) las
-        restricciones inmediatamente, pero para aplicar restricciones a algunas apps requiere un
-        reinicio del dispositivo (ve los íconos abajo).
-        <![CDATA[<br><br>]]>;Pulsa y mantén presionado sobre el nombre de un app o su ícono
-        para iniciarla.
-        <![CDATA[<br><br>]]>;Revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aquí</a>]]>; las preguntas más frecuentes.
+        Si es posible, las apps se detienen automáticamente para aplicar (o eliminar) las restricciones inmediatamente,
+        pero para poder aplicar restricciones a algunas apps se requiere un reinicio del dispositivo (ve los íconos abajo).
+        <![CDATA[<br><br>]]>Pulsa y mantén presionado sobre el nombre de un app o su ícono para iniciarla.
+        <![CDATA[<br><br>]]>Revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aquí</a>]]> las preguntas más frecuentes.
     </string>
   <string name="title_help_installed">Restricción instalada</string>
   <string name="title_help_persistent">Para la aplicación de restricciones se requiere reiniciar el dispositivo</string>
@@ -24,6 +22,7 @@
   <string name="menu_donate">Donar</string>
   <string name="msg_no_service">El módulo no está en ejecución o se encuentra desactualizado</string>
   <string name="msg_review_settings">Revisa la configuración de privacidad</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">Error en %1$s</string>
   <string name="group_get_applications">Obtener aplicaciones</string>
   <string name="group_get_call_log">Obtener historial de llamadas</string>
@@ -31,10 +30,10 @@
   <string name="group_get_contacts">Obtener los contactos</string>
   <string name="group_get_location">Obtener la ubicación</string>
   <string name="group_get_messages">Obtener mensajes</string>
-  <string name="group_get_sensors">Get sensors</string>
+  <string name="group_get_sensors">Obtener sensores</string>
   <string name="group_read_account">Leer el nombre de la cuenta</string>
   <string name="group_read_clipboard">Leer el portapapeles</string>
-  <string name="group_read_telephony">Read telephony data</string>
+  <string name="group_read_telephony">Leer datos de telefonía</string>
   <string name="group_record_audio">Grabar audio</string>
   <string name="group_record_video">Grabar video</string>
   <string name="group_use_camera">Utilizar la cámara</string>

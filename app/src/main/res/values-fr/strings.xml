@@ -22,6 +22,7 @@
   <string name="menu_donate">Faire un don</string>
   <string name="msg_no_service">Module non exécuté ou mis à jour</string>
   <string name="msg_review_settings">Vérifier les paramètres de confidentialité</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">Erreur dans %1$s</string>
   <string name="group_get_applications">Lister les applications</string>
   <string name="group_get_call_log">Voir le journal des appels</string>
@@ -29,7 +30,7 @@
   <string name="group_get_contacts">Voir les contacts</string>
   <string name="group_get_location">Obtenir la localisation</string>
   <string name="group_get_messages">Voir les messages</string>
-  <string name="group_get_sensors">Get sensors</string>
+  <string name="group_get_sensors">Voir les capteurs</string>
   <string name="group_read_account">Lire le nom du compte</string>
   <string name="group_read_clipboard">Lire le presse-papiers</string>
   <string name="group_read_telephony">Lire les données téléphoniques</string>

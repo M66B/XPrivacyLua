@@ -22,6 +22,7 @@
   <string name="menu_donate">תרום</string>
   <string name="msg_no_service">מודול לא פועל או מעודכן</string>
   <string name="msg_review_settings">סקור את הגדרות הפרטיות</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">שגיאה ב- %1$s</string>
   <string name="group_get_applications">Get applications</string>
   <string name="group_get_call_log">קבלת יומן שיחות</string>

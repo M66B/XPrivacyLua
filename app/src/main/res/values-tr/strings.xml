@@ -22,6 +22,7 @@
   <string name="menu_donate">Bağış yap</string>
   <string name="msg_no_service">Modül çalışmıyor ya da güncellenmemiş</string>
   <string name="msg_review_settings">Gizlilik ayarlarını gözden geçir</string>
+  <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">%1$s de hata</string>
   <string name="group_get_applications">Get applications</string>
   <string name="group_get_call_log">Arama kayıtlarını al</string>
