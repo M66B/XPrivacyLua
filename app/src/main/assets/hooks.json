@@ -34,6 +34,8 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
+    "maxSdk": 20,
+    // Android L returns filtered data
     "luaScript": "@generic_empty_list"
   },
   {
@@ -47,7 +49,7 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 3,
-    "luaScript": "@generic_empty_list"
+    "luaScript": "@generic_filter_by_uid"
   },
   {
     "collection": "Privacy",
@@ -61,7 +63,9 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "luaScript": "@generic_empty_list"
+    "maxSdk": 25,
+    // Android O returns filtered data
+    "luaScript": "@generic_filter_by_uid"
   },
   {
     "collection": "Privacy",
@@ -75,6 +79,8 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
+    "maxSdk": 20,
+    // Android L returns filtered data
     "luaScript": "@generic_empty_list"
   },
   {
@@ -89,7 +95,7 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "luaScript": "@generic_empty_list"
+    "luaScript": "@generic_filter_by_uid"
   },
   {
     "collection": "Privacy",
@@ -103,7 +109,7 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 1,
-    "luaScript": "@generic_empty_list"
+    "luaScript": "@generic_filter_by_uid"
   },
   // Get calendars
   // https://developer.android.com/guide/topics/providers/calendar-provider.html API 14
