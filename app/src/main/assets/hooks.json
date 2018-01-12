@@ -326,7 +326,7 @@
       "android.os.CancellationSignal"
     ],
     "returnType": "android.database.Cursor",
-    "minSdk": 24,
+    "minSdk": 26,
     "luaScript": "@contentresolver_query"
   },
   // Get location
