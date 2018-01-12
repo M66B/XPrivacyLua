@@ -22,6 +22,7 @@
 
 #XPrivacyLua
 -keep class eu.faircode.xlua.Xposed {*; }
+-keep class eu.faircode.xlua.XHook {*; }
 -keep class eu.faircode.xlua.XParam {*; }
 -keepnames class eu.faircode.xlua.** {*; }
 
