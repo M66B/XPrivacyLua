@@ -134,6 +134,7 @@ class XSettings {
                     break;
                 case "getAssignedHooks":
                     result = getAssignedHooks(context, selection);
+                    break;
                 case "getSettings":
                     result = getSettings(context, selection);
                     break;
