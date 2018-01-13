@@ -1,7 +1,8 @@
 XPrivacyLua
 ===========
 
-Android privacy manager
+
+Really simple to use privacy manager for Android 6.0 Marshmallow and later (successor of [XPrivacy](https://forum.xda-developers.com/xposed/modules/xprivacy-ultimate-android-privacy-app-t2320783"]XPrivacy[/URL])).
 
 Revoking Android permissions from apps often let apps crash or malfunction.
 XPrivacyLua solves this by feeding apps fake data instead of real data.
