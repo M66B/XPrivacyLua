@@ -36,20 +36,22 @@ public class XParam {
     private Class<?>[] paramTypes;
     private Class<?> returnType;
     private ClassLoader loader;
+    private Map<String, String> settings;
 
     private static final Map<Object, Map<String, Object>> nv = new WeakHashMap<>();
 
     public XParam(
             String packageName, int uid,
             XC_MethodHook.MethodHookParam param,
-            Class<?>[] paramTypes, Class<?> returnType,
-            ClassLoader loader) {
+            Class<?>[] paramTypes, Class<?> returnType, ClassLoader loader,
+            Map<String, String> settings) {
         this.packageName = packageName;
         this.uid = uid;
         this.param = param;
         this.paramTypes = paramTypes;
         this.returnType = returnType;
         this.loader = loader;
+        this.settings = settings;
     }
 
     @SuppressWarnings("unused")
@@ -110,6 +112,15 @@ public class XParam {
             if (result != null && !this.returnType.isInstance(result))
                 throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
             this.param.setResult(result);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public String getSetting(String name) {
+        synchronized (this.settings) {
+            String value = (this.settings.containsKey(name) ? this.settings.get(name) : null);
+            Log.i(TAG, "Get setting " + this.packageName + ":" + this.uid + " " + name + "=" + value);
+            return value;
         }
     }
 

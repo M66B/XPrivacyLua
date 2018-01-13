@@ -23,6 +23,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -51,7 +52,9 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -200,6 +203,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         if (!made) {
                             made = true;
                             Application app = (Application) param.getResult();
+                            ContentResolver resolver = app.getContentResolver();
 
                             int userid = Util.getUserId(uid);
                             int start = Util.getUserUid(userid, 99000);
@@ -211,16 +215,37 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 return;
                             }
 
+                            // Get hooks
                             List<XHook> hooks = new ArrayList<>();
-                            Cursor cursor = app.getContentResolver()
-                                    .query(XSettings.URI, new String[]{"xlua.getAssignedHooks"},
-                                            null, new String[]{lpparam.packageName, Integer.toString(uid)},
-                                            null);
-                            while (cursor.moveToNext())
-                                hooks.add(XHook.fromJSON(cursor.getString(0)));
+                            Cursor hcursor = null;
+                            try {
+                                hcursor = resolver
+                                        .query(XSettings.URI, new String[]{"xlua.getAssignedHooks"},
+                                                null, new String[]{lpparam.packageName, Integer.toString(uid)},
+                                                null);
+                                while (hcursor != null && hcursor.moveToNext())
+                                    hooks.add(XHook.fromJSON(hcursor.getString(0)));
+                            } finally {
+                                if (hcursor != null)
+                                    hcursor.close();
+                            }
 
-                            hookPackage(app, lpparam, uid, hooks);
-                            //Log.i(TAG, "Applied " + lpparam.packageName + ":" + uid + " hooks=" + hooks.size());
+                            // Get settings
+                            Map<String, String> settings = new HashMap<>();
+                            Cursor scursor = null;
+                            try {
+                                scursor = resolver
+                                        .query(XSettings.URI, new String[]{"xlua.getSettings"},
+                                                null, new String[]{lpparam.packageName, Integer.toString(uid)},
+                                                null);
+                                while (scursor != null && scursor.moveToNext())
+                                    settings.put(scursor.getString(0), scursor.getString(1));
+                            } finally {
+                                if (scursor != null)
+                                    scursor.close();
+                            }
+
+                            hookPackage(app, lpparam, uid, hooks, settings);
                         }
                     } catch (Throwable ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
@@ -240,7 +265,10 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
     }
 
-    private void hookPackage(final Context context, final XC_LoadPackage.LoadPackageParam lpparam, final int uid, List<XHook> hooks) {
+    private void hookPackage(
+            final Context context,
+            final XC_LoadPackage.LoadPackageParam lpparam, final int uid,
+            List<XHook> hooks, final Map<String, String> settings) {
         for (final XHook hook : hooks)
             try {
                 // Compile script
@@ -263,14 +291,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
 
                 // Get return type
-                final Class<?> ret = resolveClass(hook.getReturnType(), lpparam.classLoader);
+                final Class<?> returnType = resolveClass(hook.getReturnType(), lpparam.classLoader);
 
                 // Get method
                 Method method = resolveMethod(cls, m[m.length - 1], paramTypes);
 
                 // Check return type
-                if (!method.getReturnType().equals(ret))
-                    throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + ret);
+                if (!method.getReturnType().equals(returnType))
+                    throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + returnType);
 
                 // Hook method
                 XposedBridge.hookMethod(method, new XC_MethodHook() {
@@ -311,12 +339,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         CoerceJavaToLua.coerce(hook),
                                         CoerceJavaToLua.coerce(new XParam(
                                                 lpparam.packageName, uid,
-                                                param, paramTypes, ret,
-                                                lpparam.classLoader))
+                                                param,
+                                                paramTypes, returnType, lpparam.classLoader,
+                                                settings))
                                 );
 
                                 // Report use
-                                boolean restricted = (result.arg1().checkboolean());
+                                boolean restricted = result.arg1().checkboolean();
                                 if (restricted) {
                                     Bundle data = new Bundle();
                                     data.putString("function", function);
@@ -432,10 +461,16 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Get hooks
                 ArrayList<String> hooks = new ArrayList<>();
-                Cursor cursor = context.getContentResolver()
-                        .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
-                while (cursor.moveToNext())
-                    hooks.add(XHook.fromJSON(cursor.getString(0)).getId());
+                Cursor cursor = null;
+                try {
+                    cursor = context.getContentResolver()
+                            .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                    while (cursor != null && cursor.moveToNext())
+                        hooks.add(XHook.fromJSON(cursor.getString(0)).getId());
+                } finally {
+                    if (cursor != null)
+                        cursor.close();
+                }
 
                 String self = Xposed.class.getPackage().getName();
                 Context ctx = Util.createContextForUser(context, userid);

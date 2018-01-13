@@ -162,15 +162,27 @@ public class FragmentMain extends Fragment {
                     }
                 }
 
-                Cursor chooks = getContext().getContentResolver()
-                        .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
-                while (chooks.moveToNext())
-                    data.hooks.add(XHook.fromJSON(chooks.getString(0)));
+                Cursor chooks = null;
+                try {
+                    chooks = getContext().getContentResolver()
+                            .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                    while (chooks != null && chooks.moveToNext())
+                        data.hooks.add(XHook.fromJSON(chooks.getString(0)));
+                } finally {
+                    if (chooks != null)
+                        chooks.close();
+                }
 
-                Cursor capps = getContext().getContentResolver()
-                        .query(XSettings.URI, new String[]{"xlua.getApps"}, null, null, null);
-                while (capps.moveToNext())
-                    data.apps.add(XApp.fromJSON(capps.getString(0)));
+                Cursor capps = null;
+                try {
+                    capps = getContext().getContentResolver()
+                            .query(XSettings.URI, new String[]{"xlua.getApps"}, null, null, null);
+                    while (capps != null && capps.moveToNext())
+                        data.apps.add(XApp.fromJSON(capps.getString(0)));
+                } finally {
+                    if (capps != null)
+                        capps.close();
+                }
 
             } catch (Throwable ex) {
                 data.hooks.clear();

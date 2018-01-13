@@ -134,6 +134,8 @@ class XSettings {
                     break;
                 case "getAssignedHooks":
                     result = getAssignedHooks(context, selection);
+                case "getSettings":
+                    result = getSettings(context, selection);
                     break;
             }
         } finally {
@@ -336,13 +338,12 @@ class XSettings {
     }
 
     private static Cursor getAssignedHooks(Context context, String[] selection) throws Throwable {
-        MatrixCursor result = new MatrixCursor(new String[]{"json"});
-
         if (selection == null || selection.length != 2)
             throw new IllegalArgumentException();
 
         String packageName = selection[0];
         int uid = Integer.parseInt(selection[1]);
+        MatrixCursor result = new MatrixCursor(new String[]{"json"});
 
         dbLock.readLock().lock();
         try {
@@ -368,6 +369,45 @@ class XSettings {
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }
                     }
+                } finally {
+                    if (cursor != null)
+                        cursor.close();
+                }
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.readLock().unlock();
+        }
+
+        return result;
+    }
+
+    private static Cursor getSettings(Context context, String[] selection) throws Throwable {
+        if (selection == null || selection.length != 2)
+            throw new IllegalArgumentException();
+
+        String packageName = selection[0];
+        int uid = Integer.parseInt(selection[1]);
+        int userid = Util.getUserId(uid);
+        MatrixCursor result = new MatrixCursor(new String[]{"name", "value"});
+
+        dbLock.readLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                Cursor cursor = null;
+                try {
+                    cursor = db.query(
+                            "setting",
+                            new String[]{"name", "value"},
+                            "user = ? AND category = ?",
+                            new String[]{Integer.toString(userid), packageName},
+                            null, null, null);
+                    while (cursor.moveToNext())
+                        result.addRow(new String[]{cursor.getString(0), cursor.getString(1)});
                 } finally {
                     if (cursor != null)
                         cursor.close();
@@ -728,7 +768,7 @@ class XSettings {
         }
     }
 
-    static void renameHook(SQLiteDatabase db, String oldId, String newId) {
+    private static void renameHook(SQLiteDatabase db, String oldId, String newId) {
         try {
             ContentValues cvMediaStart = new ContentValues();
             cvMediaStart.put("hook", oldId);
@@ -739,7 +779,7 @@ class XSettings {
         }
     }
 
-    static void deleteHook(SQLiteDatabase db, String id) {
+    private static void deleteHook(SQLiteDatabase db, String id) {
         try {
             long rows = db.delete("assignment", "hook = ?", new String[]{id});
             Log.i(TAG, "Deleted hook " + id + " rows=" + rows);
@@ -776,13 +816,16 @@ class XSettings {
         return Boolean.parseBoolean(result.getString("value"));
     }
 
-    static void putSettingBoolean(Context context, String category, String name, boolean value) {
+    static void putSetting(Context context, String category, String name, String value) {
         Bundle args = new Bundle();
         args.putInt("user", Util.getUserId(Process.myUid()));
         args.putString("category", category);
         args.putString("name", name);
-        args.putString("value", Boolean.toString(value));
-        context.getContentResolver()
-                .call(XSettings.URI, "xlua", "putSetting", args);
+        args.putString("value", value);
+        context.getContentResolver().call(XSettings.URI, "xlua", "putSetting", args);
+    }
+
+    static void putSettingBoolean(Context context, String category, String name, boolean value) {
+        putSetting(context, category, name, Boolean.toString(value));
     }
 }
