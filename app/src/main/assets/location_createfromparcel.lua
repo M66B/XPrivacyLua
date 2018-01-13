@@ -31,11 +31,11 @@ function after(hook, param)
                 longitude = 0
             end
         elseif type == 'coarse' then
-            -- 1 degree ~ 111 km ~ 69 mile
-            local accuracy = param:getSetting('location.accuracy')
+            local accuracy = param:getSetting('location.accuracy') -- meters
             if accuracy ~= nil then
-                latitude = math.floor(result:getLatitude() * accuracy) / accuracy
-                longitude = math.floor(result:getLongitude() * accuracy) / accuracy
+                accuracy = accuracy / 111319.9
+                latitude = math.floor(result:getLatitude() / accuracy) * accuracy
+                longitude = math.floor(result:getLongitude() / accuracy) * accuracy
             end
         end
         result:setLatitude(latitude)
