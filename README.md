@@ -3,6 +3,9 @@ XPrivacyLua
 
 Android privacy manager
 
+Revoking Android permissions from apps often let apps crash or malfunction.
+XPrivacyLua solves this by feeding apps fake data instead of real data.
+
 Features
 --------
 
