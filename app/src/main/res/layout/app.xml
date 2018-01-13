@@ -68,7 +68,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
+        android:alpha="0.8"
         android:src="@drawable/ic_settings_backup_restore_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivIcon"
+        app:layout_constraintEnd_toStartOf="@+id/ivSettings"
+        app:layout_constraintTop_toTopOf="@+id/ivIcon" />
+
+    <ImageView
+        android:id="@+id/ivSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:alpha="0.8"
+        android:src="@drawable/ic_settings_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivIcon"
         app:layout_constraintEnd_toStartOf="@+id/cbAssigned"
         app:layout_constraintTop_toTopOf="@+id/ivIcon" />

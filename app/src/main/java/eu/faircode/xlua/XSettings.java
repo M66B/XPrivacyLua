@@ -602,7 +602,7 @@ class XSettings {
         String category = extras.getString("category");
         String name = extras.getString("name");
         String value = extras.getString("value");
-        Log.i(TAG, "Put setting  " + userid + ":" + category + ":" + name + "=" + value);
+        Log.i(TAG, "Put setting " + userid + ":" + category + " " + name + "=" + value);
 
         dbLock.writeLock().lock();
         try {

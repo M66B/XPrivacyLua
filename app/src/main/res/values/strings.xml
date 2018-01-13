@@ -24,6 +24,7 @@
         <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
     <string name="title_help_installed">Restriction installed</string>
+    <string name="title_help_settings">App restriction settings</string>
     <string name="title_help_persistent">Applying restrictions requires a device restart</string>
     <string name="title_help_exception">Applying restriction failed (tap icon to show why)</string>
 

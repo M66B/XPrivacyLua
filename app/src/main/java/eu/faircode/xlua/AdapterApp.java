@@ -21,6 +21,7 @@ package eu.faircode.xlua;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         TextView tvUid;
         TextView tvPackage;
         ImageView ivPersistent;
+        ImageView ivSettings;
         AppCompatCheckBox cbAssigned;
         RecyclerView rvGroup;
 
@@ -94,6 +96,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             tvUid = itemView.findViewById(R.id.tvUid);
             tvPackage = itemView.findViewById(R.id.tvPackage);
             ivPersistent = itemView.findViewById(R.id.ivPersistent);
+            ivSettings = itemView.findViewById(R.id.ivSettings);
             cbAssigned = itemView.findViewById(R.id.cbAssigned);
 
             rvGroup = itemView.findViewById(R.id.rvGroup);
@@ -111,6 +114,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             tvLabel.setOnClickListener(this);
             tvUid.setOnClickListener(this);
             tvPackage.setOnClickListener(this);
+            ivSettings.setOnClickListener(this);
 
             ivIcon.setOnLongClickListener(this);
             tvLabel.setOnLongClickListener(this);
@@ -126,6 +130,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             tvLabel.setOnClickListener(null);
             tvUid.setOnClickListener(null);
             tvPackage.setOnClickListener(null);
+            ivSettings.setOnClickListener(null);
 
             ivIcon.setOnLongClickListener(null);
             tvLabel.setOnLongClickListener(null);
@@ -138,21 +143,36 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         @Override
         public void onClick(View view) {
             int id = view.getId();
-            if (id == R.id.ivExpander ||
-                    id == R.id.ivIcon || id == R.id.tvLabel ||
-                    id == R.id.tvUid || id == R.id.tvPackage) {
-                if (!expanded.containsKey(app.packageName))
-                    expanded.put(app.packageName, false);
-                expanded.put(app.packageName, !expanded.get(app.packageName));
-                updateExpand();
+            switch (view.getId()) {
+                case R.id.ivExpander:
+                case R.id.ivIcon:
+                case R.id.tvLabel:
+                case R.id.tvUid:
+                case R.id.tvPackage:
+                    if (!expanded.containsKey(app.packageName))
+                        expanded.put(app.packageName, false);
+                    expanded.put(app.packageName, !expanded.get(app.packageName));
+                    updateExpand();
+                    break;
+
+                case R.id.ivSettings:
+                    PackageManager pm = view.getContext().getPackageManager();
+                    Intent settings = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
+                    if (settings == null) {
+                        settings = new Intent(Intent.ACTION_VIEW);
+                        settings.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + Util.PRO_PACKAGE_NAME));
+                    } else
+                        settings.putExtra("packageName", app.packageName);
+                    view.getContext().startActivity(settings);
+                    break;
             }
         }
 
         @Override
         public boolean onLongClick(View view) {
-            Intent intent = view.getContext().getPackageManager().getLaunchIntentForPackage(app.packageName);
-            if (intent != null)
-                view.getContext().startActivity(intent);
+            Intent launch = view.getContext().getPackageManager().getLaunchIntentForPackage(app.packageName);
+            if (launch != null)
+                view.getContext().startActivity(launch);
             return true;
         }
 

@@ -43,6 +43,7 @@ import java.lang.reflect.Method;
 class Util {
     private final static String TAG = "XLua.Util";
 
+    static final String PRO_PACKAGE_NAME = "eu.faircode.xlua.pro";
     private static final int PER_USER_RANGE = 100000;
 
     static String getSelfVersionName(Context context) {
