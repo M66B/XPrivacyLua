@@ -3,7 +3,9 @@
     package="eu.faircode.xlua">
 
     <application
+        android:name="ApplicationEx"
         android:allowBackup="false"
+        android:appCategory="productivity"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
