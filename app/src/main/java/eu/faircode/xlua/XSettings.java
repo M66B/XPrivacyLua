@@ -322,18 +322,8 @@ class XSettings {
             dbLock.writeLock().unlock();
         }
 
-        if (kill) {
-            // Access activity manager as system user
-            long ident = Binder.clearCallingIdentity();
-            try {
-                // public void forceStopPackageAsUser(String packageName, int userId)
-                ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-                Method mForceStop = am.getClass().getMethod("forceStopPackageAsUser", String.class, int.class);
-                mForceStop.invoke(am, packageName, Util.getUserId(uid));
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-        }
+        if (kill)
+            forceStop(context, packageName, Util.getUserId(uid));
 
         return new Bundle();
     }
@@ -602,6 +592,7 @@ class XSettings {
         String category = extras.getString("category");
         String name = extras.getString("name");
         String value = extras.getString("value");
+        boolean kill = extras.getBoolean("kill", false);
         Log.i(TAG, "Put setting " + userid + ":" + category + " " + name + "=" + value);
 
         dbLock.writeLock().lock();
@@ -629,6 +620,9 @@ class XSettings {
         } finally {
             dbLock.writeLock().unlock();
         }
+
+        if (kill)
+            forceStop(context, category, userid);
 
         return new Bundle();
     }
@@ -801,6 +795,20 @@ class XSettings {
             XposedBridge.log(ex);
             return false;
         }
+    }
+
+    private static void forceStop(Context context, String packageName, int userid) throws Throwable {
+        // Access activity manager as system user
+        long ident = Binder.clearCallingIdentity();
+        try {
+            // public void forceStopPackageAsUser(String packageName, int userId)
+            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            Method mForceStop = am.getClass().getMethod("forceStopPackageAsUser", String.class, int.class);
+            mForceStop.invoke(am, packageName, userid);
+        } finally {
+            Binder.restoreCallingIdentity(ident);
+        }
+
     }
 
     static boolean getSettingBoolean(Context context, String category, String name) {
