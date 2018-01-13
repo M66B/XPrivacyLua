@@ -20,8 +20,27 @@ function after(hook, param)
     if result == nil then
         return false
     else
-        result:setLatitude(0)
-        result:setLongitude(0)
+        local latitude = 0
+        local longitude = 0
+        local type = param:getSetting('location.type')
+        if type == 'set' then
+            latitude = param:getSetting('location.latitude')
+            longitude = param:getSetting('location.longitude')
+            if latitude == nil or longitude == nil then
+                latitude = 0
+                longitude = 0
+            end
+        elseif type == 'coarse' then
+            -- 1 degree ~ 111 km ~ 69 mile
+            local accuracy = param:getSetting('location.accuracy')
+            if accuracy ~= nil then
+                latitude = math.floor(result:getLatitude() * accuracy) / accuracy
+                longitude = math.floor(result:getLongitude() * accuracy) / accuracy
+            end
+        end
+        result:setLatitude(latitude)
+        result:setLongitude(longitude)
+        log(result)
         return true
     end
 end

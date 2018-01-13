@@ -160,6 +160,13 @@ public class FragmentMain extends Fragment {
                         getContext().getContentResolver()
                                 .call(XSettings.URI, "xlua", "putHook", args);
                     }
+
+                    // 1 degree ~ 111 km ~ 69 mile
+                    String pkg = "com.google.android.apps.maps";
+                    XSettings.putSetting(getContext(), pkg, "location.type", "coarse");
+                    XSettings.putSetting(getContext(), pkg, "location.accuracy", Double.toString(111.0 / 25));
+                    XSettings.putSetting(getContext(), pkg, "location.latitude", Double.toString(-10.4912311));
+                    XSettings.putSetting(getContext(), pkg, "location.longitude", Double.toString(105.6229817));
                 }
 
                 Cursor chooks = null;
