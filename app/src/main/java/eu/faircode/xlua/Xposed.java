@@ -26,6 +26,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -60,6 +61,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String TAG = "XLua.Xposed";
+
+    private static int version = -1;
 
     public void initZygote(final IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         Log.i(TAG, "initZygote system=" + startupParam.startsSystemServer);
@@ -133,17 +136,22 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         String arg = (String) param.args[1];
                         Bundle extras = (Bundle) param.args[2];
 
-                        if ("xlua".equals(method)) {
-                            try {
-                                Method mGetContext = param.thisObject.getClass().getMethod("getContext");
-                                Context context = (Context) mGetContext.invoke(param.thisObject);
-                                param.setResult(XSettings.call(context, arg, extras));
-                            } catch (Throwable ex) {
-                                Log.e(TAG, Log.getStackTraceString(ex));
-                                XposedBridge.log(ex);
-                                param.setResult(null);
-                            }
-                        }
+                        if ("xlua".equals(method))
+                            if ("getVersion".equals(arg)) {
+                                Bundle result = new Bundle();
+                                result.putInt("version", version);
+                                param.setResult(result);
+                            } else
+                                try {
+                                    Method mGetContext = param.thisObject.getClass().getMethod("getContext");
+                                    Context context = (Context) mGetContext.invoke(param.thisObject);
+                                    getVersion(context);
+                                    param.setResult(XSettings.call(context, arg, extras));
+                                } catch (Throwable ex) {
+                                    Log.e(TAG, Log.getStackTraceString(ex));
+                                    XposedBridge.log(ex);
+                                    param.setResult(null);
+                                }
                     } catch (Throwable ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
                         XposedBridge.log(ex);
@@ -164,6 +172,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             try {
                                 Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                                 Context context = (Context) mGetContext.invoke(param.thisObject);
+                                getVersion(context);
                                 param.setResult(XSettings.query(context, projection[0].split("\\.")[1], selection));
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
@@ -219,6 +228,15 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
                 }
             });
+        }
+    }
+
+    private void getVersion(Context context) throws PackageManager.NameNotFoundException {
+        if (version < 0) {
+            String self = Xposed.class.getPackage().getName();
+            PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
+            version = pi.versionCode;
+            Log.i(TAG, "Loaded module version " + version);
         }
     }
 

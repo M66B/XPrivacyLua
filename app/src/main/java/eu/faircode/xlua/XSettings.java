@@ -59,7 +59,6 @@ class XSettings {
 
     private final static Object lock = new Object();
 
-    private static int version = -1;
     private static Map<String, XHook> hooks = null;
     private static SQLiteDatabase db = null;
     private static ReentrantReadWriteLock dbLock = new ReentrantReadWriteLock(true);
@@ -71,8 +70,6 @@ class XSettings {
 
     static void loadData(Context context) throws Throwable {
         synchronized (lock) {
-            if (version < 0)
-                version = getVersion(context);
             if (hooks == null)
                 hooks = loadHooks(context);
             if (db == null)
@@ -89,9 +86,6 @@ class XSettings {
             StrictMode.allowThreadDiskReads();
             StrictMode.allowThreadDiskWrites();
             switch (method) {
-                case "getVersion":
-                    result = getVersion(context, extras);
-                    break;
                 case "putHook":
                     result = putHook(context, extras);
                     break;
@@ -153,12 +147,6 @@ class XSettings {
 
         if (result != null)
             result.moveToPosition(-1);
-        return result;
-    }
-
-    private static Bundle getVersion(Context context, Bundle extras) throws Throwable {
-        Bundle result = new Bundle();
-        result.putInt("version", version);
         return result;
     }
 
@@ -657,13 +645,6 @@ class XSettings {
         } finally {
             Binder.restoreCallingIdentity(ident);
         }
-    }
-
-    private static int getVersion(Context context) throws Throwable {
-        String self = XSettings.class.getPackage().getName();
-        PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
-        Log.i(TAG, "Loaded module version " + pi.versionCode);
-        return pi.versionCode;
     }
 
     private static Map<String, XHook> loadHooks(Context context) throws Throwable {
