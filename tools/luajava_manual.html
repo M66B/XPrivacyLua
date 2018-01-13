@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>LuaJava - A Script Tool for Java</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="LuaJava" src="luajava_128.png"/>
+	</a></div>
+	<div id="product_name"><big><b>LuaJava</b></big></div>
+	<div id="product_description">A Script Tool for Java</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+<div id="navigation">
+	
+<h1>LuaJava</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul>
+				<li><a href="index.html#overview">Overview</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#dependencies">Dependencies</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#credits">Credits</a></li>
+				<li><a href="index.html#contact">Contact us</a></li>
+			</ul>
+		</li>
+		<li><strong>Manual</strong>
+			<ul>
+				<li><a href="manual.html#compile">Compiling</a></li>
+				<li><a href="manual.html#install">Installing</a></li>
+				<li><a href="manual.html#console">Java Console</a></li>
+				<li><a href="manual.html#luareference">Lua Reference</a></li>
+				<li><a href="manual.html#javareference">Java Reference</a></li>
+			</ul>
+		</li>
+		<li><a href="examples.html">Examples</a></li>
+		<li><a href="history.html">History</a></li>
+    <li><a href="http://luaforge.net/projects/luajava/">Project</a>
+       <ul>
+          <li><a href="http://luaforge.net/tracker/?group_id=10">Bug Tracker</a></li>
+          <li><a href="http://luaforge.net/scm/?group_id=10">CVS</a></li>
+       </ul>
+    </li>
+		<li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<p>LuaJava was tested with Windows and Linux platafforms using Java JDK 1.4.
+LuaJava is JDK 1.4 or higher compatible.</p>
+
+<h2><a name="compile"></a>Compiling</h2>
+
+<p>LuaJava source distribution includes a Windows nmakefile and a Linux makefile.
+Edit the <code>config</code> file to point to your JDK, Lua directories and C libraries
+and compilers.</p>
+
+<h3>Windows</h3>
+
+<p>LuaJava can be compiled for Windows using <em>nmake</em> from <em>MSVC++</em>.
+To do that, run the <code>VCVARS32.BAT</code> command before running nmake:</p>
+
+<pre class="example">
+c:\luajava-1.1&gt;&quot;drive:\complete_path_to\VCVARS32.bat&quot;
+c:\luajava-1.1&gt;nmake -f nmakefile
+</pre>
+
+<h3>Linux</h3>
+
+<p>To compile LuaJava for Linux and OSX just do:</p>
+
+<pre class="example">
+make
+</pre>
+
+
+<h2><a name="install"></a>Installing</h2>
+
+<p>LuaJava compilation generates two files: <code>luajava-1.1.jar</code> and 
+<code>luajava-1.1.dll</code> (or <code>libluajava-1.1.so</code> in Unix, or 
+<code>libluajava-1.1.jnilib</code> in MacOSX).
+</p>
+
+<dl>
+<dt><strong>luajava-1.1.jar</strong></dt>
+<dd>This file must be copied to a path in the java application CLASSPATH.</dd>
+
+<dt><strong>luajava-1.1.dll (or libluajava-1.1.so or libluajava-1.1.jnilib)</strong></dt>
+<dd>This file must be copied to a path in your system path, that depends on your OS. 
+Windows users can place it in the JRE bin directory, or the windows system folder. Unix
+users can place it in the JRE bin directory or a directory pointed by LD_LIBRARY_PATH 
+environment variable.</dd>
+</dl>
+
+
+<h2><a name="console"></a>Running the LuaJava Console</h2>
+
+<p>LuaJava is distributed with a simple console. To run it type :</p>
+
+<pre class="example">
+c:\luajava-1.1&gt;java -cp &quot;luajava-1.1.jar&quot;
+       org.keplerproject.luajava.Console
+</pre>
+
+
+<h2><a name="luareference"></a>Lua Reference</h2>
+
+<p>
+One of the goals of LuaJava is to allow the programmer to manipulate Java objects in
+the same way as it manipulates native (Lua) objects. Lua, like most interpreted languages,
+is dynamically typed. Variables have no type. Instead, each value carries its own type with it.
+Lua has no declarations, instead variables may contain any value of the language.
+
+LuaJava creates a library in Lua called <code>luajava</code>. This library offers 5 functions:
+</p>
+
+<dl>
+
+    <dt><strong>newInstance(className, ...)</strong></dt>
+    <dd><p>This function creates a new Java object, and returns a Lua object that is a reference
+    to the actual Java object. You can access this object with the regular syntax used to access
+    object oriented functions in Lua objects.</p>
+    <p>The first parameter is the name of the class to be instantiated. The other parameters are
+    passed to the Java Class constructor.</p>
+    <p>Example:</p>
+
+<pre class="example">
+obj = luajava.newInstance("java.lang.Object")
+-- obj is now a reference to the new object
+-- created and any of its methods can be accessed.
+
+-- this creates a string tokenizer to the "a,b,c,d"
+-- string using "," as the token separator.
+strTk = luajava.newInstance("java.util.StringTokenizer", 
+    "a,b,c,d", ",")
+while strTk:hasMoreTokens() do
+    print(strTk:nextToken())
+end
+
+</pre>
+
+<p>The code above should print the following on the screen:</p>
+
+
+<pre class="example">
+a
+b
+c
+d
+</pre>
+        </dd>
+
+    <dt><strong>bindClass(className)</strong></dt>
+    <dd><p>This function retrieves a Java class corresponding to <code>className</code>.
+    The returned object can be used to access static fields and methods of the
+    corresponding class.</p>
+    <p>Example:</p>
+<pre class="example">
+sys = luajava.bindClass("java.lang.System")
+print ( sys:currentTimeMillis() )
+
+-- this prints the time returned by the function.
+</pre>
+    </dd>
+
+    <dt><strong>new(javaClass)</strong></dt>
+    <dd><p>This function receives a java.lang.Class and returns a new instance of this class.</p>
+    <p><code>new</code> works just like <code>newInstance</code>, but the first argument is an
+    instance of the class.</p>
+    <p>Example:</p>
+
+<pre class="example">
+str = luajava.bindClass("java.lang.String")
+strInstance = luajava.new(str)
+</pre>
+
+    </dd>
+
+    <dt><strong>createProxy(interfaceNames, luaObject)</strong></dt>
+    <dd><p>We can also, instead of creating a Java object to be manipulated by Lua, create a Lua
+    object that will be manipulated by Java. We can do that in LuaJava by creating a <em>proxy</em>
+    to that object. This is done by the createProxy function.</p>
+    <p>The function <code>createProxy</code> returns a java Object reference that can be used as an
+    implementation of the given interface.</p>
+    <p><code>createProxy</code> receives a string that contain the names of the interfaces to be
+    implemented, separated by a comma(,), and a lua object that is the interface implementation.</p>
+    <p>Example:</p>
+
+<pre class="example">
+button = luajava.newInstance("java.awt.Button", "execute")
+button_cb = {}
+function button_cb.actionPerformed(ev)
+ . . .
+end
+
+buttonProxy = luajava.createProxy("java.awt.ActionListener", 
+    button_cb)
+
+button:addActionListener(buttonProxy)
+</pre>
+    
+    <p>We can use Lua scripts to write implementations only for Java interfaces.</p>
+    </dd>
+    
+    <dt><strong>loadLib(className, methodName)</strong></dt>
+    <dd><p><code>loadLib</code> is a function that has a use similar to Lua's <code>loadlib</code>
+    function. The purpose of this function is to allow users to write libraries in Java and then
+    load them into Lua.</p>
+    <p>What <code>loadLib</code> does is call a static function in a given class and execute a
+    given method, which should receive LuaState as parameter. If this function returns a integer,
+    LuaJava takes it as the number of parameters returned by the the function, otherwise nothing
+    is returned.</p>
+    <p>The following Lua example can access the global <code>eg</code> created by the Java class
+    <code>test.LoadLibExample</code>:</p>
+
+<pre class="example">
+luajava.loadLib("test.LoadLibExample", "open")
+eg.example(3)
+</pre>
+
+    <p>And this Java example implements the method <code>example</code>:</p>
+
+<pre class="example">
+public static int open(LuaState L) throws LuaException
+{
+  L.newTable();
+  L.pushValue(-1);
+  L.setGlobal("eg");
+
+  L.pushString("example");
+
+  L.pushJavaFunction(new JavaFunction(L) {
+    /**
+     * Example for loadLib.
+     * Prints the time and the first parameter, if any.
+     */
+    public int execute() throws LuaException
+    {
+      System.out.println(new Date().toString());
+    
+      if (L.getTop() > 1)
+      {
+        System.out.println(getParam(2));
+      }
+
+      return 0;
+    }
+  });
+
+  L.setTable(-3);
+
+  return 1;
+}
+</pre>
+    </dd>
+
+</dl>
+
+<h2><a name="javareference"></a>Java Reference</h2>
+
+<p>The LuaJava <a href="API/index.html">Java Reference Manual</a> is generated by JavaDoc for easier browsing.</p>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">
+    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+      <p><small>$Id: manual.html,v 1.20 2007/01/23 22:37:28 thiago Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 
