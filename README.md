@@ -60,12 +60,15 @@ See [here](https://lua.xprivacy.eu/) about how you can donate.
 Contributing
 ------------
 
-*Building*
+*Source code*
 
 Building XPrivacyLua from source code is straightforward with [Android Studio](http://developer.android.com/sdk/).
 It is expected that you can solve build problems yourself, so there is no support on building.
 
-*Translating*
+Source code contributions are prefered in the form of [pull requests](https://help.github.com/articles/creating-a-pull-request/).
+Please [contact me](https://contact.faircode.eu/) first to tell me what your plans are.
+
+*Translations*
 
 * You can translate the in-app texts [here](https://crowdin.com/project/xprivacylua/)
 * If your language is not listed, please send a message through [this contact form](https://contact.faircode.eu/)
