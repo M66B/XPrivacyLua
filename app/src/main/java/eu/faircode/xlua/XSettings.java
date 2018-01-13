@@ -633,15 +633,19 @@ class XSettings {
         // Access package manager as system user
         long ident = Binder.clearCallingIdentity();
         try {
+            // Allow system
             int cuid = Util.getAppId(Binder.getCallingUid());
             if (cuid == Process.SYSTEM_UID)
                 return;
+
+            // Allow same signature
+            PackageManager pm = context.getPackageManager();
             String self = XSettings.class.getPackage().getName();
-            int puid = context.getPackageManager().getApplicationInfo(self, 0).uid;
-            if (cuid != puid)
-                throw new SecurityException("Calling uid " + cuid + " <> package uid " + puid);
-        } catch (Throwable ex) {
-            throw new SecurityException("Error determining package uid", ex);
+            int uid = pm.getApplicationInfo(self, 0).uid;
+            if (pm.checkSignatures(cuid, uid) != PackageManager.SIGNATURE_MATCH)
+                throw new SecurityException("Signature error cuid=" + cuid);
+        } catch (PackageManager.NameNotFoundException ex) {
+            throw new SecurityException(ex);
         } finally {
             Binder.restoreCallingIdentity(ident);
         }
