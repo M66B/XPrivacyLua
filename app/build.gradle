@@ -37,13 +37,17 @@ dependencies {
     implementation 'com.android.support:design:27.+'
 
     // https://bumptech.github.io/glide/
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
+    // { exclude group: "com.android.support" }
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 
     // https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API
     // https://bintray.com/rovo89/de.robv.android.xposed/api
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
 
+    // http://www.luaj.org/luaj/3.0/README.html
+    // https://mvnrepository.com/artifact/org.luaj/luaj-jse
     implementation 'org.luaj:luaj-jse:3.0.1'
 }
