@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#1c8adb</color>
+    <color name="colorPrimaryDark">#005da9</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Primokorn -->
+    <color name="_primaryColor">#1c8adb</color>
+    <color name="_primaryLightColor">#67baff</color>
+    <color name="_primaryDarkColor">#005da9</color>
+    <color name="_secondaryColor">#135f96</color>
+    <color name="_secondaryLightColor">#538cc7</color>
+    <color name="_secondaryDarkColor">#003668</color>
+    <color name="_primaryTextColor">#000000</color>
+    <color name="_secondaryTextColor">#ffffff</color>
 </resources>
