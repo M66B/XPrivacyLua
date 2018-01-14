@@ -46,6 +46,8 @@ import android.util.Log;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -170,7 +172,14 @@ class XSettings {
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {
         MatrixCursor result = new MatrixCursor(new String[]{"json"});
         synchronized (lock) {
-            for (XHook hook : hooks.values())
+            List<XHook> hv = new ArrayList(hooks.values());
+            Collections.sort(hv, new Comparator<XHook>() {
+                @Override
+                public int compare(XHook h1, XHook h2) {
+                    return h1.getId().compareTo(h2.getId());
+                }
+            });
+            for (XHook hook : hv)
                 if (hook.isEnabled())
                     result.addRow(new String[]{hook.toJSON()});
         }

@@ -22,6 +22,7 @@ package eu.faircode.xlua;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -161,8 +162,15 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     if (settings == null) {
                         settings = new Intent(Intent.ACTION_VIEW);
                         settings.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
+                        Intent temp = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu"));
+                        for (ResolveInfo ri : pm.queryIntentActivities(temp, 0)) {
+                            Log.i(TAG, "resolved=" + ri);
+                            settings.setPackage(ri.activityInfo.processName);
+                            break;
+                        }
                     } else
                         settings.putExtra("packageName", app.packageName);
+
                     view.getContext().startActivity(settings);
                     break;
             }
