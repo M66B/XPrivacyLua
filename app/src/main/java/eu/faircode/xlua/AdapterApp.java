@@ -160,7 +160,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     Intent settings = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
                     if (settings == null) {
                         settings = new Intent(Intent.ACTION_VIEW);
-                        settings.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + Util.PRO_PACKAGE_NAME));
+                        settings.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
                     } else
                         settings.putExtra("packageName", app.packageName);
                     view.getContext().startActivity(settings);
