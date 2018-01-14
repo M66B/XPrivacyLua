@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Restriction installed</string>
+  <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Применение ограничений требует перезагрузки</string>
   <string name="title_help_exception">Применение не удалось (нажмите на значок для информации)</string>
   <string name="menu_search">Поиск</string>
@@ -33,6 +34,7 @@
   <string name="group_get_sensors">Датчики</string>
   <string name="group_read_account">Имя аккаунта</string>
   <string name="group_read_clipboard">Буфер обмена</string>
+  <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_telephony">Чтение данных телефонии</string>
   <string name="group_record_audio">Запись аудио</string>
   <string name="group_record_video">Запись видео</string>

@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
+  <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Appliquer des restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
   <string name="menu_search">Rechercher</string>
@@ -33,6 +34,7 @@
   <string name="group_get_sensors">Voir les capteurs</string>
   <string name="group_read_account">Lire le nom du compte</string>
   <string name="group_read_clipboard">Lire le presse-papiers</string>
+  <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_telephony">Lire les données téléphoniques</string>
   <string name="group_record_audio">Enregistrement audio</string>
   <string name="group_record_video">Enregistrement vidéo</string>

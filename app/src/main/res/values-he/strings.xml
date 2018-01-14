@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">הגבלה הושמה</string>
+  <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">אתחול המכשיר דרוש בשביל להחיל את השינוים</string>
   <string name="title_help_exception">החלת ההגבלה נכשלה (לחץ כדי לגלות למה)</string>
   <string name="menu_search">חפש</string>
@@ -33,6 +34,7 @@
   <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">קריאת שם החשבון</string>
   <string name="group_read_clipboard">קריאת לוח העתקה</string>
+  <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">הקלטת שמע</string>
   <string name="group_record_video">Record video</string>

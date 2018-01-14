@@ -13,6 +13,7 @@
 href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aici</a>]]>; pentru intrebări frecvente.
     </string>
   <string name="title_help_installed">Restricțiile au fost instalate</string>
+  <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Aplicarea restricțiilor necesită repornirea aparatului</string>
   <string name="title_help_exception">Aplicarea restricțiilor nu a fost posibilă (atinge semnul pentru a vedea de ce)</string>
   <string name="menu_search">Caută</string>
@@ -34,6 +35,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aici</a>]]>; pentr
   <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Citește numele contului</string>
   <string name="group_read_clipboard">Citește clipboard</string>
+  <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Înregistrare audio</string>
   <string name="group_record_video">Record video</string>

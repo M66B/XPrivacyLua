@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>;Sıkça sorulan sorula için <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">buraya</a>]]>; bakınız.
     </string>
   <string name="title_help_installed">Sınırlama yüklendi</string>
+  <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Sınırlamaları uygulamak cihazı yeniden başlatmayı gerektirir</string>
   <string name="title_help_exception">Sınırlamaları uygulama başarısız (nedenini görmek için simgeye dokunun)</string>
   <string name="menu_search">Ara</string>
@@ -33,6 +34,7 @@
   <string name="group_get_sensors">Get sensors</string>
   <string name="group_read_account">Hesap adını oku</string>
   <string name="group_read_clipboard">Panoyu oku</string>
+  <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Sesi kaydet</string>
   <string name="group_record_video">Record video</string>
