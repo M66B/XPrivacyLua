@@ -21,6 +21,7 @@ package eu.faircode.xlua;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.telephony.SmsManager;
@@ -165,7 +166,11 @@ public class XHook {
                     }
 
                     // Resolve class names
-                    if ("android.hardware.camera2.CameraManager".equals(hook.className)) {
+                    if ("android.app.ActivityManager".equals(hook.className)) {
+                        String className = context.getSystemService(ActivityManager.class).getClass().getName();
+                        hook.className = className;
+                        Log.i(TAG, hook.getId() + " class name=" + className);
+                    } else if ("android.hardware.camera2.CameraManager".equals(hook.className)) {
                         String className = context.getSystemService(CameraManager.class).getClass().getName();
                         hook.className = className;
                         Log.i(TAG, hook.getId() + " class name=" + className);
@@ -177,16 +182,16 @@ public class XHook {
                         String className = context.getPackageManager().getClass().getName();
                         hook.className = className;
                         Log.i(TAG, hook.getId() + " class name=" + className);
+                    } else if ("android.hardware.SensorManager".equals(hook.className)) {
+                        String className = context.getSystemService(SensorManager.class).getClass().getName();
+                        hook.className = className;
+                        Log.i(TAG, hook.getId() + " class name=" + className);
                     } else if ("android.telephony.SmsManager".equals(hook.className)) {
                         String className = SmsManager.getDefault().getClass().getName();
                         hook.className = className;
                         Log.i(TAG, hook.getId() + " class name=" + className);
                     } else if ("android.telephony.TelephonyManager".equals(hook.className)) {
                         String className = context.getSystemService(Context.TELEPHONY_SERVICE).getClass().getName();
-                        hook.className = className;
-                        Log.i(TAG, hook.getId() + " class name=" + className);
-                    } else if ("android.app.ActivityManager".equals(hook.className)) {
-                        String className = context.getSystemService(ActivityManager.class).getClass().getName();
                         hook.className = className;
                         Log.i(TAG, hook.getId() + " class name=" + className);
                     }
