@@ -18,6 +18,48 @@
  */
 
 [
+  // https://developer.android.com/reference/android/os/Build.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Build.getSerial",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "getSerial",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 26,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Build.SERIAL",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#SERIAL",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 9,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Settings.Secure.getString",
+    "author": "M66B",
+    "className": "android.provider.Settings$Secure",
+    "methodName": "getString",
+    "parameterTypes": [
+      "android.content.ContentResolver",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 3,
+    "luaScript": "@settingssecure_get"
+  },
   // Get applications
   // https://developer.android.com/reference/android/app/ActivityManager.html
   // https://developer.android.com/reference/android/content/pm/PackageManager.html

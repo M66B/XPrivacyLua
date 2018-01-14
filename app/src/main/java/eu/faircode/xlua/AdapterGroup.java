@@ -60,12 +60,12 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         String group;
         List<XHook> hooks;
 
-        View itemView;
-        ImageView ivException;
-        ImageView ivInstalled;
-        TextView tvUsed;
-        TextView tvGroup;
-        AppCompatCheckBox cbAssigned;
+        final View itemView;
+        final ImageView ivException;
+        final ImageView ivInstalled;
+        final TextView tvUsed;
+        final TextView tvGroup;
+        final AppCompatCheckBox cbAssigned;
 
         ViewHolder(View itemView) {
             super(itemView);

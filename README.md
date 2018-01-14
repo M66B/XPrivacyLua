@@ -18,17 +18,20 @@ Features
 Restrictions
 ------------
 
-* Get applications
-* Get calendars
-* Get call log
-* Get contacts (including blocked numbers)
-* Get location
-* Get messages (MMS, SMS, SIM, voicemail)
-* Read account name (mostly e-mail address)
-* Read clipboard
-* Record audio
-* Record video
-* Use camera (take pictures)
+* Get applications (hide installed apps)
+* Get calendars (hide calendars)
+* Get call log (hide call log)
+* Get contacts (hide contacts, including blocked numbers)
+* Get location (fake location)
+* Get messages (hide MMS, SMS, SIM, voicemail)
+* Get sensors (hide all sensors)
+* Read account name (fake name, mostly e-mail address)
+* Read clipboard (fake paste)
+* Read identifiers (fake build serial number, Android ID)
+* Read telephony data (hide IMEI, MEI, SIM serial number, etc)
+* Record audio (prevent recording)
+* Record video (prevent recording)
+* Use camera (fake camera not available)
 
 Compatibility
 -------------

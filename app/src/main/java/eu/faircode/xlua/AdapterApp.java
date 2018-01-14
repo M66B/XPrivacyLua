@@ -73,18 +73,18 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, XApp.IListener {
         XApp app;
 
-        View itemView;
-        ImageView ivExpander;
-        ImageView ivIcon;
-        TextView tvLabel;
-        TextView tvUid;
-        TextView tvPackage;
-        ImageView ivPersistent;
-        ImageView ivSettings;
-        AppCompatCheckBox cbAssigned;
-        RecyclerView rvGroup;
+        final View itemView;
+        final ImageView ivExpander;
+        final ImageView ivIcon;
+        final TextView tvLabel;
+        final TextView tvUid;
+        final TextView tvPackage;
+        final ImageView ivPersistent;
+        final ImageView ivSettings;
+        final AppCompatCheckBox cbAssigned;
+        final RecyclerView rvGroup;
 
-        AdapterGroup adapter;
+        final AdapterGroup adapter;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -351,9 +351,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     }
 
     private class AppDiffCallback extends DiffUtil.Callback {
-        private boolean expanded1;
-        private List<XApp> prev;
-        private List<XApp> next;
+        private final boolean expanded1;
+        private final List<XApp> prev;
+        private final List<XApp> next;
 
         AppDiffCallback(boolean expanded1, List<XApp> prev, List<XApp> next) {
             this.expanded1 = expanded1;

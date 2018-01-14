@@ -344,11 +344,11 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private static class DrawerItem {
-        private int id;
-        private String title;
-        private boolean checkable;
+        private final int id;
+        private final String title;
+        private final boolean checkable;
         private boolean checked;
-        private IListener listener;
+        private final IListener listener;
 
         DrawerItem(Context context, int title, IListener listener) {
             this.id = title;
@@ -395,7 +395,7 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private static class ArrayAdapterDrawer extends ArrayAdapter<DrawerItem> {
-        private int resource;
+        private final int resource;
 
         ArrayAdapterDrawer(@NonNull Context context, int resource) {
             super(context, resource);

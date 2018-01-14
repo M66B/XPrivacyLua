@@ -49,6 +49,7 @@
     <string name="group_get_sensors">Get sensors</string>
     <string name="group_read_account">Read account name</string>
     <string name="group_read_clipboard">Read clipboard</string>
+    <string name="group_read_identifiers">Read identifiers</string>
     <string name="group_read_telephony">Read telephony data</string>
     <string name="group_record_audio">Record audio</string>
     <string name="group_record_video">Record video</string>

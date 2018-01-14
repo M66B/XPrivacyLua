@@ -347,7 +347,7 @@ class XSettings {
                             new String[]{"hook"},
                             "package = ? AND uid = ?",
                             new String[]{packageName, Integer.toString(uid)},
-                            null, null, null);
+                            null, null, "hook");
                     int colHook = cursor.getColumnIndex("hook");
                     while (cursor.moveToNext()) {
                         String hookid = cursor.getString(colHook);
