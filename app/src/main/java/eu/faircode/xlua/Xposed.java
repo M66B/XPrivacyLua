@@ -230,19 +230,34 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     hcursor.close();
                             }
 
-                            // Get settings
                             Map<String, String> settings = new HashMap<>();
-                            Cursor scursor = null;
+
+                            // Get global settings
+                            Cursor scursor1 = null;
                             try {
-                                scursor = resolver
+                                scursor1 = resolver
+                                        .query(XSettings.URI, new String[]{"xlua.getSettings"},
+                                                null, new String[]{"global", Integer.toString(uid)},
+                                                null);
+                                while (scursor1 != null && scursor1.moveToNext())
+                                    settings.put(scursor1.getString(0), scursor1.getString(1));
+                            } finally {
+                                if (scursor1 != null)
+                                    scursor1.close();
+                            }
+
+                            // Get package settings
+                            Cursor scursor2 = null;
+                            try {
+                                scursor2 = resolver
                                         .query(XSettings.URI, new String[]{"xlua.getSettings"},
                                                 null, new String[]{lpparam.packageName, Integer.toString(uid)},
                                                 null);
-                                while (scursor != null && scursor.moveToNext())
-                                    settings.put(scursor.getString(0), scursor.getString(1));
+                                while (scursor2 != null && scursor2.moveToNext())
+                                    settings.put(scursor2.getString(0), scursor2.getString(1));
                             } finally {
-                                if (scursor != null)
-                                    scursor.close();
+                                if (scursor2 != null)
+                                    scursor2.close();
                             }
 
                             hookPackage(app, lpparam, uid, hooks, settings);
