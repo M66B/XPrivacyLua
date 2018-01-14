@@ -508,7 +508,6 @@
     ],
     "returnType": "android.hardware.Sensor",
     "minSdk": 3,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -524,7 +523,6 @@
     ],
     "returnType": "android.hardware.Sensor",
     "minSdk": 21,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -539,7 +537,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 24,
-    "enabled": false,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -554,7 +551,6 @@
     ],
     "returnType": "java.util.List",
     "minSdk": 3,
-    "enabled": false,
     "luaScript": "@generic_empty_list"
   },
   {
@@ -568,7 +564,6 @@
     ],
     "returnType": "int",
     "minSdk": 1,
-    "enabled": false,
     "luaScript": "@generic_zero_value"
   },
   // Read account
@@ -617,7 +612,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -632,7 +626,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 23,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -646,7 +639,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 18,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -660,7 +652,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -675,7 +666,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -690,7 +680,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -704,7 +693,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -719,7 +707,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -734,7 +721,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -748,7 +734,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   {
@@ -762,7 +747,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "enabled": false,
     "luaScript": "@generic_null_value"
   },
   // Record audio
