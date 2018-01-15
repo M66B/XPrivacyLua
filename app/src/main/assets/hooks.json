@@ -18,116 +18,6 @@
  */
 
 [
-  // https://developer.android.com/reference/android/os/Build.html
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "AdvertisingIdClient$Info.getId",
-    "author": "M66B",
-    "className": "com.google.android.gms.ads.identifier.AdvertisingIdClient$Info",
-    "methodName": "getId",
-    "parameterTypes": [
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 1,
-    "optional": true,
-    "luaScript": "@advertisingidclient$info_getid"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "Build.getSerial",
-    "author": "M66B",
-    "className": "android.os.Build",
-    "methodName": "getSerial",
-    "parameterTypes": [
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 26,
-    "luaScript": "@generic_unknown_value"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "Build.SERIAL",
-    "author": "M66B",
-    "className": "android.os.Build",
-    "methodName": "#SERIAL",
-    "parameterTypes": [
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 9,
-    "luaScript": "@generic_unknown_value"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "ContentResolver.query1/gsf_id",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "[Ljava.lang.String;",
-      "java.lang.String"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 1,
-    "luaScript": "@contentresolver_query"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "ContentResolver.query16/gsf_id",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "[Ljava.lang.String;",
-      "java.lang.String",
-      "android.os.CancellationSignal"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 16,
-    "luaScript": "@contentresolver_query"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "ContentResolver.query26/gsf_id",
-    "author": "M66B",
-    "className": "android.content.ContentResolver",
-    "methodName": "query",
-    "parameterTypes": [
-      "android.net.Uri",
-      "[Ljava.lang.String;",
-      "android.os.Bundle",
-      "android.os.CancellationSignal"
-    ],
-    "returnType": "android.database.Cursor",
-    "minSdk": 26,
-    "luaScript": "@contentresolver_query"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "Settings.Secure.getString",
-    "author": "M66B",
-    "className": "android.provider.Settings$Secure",
-    "methodName": "getString",
-    "parameterTypes": [
-      "android.content.ContentResolver",
-      "java.lang.String"
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 3,
-    "luaScript": "@settingssecure_get"
-  },
   // Get applications
   // https://developer.android.com/reference/android/app/ActivityManager.html
   // https://developer.android.com/reference/android/content/pm/PackageManager.html
@@ -784,6 +674,227 @@
     "returnType": "android.content.ClipData",
     "minSdk": 11,
     "luaScript": "@clipdata_createfromparcel"
+  },
+  // Read identifiers
+  // https://developer.android.com/reference/android/os/Build.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "AdvertisingIdClient$Info.getId",
+    "author": "M66B",
+    "className": "com.google.android.gms.ads.identifier.AdvertisingIdClient$Info",
+    "methodName": "getId",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@advertisingidclient$info_getid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Build.getSerial",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "getSerial",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 26,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Build.SERIAL",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#SERIAL",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 9,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "ContentResolver.query1/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "ContentResolver.query16/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "ContentResolver.query26/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Settings.Secure.getString",
+    "author": "M66B",
+    "className": "android.provider.Settings$Secure",
+    "methodName": "getString",
+    "parameterTypes": [
+      "android.content.ContentResolver",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 3,
+    "luaScript": "@settingssecure_get"
+  },
+  // Read network data
+  // https://developer.android.com/reference/android/telephony/TelephonyManager.html
+  // https://developer.android.com/reference/android/telephony/PhoneStateListener.html
+  // https://developer.android.com/reference/android/net/wifi/WifiManager.html
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "TelephonyManager.getAllCellInfo",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getAllCellInfo",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 17,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "TelephonyManager.getCellLocation",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getCellLocation",
+    "parameterTypes": [
+    ],
+    "returnType": "android.telephony.CellLocation",
+    "minSdk": 1,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "TelephonyManager.getNeighboringCellInfo",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getNeighboringCellInfo",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 3,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "TelephonyManager.listen",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "listen",
+    "parameterTypes": [
+      "android.telephony.PhoneStateListener",
+      "int"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "luaScript": "@telephonymanager_listen"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "WifiManager.getConfiguredNetworks",
+    "author": "M66B",
+    "className": "android.net.wifi.WifiManager",
+    "methodName": "getConfiguredNetworks",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "WifiManager.getScanResults",
+    "author": "M66B",
+    "className": "android.net.wifi.WifiManager",
+    "methodName": "getScanResults",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "WifiInfo.getBSSID",
+    "author": "M66B",
+    "className": "android.net.wifi.WifiInfo",
+    "methodName": "getBSSID",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@wifiinfo_getbssid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
+    "name": "WifiInfo.getSSID",
+    "author": "M66B",
+    "className": "android.net.wifi.WifiInfo",
+    "methodName": "getSSID",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@wifiinfo_getssid"
   },
   // Read telephony data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html

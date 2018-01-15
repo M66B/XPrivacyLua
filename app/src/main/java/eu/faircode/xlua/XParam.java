@@ -106,9 +106,18 @@ public class XParam {
     public void setArgument(int index, Object value) {
         if (index < 0 || index >= this.paramTypes.length)
             throw new ArrayIndexOutOfBoundsException("Argument #" + index);
-        if (value != null && !this.paramTypes[index].isInstance(value))
+
+        Class<?> type = this.paramTypes[index];
+        if (type == boolean.class)
+            type = Boolean.class;
+        else if (type == int.class)
+            type = Integer.class;
+        else if (type == long.class)
+            type = Long.class;
+
+        if (value != null && !type.isInstance(value))
             throw new IllegalArgumentException(
-                    "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value);
+                    "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value.getClass());
         this.param.args[index] = value;
     }
 

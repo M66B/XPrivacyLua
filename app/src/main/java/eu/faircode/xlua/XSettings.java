@@ -435,9 +435,14 @@ class XSettings {
         if (uid != Binder.getCallingUid())
             throw new SecurityException();
 
-        Log.i(TAG, "Hook " + hookid + " pkg=" + packageName + ":" + uid + " event=" + event);
-        for (String key : data.keySet())
-            Log.i(TAG, key + "=" + data.get(key));
+        StringBuilder sb = new StringBuilder();
+        for (String key : data.keySet()) {
+            sb.append(' ');
+            sb.append(key);
+            sb.append('=');
+            sb.append(data.get(key).toString());
+        }
+        Log.i(TAG, "Hook " + hookid + " pkg=" + packageName + ":" + uid + " event=" + event + sb.toString());
 
         // Store event
         dbLock.writeLock().lock();

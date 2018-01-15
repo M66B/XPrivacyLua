@@ -41,8 +41,8 @@
     <string name="msg_exception">Error in %1$s</string>
 
     <string name="group_get_applications">Get applications</string>
-    <string name="group_get_call_log">Get call log</string>
     <string name="group_get_calendars">Get calendars</string>
+    <string name="group_get_call_log">Get call log</string>
     <string name="group_get_contacts">Get contacts</string>
     <string name="group_get_location">Get location</string>
     <string name="group_get_messages">Get messages</string>
@@ -50,6 +50,7 @@
     <string name="group_read_account">Read account name</string>
     <string name="group_read_clipboard">Read clipboard</string>
     <string name="group_read_identifiers">Read identifiers</string>
+    <string name="group_read_network">Read network data</string>
     <string name="group_read_telephony">Read telephony data</string>
     <string name="group_record_audio">Record audio</string>
     <string name="group_record_video">Record video</string>
