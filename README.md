@@ -28,7 +28,7 @@ Restrictions
 * Read account name (fake name, mostly e-mail address)
 * Read clipboard (fake paste)
 * Read identifiers (fake build serial number, Android ID)
-* Read telephony data (hide IMEI, MEI, SIM serial number, etc)
+* Read telephony data (hide IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
 * Use camera (fake camera not available)

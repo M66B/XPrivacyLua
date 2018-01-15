@@ -791,6 +791,32 @@
     "minSdk": 1,
     "luaScript": "@generic_null_value"
   },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getVoiceMailAlphaTag",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getVoiceMailAlphaTag",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager/getVoiceMailNumber",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getVoiceMailNumber",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_null_value"
+  },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html
   {
