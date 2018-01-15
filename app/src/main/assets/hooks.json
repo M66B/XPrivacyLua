@@ -22,6 +22,20 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
+    "name": "AdvertisingIdClient$Info.getId",
+    "author": "M66B",
+    "className": "com.google.android.gms.ads.identifier.AdvertisingIdClient$Info",
+    "methodName": "getId",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@advertisingidclient$info_getid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
     "name": "Build.getSerial",
     "author": "M66B",
     "className": "android.os.Build",

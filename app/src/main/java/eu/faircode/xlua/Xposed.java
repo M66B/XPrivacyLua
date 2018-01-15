@@ -291,7 +291,17 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 final Prototype script = LuaC.instance.compile(is, "script");
 
                 // Get class
-                Class<?> cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
+                Class<?> cls;
+                try {
+                    cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
+                } catch (ClassNotFoundException ex) {
+                    if (hook.isOptional()) {
+                        Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                        continue;
+                    } else
+                        throw ex;
+                }
+
                 String[] m = hook.getMethodName().split(":");
                 if (m.length > 1) {
                     Field field = cls.getField(m[0]);
@@ -311,8 +321,17 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 if (methodName.startsWith("#")) {
                     // Get field
-                    Field field = resolveField(cls, methodName.substring(1), returnType);
-                    field.setAccessible(true);
+                    Field field;
+                    try {
+                        field = resolveField(cls, methodName.substring(1), returnType);
+                        field.setAccessible(true);
+                    } catch (NoSuchFieldException ex) {
+                        if (hook.isOptional()) {
+                            Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                            continue;
+                        } else
+                            throw ex;
+                    }
 
                     // Initialize Lua runtime
                     Globals globals = JsePlatform.standardGlobals();
@@ -347,7 +366,16 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 } else {
                     // Get method
-                    Method method = resolveMethod(cls, methodName, paramTypes);
+                    Method method;
+                    try {
+                        method = resolveMethod(cls, methodName, paramTypes);
+                    } catch (NoSuchMethodException ex) {
+                        if (hook.isOptional()) {
+                            Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                            continue;
+                        } else
+                            throw ex;
+                    }
 
                     // Check return type
                     if (!method.getReturnType().equals(returnType))
