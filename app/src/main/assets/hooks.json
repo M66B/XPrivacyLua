@@ -153,6 +153,83 @@
     "minSdk": 1,
     "luaScript": "@generic_filter_by_uid"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getPackagesHoldingPermissions",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getPackagesHoldingPermissions",
+    "parameterTypes": [
+      "[Ljava.lang.String;",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 18,
+    "luaScript": "@generic_filter_by_uid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.queryIntentActivities",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "queryIntentActivities",
+    "parameterTypes": [
+      "android.content.Intent",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "luaScript": "@generic_filter_by_uid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.queryIntentActivityOptions",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "queryIntentActivityOptions",
+    "parameterTypes": [
+      "android.content.ComponentName",
+      "[Landroid.content.Intent;",
+      "android.content.Intent",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "luaScript": "@generic_filter_by_uid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.queryIntentContentProviders",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "queryIntentContentProviders",
+    "parameterTypes": [
+      "android.content.Intent",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 19,
+    "luaScript": "@generic_filter_by_uid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.queryIntentServices",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "queryIntentServices",
+    "parameterTypes": [
+      "android.content.Intent",
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 19,
+    "luaScript": "@generic_filter_by_uid"
+  },
   // Get calendars
   // https://developer.android.com/guide/topics/providers/calendar-provider.html API 14
   {

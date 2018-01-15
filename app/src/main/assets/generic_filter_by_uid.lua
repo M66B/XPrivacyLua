@@ -23,16 +23,35 @@ function after(hook, param)
 
     local index = 0
     local filtered = false
+    local name = hook:getName()
+    local cuid = param:getUid()
     while index < list:size() do
         local item = list:get(index)
-        if hook:getName() == 'PackageManager.getInstalledPackages' then
-            item = item.applicationInfo
+
+        local uid
+        if item == nil then
+            uid = -1
+        elseif name == 'PackageManager.getInstalledPackages' or
+                name == 'PackageManager.getPackagesHoldingPermissions' then
+            uid = item.applicationInfo.uid
+        elseif name == 'PackageManager.queryIntentActivities' or
+                name == 'PackageManager.queryIntentActivityOptions' then
+            uid = item.activityInfo.applicationInfo.uid
+        elseif name == 'PackageManager.queryIntentContentProviders' then
+            uid = item.providerInfo.applicationInfo.uid
+        elseif name == 'PackageManager.queryIntentServices' then
+            uid = item.serviceInfo.applicationInfo.uid
+        else
+            uid = item.uid
         end
-        if item ~= nil and item.uid == param:getUid() then
+
+        if uid == cuid then
             index = index + 1
         else
+            filtered = true
             list:remove(index)
         end
     end
+
     return filtered
 end
