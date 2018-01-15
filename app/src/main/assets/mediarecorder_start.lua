@@ -16,7 +16,7 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function before(hook, param)
-    local source = param:getValue('source')
+    local source = param:getValue('source', param:getThis())
     if source == nil then
         return false
     else
