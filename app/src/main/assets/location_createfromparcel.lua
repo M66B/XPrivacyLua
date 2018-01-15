@@ -31,18 +31,22 @@ function after(hook, param)
                 longitude = 0
             end
         elseif type == 'coarse' then
-            local accuracy = param:getSetting('location.accuracy') -- meters
+            local accuracy = param:getSetting('location.accuracy')
             if accuracy ~= nil then
-                accuracy = accuracy / 111000
-                latitude = math.floor(result:getLatitude() / accuracy) * accuracy
-                longitude = math.floor(result:getLongitude() / accuracy) * accuracy
+                local clatitude = param:getValue('latitude', hook)
+                local clongitude = param:getValue('longitude', hook)
+                if clatitude == nil or clongitude == nil then
+                    clatitude, clongitude = randomoffset(result:getLatitude(), result:getLongitude(), accuracy)
+                    param:putValue('latitude', clatitude, hook)
+                    param:putValue('longitude', clongitude, hook)
+                end
+                latitude = clatitude
+                longitude = clongitude
             end
         end
 
         if result:hasAccuracy() then
-            local radius = result:getAccuracy() / 111000
-            latitude = latitude + radius * 2 * math.random() - radius
-            longitude = longitude + radius * 2 * math.random() - radius
+            latitude, longitude = randomoffset(latitude, longitude, result:getAccuracy())
         end
 
         result:setLatitude(latitude)
@@ -50,4 +54,17 @@ function after(hook, param)
         log(result)
         return true
     end
+end
+
+function randomoffset(latitude, longitude, radius)
+    local r = radius / 111000; -- degrees
+
+    local w = r * math.sqrt(math.random())
+    local t = 2 * math.pi * math.random()
+    local lonoff = w * math.cos(t)
+    local latoff = w * math.sin(t)
+
+    lonoff = lonoff / math.cos(math.rad(latitude))
+
+    return latitude + latoff, longitude + lonoff
 end
