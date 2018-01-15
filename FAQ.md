@@ -26,10 +26,19 @@ This message means either that:
 * There is a problem with the XPrivacyLua service: check the Xposed log in the Xposed installer app for XPrivacyLua problems.
 
 <a name="FAQ4"></a>
-**(4) Why are some check boxes disabled?**
+**(4) Can you add ...?**
 
-A check box (tick box) will be shown disabled when the underlying restriction groups are not all enabled.
-Ideally this should be shown as the third state of a tri-state check box, but Android doesn't provide such check boxes.
+* *Network and storage restrictions*: access to the internet and to the device storage can only be prevented by revoking Linux permission from an app, which will often result in the app crashing. Therefore this will not be added.
+* *Tracking/profiling restrictions*: there are hundreds of data items that can be used for tracking and profiling purposes. It is too much work to add restrictions for all of them.
+* *User interface features*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
+
+<a name="FAQ5"></a>
+**(5) How can I fix 'There is a Problem Parsing the Package'?**
+
+This error could mean that the downloaded file is corrupt, which could for example be caused by a connection problem or by a virus scanner.
+
+It could also mean that you are trying to install XPrivacyLua on an unsupported Android version.
+See [here](https://github.com/M66B/XPrivacyLua/blob/master/README.md#compatibility) for which Android versions are supported.
 
 <br>
 
