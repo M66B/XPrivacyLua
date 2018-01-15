@@ -34,6 +34,8 @@ Restrictions
 * Record video (prevent recording)
 * Use camera (fake camera not available)
 
+You can see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json) all technical details.
+
 Compatibility
 -------------
 
