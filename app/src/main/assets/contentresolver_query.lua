@@ -23,7 +23,7 @@ function after(hook, param)
     end
 
     local match = string.gmatch(hook:getName(), '[^/]+')
-    match()
+    local func = match()
     local name = match()
     local authority = uri:getAuthority()
 
@@ -33,6 +33,7 @@ function after(hook, param)
             (name == 'call_log' and authority == 'call_log_shadow') or
             (name == 'contacts' and authority == 'icc') or
             (name == 'contacts' and authority == 'com.android.contacts') or
+            (name == 'gsf_id' and authority == 'com.google.android.gsf.gservices') or
             (name == 'mmssms' and authority == 'mms') or
             (name == 'mmssms' and authority == 'sms') or
             (name == 'mmssms' and authority == 'mms-sms') or
@@ -50,12 +51,41 @@ function after(hook, param)
             end
         end
 
+        if name == 'gsf_id' then
+            local args
+            if func == 'ContentResolver.query26' then
+                local bundle = param:getArgument(2)
+                if bundle == nil then
+                    return false
+                end
+                args = bundle:getStringArray('android:query-arg-sql-selection-args')
+            else
+                args = param:getArgument(3)
+            end
+
+            local array = luajava.bindClass('java.lang.reflect.Array')
+            local found = false
+            local length = array:getLength(args)
+            for index = 0, length - 1 do
+                local arg = array:get(args, index)
+                if arg == 'android_id' then
+                    found = true
+                    break
+                end
+            end
+
+            if not found then
+                return false
+            end
+        end
+
         local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
         --result:setExtras(cursor:getExtras())
         --notify = cursor:getNotificationUri()
         --if notify ~= nil then
         --    result:setNotificationUri(param:getThis(), notify)
         --end
+
         param:setResult(result);
         return true
     else

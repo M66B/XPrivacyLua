@@ -48,6 +48,60 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
+    "name": "ContentResolver.query1/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 1,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "ContentResolver.query16/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.lang.String",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 16,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "ContentResolver.query26/gsf_id",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "query",
+    "parameterTypes": [
+      "android.net.Uri",
+      "[Ljava.lang.String;",
+      "android.os.Bundle",
+      "android.os.CancellationSignal"
+    ],
+    "returnType": "android.database.Cursor",
+    "minSdk": 26,
+    "luaScript": "@contentresolver_query"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
     "name": "Settings.Secure.getString",
     "author": "M66B",
     "className": "android.provider.Settings$Secure",
