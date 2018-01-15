@@ -22,13 +22,13 @@ Restrictions
 * Get calendars (hide calendars)
 * Get call log (hide call log)
 * Get contacts (hide contacts, including blocked numbers)
-* Get location (fake location)
+* Get location (fake location, hide [NMEA](https://en.wikipedia.org/wiki/NMEA_0183) messages)
 * Get messages (hide MMS, SMS, SIM, voicemail)
 * Get sensors (hide all sensors)
 * Read account name (fake name, mostly e-mail address)
 * Read clipboard (fake paste)
 * Read identifiers (fake build serial number, Android ID, GSF ID, advertising ID)
-* Read network data (hide cell info, Wi-Fi networks / scan results)
+* Read network data (hide cell info, Wi-Fi networks / scan results / network name)
 * Read telephony data (hide IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
@@ -38,6 +38,7 @@ Compatibility
 -------------
 
 XPrivacyLua is supported on Android 6.0 Marshmallow and later.
+For Android 4.0.3 KitKat to Android 5.1.1 Lollipop you can use [XPrivacy](https://github.com/M66B/XPrivacy/blob/master/README.md).
 
 Installation
 ------------
