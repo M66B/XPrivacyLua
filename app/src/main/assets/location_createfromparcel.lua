@@ -33,11 +33,18 @@ function after(hook, param)
         elseif type == 'coarse' then
             local accuracy = param:getSetting('location.accuracy') -- meters
             if accuracy ~= nil then
-                accuracy = accuracy / 111319.9
+                accuracy = accuracy / 111000
                 latitude = math.floor(result:getLatitude() / accuracy) * accuracy
                 longitude = math.floor(result:getLongitude() / accuracy) * accuracy
             end
         end
+
+        if result:hasAccuracy() then
+            local radius = result:getAccuracy() / 111000
+            latitude = latitude + radius * 2 * math.random() - radius
+            longitude = longitude + radius * 2 * math.random() - radius
+        end
+
         result:setLatitude(latitude)
         result:setLongitude(longitude)
         log(result)
