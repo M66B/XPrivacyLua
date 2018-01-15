@@ -19,8 +19,8 @@ function after(hook, param)
     local result = param:getResult()
     if result == nil then
         return false
-    else
-        result.name = 'privacy@private.com'
-        return true
     end
+
+    result.name = 'privacy@private.com'
+    return true
 end

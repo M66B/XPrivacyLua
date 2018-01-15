@@ -19,9 +19,9 @@ function after(hook, param)
     local result = param:getResult()
     if result == null or result:getItemCount() == 0 then
         return false
-    else
-        local fake = result:newPlainText('XPrivacyLua', 'Private')
-        param:setResult(fake)
-        return true
     end
+
+    local fake = result:newPlainText('XPrivacyLua', 'Private')
+    param:setResult(fake)
+    return true
 end

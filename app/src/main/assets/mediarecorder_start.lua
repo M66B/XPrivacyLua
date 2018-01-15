@@ -19,8 +19,8 @@ function before(hook, param)
     local source = param:getValue('source', param:getThis())
     if source == nil then
         return false
-    else
-        param:setResult(nil)
-        return true
     end
+
+    param:setResult(nil)
+    return true
 end

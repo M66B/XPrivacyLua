@@ -19,10 +19,11 @@ function after(hook, param)
     local result = param:getResult()
     if result == nil then
         return false
-    elseif param:getArgument(1) == 'android_id' then
-        param:setResult('unknown')
-        return true
-    else
+    end
+    if param:getArgument(1) ~= 'android_id' then
         return false
     end
+
+    param:setResult('unknown')
+    return true
 end

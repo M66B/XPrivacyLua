@@ -17,10 +17,10 @@
 
 function after(hook, param)
     local result = param:getResult()
-    if result then
-        param:setResult(false)
-        return true
-    else
+    if not result then
         return false
     end
+
+    param:setResult(false)
+    return true
 end

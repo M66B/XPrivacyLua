@@ -19,8 +19,8 @@ function after(hook, param)
     local result = param:getResult()
     if result == 0 then
         return false
-    else
-        param:setResult(0)
-        return true
     end
+
+    param:setResult(0)
+    return true
 end

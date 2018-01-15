@@ -19,8 +19,8 @@ function after(hook, param)
     local result = param:getResult()
     if result == nil then
         return false
-    else
-        param:setResult('00:00:00:00:00:00')
-        return true
     end
+
+    param:setResult('00:00:00:00:00:00')
+    return true
 end

@@ -19,9 +19,9 @@ function after(hook, param)
     local list = param:getResult()
     if list == nil or list:size() == 0 then
         return false
-    else
-        local result = luajava.newInstance('java.util.ArrayList')
-        param:setResult(result)
-        return true
     end
+
+    local result = luajava.newInstance('java.util.ArrayList')
+    param:setResult(result)
+    return true
 end

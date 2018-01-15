@@ -19,41 +19,41 @@ function after(hook, param)
     local result = param:getResult()
     if result == nil then
         return false
-    else
-        local latitude = 0
-        local longitude = 0
-        local type = param:getSetting('location.type')
-        if type == 'set' then
-            latitude = param:getSetting('location.latitude')
-            longitude = param:getSetting('location.longitude')
-            if latitude == nil or longitude == nil then
-                latitude = 0
-                longitude = 0
-            end
-        elseif type == 'coarse' then
-            local accuracy = param:getSetting('location.accuracy')
-            if accuracy ~= nil then
-                local clatitude = param:getValue('latitude', hook)
-                local clongitude = param:getValue('longitude', hook)
-                if clatitude == nil or clongitude == nil then
-                    clatitude, clongitude = randomoffset(result:getLatitude(), result:getLongitude(), accuracy)
-                    param:putValue('latitude', clatitude, hook)
-                    param:putValue('longitude', clongitude, hook)
-                end
-                latitude = clatitude
-                longitude = clongitude
-            end
-        end
-
-        if result:hasAccuracy() then
-            latitude, longitude = randomoffset(latitude, longitude, result:getAccuracy())
-        end
-
-        result:setLatitude(latitude)
-        result:setLongitude(longitude)
-        log(result)
-        return true
     end
+
+    local latitude = 0
+    local longitude = 0
+    local type = param:getSetting('location.type')
+    if type == 'set' then
+        latitude = param:getSetting('location.latitude')
+        longitude = param:getSetting('location.longitude')
+        if latitude == nil or longitude == nil then
+            latitude = 0
+            longitude = 0
+        end
+    elseif type == 'coarse' then
+        local accuracy = param:getSetting('location.accuracy')
+        if accuracy ~= nil then
+            local clatitude = param:getValue('latitude', hook)
+            local clongitude = param:getValue('longitude', hook)
+            if clatitude == nil or clongitude == nil then
+                clatitude, clongitude = randomoffset(result:getLatitude(), result:getLongitude(), accuracy)
+                param:putValue('latitude', clatitude, hook)
+                param:putValue('longitude', clongitude, hook)
+            end
+            latitude = clatitude
+            longitude = clongitude
+        end
+    end
+
+    if result:hasAccuracy() then
+        latitude, longitude = randomoffset(latitude, longitude, result:getAccuracy())
+    end
+
+    result:setLatitude(latitude)
+    result:setLongitude(longitude)
+    log(result)
+    return true
 end
 
 function randomoffset(latitude, longitude, radius)

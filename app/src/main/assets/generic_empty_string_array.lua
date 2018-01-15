@@ -19,11 +19,11 @@ function after(hook, param)
     local array = param:getResult()
     if array == nil or array.length == 0 then
         return false
-    else
-        local stringClass = luajava.bindClass("java.lang.String")
-        local arrayClass = luajava.bindClass("java.lang.reflect.Array")
-        local result = arrayClass:newInstance(stringClass, 0)
-        param:setResult(result)
-        return true
     end
+
+    local stringClass = luajava.bindClass("java.lang.String")
+    local arrayClass = luajava.bindClass("java.lang.reflect.Array")
+    local result = arrayClass:newInstance(stringClass, 0)
+    param:setResult(result)
+    return true
 end
