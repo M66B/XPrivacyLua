@@ -12,7 +12,7 @@
         <![CDATA[<br><br>]]>Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
-  <string name="title_help_settings">App restriction settings</string>
+  <string name="title_help_settings">Paramètres des restrictions des applis</string>
   <string name="title_help_persistent">Appliquer des restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
   <string name="menu_search">Rechercher</string>
@@ -26,15 +26,16 @@
   <string name="msg_usage">\'%1$s\' restreint</string>
   <string name="msg_exception">Erreur dans %1$s</string>
   <string name="group_get_applications">Lister les applications</string>
-  <string name="group_get_call_log">Voir le journal des appels</string>
   <string name="group_get_calendars">Voir les calendriers</string>
+  <string name="group_get_call_log">Voir le journal des appels</string>
   <string name="group_get_contacts">Voir les contacts</string>
   <string name="group_get_location">Obtenir la localisation</string>
   <string name="group_get_messages">Voir les messages</string>
   <string name="group_get_sensors">Voir les capteurs</string>
   <string name="group_read_account">Lire le nom du compte</string>
   <string name="group_read_clipboard">Lire le presse-papiers</string>
-  <string name="group_read_identifiers">Read identifiers</string>
+  <string name="group_read_identifiers">Voir les identifiants</string>
+  <string name="group_read_network">Voir les données réseaux</string>
   <string name="group_read_telephony">Lire les données téléphoniques</string>
   <string name="group_record_audio">Enregistrement audio</string>
   <string name="group_record_video">Enregistrement vidéo</string>

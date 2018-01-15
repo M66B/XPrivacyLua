@@ -26,8 +26,8 @@
   <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">%1$s de hata</string>
   <string name="group_get_applications">Get applications</string>
-  <string name="group_get_call_log">Arama kayıtlarını al</string>
   <string name="group_get_calendars">Takvimleri al</string>
+  <string name="group_get_call_log">Arama kayıtlarını al</string>
   <string name="group_get_contacts">Kişileri al</string>
   <string name="group_get_location">Konumu al</string>
   <string name="group_get_messages">Get messages</string>
@@ -35,6 +35,7 @@
   <string name="group_read_account">Hesap adını oku</string>
   <string name="group_read_clipboard">Panoyu oku</string>
   <string name="group_read_identifiers">Read identifiers</string>
+  <string name="group_read_network">Read network data</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Sesi kaydet</string>
   <string name="group_record_video">Record video</string>

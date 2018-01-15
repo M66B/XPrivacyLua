@@ -26,8 +26,8 @@
   <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">שגיאה ב- %1$s</string>
   <string name="group_get_applications">Get applications</string>
-  <string name="group_get_call_log">קבלת יומן שיחות</string>
   <string name="group_get_calendars">קבלת לוח שנה</string>
+  <string name="group_get_call_log">קבלת יומן שיחות</string>
   <string name="group_get_contacts">קבלת אנשי קשר</string>
   <string name="group_get_location">קבלת מיקום</string>
   <string name="group_get_messages">Get messages</string>
@@ -35,6 +35,7 @@
   <string name="group_read_account">קריאת שם החשבון</string>
   <string name="group_read_clipboard">קריאת לוח העתקה</string>
   <string name="group_read_identifiers">Read identifiers</string>
+  <string name="group_read_network">Read network data</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">הקלטת שמע</string>
   <string name="group_record_video">Record video</string>

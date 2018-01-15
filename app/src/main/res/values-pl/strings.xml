@@ -12,7 +12,7 @@
         <![CDATA[<br><br>]]>Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">tutaj</a>]]> odpowiedzi na często zadawane pytania.
     </string>
   <string name="title_help_installed">Ograniczenie zastosowane</string>
-  <string name="title_help_settings">App restriction settings</string>
+  <string name="title_help_settings">Ustawienia ograniczeń aplikacji</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
   <string name="title_help_exception">Zastosowanie ograniczenia nie powiodło się (dotknij ikonę, aby dowiedzieć się dlaczego)</string>
   <string name="menu_search">Szukaj</string>
@@ -26,15 +26,16 @@
   <string name="msg_usage">Ograniczono \'%1$s\'</string>
   <string name="msg_exception">Błąd w %1$s</string>
   <string name="group_get_applications">Odczyt aplikacji</string>
-  <string name="group_get_call_log">Odczyt historii rozmów</string>
   <string name="group_get_calendars">Dostęp do kalendarza</string>
+  <string name="group_get_call_log">Odczyt historii rozmów</string>
   <string name="group_get_contacts">Dostęp do kontaktów</string>
   <string name="group_get_location">Dostęp do lokalizacji</string>
   <string name="group_get_messages">Odczyt wiadomości</string>
   <string name="group_get_sensors">Dostęp do czujników</string>
   <string name="group_read_account">Odczyt nazwy konta</string>
   <string name="group_read_clipboard">Odczyt schowka</string>
-  <string name="group_read_identifiers">Read identifiers</string>
+  <string name="group_read_identifiers">Odczyt identyfikatorów</string>
+  <string name="group_read_network">Read network data</string>
   <string name="group_read_telephony">Odczyt danych telefonu</string>
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>

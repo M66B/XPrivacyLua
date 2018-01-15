@@ -24,8 +24,8 @@
   <string name="msg_usage">\'%1$s\' 已限制</string>
   <string name="msg_exception">%1$s 發生錯誤</string>
   <string name="group_get_applications">讀取程式列表</string>
-  <string name="group_get_call_log">讀取通話記錄</string>
   <string name="group_get_calendars">讀取日曆</string>
+  <string name="group_get_call_log">讀取通話記錄</string>
   <string name="group_get_contacts">讀取連絡人</string>
   <string name="group_get_location">讀取位置</string>
   <string name="group_get_messages">讀取訊息</string>
@@ -33,6 +33,7 @@
   <string name="group_read_account">讀取帳戶名稱</string>
   <string name="group_read_clipboard">讀取剪貼簿</string>
   <string name="group_read_identifiers">Read identifiers</string>
+  <string name="group_read_network">Read network data</string>
   <string name="group_read_telephony">讀取通話資料</string>
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>
