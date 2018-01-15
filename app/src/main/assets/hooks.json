@@ -837,6 +837,19 @@
   {
     "collection": "Privacy",
     "group": "Read.Network",
+    "name": "NetworkInfo.getExtraInfo",
+    "author": "M66B",
+    "className": "android.net.NetworkInfo",
+    "methodName": "getExtraInfo",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Network",
     "name": "TelephonyManager.getAllCellInfo",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
