@@ -159,7 +159,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
     }
 
     AdapterGroup() {
-        setHasStableIds(false);
+        setHasStableIds(true);
     }
 
     void set(XApp app, List<XHook> hooks) {
@@ -190,7 +190,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
     @Override
     public long getItemId(int position) {
-        return -1;
+        return position;
     }
 
     @Override
