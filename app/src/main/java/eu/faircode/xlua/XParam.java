@@ -107,15 +107,7 @@ public class XParam {
         if (index < 0 || index >= this.paramTypes.length)
             throw new ArrayIndexOutOfBoundsException("Argument #" + index);
 
-        Class<?> type = this.paramTypes[index];
-        if (type == boolean.class)
-            type = Boolean.class;
-        else if (type == int.class)
-            type = Integer.class;
-        else if (type == long.class)
-            type = Long.class;
-
-        if (value != null && !type.isInstance(value))
+        if (value != null && !boxType(this.paramTypes[index]).isInstance(value))
             throw new IllegalArgumentException(
                     "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value.getClass());
         this.param.args[index] = value;
@@ -148,7 +140,7 @@ public class XParam {
                 this.param.setThrowable((Throwable) result);
             else {
                 Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
-                if (result != null && !this.returnType.isInstance(result))
+                if (result != null && !boxType(this.returnType).isInstance(result))
                     throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
                 this.param.setResult(result);
             }
@@ -182,7 +174,7 @@ public class XParam {
         return value;
     }
 
-    private Object getValueInternal(String name, Object scope) {
+    private static Object getValueInternal(String name, Object scope) {
         synchronized (nv) {
             if (!nv.containsKey(scope))
                 return null;
@@ -190,5 +182,15 @@ public class XParam {
                 return null;
             return nv.get(scope).get(name);
         }
+    }
+
+    private static Class<?> boxType(Class<?> type) {
+        if (type == boolean.class)
+            return Boolean.class;
+        else if (type == int.class)
+            return Integer.class;
+        else if (type == long.class)
+            return Long.class;
+        return type;
     }
 }

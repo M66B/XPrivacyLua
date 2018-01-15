@@ -415,6 +415,7 @@
   // Get location
   // https://developer.android.com/reference/android/os/Bundle.html
   // https://developer.android.com/reference/android/location/Location.html
+  // https://developer.android.com/reference/android/location/LocationManager.html
   {
     "collection": "Privacy",
     "group": "Get.Location",
@@ -443,6 +444,49 @@
     "returnType": "android.location.Location",
     "minSdk": 1,
     "luaScript": "@location_createfromparcel"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "LocationManager.addNmeaListener5",
+    "author": "M66B",
+    "className": "android.location.LocationManager",
+    "methodName": "addNmeaListener",
+    "parameterTypes": [
+      "android.location.GpsStatus$NmeaListener"
+    ],
+    "returnType": "boolean",
+    "minSdk": 5,
+    "luaScript": "@generic_false_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "LocationManager.addNmeaListener24a",
+    "author": "M66B",
+    "className": "android.location.LocationManager",
+    "methodName": "addNmeaListener",
+    "parameterTypes": [
+      "android.location.OnNmeaMessageListener"
+    ],
+    "returnType": "boolean",
+    "minSdk": 24,
+    "luaScript": "@generic_false_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "LocationManager.addNmeaListener24b",
+    "author": "M66B",
+    "className": "android.location.LocationManager",
+    "methodName": "addNmeaListener",
+    "parameterTypes": [
+      "android.location.OnNmeaMessageListener",
+      "android.os.Handler"
+    ],
+    "returnType": "boolean",
+    "minSdk": 24,
+    "luaScript": "@generic_false_value"
   },
   // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
