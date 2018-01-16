@@ -32,8 +32,13 @@ This message means either that:
 * *Tracking/profiling restrictions*: there are hundreds of data items that can be used for tracking and profiling purposes. It is too much work to add restrictions for all of them.
 * *User interface features*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
 * *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added.
+* *App specific*: anything specific for an app will not be added.
+* *Security specific*: features related to security only will not be added.
+* *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
 
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
+
+See also [question 7](#FAQ7).
 
 <a name="FAQ5"></a>
 **(5) How can I fix 'There is a Problem Parsing the Package'?**
@@ -53,6 +58,16 @@ if one of the hooks that [compose the restriction](https://github.com/M66B/XPriv
 (hooks are not shown in the app to keep things simple).
 This can happen when a new version adds new hooks. These new hooks are not enabled by default to make sure your apps keeps working.
 You can enable the new hooks by toggling the check box once (turning it off and on once).
+
+<a name="FAQ7"></a>
+**(7) How does XPrivacyLua compare to XPrivacy?**
+
+* XPrivacy supports Android 4.0.3 KitKat to Android 5.1.1 Lollipop and XPrivacyLua supports Android version 6.0 Marshmallow and later, see [here](https://github.com/M66B/XPrivacyLua/blob/master/README.md#compatibility) about compatibility
+* The user interface of XPrivacyLua is simpler than of XPrivacy, see also [question 4](#FAQ4)
+* The restrictions of XPrivacyLua are designed to prevent apps from crashing, while a number of XPrivacy restrictions can apps cause to crash, see also [question 4](#FAQ4)
+* XPrivacyLua has no on demand restricting for stability and maintenance reasons, see also [question 4](#FAQ4)
+
+For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPrivacyLua/blob/master/XPRIVACY.md).
 
 <br>
 
