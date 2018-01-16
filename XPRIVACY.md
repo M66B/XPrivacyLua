@@ -161,18 +161,18 @@ Using NFC is a user choice.
 	* **return a fake subscriber ID (IMSI for a GSM phone)**
 	* **return a fake phone device ID (IMEI): 000000000000000**
 	* ~~return a fake phone type: GSM (matching IMEI)~~ not privacy related
-	* ~~return a fake network type: unknown~~ not privacy related
-	* ~~return an empty ISIM/ISIM domain~~ not privacy related
+	* ~~return a fake network type: unknown~~ tracking related
+	* ~~return an empty ISIM/ISIM domain~~ tracking related
 	* **return an empty IMPI/IMPU**
 	* **return a fake MSISDN**
-	* ~~return fake mobile network info~~ not privacy related
+	* ~~return fake mobile network info~~ tracking related
 		* ~~Country: XX~~
 		* ~~Operator: 00101 (test network)~~
 		* ~~Operator name: fake~~
 	* ~~return fake SIM info~~
-		* ~~Country: XX~~ not privacy related
-		* ~~Operator: 00101~~ not privacy related
-		* ~~Operator name: fake~~ not privacy related
+		* ~~Country: XX~~ tracking related
+		* ~~Operator: 00101~~ tracking related
+		* ~~Operator name: fake~~ tracking related
 		* **Serial number (ICCID): fake**
 	* ~~return empty [APN](http://en.wikipedia.org/wiki/Access_Point_Name) list~~ not privacy related
 	* ~~return no currently used APN~~ not privacy related
@@ -227,7 +227,7 @@ Revoking permissions will result in crashes.
 	* **return an empty list of running processes**
 	* **return an empty list of running services**
 	* **return an empty list of running tasks**
-	* ~~return an empty list of widgets~~ not privacy related
+	* return an empty list of widgets
 	* ~~return an empty list of applications (provider)~~ not available on recent Android versions anymore
 	* **prevent package add, replace, restart, and remove notifications**
 
