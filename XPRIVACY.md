@@ -15,7 +15,7 @@ Before asking questions, please read [this FAQ](https://github.com/M66B/XPrivacy
 	* ~~return an empty account type list~~
 	* **return fake account info**
 	* ~~return empty authorization tokens~~ user choice
-	* return an empty list of synchronizations
+	* **return an empty list of synchronizations**
 
 Since account info can be faked, it is not really necessary to hide the account list, which can also cause apps to crash.
 

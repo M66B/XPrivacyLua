@@ -1003,6 +1003,34 @@
     "minSdk": 1,
     "luaScript": "@wifiinfo_getssid"
   },
+  // Read sync data
+  // https://developer.android.com/reference/android/content/ContentResolver.html#getCurrentSyncs()
+  {
+    "collection": "Privacy",
+    "group": "Read.Sync",
+    "name": "ContentResolver.getCurrentSync",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "getCurrentSync",
+    "parameterTypes": [
+    ],
+    "returnType": "android.content.SyncInfo",
+    "minSdk": 8,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Sync",
+    "name": "ContentResolver.getCurrentSyncs",
+    "author": "M66B",
+    "className": "android.content.ContentResolver",
+    "methodName": "getCurrentSyncs",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 11,
+    "luaScript": "@generic_empty_list"
+  },
   // Read telephony data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html
   {
