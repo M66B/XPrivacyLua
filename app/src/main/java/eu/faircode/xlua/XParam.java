@@ -191,6 +191,10 @@ public class XParam {
             return Integer.class;
         else if (type == long.class)
             return Long.class;
+        else if (type == float.class)
+            return Float.class;
+        else if (type == double.class)
+            return Double.class;
         return type;
     }
 }

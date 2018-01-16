@@ -488,6 +488,24 @@
     "minSdk": 24,
     "luaScript": "@generic_false_value"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "LocationManager.addProximityAlert",
+    "author": "M66B",
+    "className": "android.location.LocationManager",
+    "methodName": "addProximityAlert",
+    "parameterTypes": [
+      "double",
+      "double",
+      "float",
+      "long",
+      "android.app.PendingIntent"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "luaScript": "@generic_block_method"
+  },
   // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
   // https://developer.android.com/reference/android/provider/Telephony.MmsSms.html API 19
