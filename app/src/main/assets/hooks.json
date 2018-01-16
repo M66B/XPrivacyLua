@@ -1343,6 +1343,36 @@
   {
     "collection": "Privacy",
     "group": "Use.Camera",
+    "name": "Camera.getCameraInfo",
+    "author": "M66B",
+    "className": "android.hardware.Camera",
+    "methodName": "getCameraInfo",
+    "parameterTypes": [
+      "int",
+      "android.hardware.Camera$CameraInfo"
+    ],
+    "returnType": "void",
+    "minSdk": 9,
+    "notify": true,
+    "luaScript": "@camera_open"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Camera",
+    "name": "Camera.getNumberOfCameras",
+    "author": "M66B",
+    "className": "android.hardware.Camera",
+    "methodName": "getNumberOfCameras",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 9,
+    "notify": true,
+    "luaScript": "@generic_zero_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Camera",
     "name": "Camera.open",
     "author": "M66B",
     "className": "android.hardware.Camera",

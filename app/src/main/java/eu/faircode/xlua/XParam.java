@@ -166,7 +166,8 @@ public class XParam {
             else {
                 Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
                 if (result != null && !boxType(this.returnType).isInstance(result))
-                    throw new IllegalArgumentException("Expected return " + this.returnType + " got " + result);
+                    throw new IllegalArgumentException(
+                            "Expected return " + this.returnType + " got " + result.getClass());
                 this.param.setResult(result);
             }
         else
