@@ -14,7 +14,7 @@ Before asking questions, please read [this FAQ](https://github.com/M66B/XPrivacy
 	* ~~return an empty account list~~
 	* ~~return an empty account type list~~
 	* **return fake account info**
-	* return empty authorization tokens
+	* ~~return empty authorization tokens~~ user choice
 	* return an empty list of synchronizations
 
 Since account info can be faked, it is not really necessary to hide the account list, which can also cause apps to crash.
@@ -75,12 +75,12 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* **return a fake Google services framework ID**
 	* ~~return file not found for folder [/proc](http://linux.die.net/man/5/proc)~~ will result in crashes
 	* **return a fake Google advertising ID**
-	* return a fake system property CID (Card Identification Register = SD-card serial number)
+	* ~~return a fake system property CID (Card Identification Register = SD-card serial number)~~ tracking related
 	* ~~return file not found for /sys/block/.../cid~~ will result in crashes
 	* ~~return file not found for /sys/class/.../cid~~ will result in crashes
-	* return a fake input device descriptor
-	* return a fake USB ID/name/number
-	* return a fake Cast device ID / IP address
+	* ~~return a fake input device descriptor~~ tracking related
+	* ~~return a fake USB ID/name/number~~ tracking related
+	* ~~return a fake Cast device ID / IP address~~ tracking related
 
 <a name="internet"></a>
 * Internet
