@@ -29,6 +29,7 @@ Restrictions
 * Read clipboard (fake paste)
 * Read identifiers (fake build serial number, Android ID, GSF ID, advertising ID)
 * Read network data (hide cell info, Wi-Fi networks / scan results / network name)
+* Read sync data (see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
 * Read telephony data (hide IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
