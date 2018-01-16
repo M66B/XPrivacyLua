@@ -34,6 +34,7 @@
   <string name="group_read_clipboard">讀取剪貼簿</string>
   <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">讀取通話資料</string>
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>

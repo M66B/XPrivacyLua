@@ -36,6 +36,7 @@
   <string name="group_read_clipboard">Буфер обмена</string>
   <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Чтение данных телефонии</string>
   <string name="group_record_audio">Запись аудио</string>
   <string name="group_record_video">Запись видео</string>

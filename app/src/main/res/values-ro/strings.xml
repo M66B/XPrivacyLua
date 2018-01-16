@@ -37,6 +37,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aici</a>]]>; pentr
   <string name="group_read_clipboard">Citește clipboard</string>
   <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Read telephony data</string>
   <string name="group_record_audio">Înregistrare audio</string>
   <string name="group_record_video">Record video</string>

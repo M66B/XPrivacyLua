@@ -36,6 +36,7 @@
   <string name="group_read_clipboard">Odczyt schowka</string>
   <string name="group_read_identifiers">Odczyt identyfikatorów</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Odczyt danych telefonu</string>
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>

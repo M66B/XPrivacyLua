@@ -36,6 +36,7 @@
   <string name="group_read_clipboard">Leer el portapapeles</string>
   <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Leer datos de telefonía</string>
   <string name="group_record_audio">Grabar audio</string>
   <string name="group_record_video">Grabar video</string>

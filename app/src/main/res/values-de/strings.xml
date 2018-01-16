@@ -23,7 +23,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="msg_review_settings">Datenschutzeinstellungen überprüfen</string>
   <string name="msg_usage">Beschränkte \'%1$s\'</string>
   <string name="msg_exception">Fehler in %1$s</string>
-  <string name="group_get_applications">Anwendungsliste aufrufen</string>
+  <string name="group_get_applications">Anwendungsliste lesen</string>
   <string name="group_get_calendars">Kalenderinformationen lesen</string>
   <string name="group_get_call_log">Anrufliste lesen</string>
   <string name="group_get_contacts">Kontakte lesen</string>
@@ -34,6 +34,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_read_clipboard">Zwischenablage lesen</string>
   <string name="group_read_identifiers">Identifizierer lesen</string>
   <string name="group_read_network">Netzwerkdaten lesen</string>
+  <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Telefondaten lesen</string>
   <string name="group_record_audio">Audio aufnehmen</string>
   <string name="group_record_video">Video aufzeichnen</string>
