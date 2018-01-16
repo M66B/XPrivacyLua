@@ -21,7 +21,7 @@ function after(hook, param)
         return false
     end
 
-    local result = luajava.newInstance('java.util.ArrayList')
-    param:setResult(result)
+    local fake = luajava.newInstance('java.util.ArrayList')
+    param:setResult(fake)
     return true
 end

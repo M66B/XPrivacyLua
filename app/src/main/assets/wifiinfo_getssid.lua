@@ -21,6 +21,7 @@ function after(hook, param)
         return false
     end
 
-    param:setResult('private')
+    local fake = 'private'
+    param:setResult(fake)
     return true
 end

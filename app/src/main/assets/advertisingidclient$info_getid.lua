@@ -21,6 +21,7 @@ function after(hook, param)
         return false
     end
 
-    param:setResult('00000000-0000-0000-0000-000000000000')
+    local fake = '00000000-0000-0000-0000-000000000000'
+    param:setResult(fake)
     return true
 end

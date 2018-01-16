@@ -79,14 +79,14 @@ function after(hook, param)
             end
         end
 
-        local result = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
-        --result:setExtras(cursor:getExtras())
+        local fake = luajava.newInstance('android.database.MatrixCursor', cursor:getColumnNames())
+        --fake:setExtras(cursor:getExtras())
         --notify = cursor:getNotificationUri()
         --if notify ~= nil then
-        --    result:setNotificationUri(param:getThis(), notify)
+        --    fake:setNotificationUri(param:getThis(), notify)
         --end
 
-        param:setResult(result);
+        param:setResult(fake);
         return true
     else
         return false

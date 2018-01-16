@@ -21,6 +21,7 @@ function after(hook, param)
         return false
     end
 
-    param:setResult('00:00:00:00:00:00')
+    local fake = '00:00:00:00:00:00'
+    param:setResult(fake)
     return true
 end

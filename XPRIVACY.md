@@ -229,7 +229,7 @@ Revoking permissions will result in crashes.
 	* **return an empty list of running tasks**
 	* ~~return an empty list of widgets~~ not privacy related
 	* ~~return an empty list of applications (provider)~~ not available on recent Android versions anymore
-	* prevent package add, replace, restart, and remove notifications
+	* **prevent package add, replace, restart, and remove notifications**
 
 <a name="view"></a>
 * View
