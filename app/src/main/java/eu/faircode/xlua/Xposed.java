@@ -342,7 +342,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     LuaValue func = globals.get("after");
                     if (!func.isnil()) {
                         // Setup globals
-                        globals.set("log", new LuaLog(lpparam.packageName, uid));
+                        globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
 
                         // Run function
                         Varargs result = func.invoke(
@@ -405,7 +405,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 LuaValue func = globals.get(function);
                                 if (!func.isnil()) {
                                     // Setup globals
-                                    globals.set("log", new LuaLog(lpparam.packageName, uid));
+                                    globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
 
                                     // Run function
                                     Varargs result = func.invoke(
@@ -456,16 +456,18 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static class LuaLog extends OneArgFunction {
         private final String packageName;
         private final int uid;
+        private final String hook;
 
-        LuaLog(String packageName, int uid) {
+        LuaLog(String packageName, int uid, String hook) {
             this.packageName = packageName;
             this.uid = uid;
+            this.hook = hook;
         }
 
         @Override
         public LuaValue call(LuaValue arg) {
             Log.i(TAG, "Log " +
-                    packageName + ":" + uid + " " +
+                    packageName + ":" + uid + " " + hook + " " +
                     arg.toString() + " type=" + arg.typename());
             return LuaValue.NIL;
         }
