@@ -36,6 +36,11 @@ Restrictions
 
 You can see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json) all technical details.
 
+Notes
+-----
+
+* Some apps will start the camera app to take pictures. This cannot be restricted and there is no need for this, because only you can take pictures in this scenario, not the app.
+
 Compatibility
 -------------
 
