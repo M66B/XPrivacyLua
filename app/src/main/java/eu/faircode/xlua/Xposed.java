@@ -659,6 +659,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         context.getContentResolver()
                                 .call(XSettings.URI, "xlua", "clearData", args);
                     } else {
+                        // Delete assigned hooks
                         Bundle args = new Bundle();
                         args.putStringArrayList("hooks", hooks);
                         args.putString("packageName", packageName);
@@ -667,6 +668,20 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         args.putBoolean("kill", false);
                         context.getContentResolver()
                                 .call(XSettings.URI, "xlua", "assignHooks", args);
+
+                        // Delete settings
+                        Cursor scursor = null;
+                        try {
+                            scursor = context.getContentResolver()
+                                    .query(XSettings.URI, new String[]{"xlua.getSettings"},
+                                            null, new String[]{packageName, Integer.toString(uid)},
+                                            null);
+                            while (scursor != null && scursor.moveToNext())
+                                XSettings.putSetting(context, packageName, scursor.getString(0), null);
+                        } finally {
+                            if (scursor != null)
+                                scursor.close();
+                        }
 
                         Util.cancelAsUser(ctx, "xlua_new_app", uid, userid);
                     }
