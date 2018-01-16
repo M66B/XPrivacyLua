@@ -485,6 +485,12 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
         if ("boolean".equals(name))
             return boolean.class;
+        else if ("byte".equals(name))
+            return byte.class;
+        else if ("char".equals(name))
+            return char.class;
+        else if ("short".equals(name))
+            return short.class;
         else if ("int".equals(name))
             return int.class;
         else if ("long".equals(name))

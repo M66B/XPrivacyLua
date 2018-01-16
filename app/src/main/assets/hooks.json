@@ -506,6 +506,23 @@
     "minSdk": 1,
     "luaScript": "@generic_block_method"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "Geofence$Builder.setCircularRegion",
+    "author": "M66B",
+    "className": "com.google.android.gms.location.Geofence$Builder",
+    "methodName": "setCircularRegion",
+    "parameterTypes": [
+      "double",
+      "double",
+      "float"
+    ],
+    "returnType": "com.google.android.gms.location.Geofence$Builder",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@geofence$builder_setcircularregion"
+  },
   // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
   // https://developer.android.com/reference/android/provider/Telephony.MmsSms.html API 19

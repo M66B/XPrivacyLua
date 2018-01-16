@@ -102,14 +102,39 @@ public class XParam {
         return this.param.args[index];
     }
 
+    private static Object coerceValue(Class<?> type, Object value) {
+        // TODO: check for null primitives
+        if (value == null)
+            return null;
+
+        // Lua 5.2 auto converts numbers into floating or integer values
+        if (Integer.class.equals(value.getClass())) {
+            if (float.class.equals(type))
+                return (float) (int) value;
+            else if (double.class.equals(type))
+                return (double) (int) value;
+        } else if (Double.class.equals(value.getClass())) {
+            if (float.class.equals(type))
+                return (float) (double) value;
+        }
+
+        if (!boxType(type).isInstance(value))
+            throw new IllegalArgumentException();
+        return value;
+    }
+
     @SuppressWarnings("unused")
     public void setArgument(int index, Object value) {
         if (index < 0 || index >= this.paramTypes.length)
             throw new ArrayIndexOutOfBoundsException("Argument #" + index);
 
-        if (value != null && !boxType(this.paramTypes[index]).isInstance(value))
+        try {
+            value = coerceValue(this.paramTypes[index], value);
+        } catch (Throwable IllegalArgumentException) {
             throw new IllegalArgumentException(
                     "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value.getClass());
+        }
+
         this.param.args[index] = value;
     }
 
