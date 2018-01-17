@@ -23,6 +23,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
 import android.os.Build;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -173,6 +174,13 @@ public class XHook {
                     // Resolve class names
                     if ("android.app.ActivityManager".equals(hook.className)) {
                         Object service = context.getSystemService(ActivityManager.class);
+                        if (service != null) {
+                            String className = service.getClass().getName();
+                            hook.className = className;
+                        }
+                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
+                    } else if ("android.media.AudioManager".equals(hook.className)) {
+                        Object service = context.getSystemService(AudioManager.class);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;

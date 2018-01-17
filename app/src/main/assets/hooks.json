@@ -1266,7 +1266,65 @@
     "luaScript": "@generic_block_method"
   },
   // Record audio
+  // https://developer.android.com/reference/android/media/AudioManager.html
   // https://developer.android.com/reference/android/media/MediaRecorder.html
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioManager.getActiveRecordingConfigurations",
+    "author": "M66B",
+    "className": "android.media.AudioManager",
+    "methodName": "getActiveRecordingConfigurations",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 24,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioManager.getDevices",
+    "author": "M66B",
+    "className": "android.media.AudioManager",
+    "methodName": "getDevices",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "[Landroid.media.AudioDeviceInfo;",
+    "minSdk": 23,
+    "luaScript": "@audiomanager_getdevices"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioManager.registerAudioDeviceCallback",
+    "author": "M66B",
+    "className": "android.media.AudioManager",
+    "methodName": "registerAudioDeviceCallback",
+    "parameterTypes": [
+      "android.media.AudioDeviceCallback",
+      "android.os.Handler"
+    ],
+    "returnType": "void",
+    "minSdk": 23,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Record.Audio",
+    "name": "AudioManager.registerAudioRecordingCallback",
+    "author": "M66B",
+    "className": "android.media.AudioManager",
+    "methodName": "registerAudioRecordingCallback",
+    "parameterTypes": [
+      "android.media.AudioManager$AudioRecordingCallback",
+      "android.os.Handler"
+    ],
+    "returnType": "void",
+    "minSdk": 24,
+    "luaScript": "@generic_block_method"
+  },
   {
     "collection": "Privacy",
     "group": "Record.Audio",
