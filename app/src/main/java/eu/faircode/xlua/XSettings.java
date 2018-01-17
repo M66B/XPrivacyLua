@@ -103,6 +103,12 @@ class XSettings {
                 case "putSetting":
                     result = putSetting(context, extras);
                     break;
+                case "initApp":
+                    result = initApp(context, extras);
+                    break;
+                case "clearApp":
+                    result = clearApp(context, extras);
+                    break;
                 case "clearData":
                     result = clearData(context, extras);
                     break;
@@ -639,6 +645,86 @@ class XSettings {
 
         if (kill)
             forceStop(context, category, userid);
+
+        return new Bundle();
+    }
+
+    private static Bundle initApp(Context context, Bundle extras) throws Throwable {
+        enforcePermission(context);
+
+        String packageName = extras.getString("packageName");
+        int uid = extras.getInt("uid");
+
+        List<String> hookids = new ArrayList<>();
+        synchronized (lock) {
+            for (XHook hook : hooks.values())
+                hookids.add(hook.getId());
+        }
+
+        dbLock.writeLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                for (String hookid : hookids) {
+                    ContentValues cv = new ContentValues();
+                    cv.put("package", packageName);
+                    cv.put("uid", uid);
+                    cv.put("hook", hookid);
+                    cv.put("installed", -1);
+                    cv.put("used", -1);
+                    cv.put("restricted", 0);
+                    cv.putNull("exception");
+                    long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                    if (rows < 0)
+                        throw new Throwable("Error inserting assignment");
+                }
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.writeLock().unlock();
+        }
+
+        Log.i(TAG, "Init app pkg=" + packageName + " uid=" + uid + " assignments=" + hookids.size());
+
+        return new Bundle();
+    }
+
+    private static Bundle clearApp(Context context, Bundle extras) throws Throwable {
+        enforcePermission(context);
+
+        String packageName = extras.getString("packageName");
+        int uid = extras.getInt("uid");
+        int userid = Util.getUserId(uid);
+
+        long assignments;
+        long settings;
+
+        dbLock.writeLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                assignments = db.delete(
+                        "assignment",
+                        "package = ? AND uid = ?",
+                        new String[]{packageName, Integer.toString(uid)});
+                settings = db.delete(
+                        "setting",
+                        "user = ? AND category = ?",
+                        new String[]{Integer.toString(userid), packageName});
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.writeLock().unlock();
+        }
+
+        Log.i(TAG, "Cleared app pkg=" + packageName + " uid=" + uid +
+                " assignments=" + assignments + " settings=" + settings);
 
         return new Bundle();
     }
