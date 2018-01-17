@@ -1003,6 +1003,21 @@
     "minSdk": 1,
     "luaScript": "@wifiinfo_getssid"
   },
+  // Read notifications
+  {
+    "collection": "Privacy",
+    "group": "Read.Notifications",
+    "name": "ActivityThread.handleBindService/notification",
+    "author": "M66B",
+    "className": "android.app.ActivityThread",
+    "methodName": "handleBindService",
+    "parameterTypes": [
+      "android.app.ActivityThread$BindServiceData"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "luaScript": "@activitythread_handle"
+  },
   // Read sync data
   // https://developer.android.com/reference/android/content/ContentResolver.html#getCurrentSyncs()
   {
