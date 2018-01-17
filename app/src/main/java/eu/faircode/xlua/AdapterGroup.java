@@ -210,15 +210,15 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         holder.hooks = hooks.get(holder.group);
 
         boolean exception = false;
-        boolean installed = true;
+        int installed = 0;
         long used = -1;
         int assigned = 0;
         for (XAssignment assignment : app.assignments)
             if (assignment.hook.getGroup().equals(holder.group)) {
                 if (assignment.exception != null)
                     exception = true;
-                if (assignment.installed < 0)
-                    installed = false;
+                if (assignment.installed >= 0 || assignment.hook.isOptional())
+                    installed++;
                 if (assignment.restricted)
                     used = Math.max(used, assignment.used);
                 assigned++;
@@ -231,7 +231,8 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         group = (resId == 0 ? holder.group : resources.getString(resId));
 
         holder.ivException.setVisibility(exception && assigned > 0 ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setVisibility(installed && assigned > 0 ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setVisibility(installed > 0 && assigned > 0 ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setAlpha(installed == assigned ? 1.0f : 0.5f);
         holder.tvUsed.setVisibility(used < 0 ? View.GONE : View.VISIBLE);
         holder.tvUsed.setText(used < 0 ? "" : DateUtils.formatDateTime(context, used,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));

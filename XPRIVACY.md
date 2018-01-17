@@ -148,7 +148,7 @@ Using NFC is a user choice.
 
 <a name="notifications"></a>
 * Notifications
-	* prevent applications from receiving [statusbar notifications](https://developer.android.com/reference/android/service/notification/NotificationListenerService.html) (Android 4.3+)
+	* **prevent applications from receiving [statusbar notifications](https://developer.android.com/reference/android/service/notification/NotificationListenerService.html) (Android 4.3+)**
 	* prevent [C2DM](https://developers.google.com/android/c2dm/) messages
 
 <a name="overlay"></a>
