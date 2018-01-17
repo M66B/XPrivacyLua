@@ -145,11 +145,11 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 <a name="notifications"></a>
 * Notifications
 	* **prevent applications from receiving [statusbar notifications](https://developer.android.com/reference/android/service/notification/NotificationListenerService.html) (Android 4.3+)**
-	* prevent [C2DM](https://developers.google.com/android/c2dm/) messages
+	* ~~prevent [C2DM](https://developers.google.com/android/c2dm/) messages~~ use a firewall and block **xxx.mtalk.google.com:yyy** for Google Play services
 
 <a name="overlay"></a>
 * Overlay
-	* prevent draw over / on top
+	* ~~prevent draw over / on top~~ will result in [crashes](https://github.com/M66B/XPrivacy/issues/2374)
 
 <a name="phone"></a>
 * Phone
