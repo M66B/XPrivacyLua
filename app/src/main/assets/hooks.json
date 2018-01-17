@@ -130,7 +130,7 @@
   {
     "collection": "Privacy",
     "group": "Get.Applications",
-    "name": "Intent.createFromParcel",
+    "name": "Intent.createFromParcel/package",
     "author": "M66B",
     "className": "android.content.Intent",
     "methodName": "CREATOR:createFromParcel",
@@ -488,6 +488,20 @@
     "minSdk": 1,
     "enabled": false,
     "luaScript": "@bundle_get_location"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Determine.Activity",
+    "name": "Intent.createFromParcel/activity_recognition",
+    "author": "M66B",
+    "className": "android.content.Intent",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.content.Intent",
+    "minSdk": 1,
+    "luaScript": "@intent_createfromparcel"
   },
   {
     "collection": "Privacy",

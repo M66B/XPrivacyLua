@@ -111,7 +111,7 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 		* **Cell location changed**
 	* ~~prevent sending extra commands (aGPS data)~~ not privacy related
 	* **return an empty list of Wi-Fi scan results**
-	* prevent [activity recognition](http://developer.android.com/training/location/activity-recognition.html)
+	* **prevent [activity recognition](http://developer.android.com/training/location/activity-recognition.html)**
 
 <a name="media"></a>
 * Media

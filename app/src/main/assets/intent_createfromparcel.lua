@@ -21,34 +21,48 @@ function after(hook, param)
         return false
     end
 
-    local action = intent:getAction()
-    if action == nil then
-        return false
-    end
+    local match = string.gmatch(hook:getName(), '[^/]+')
+    local func = match()
+    local name = match()
 
-    if action == 'android.intent.action.PACKAGE_ADDED' or
-            action == 'android.intent.action.PACKAGE_CHANGED' or
-            action == 'android.intent.action.PACKAGE_DATA_CLEARED' or
-            action == 'android.intent.action.PACKAGE_FIRST_LAUNCH' or
-            action == 'android.intent.action.PACKAGE_FULLY_REMOVED' or
-            action == 'android.intent.action.PACKAGE_INSTALL' or
-            action == 'android.intent.action.PACKAGE_NEEDS_VERIFICATION' or
-            action == 'android.intent.action.PACKAGE_REMOVED' or
-            action == 'android.intent.action.PACKAGE_REPLACED' or
-            action == 'android.intent.action.PACKAGE_RESTARTED' or
-            action == 'android.intent.action.PACKAGE_VERIFIED' then
-        local uriClass = luajava.bindClass('android.net.Uri')
-        local uri = uriClass:parse("package:" .. param:getPackageName())
-        intent:setData(uri)
-        return true
-    elseif action == 'android.intent.action.PACKAGES_SUSPENDED' or
-            action == 'android.intent.action.PACKAGES_UNSUSPENDED' then
-        local stringClass = luajava.bindClass('java.lang.String')
-        local arrayClass = luajava.bindClass('java.lang.reflect.Array')
-        local stringArray = arrayClass:newInstance(stringClass, 0)
-        intent:putExtra('android.intent.extra.changed_package_list', stringArray)
-        return true
+    if name == 'activity_recognition' then
+        local extra = 'com.google.android.location.internal.EXTRA_ACTIVITY_RESULT'
+        if intent:hasExtra(extra) then
+            intent:removeExtra(extra)
+            return true
+        else
+            return false
+        end
     else
-        return false
+        local action = intent:getAction()
+        if action == nil then
+            return false
+        end
+
+        if action == 'android.intent.action.PACKAGE_ADDED' or
+                action == 'android.intent.action.PACKAGE_CHANGED' or
+                action == 'android.intent.action.PACKAGE_DATA_CLEARED' or
+                action == 'android.intent.action.PACKAGE_FIRST_LAUNCH' or
+                action == 'android.intent.action.PACKAGE_FULLY_REMOVED' or
+                action == 'android.intent.action.PACKAGE_INSTALL' or
+                action == 'android.intent.action.PACKAGE_NEEDS_VERIFICATION' or
+                action == 'android.intent.action.PACKAGE_REMOVED' or
+                action == 'android.intent.action.PACKAGE_REPLACED' or
+                action == 'android.intent.action.PACKAGE_RESTARTED' or
+                action == 'android.intent.action.PACKAGE_VERIFIED' then
+            local uriClass = luajava.bindClass('android.net.Uri')
+            local uri = uriClass:parse("package:" .. param:getPackageName())
+            intent:setData(uri)
+            return true
+        elseif action == 'android.intent.action.PACKAGES_SUSPENDED' or
+                action == 'android.intent.action.PACKAGES_UNSUSPENDED' then
+            local stringClass = luajava.bindClass('java.lang.String')
+            local arrayClass = luajava.bindClass('java.lang.reflect.Array')
+            local stringArray = arrayClass:newInstance(stringClass, 0)
+            intent:putExtra('android.intent.extra.changed_package_list', stringArray)
+            return true
+        else
+            return false
+        end
     end
 end
