@@ -515,6 +515,8 @@ class XSettings {
                     builder.setSmallIcon(android.R.drawable.ic_dialog_info);
                     builder.setContentTitle(resources.getString(R.string.msg_usage, group));
                     builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
+                    if (BuildConfig.DEBUG)
+                        builder.setSubText(hookid);
 
                     builder.setPriority(Notification.PRIORITY_DEFAULT);
                     builder.setCategory(Notification.CATEGORY_STATUS);
