@@ -428,11 +428,18 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         public Varargs invoke(Varargs args) {
                                             try {
                                                 Object object = args.touserdata(1);
-                                                Method method = object.getClass().getDeclaredMethod(args.tojstring(2));
-                                                Object[] param = new Object[args.narg() - 2];
-                                                for (int i = 0; i < args.narg() - 2; i++)
-                                                    param[i] = args.touserdata(i + 1 + 2);
-                                                return LuaValue.userdataOf(method.invoke(object, param));
+                                                String name = args.tojstring(2);
+                                                Object[] params = new Object[args.narg() - 2];
+                                                Class<?>[] types = new Class<?>[args.narg() - 2];
+                                                for (int i = 3; i <= args.narg(); i++) {
+                                                    if (args.isstring(i))
+                                                        params[i - 3] = args.toString();
+                                                    else // TODO: more types
+                                                        params[i - 3] = args.touserdata(i);
+                                                    types[i - 3] = params[i - 3].getClass(); // TODO handle null
+                                                }
+                                                Method method = object.getClass().getDeclaredMethod(name, types);
+                                                return LuaValue.userdataOf(method.invoke(object, params));
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, Log.getStackTraceString(ex));
                                                 return LuaValue.NIL;
