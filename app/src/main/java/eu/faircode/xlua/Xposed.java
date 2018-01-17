@@ -411,12 +411,16 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
                                     globals.set("getPrivateField", new TwoArgFunction() {
                                         @Override
-                                        public LuaValue call(LuaValue lobject, LuaValue name) {
+                                        public LuaValue call(LuaValue lobject, LuaValue jname) {
                                             try {
                                                 Object object = lobject.touserdata();
-                                                Field field = object.getClass().getDeclaredField(name.checkjstring());
+                                                String name = jname.checkjstring();
+                                                Field field = object.getClass().getDeclaredField(name);
                                                 field.setAccessible(true);
-                                                return LuaValue.userdataOf(field.get(object));
+                                                Object result = field.get(object);
+                                                Log.i(TAG, "getPrivateField(" + name + ")=" + result);
+                                                // TODO: LuaValue's
+                                                return LuaValue.userdataOf(result);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, Log.getStackTraceString(ex));
                                                 return LuaValue.NIL;
@@ -436,10 +440,24 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                                         params[i - 3] = args.toString();
                                                     else // TODO: more types
                                                         params[i - 3] = args.touserdata(i);
-                                                    types[i - 3] = params[i - 3].getClass(); // TODO handle null
+
+                                                    if (params[i - 3] == null)
+                                                        types[i - 3] = null;
+                                                    else
+                                                        types[i - 3] = params[i - 3].getClass();
                                                 }
+
+                                                // TODO: resolve method with null param types
                                                 Method method = object.getClass().getDeclaredMethod(name, types);
-                                                return LuaValue.userdataOf(method.invoke(object, params));
+
+                                                Object result = method.invoke(object, params);
+                                                Log.i(TAG, "invokePrivateMethod(" + name + ")=" + result);
+                                                if (result == null)
+                                                    return LuaValue.NIL;
+                                                else if (result instanceof String)
+                                                    return LuaValue.valueOf((String) result);
+                                                else // TODO: more types
+                                                    return LuaValue.userdataOf(result);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, Log.getStackTraceString(ex));
                                                 return LuaValue.NIL;
