@@ -505,9 +505,11 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 }
 
                 // Report install
-                Bundle data = new Bundle();
-                data.putLong("duration", SystemClock.elapsedRealtime() - install);
-                report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                if (BuildConfig.DEBUG) {
+                    Bundle data = new Bundle();
+                    data.putLong("duration", SystemClock.elapsedRealtime() - install);
+                    report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                }
             } catch (Throwable ex) {
                 Log.e(TAG, Log.getStackTraceString(ex));
 

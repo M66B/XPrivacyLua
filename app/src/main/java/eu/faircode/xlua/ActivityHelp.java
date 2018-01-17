@@ -26,6 +26,8 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -44,6 +46,8 @@ public class ActivityHelp extends AppCompatActivity {
         TextView tvVersion = findViewById(R.id.tvVersion);
         TextView tvLicense = findViewById(R.id.tvLicense);
         TextView tvInstructions = findViewById(R.id.tvInstructions);
+        ImageView ivInstalled = findViewById(R.id.ivInstalled);
+        TextView tvInstalled = findViewById(R.id.tvInstalled);
 
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
         tvInstructions.setMovementMethod(LinkMovementMethod.getInstance());
@@ -53,6 +57,9 @@ public class ActivityHelp extends AppCompatActivity {
         tvVersion.setText(Util.getSelfVersionName(this));
         tvLicense.setText(Html.fromHtml(getString(R.string.title_license, year)));
         tvInstructions.setText(Html.fromHtml(getString(R.string.title_help_instructions)));
+
+        ivInstalled.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+        tvInstalled.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
     }
 
     @Override
