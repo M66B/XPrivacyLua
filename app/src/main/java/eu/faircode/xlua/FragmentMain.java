@@ -65,7 +65,12 @@ public class FragmentMain extends Fragment {
         // Initialize app list
         rvApplication = main.findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(false);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity()) {
+            @Override
+            public boolean onRequestChildFocus(RecyclerView parent, RecyclerView.State state, View child, View focused) {
+                return true;
+            }
+        };
         llm.setAutoMeasureEnabled(true);
         rvApplication.setLayoutManager(llm);
         rvAdapter = new AdapterApp(getActivity());
