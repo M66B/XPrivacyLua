@@ -170,8 +170,6 @@ class XSettings {
             hooks.put(hook.getId(), hook);
         }
 
-        //Log.i(TAG, "Put hook=" + hook.getId());
-
         return new Bundle();
     }
 

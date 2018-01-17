@@ -24,7 +24,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -125,13 +124,12 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
             switch (compoundButton.getId()) {
                 case R.id.cbAssigned:
-                    for (XHook hook : group.hooks)
+                    for (XHook hook : group.hooks) {
                         app.assignments.remove(new XAssignment(hook));
-                    if (checked)
-                        for (XHook hook : group.hooks)
+                        if (checked)
                             app.assignments.add(new XAssignment(hook));
+                    }
 
-                    notifyItemChanged(getAdapterPosition());
                     app.notifyChanged();
 
                     executor.submit(new Runnable() {
@@ -160,7 +158,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         setHasStableIds(true);
     }
 
-    void set(XApp app, List<XHook> hooks) {
+    void set(XApp app, List<XHook> hooks, Context context) {
         this.app = app;
 
         Map<String, Group> map = new HashMap<>();
@@ -169,76 +167,51 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
             if (map.containsKey(hook.getGroup()))
                 group = map.get(hook.getGroup());
             else {
-                group = new Group(hook.getGroup());
+                group = new Group();
+
+                Resources resources = context.getResources();
+                String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
+                group.id = resources.getIdentifier("group_" + name, "string", context.getPackageName());
+                group.name = resources.getString(group.id);
+
                 map.put(hook.getGroup(), group);
             }
             group.hooks.add(hook);
         }
 
-        for (Group group : map.values()) {
+        for (String groupid : map.keySet()) {
             for (XAssignment assignment : app.assignments)
-                if (assignment.hook.getGroup().equals(group.name)) {
+                if (assignment.hook.getGroup().equals(groupid)) {
+                    Group group = map.get(groupid);
                     if (assignment.exception != null)
                         group.exception = true;
-                    if (assignment.installed >= 0 || assignment.hook.isOptional())
+                    if (assignment.installed >= 0)
                         group.installed++;
+                    if (assignment.hook.isOptional())
+                        group.optional++;
                     if (assignment.restricted)
                         group.used = Math.max(group.used, assignment.used);
                     group.assigned++;
                 }
         }
 
-        List<Group> newGroups = new ArrayList<>(map.values());
+        this.groups = new ArrayList<>(map.values());
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-        Collections.sort(newGroups, new Comparator<Group>() {
+        Collections.sort(this.groups, new Comparator<Group>() {
             @Override
             public int compare(Group group1, Group group2) {
                 return collator.compare(group1.name, group2.name);
             }
         });
 
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new GroupDiffCallback(this.groups, newGroups));
-        this.groups = newGroups;
-        diff.dispatchUpdatesTo(this);
-    }
-
-    private class GroupDiffCallback extends DiffUtil.Callback {
-        private final List<Group> prev;
-        private final List<Group> next;
-
-        GroupDiffCallback(List<Group> prev, List<Group> next) {
-            this.prev = prev;
-            this.next = next;
-        }
-
-        @Override
-        public int getOldListSize() {
-            return prev.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return next.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return prev.get(oldItemPosition).name.equals(next.get(newItemPosition).name);
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            Group group1 = prev.get(oldItemPosition);
-            Group group2 = next.get(newItemPosition);
-            return group1.equals(group2);
-        }
+        notifyDataSetChanged();
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return groups.get(position).id;
     }
 
     @Override
@@ -259,48 +232,56 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         // Get localized group name
         Context context = holder.itemView.getContext();
         Resources resources = holder.itemView.getContext().getResources();
-        String group = holder.group.name.toLowerCase().replaceAll("[^a-z]", "_");
-        int resId = resources.getIdentifier("group_" + group, "string", context.getPackageName());
-        group = (resId == 0 ? holder.group.name : resources.getString(resId));
 
-        holder.ivException.setVisibility(holder.group.exception && holder.group.assigned > 0 ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setVisibility(holder.group.installed > 0 && holder.group.assigned > 0 ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setAlpha(holder.group.installed == holder.group.assigned ? 1.0f : 0.5f);
-        holder.tvUsed.setVisibility(holder.group.used < 0 ? View.GONE : View.VISIBLE);
-        holder.tvUsed.setText(holder.group.used < 0 ? "" : DateUtils.formatDateTime(context, holder.group.used,
+        holder.ivException.setVisibility(holder.group.hasException() ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setVisibility(holder.group.hasInstalled() ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setAlpha(holder.group.allInstalled() ? 1.0f : 0.5f);
+        holder.tvUsed.setVisibility(holder.group.lastUsed() < 0 ? View.GONE : View.VISIBLE);
+        holder.tvUsed.setText(DateUtils.formatDateTime(context, holder.group.lastUsed(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
-        holder.tvGroup.setText(group);
-        holder.cbAssigned.setChecked(holder.group.assigned > 0);
+        holder.tvGroup.setText(holder.group.name);
+        holder.cbAssigned.setChecked(holder.group.hasAssigned());
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                holder.group.assigned == holder.group.hooks.size()
-                        ? R.color.colorAccent
-                        : android.R.color.darker_gray, null)));
+                holder.group.allAssigned() ? R.color.colorAccent : android.R.color.darker_gray, null)));
 
         holder.wire();
     }
 
     private class Group {
+        int id;
         String name;
         boolean exception = false;
         int installed = 0;
+        int optional = 0;
         long used = -1;
         int assigned = 0;
         List<XHook> hooks = new ArrayList<>();
 
-        Group(String name) {
-            this.name = name;
+        Group() {
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof Group))
-                return false;
+        boolean hasException() {
+            return (assigned > 0 && exception);
+        }
 
-            Group other = (Group) obj;
-            return (this.exception == other.exception &&
-                    this.installed == other.installed &&
-                    this.used == other.used &&
-                    this.assigned == other.assigned);
+        boolean hasInstalled() {
+            return (assigned > 0 && installed > 0);
+        }
+
+        boolean allInstalled() {
+            return (assigned > 0 && installed + optional == assigned);
+        }
+
+        long lastUsed() {
+            return used;
+        }
+
+        boolean hasAssigned() {
+            return (assigned > 0);
+        }
+
+        boolean allAssigned() {
+            return (assigned == hooks.size());
         }
     }
 }

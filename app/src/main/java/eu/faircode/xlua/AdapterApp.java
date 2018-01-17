@@ -142,7 +142,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         @Override
         public void onClick(View view) {
-            int id = view.getId();
             switch (view.getId()) {
                 case R.id.ivExpander:
                 case R.id.ivIcon:
@@ -188,11 +187,11 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             Log.i(TAG, "Check changed");
             int id = compoundButton.getId();
             if (id == R.id.cbAssigned) {
+                app.assignments.clear();
                 if (checked) {
                     for (XHook hook : hooks)
                         app.assignments.add(new XAssignment(hook));
-                } else
-                    app.assignments.clear();
+                }
 
                 notifyItemChanged(getAdapterPosition());
 
@@ -354,8 +353,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return (!expanded1 &&
-                    prev.get(oldItemPosition).packageName.equals(next.get(newItemPosition).packageName));
+            XApp app1 = prev.get(oldItemPosition);
+            XApp app2 = next.get(newItemPosition);
+
+            return (!expanded1 && app1.packageName.equals(app2.packageName) && app1.uid == app2.uid);
         }
 
         @Override
@@ -363,9 +364,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             XApp app1 = prev.get(oldItemPosition);
             XApp app2 = next.get(newItemPosition);
 
-            if (!app1.packageName.equals(app2.packageName) ||
-                    app1.uid != app2.uid ||
-                    app1.icon != app2.icon ||
+            if (app1.icon != app2.icon ||
                     !app1.label.equals(app2.label) ||
                     app1.enabled != app2.enabled ||
                     app1.persistent != app2.persistent ||
@@ -434,7 +433,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 holder.app.assignments.size() == hooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
-        holder.adapter.set(holder.app, hooks);
+        holder.adapter.set(holder.app, hooks, holder.itemView.getContext());
 
         holder.updateExpand();
 
