@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
+import android.os.SystemClock;
 import android.util.Log;
 
 import org.luaj.vm2.Globals;
@@ -285,6 +286,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             List<XHook> hooks, final Map<String, String> settings) {
         for (final XHook hook : hooks)
             try {
+                long install = SystemClock.elapsedRealtime();
+
                 // Compile script
                 InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
                 final Prototype script = LuaC.instance.compile(is, "script");
@@ -341,30 +344,30 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                     // Check if function exists
                     LuaValue func = globals.get("after");
-                    if (!func.isnil()) {
-                        // Setup globals
-                        globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
+                    if (func.isnil())
+                        return;
 
-                        // Run function
-                        Varargs result = func.invoke(
-                                CoerceJavaToLua.coerce(hook),
-                                CoerceJavaToLua.coerce(new XParam(
-                                        lpparam.packageName, uid,
-                                        field,
-                                        paramTypes, returnType, lpparam.classLoader,
-                                        settings))
-                        );
+                    // Setup globals
+                    globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
 
-                        // Report use
-                        boolean restricted = result.arg1().checkboolean();
-                        if (restricted) {
-                            Bundle data = new Bundle();
-                            data.putString("function", "after");
-                            data.putInt("restricted", restricted ? 1 : 0);
-                            report(context, hook.getId(), lpparam.packageName, uid, "use", data);
-                        }
+                    // Run function
+                    Varargs result = func.invoke(
+                            CoerceJavaToLua.coerce(hook),
+                            CoerceJavaToLua.coerce(new XParam(
+                                    lpparam.packageName, uid,
+                                    field,
+                                    paramTypes, returnType, lpparam.classLoader,
+                                    settings))
+                    );
+
+                    // Report use
+                    boolean restricted = result.arg1().checkboolean();
+                    if (restricted) {
+                        Bundle data = new Bundle();
+                        data.putString("function", "after");
+                        data.putInt("restricted", restricted ? 1 : 0);
+                        report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                     }
-
                 } else {
                     // Get method
                     Method method;
@@ -397,6 +400,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Execute hook
                         private void execute(MethodHookParam param, String function) {
                             try {
+                                long run = SystemClock.elapsedRealtime();
+
                                 // Initialize Lua runtime
                                 Globals globals = JsePlatform.standardGlobals();
                                 if (BuildConfig.DEBUG)
@@ -406,83 +411,85 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                 // Check if function exists
                                 LuaValue func = globals.get(function);
-                                if (!func.isnil()) {
-                                    // Setup globals
-                                    globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
-                                    globals.set("getPrivateField", new TwoArgFunction() {
-                                        @Override
-                                        public LuaValue call(LuaValue lobject, LuaValue jname) {
-                                            try {
-                                                Object object = lobject.touserdata();
-                                                String name = jname.checkjstring();
-                                                Field field = object.getClass().getDeclaredField(name);
-                                                field.setAccessible(true);
-                                                Object result = field.get(object);
-                                                Log.i(TAG, "getPrivateField(" + name + ")=" + result);
-                                                // TODO: LuaValue's
-                                                return LuaValue.userdataOf(result);
-                                            } catch (Throwable ex) {
-                                                Log.e(TAG, Log.getStackTraceString(ex));
-                                                return LuaValue.NIL;
-                                            }
+                                if (func.isnil())
+                                    return;
+
+                                // Setup globals
+                                globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
+                                globals.set("getPrivateField", new TwoArgFunction() {
+                                    @Override
+                                    public LuaValue call(LuaValue lobject, LuaValue jname) {
+                                        try {
+                                            Object object = lobject.touserdata();
+                                            String name = jname.checkjstring();
+                                            Field field = object.getClass().getDeclaredField(name);
+                                            field.setAccessible(true);
+                                            Object result = field.get(object);
+                                            Log.i(TAG, "getPrivateField(" + name + ")=" + result);
+                                            // TODO: LuaValue's
+                                            return LuaValue.userdataOf(result);
+                                        } catch (Throwable ex) {
+                                            Log.e(TAG, Log.getStackTraceString(ex));
+                                            return LuaValue.NIL;
                                         }
-                                    });
-                                    globals.set("invokePrivateMethod", new VarArgFunction() {
-                                        @Override
-                                        public Varargs invoke(Varargs args) {
-                                            try {
-                                                Object object = args.touserdata(1);
-                                                String name = args.tojstring(2);
-                                                Object[] params = new Object[args.narg() - 2];
-                                                Class<?>[] types = new Class<?>[args.narg() - 2];
-                                                for (int i = 3; i <= args.narg(); i++) {
-                                                    if (args.isstring(i))
-                                                        params[i - 3] = args.toString();
-                                                    else // TODO: more types
-                                                        params[i - 3] = args.touserdata(i);
-
-                                                    if (params[i - 3] == null)
-                                                        types[i - 3] = null;
-                                                    else
-                                                        types[i - 3] = params[i - 3].getClass();
-                                                }
-
-                                                // TODO: resolve method with null param types
-                                                Method method = object.getClass().getDeclaredMethod(name, types);
-
-                                                Object result = method.invoke(object, params);
-                                                Log.i(TAG, "invokePrivateMethod(" + name + ")=" + result);
-                                                if (result == null)
-                                                    return LuaValue.NIL;
-                                                else if (result instanceof String)
-                                                    return LuaValue.valueOf((String) result);
-                                                else // TODO: more types
-                                                    return LuaValue.userdataOf(result);
-                                            } catch (Throwable ex) {
-                                                Log.e(TAG, Log.getStackTraceString(ex));
-                                                return LuaValue.NIL;
-                                            }
-                                        }
-                                    });
-
-                                    // Run function
-                                    Varargs result = func.invoke(
-                                            CoerceJavaToLua.coerce(hook),
-                                            CoerceJavaToLua.coerce(new XParam(
-                                                    lpparam.packageName, uid,
-                                                    param,
-                                                    paramTypes, returnType, lpparam.classLoader,
-                                                    settings))
-                                    );
-
-                                    // Report use
-                                    boolean restricted = result.arg1().checkboolean();
-                                    if (restricted) {
-                                        Bundle data = new Bundle();
-                                        data.putString("function", function);
-                                        data.putInt("restricted", restricted ? 1 : 0);
-                                        report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                                     }
+                                });
+                                globals.set("invokePrivateMethod", new VarArgFunction() {
+                                    @Override
+                                    public Varargs invoke(Varargs args) {
+                                        try {
+                                            Object object = args.touserdata(1);
+                                            String name = args.tojstring(2);
+                                            Object[] params = new Object[args.narg() - 2];
+                                            Class<?>[] types = new Class<?>[args.narg() - 2];
+                                            for (int i = 3; i <= args.narg(); i++) {
+                                                if (args.isstring(i))
+                                                    params[i - 3] = args.toString();
+                                                else // TODO: more types
+                                                    params[i - 3] = args.touserdata(i);
+
+                                                if (params[i - 3] == null)
+                                                    types[i - 3] = null;
+                                                else
+                                                    types[i - 3] = params[i - 3].getClass();
+                                            }
+
+                                            // TODO: resolve method with null param types
+                                            Method method = object.getClass().getDeclaredMethod(name, types);
+
+                                            Object result = method.invoke(object, params);
+                                            Log.i(TAG, "invokePrivateMethod(" + name + ")=" + result);
+                                            if (result == null)
+                                                return LuaValue.NIL;
+                                            else if (result instanceof String)
+                                                return LuaValue.valueOf((String) result);
+                                            else // TODO: more types
+                                                return LuaValue.userdataOf(result);
+                                        } catch (Throwable ex) {
+                                            Log.e(TAG, Log.getStackTraceString(ex));
+                                            return LuaValue.NIL;
+                                        }
+                                    }
+                                });
+
+                                // Run function
+                                Varargs result = func.invoke(
+                                        CoerceJavaToLua.coerce(hook),
+                                        CoerceJavaToLua.coerce(new XParam(
+                                                lpparam.packageName, uid,
+                                                param,
+                                                paramTypes, returnType, lpparam.classLoader,
+                                                settings))
+                                );
+
+                                // Report use
+                                boolean restricted = result.arg1().checkboolean();
+                                if (restricted) {
+                                    Bundle data = new Bundle();
+                                    data.putString("function", function);
+                                    data.putInt("restricted", restricted ? 1 : 0);
+                                    data.putLong("duration", SystemClock.elapsedRealtime() - run);
+                                    report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                                 }
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
@@ -499,6 +506,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Report install
                 Bundle data = new Bundle();
+                data.putLong("duration", SystemClock.elapsedRealtime() - install);
                 report(context, hook.getId(), lpparam.packageName, uid, "install", data);
             } catch (Throwable ex) {
                 Log.e(TAG, Log.getStackTraceString(ex));
