@@ -39,11 +39,15 @@ import android.util.Log;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaClosure;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Prototype;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
+import org.luaj.vm2.lib.DebugLib;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
@@ -335,6 +339,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                     // Initialize Lua runtime
                     Globals globals = JsePlatform.standardGlobals();
+                    if (BuildConfig.DEBUG)
+                        globals.load(new DebugLib());
                     LuaClosure closure = new LuaClosure(script, globals);
                     closure.call();
 
@@ -398,6 +404,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             try {
                                 // Initialize Lua runtime
                                 Globals globals = JsePlatform.standardGlobals();
+                                if (BuildConfig.DEBUG)
+                                    globals.load(new DebugLib());
                                 LuaClosure closure = new LuaClosure(script, globals);
                                 closure.call();
 
@@ -406,6 +414,36 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 if (!func.isnil()) {
                                     // Setup globals
                                     globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
+                                    globals.set("getPrivateField", new TwoArgFunction() {
+                                        @Override
+                                        public LuaValue call(LuaValue lobject, LuaValue name) {
+                                            try {
+                                                Object object = lobject.touserdata();
+                                                Field field = object.getClass().getDeclaredField(name.checkjstring());
+                                                field.setAccessible(true);
+                                                return LuaValue.userdataOf(field.get(object));
+                                            } catch (Throwable ex) {
+                                                Log.e(TAG, Log.getStackTraceString(ex));
+                                                return LuaValue.NIL;
+                                            }
+                                        }
+                                    });
+                                    globals.set("invokePrivateMethod", new VarArgFunction() {
+                                        @Override
+                                        public Varargs invoke(Varargs args) {
+                                            try {
+                                                Object object = args.touserdata(1);
+                                                Method method = object.getClass().getDeclaredMethod(args.tojstring(2));
+                                                Object[] param = new Object[args.narg() - 2];
+                                                for (int i = 0; i < args.narg() - 2; i++)
+                                                    param[i] = args.touserdata(i + 1 + 2);
+                                                return LuaValue.userdataOf(method.invoke(object, param));
+                                            } catch (Throwable ex) {
+                                                Log.e(TAG, Log.getStackTraceString(ex));
+                                                return LuaValue.NIL;
+                                            }
+                                        }
+                                    });
 
                                     // Run function
                                     Varargs result = func.invoke(
@@ -432,7 +470,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 // Report use error
                                 Bundle data = new Bundle();
                                 data.putString("function", function);
-                                data.putString("exception", Log.getStackTraceString(ex));
+                                data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
                                 report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                             }
                         }
@@ -447,8 +485,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Report install error
                 Bundle data = new Bundle();
-                data.putString("exception", ex.toString());
-                data.putString("stacktrace", Log.getStackTraceString(ex));
+                data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
                 report(context, hook.getId(), lpparam.packageName, uid, "install", data);
             }
     }
