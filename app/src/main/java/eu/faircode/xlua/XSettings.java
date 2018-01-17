@@ -111,10 +111,10 @@ class XSettings {
             StrictMode.setThreadPolicy(originalPolicy);
         }
 
-        Log.i(TAG, "Call " + method +
-                " uid=" + Process.myUid() +
-                " cuid=" + Binder.getCallingUid() +
-                " results=" + (result == null ? "-1" : result.keySet().size()));
+        //Log.i(TAG, "Call " + method +
+        //        " uid=" + Process.myUid() +
+        //        " cuid=" + Binder.getCallingUid() +
+        //        " results=" + (result == null ? "-1" : result.keySet().size()));
 
         return result;
     }
@@ -145,10 +145,10 @@ class XSettings {
             StrictMode.setThreadPolicy(originalPolicy);
         }
 
-        Log.i(TAG, "Query " + method +
-                " uid=" + Process.myUid() +
-                " cuid=" + Binder.getCallingUid() +
-                " rows=" + (result == null ? "-1" : result.getCount()));
+        //Log.i(TAG, "Query " + method +
+        //        " uid=" + Process.myUid() +
+        //        " cuid=" + Binder.getCallingUid() +
+        //        " rows=" + (result == null ? "-1" : result.getCount()));
 
         if (result != null)
             result.moveToPosition(-1);
@@ -164,7 +164,7 @@ class XSettings {
             hooks.put(hook.getId(), hook);
         }
 
-        Log.i(TAG, "Put hook=" + hook.getId());
+        //Log.i(TAG, "Put hook=" + hook.getId());
 
         return new Bundle();
     }
