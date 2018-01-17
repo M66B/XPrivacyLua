@@ -28,7 +28,6 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -150,10 +149,6 @@ class Util {
                 "cancelAsUser", String.class, int.class, UserHandle.class);
         mCancelAsUser.invoke(nm, tag, id, Util.getUserHandle(userid));
         Log.i(TAG, "Cancelled " + tag + ":" + id + " as " + userid);
-    }
-
-    static boolean isDebuggable(Context context) {
-        return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
     static class DialogObserver implements LifecycleObserver {

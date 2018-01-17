@@ -150,7 +150,7 @@ public class FragmentMain extends Fragment {
             Log.i(TAG, "Data loader started");
             DataHolder data = new DataHolder();
             try {
-                if (Util.isDebuggable(getContext())) {
+                if (BuildConfig.DEBUG) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
                     List<XHook> hooks = XHook.readHooks(getContext(), apk);
                     Log.i(TAG, "Loaded hooks=" + hooks.size());
