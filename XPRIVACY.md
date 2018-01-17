@@ -11,8 +11,8 @@ Before asking questions, please read [this FAQ](https://github.com/M66B/XPrivacy
 
 <a name="accounts"></a>
 * Accounts
-	* ~~return an empty account list~~
-	* ~~return an empty account type list~~
+	* ~~return an empty account list~~ see remark below
+	* ~~return an empty account type list~~ see remark below
 	* **return fake account info**
 	* ~~return empty authorization tokens~~ user choice
 	* **return an empty list of synchronizations**
@@ -21,9 +21,9 @@ Since account info can be faked, it is not really necessary to hide the account 
 
 <a name="browser"></a>
 * Browser
-	* ~~return an empty bookmark list~~
-	* ~~return an empty download list~~
-	* ~~return empty search history~~
+	* ~~return an empty bookmark list~~ see remark below
+	* ~~return an empty download list~~ see remark below
+	* ~~return empty search history~~ see remark below
 
 Different browsers (stock, Chrome, Firefox, etc) have different content providers, so this is app specific.
 
@@ -33,11 +33,11 @@ Different browsers (stock, Chrome, Firefox, etc) have different content provider
 
 <a name="calling"></a>
 * Calling
-	* ~~prevent calls from being placed~~
-	* ~~prevent SIP calls from being placed~~
-	* ~~prevent SMS messages from being sent~~
-	* ~~prevent MMS messages from being sent~~
-	* ~~prevent data messages from being sent~~
+	* ~~prevent calls from being placed~~ see remark below
+	* ~~prevent SIP calls from being placed~~ see remark below
+	* ~~prevent SMS messages from being sent~~ see remark below
+	* ~~prevent MMS messages from being sent~~ see remark below
+	* ~~prevent data messages from being sent~~ see remark below
 	* **return an empty call log**
 
 Placing calls and sending messages is security specific.
@@ -62,8 +62,8 @@ Placing calls and sending messages is security specific.
 
 <a name="email"></a>
 * E-mail
-	* ~~return an empty list of accounts, e-mails, etc (standard)~~
-	* ~~return an empty list of accounts, e-mails, etc (Gmail)~~
+	* ~~return an empty list of accounts, e-mails, etc (standard)~~ see remark below
+	* ~~return an empty list of accounts, e-mails, etc (Gmail)~~ see remark below
 
 Information about e-mail accounts and messages depends on the installed e-mail app and is therefore app specific.
 
@@ -76,24 +76,22 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* ~~return file not found for folder [/proc](http://linux.die.net/man/5/proc)~~ will result in crashes
 	* **return a fake Google advertising ID**
 	* ~~return a fake system property CID (Card Identification Register = SD-card serial number)~~ tracking related
-	* ~~return file not found for /sys/block/.../cid~~ will result in crashes
-	* ~~return file not found for /sys/class/.../cid~~ will result in crashes
+	* ~~return file not found for /sys/block/.../cid~~ will result in crashes / tracking related
+	* ~~return file not found for /sys/class/.../cid~~ will result in crashes / tracking related
 	* ~~return a fake input device descriptor~~ tracking related
 	* ~~return a fake USB ID/name/number~~ tracking related
 	* ~~return a fake Cast device ID / IP address~~ tracking related
 
 <a name="internet"></a>
 * Internet
-	* ~~revoke permission to internet access~~
-	* ~~revoke permission to internet administration~~
-	* ~~revoke permission to internet bandwidth statistics/administration~~
-	* ~~revoke permission to [VPN](http://en.wikipedia.org/wiki/Vpn) services~~
-	* ~~revoke permission to [Mesh networking](http://en.wikipedia.org/wiki/Mesh_networking) services~~
+	* ~~revoke permission to internet access~~ will result in crashes
+	* ~~revoke permission to internet administration~~ will result in crashes
+	* ~~revoke permission to internet bandwidth statistics/administration~~ will result in crashes
+	* ~~revoke permission to [VPN](http://en.wikipedia.org/wiki/Vpn) services~~ will result in crashes
+	* ~~revoke permission to [Mesh networking](http://en.wikipedia.org/wiki/Mesh_networking) services~~ will result in crashes
 	* **return fake extra info**
 	* ~~return fake disconnected state~~ not privacy related
 	* ~~return fake supplicant disconnected state~~ not privacy related
-
-Revoking permissions will result in crashes.
 
 <a name="IPC"></a>
 * IPC
@@ -139,12 +137,10 @@ Revoking permissions will result in crashes.
 
 <a name="nfc"></a>
 * NFC
-	* ~~prevent receiving NFC adapter state changes~~
-	* ~~prevent receiving NDEF discovered~~
-	* ~~prevent receiving TAG discovered~~
-	* ~~prevent receiving TECH discovered~~
-
-Using NFC is a user choice.
+	* ~~prevent receiving NFC adapter state changes~~ user choice
+	* ~~prevent receiving NDEF discovered~~ user choice
+	* ~~prevent receiving TAG discovered~~ user choice
+	* ~~prevent receiving TECH discovered~~ user choice
 
 <a name="notifications"></a>
 * Notifications
@@ -161,8 +157,8 @@ Using NFC is a user choice.
 	* **return a fake subscriber ID (IMSI for a GSM phone)**
 	* **return a fake phone device ID (IMEI): 000000000000000**
 	* ~~return a fake phone type: GSM (matching IMEI)~~ not privacy related
-	* ~~return a fake network type: unknown~~ tracking related
-	* ~~return an empty ISIM/ISIM domain~~ tracking related
+	* ~~return a fake network type: unknown~~ not privacy related
+	* ~~return an empty ISIM domain~~ tracking related / not available in user space
 	* **return an empty IMPI/IMPU**
 	* **return a fake MSISDN**
 	* ~~return fake mobile network info~~ tracking related
@@ -212,14 +208,12 @@ Using NFC is a user choice.
 
 <a name="storage"></a>
 * Storage
-	* ~~revoke permission to the [media storage](http://www.doubleencore.com/2014/03/android-external-storage/)~~
-	* ~~revoke permission to the external storage (SD-card)~~
-	* ~~revoke permission to [MTP](http://en.wikipedia.org/wiki/Media_Transfer_Protocol)~~
+	* ~~revoke permission to the [media storage](http://www.doubleencore.com/2014/03/android-external-storage/)~~ will result in crashes
+	* ~~revoke permission to the external storage (SD-card)~~ will result in crashes
+	* ~~revoke permission to [MTP](http://en.wikipedia.org/wiki/Media_Transfer_Protocol)~~ will result in crashes
 	* ~~return fake unmounted state~~ not privacy related
 	* ~~prevent access to provided assets (media, etc.)~~ will result in crashes
 
-Revoking permissions will result in crashes.
-	
 <a name="system"></a>
 * System
 	* **return an empty list of installed applications**
