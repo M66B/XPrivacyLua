@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -326,34 +325,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 Log.i(TAG, "Filtered apps count=" + apps.size());
 
                 DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
-
-                filtered.clear();
-                filtered.addAll(apps);
-                notifyDataSetChanged();
-
+                filtered = apps;
                 diff.dispatchUpdatesTo(AdapterApp.this);
-
-                diff.dispatchUpdatesTo(new ListUpdateCallback() {
-                    @Override
-                    public void onInserted(int position, int count) {
-                        Log.i(TAG, "Inserted " + count + " @" + position);
-                    }
-
-                    @Override
-                    public void onRemoved(int position, int count) {
-                        Log.i(TAG, "Removed " + count + " @" + position);
-                    }
-
-                    @Override
-                    public void onMoved(int fromPosition, int toPosition) {
-                        Log.i(TAG, "Moved from" + fromPosition + " to " + toPosition);
-                    }
-
-                    @Override
-                    public void onChanged(int position, int count, Object payload) {
-                        Log.i(TAG, "Changed " + count + " @" + position);
-                    }
-                });
             }
         };
     }

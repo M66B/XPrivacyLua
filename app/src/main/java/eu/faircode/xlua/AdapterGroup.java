@@ -24,6 +24,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -50,15 +51,13 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
     private static final String TAG = "XLua.Group";
 
     private XApp app;
-    private List<String> groups;
-    private Map<String, List<XHook>> hooks;
+    private List<Group> groups = new ArrayList<>();
 
     private ExecutorService executor = Executors.newCachedThreadPool();
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-        String group;
-        List<XHook> hooks;
+        Group group;
 
         final View itemView;
         final ImageView ivException;
@@ -96,7 +95,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                 case R.id.ivException:
                     StringBuilder sb = new StringBuilder();
                     for (XAssignment assignment : app.assignments)
-                        if (assignment.hook.getGroup().equals(group))
+                        if (assignment.hook.getGroup().equals(group.name))
                             if (assignment.exception != null) {
                                 sb.append("<b>");
                                 sb.append(Html.escapeHtml(assignment.hook.getId()));
@@ -126,10 +125,10 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
             switch (compoundButton.getId()) {
                 case R.id.cbAssigned:
-                    for (XHook hook : hooks)
+                    for (XHook hook : group.hooks)
                         app.assignments.remove(new XAssignment(hook));
                     if (checked)
-                        for (XHook hook : hooks)
+                        for (XHook hook : group.hooks)
                             app.assignments.add(new XAssignment(hook));
 
                     notifyItemChanged(getAdapterPosition());
@@ -139,9 +138,8 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                         @Override
                         public void run() {
                             ArrayList<String> hookids = new ArrayList<>();
-                            for (XHook hook : hooks)
+                            for (XHook hook : group.hooks)
                                 hookids.add(hook.getId());
-
 
                             Bundle args = new Bundle();
                             args.putStringArrayList("hooks", hookids);
@@ -164,28 +162,78 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
     void set(XApp app, List<XHook> hooks) {
         this.app = app;
-        this.groups = new ArrayList<>();
-        this.hooks = new HashMap<>();
 
+        Map<String, Group> map = new HashMap<>();
         for (XHook hook : hooks) {
-            if (!this.groups.contains(hook.getGroup())) {
-                this.groups.add(hook.getGroup());
-                this.hooks.put(hook.getGroup(), new ArrayList<XHook>());
+            Group group;
+            if (map.containsKey(hook.getGroup()))
+                group = map.get(hook.getGroup());
+            else {
+                group = new Group(hook.getGroup());
+                map.put(hook.getGroup(), group);
             }
-            this.hooks.get(hook.getGroup()).add(hook);
+            group.hooks.add(hook);
         }
+
+        for (Group group : map.values()) {
+            for (XAssignment assignment : app.assignments)
+                if (assignment.hook.getGroup().equals(group.name)) {
+                    if (assignment.exception != null)
+                        group.exception = true;
+                    if (assignment.installed >= 0 || assignment.hook.isOptional())
+                        group.installed++;
+                    if (assignment.restricted)
+                        group.used = Math.max(group.used, assignment.used);
+                    group.assigned++;
+                }
+        }
+
+        List<Group> newGroups = new ArrayList<>(map.values());
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
-        Collections.sort(this.groups, new Comparator<String>() {
+        Collections.sort(newGroups, new Comparator<Group>() {
             @Override
-            public int compare(String group1, String group2) {
-                return collator.compare(group1, group2);
+            public int compare(Group group1, Group group2) {
+                return collator.compare(group1.name, group2.name);
             }
         });
 
-        notifyDataSetChanged();
+        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new GroupDiffCallback(this.groups, newGroups));
+        this.groups = newGroups;
+        diff.dispatchUpdatesTo(this);
+    }
+
+    private class GroupDiffCallback extends DiffUtil.Callback {
+        private final List<Group> prev;
+        private final List<Group> next;
+
+        GroupDiffCallback(List<Group> prev, List<Group> next) {
+            this.prev = prev;
+            this.next = next;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return prev.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return next.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return prev.get(oldItemPosition).name.equals(next.get(newItemPosition).name);
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            Group group1 = prev.get(oldItemPosition);
+            Group group2 = next.get(newItemPosition);
+            return group1.equals(group2);
+        }
     }
 
     @Override
@@ -207,42 +255,52 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.unwire();
         holder.group = groups.get(position);
-        holder.hooks = hooks.get(holder.group);
 
-        boolean exception = false;
-        int installed = 0;
-        long used = -1;
-        int assigned = 0;
-        for (XAssignment assignment : app.assignments)
-            if (assignment.hook.getGroup().equals(holder.group)) {
-                if (assignment.exception != null)
-                    exception = true;
-                if (assignment.installed >= 0 || assignment.hook.isOptional())
-                    installed++;
-                if (assignment.restricted)
-                    used = Math.max(used, assignment.used);
-                assigned++;
-            }
-
+        // Get localized group name
         Context context = holder.itemView.getContext();
         Resources resources = holder.itemView.getContext().getResources();
-        String group = holder.group.toLowerCase().replaceAll("[^a-z]", "_");
+        String group = holder.group.name.toLowerCase().replaceAll("[^a-z]", "_");
         int resId = resources.getIdentifier("group_" + group, "string", context.getPackageName());
-        group = (resId == 0 ? holder.group : resources.getString(resId));
+        group = (resId == 0 ? holder.group.name : resources.getString(resId));
 
-        holder.ivException.setVisibility(exception && assigned > 0 ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setVisibility(installed > 0 && assigned > 0 ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setAlpha(installed == assigned ? 1.0f : 0.5f);
-        holder.tvUsed.setVisibility(used < 0 ? View.GONE : View.VISIBLE);
-        holder.tvUsed.setText(used < 0 ? "" : DateUtils.formatDateTime(context, used,
+        holder.ivException.setVisibility(holder.group.exception && holder.group.assigned > 0 ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setVisibility(holder.group.installed > 0 && holder.group.assigned > 0 ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setAlpha(holder.group.installed == holder.group.assigned ? 1.0f : 0.5f);
+        holder.tvUsed.setVisibility(holder.group.used < 0 ? View.GONE : View.VISIBLE);
+        holder.tvUsed.setText(holder.group.used < 0 ? "" : DateUtils.formatDateTime(context, holder.group.used,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
         holder.tvGroup.setText(group);
-        holder.cbAssigned.setChecked(assigned > 0);
+        holder.cbAssigned.setChecked(holder.group.assigned > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                assigned == holder.hooks.size()
+                holder.group.assigned == holder.group.hooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
 
         holder.wire();
+    }
+
+    private class Group {
+        String name;
+        boolean exception = false;
+        int installed = 0;
+        long used = -1;
+        int assigned = 0;
+        List<XHook> hooks = new ArrayList<>();
+
+        Group(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Group))
+                return false;
+
+            Group other = (Group) obj;
+            return (this.exception == other.exception &&
+                    this.installed == other.installed &&
+                    this.used == other.used &&
+                    this.assigned == other.assigned);
+        }
     }
 }
