@@ -20,6 +20,7 @@
 [
   // Get applications
   // https://developer.android.com/reference/android/app/ActivityManager.html
+  // https://developer.android.com/reference/android/appwidget/AppWidgetManager.html
   // https://developer.android.com/reference/android/content/pm/PackageManager.html
   // https://developer.android.com/reference/android/content/Intent.html
   {
@@ -82,6 +83,48 @@
     "minSdk": 1,
     "maxSdk": 20,
     // Android L returns filtered data
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "AppWidgetManager.getInstalledProviders",
+    "author": "M66B",
+    "className": "android.appwidget.AppWidgetManager",
+    "methodName": "getInstalledProviders",
+    "parameterTypes": [
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 3,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "AppWidgetManager.getInstalledProvidersForPackage",
+    "author": "M66B",
+    "className": "android.appwidget.AppWidgetManager",
+    "methodName": "getInstalledProvidersForPackage",
+    "parameterTypes": [
+      "java.lang.String",
+      "android.os.UserHandle"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 26,
+    "luaScript": "@generic_empty_list"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "AppWidgetManager.getInstalledProvidersForProfile",
+    "author": "M66B",
+    "className": "android.appwidget.AppWidgetManager",
+    "methodName": "getInstalledProvidersForProfile",
+    "parameterTypes": [
+      "android.os.UserHandle"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 21,
     "luaScript": "@generic_empty_list"
   },
   {

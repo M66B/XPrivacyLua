@@ -20,6 +20,7 @@
 package eu.faircode.xlua;
 
 import android.app.ActivityManager;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
@@ -179,6 +180,14 @@ public class XHook {
                             hook.className = className;
                         }
                         Log.i(TAG, hook.getId() + " class name=" + hook.className);
+                    } else if ("android.appwidget.AppWidgetManager".equals(hook.className)) {
+                        Object service = context.getSystemService(AppWidgetManager.class);
+                        if (service != null) {
+                            String className = service.getClass().getName();
+                            hook.className = className;
+                        }
+                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
+
                     } else if ("android.media.AudioManager".equals(hook.className)) {
                         Object service = context.getSystemService(AudioManager.class);
                         if (service != null) {

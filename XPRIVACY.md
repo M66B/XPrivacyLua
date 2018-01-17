@@ -221,7 +221,7 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* **return an empty list of running processes**
 	* **return an empty list of running services**
 	* **return an empty list of running tasks**
-	* return an empty list of widgets
+	* **return an empty list of widgets**
 	* ~~return an empty list of applications (provider)~~ not available on recent Android versions anymore
 	* **prevent package add, replace, restart, and remove notifications**
 
