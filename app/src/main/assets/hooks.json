@@ -1470,6 +1470,81 @@
     "minSdk": 1,
     "luaScript": "@mediarecorder_stop"
   },
+  // Send messages
+  // https://developer.android.com/reference/android/telephony/SmsManager.html
+  {
+    "collection": "Privacy",
+    "group": "Send.Messages",
+    "name": "SmsManager.sendDataMessage",
+    "author": "M66B",
+    "className": "android.telephony.SmsManager",
+    "methodName": "sendDataMessage",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String",
+      "short",
+      "byte[]",
+      "android.app.PendingIntent",
+      "android.app.PendingIntent"
+    ],
+    "returnType": "void",
+    "minSdk": 4,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Send.Messages",
+    "name": "SmsManager.sendMultimediaMessage",
+    "author": "M66B",
+    "className": "android.telephony.SmsManager",
+    "methodName": "sendMultimediaMessage",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.net.Uri",
+      "java.lang.String",
+      "android.os.Bundle",
+      "android.app.PendingIntent"
+    ],
+    "returnType": "void",
+    "minSdk": 21,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Send.Messages",
+    "name": "SmsManager.sendMultipartTextMessage",
+    "author": "M66B",
+    "className": "android.telephony.SmsManager",
+    "methodName": "sendMultipartTextMessage",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String",
+      "java.util.ArrayList",
+      "java.util.ArrayList",
+      "java.util.ArrayList"
+    ],
+    "returnType": "void",
+    "minSdk": 4,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Send.Messages",
+    "name": "SmsManager.sendTextMessage",
+    "author": "M66B",
+    "className": "android.telephony.SmsManager",
+    "methodName": "sendTextMessage",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String",
+      "java.lang.String",
+      "android.app.PendingIntent",
+      "android.app.PendingIntent"
+    ],
+    "returnType": "void",
+    "minSdk": 4,
+    "luaScript": "@generic_block_method"
+  },
   // Take picture
   // https://developer.android.com/reference/android/hardware/Camera.html
   // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html

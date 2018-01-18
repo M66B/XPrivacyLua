@@ -17,7 +17,7 @@
     <string name="title_restrict">Restrict</string>
 
     <string name="title_help_instructions">
-        Tap on an app icon or name and tick a restriction to apply it.
+        Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
         but applying restrictions to some apps requires a device restart (see icons below).
         <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
@@ -57,5 +57,6 @@
     <string name="group_read_telephony">Read telephony data</string>
     <string name="group_record_audio">Record audio</string>
     <string name="group_record_video">Record video</string>
+    <string name="group_send_messages">Send messages</string>
     <string name="group_use_camera">Use camera</string>
 </resources>

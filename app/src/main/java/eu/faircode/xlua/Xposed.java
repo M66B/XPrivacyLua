@@ -482,8 +482,27 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             return float.class;
         else if ("double".equals(name))
             return double.class;
+
+        else if ("boolean[]".equals(name))
+            return boolean[].class;
+        else if ("byte[]".equals(name))
+            return byte[].class;
+        else if ("char[]".equals(name))
+            return char[].class;
+        else if ("short[]".equals(name))
+            return short[].class;
+        else if ("int[]".equals(name))
+            return int[].class;
+        else if ("long[]".equals(name))
+            return long[].class;
+        else if ("float[]".equals(name))
+            return float[].class;
+        else if ("double[]".equals(name))
+            return double[].class;
+
         else if ("void".equals(name))
             return Void.TYPE;
+
         else
             return Class.forName(name, false, loader);
     }

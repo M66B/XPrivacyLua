@@ -35,6 +35,7 @@ Restrictions
 * Read telephony data (hide IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
+* Send messages (MMS, SMS, data)
 * Use camera (fake camera not available)
 
 You can see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json) all technical details.

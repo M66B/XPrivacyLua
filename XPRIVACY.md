@@ -35,9 +35,9 @@ Different browsers (stock, Chrome, Firefox, etc) have different content provider
 * Calling
 	* ~~prevent calls from being placed~~ user choice
 	* ~~prevent SIP calls from being placed~~ user choice
-	* prevent SMS messages from being sent
-	* prevent MMS messages from being sent
-	* prevent data messages from being sent
+	* **prevent SMS messages from being sent**
+	* **prevent MMS messages from being sent**
+	* **prevent data messages from being sent**
 	* **return an empty call log**
 
 <a name="clipboard"></a>
