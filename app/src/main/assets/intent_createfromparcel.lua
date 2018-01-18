@@ -41,7 +41,9 @@ function after(hook, param)
         local uri = uriClass:parse("package:" .. param:getPackageName())
         intent:setData(uri)
         return true
-    elseif action == 'android.intent.action.PACKAGES_SUSPENDED' or
+    elseif action == 'android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE' or
+            action == 'android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE' or
+            action == 'android.intent.action.PACKAGES_SUSPENDED' or
             action == 'android.intent.action.PACKAGES_UNSUSPENDED' then
         local stringClass = luajava.bindClass('java.lang.String')
         local arrayClass = luajava.bindClass('java.lang.reflect.Array')
