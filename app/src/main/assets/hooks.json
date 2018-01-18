@@ -18,6 +18,24 @@
  */
 
 [
+  // Determine activity
+  // https://developers.google.com/android/reference/com/google/android/gms/location/ActivityRecognitionResult
+  // https://developers.google.com/android/reference/com/google/android/gms/location/DetectedActivity
+  {
+    "collection": "Privacy",
+    "group": "Determine.Activity",
+    "name": "ActivityRecognitionResult.extractResult",
+    "author": "M66B",
+    "className": "com.google.android.gms.location.ActivityRecognitionResult",
+    "methodName": "extractResult",
+    "parameterTypes": [
+      "android.content.Intent"
+    ],
+    "returnType": "com.google.android.gms.location.ActivityRecognitionResult",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@activityrecognitionresult_extractresult"
+  },
   // Get applications
   // https://developer.android.com/reference/android/app/ActivityManager.html
   // https://developer.android.com/reference/android/appwidget/AppWidgetManager.html
@@ -488,20 +506,6 @@
     "minSdk": 1,
     "enabled": false,
     "luaScript": "@bundle_get_location"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Determine.Activity",
-    "name": "Intent.createFromParcel/activity_recognition",
-    "author": "M66B",
-    "className": "android.content.Intent",
-    "methodName": "CREATOR:createFromParcel",
-    "parameterTypes": [
-      "android.os.Parcel"
-    ],
-    "returnType": "android.content.Intent",
-    "minSdk": 1,
-    "luaScript": "@intent_createfromparcel"
   },
   {
     "collection": "Privacy",
