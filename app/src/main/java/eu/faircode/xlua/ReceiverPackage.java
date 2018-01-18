@@ -77,6 +77,7 @@ public class ReceiverPackage extends BroadcastReceiver {
                     Bundle args = new Bundle();
                     args.putString("packageName", packageName);
                     args.putInt("uid", uid);
+                    args.putBoolean("settings", true);
                     context.getContentResolver()
                             .call(XSettings.URI, "xlua", "clearApp", args);
 

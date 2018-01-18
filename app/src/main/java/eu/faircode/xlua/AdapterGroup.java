@@ -135,6 +135,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                     executor.submit(new Runnable() {
                         @Override
                         public void run() {
+                            // TODO: set/clear group API
                             ArrayList<String> hookids = new ArrayList<>();
                             for (XHook hook : group.hooks)
                                 hookids.add(hook.getId());

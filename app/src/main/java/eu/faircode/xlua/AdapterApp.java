@@ -198,18 +198,21 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 executor.submit(new Runnable() {
                     @Override
                     public void run() {
-                        ArrayList<String> hookids = new ArrayList<>();
-                        for (XHook hook : hooks)
-                            hookids.add(hook.getId());
-
-                        Bundle args = new Bundle();
-                        args.putStringArrayList("hooks", hookids);
-                        args.putString("packageName", app.packageName);
-                        args.putInt("uid", app.uid);
-                        args.putBoolean("delete", !checked);
-                        args.putBoolean("kill", !app.persistent);
-                        compoundButton.getContext().getContentResolver()
-                                .call(XSettings.URI, "xlua", "assignHooks", args);
+                        if (checked) {
+                            Bundle args = new Bundle();
+                            args.putString("packageName", app.packageName);
+                            args.putInt("uid", app.uid);
+                            args.putBoolean("kill", !app.persistent);
+                            compoundButton.getContext().getContentResolver()
+                                    .call(XSettings.URI, "xlua", "initApp", args);
+                        } else {
+                            Bundle args = new Bundle();
+                            args.putString("packageName", app.packageName);
+                            args.putInt("uid", app.uid);
+                            args.putBoolean("kill", !app.persistent);
+                            compoundButton.getContext().getContentResolver()
+                                    .call(XSettings.URI, "xlua", "clearApp", args);
+                        }
                     }
                 });
             }

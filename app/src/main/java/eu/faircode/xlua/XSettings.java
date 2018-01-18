@@ -652,6 +652,9 @@ class XSettings {
 
         String packageName = extras.getString("packageName");
         int uid = extras.getInt("uid");
+        boolean kill = extras.getBoolean("kill", false);
+
+        int userid = Util.getUserId(uid);
 
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {
@@ -685,6 +688,9 @@ class XSettings {
             dbLock.writeLock().unlock();
         }
 
+        if (kill)
+            forceStop(context, packageName, userid);
+
         Log.i(TAG, "Init app pkg=" + packageName + " uid=" + uid + " assignments=" + hookids.size());
 
         return new Bundle();
@@ -695,10 +701,12 @@ class XSettings {
 
         String packageName = extras.getString("packageName");
         int uid = extras.getInt("uid");
-        int userid = Util.getUserId(uid);
+        boolean kill = extras.getBoolean("kill", false);
+        boolean full = extras.getBoolean("settings", false);
 
         long assignments;
-        long settings;
+        long settings = 0;
+        int userid = Util.getUserId(uid);
 
         dbLock.writeLock().lock();
         try {
@@ -708,10 +716,11 @@ class XSettings {
                         "assignment",
                         "package = ? AND uid = ?",
                         new String[]{packageName, Integer.toString(uid)});
-                settings = db.delete(
-                        "setting",
-                        "user = ? AND category = ?",
-                        new String[]{Integer.toString(userid), packageName});
+                if (full)
+                    settings = db.delete(
+                            "setting",
+                            "user = ? AND category = ?",
+                            new String[]{Integer.toString(userid), packageName});
 
                 db.setTransactionSuccessful();
             } finally {
@@ -720,6 +729,9 @@ class XSettings {
         } finally {
             dbLock.writeLock().unlock();
         }
+
+        if (kill)
+            forceStop(context, packageName, userid);
 
         Log.i(TAG, "Cleared app pkg=" + packageName + " uid=" + uid +
                 " assignments=" + assignments + " settings=" + settings);
