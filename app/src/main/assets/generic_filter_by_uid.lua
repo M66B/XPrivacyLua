@@ -32,15 +32,16 @@ function after(hook, param)
         if item == nil then
             uid = -1
         elseif name == 'PackageManager.getInstalledPackages' or
-                name == 'PackageManager.getPackagesHoldingPermissions' then
-            uid = item.applicationInfo.uid
+                name == 'PackageManager.getPackagesHoldingPermissions' or
+                name == 'PackageManager.getPreferredPackages' then
+            uid = item.applicationInfo.uid -- PackageInfo
         elseif name == 'PackageManager.queryIntentActivities' or
                 name == 'PackageManager.queryIntentActivityOptions' then
-            uid = item.activityInfo.applicationInfo.uid
+            uid = item.activityInfo.applicationInfo.uid -- ResolveInfo
         elseif name == 'PackageManager.queryIntentContentProviders' then
-            uid = item.providerInfo.applicationInfo.uid
+            uid = item.providerInfo.applicationInfo.uid -- ResolveInfo
         elseif name == 'PackageManager.queryIntentServices' then
-            uid = item.serviceInfo.applicationInfo.uid
+            uid = item.serviceInfo.applicationInfo.uid -- ResolveInfo
         else
             uid = item.uid
         end

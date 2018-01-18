@@ -220,6 +220,20 @@
   {
     "collection": "Privacy",
     "group": "Get.Applications",
+    "name": "PackageManager.getPreferredPackages",
+    "author": "M66B",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getPreferredPackages",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.util.List",
+    "minSdk": 1,
+    "luaScript": "@generic_filter_by_uid"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
     "name": "PackageManager.queryIntentActivityOptions",
     "author": "M66B",
     "className": "android.content.pm.PackageManager",
