@@ -42,6 +42,7 @@ Notes
 
 * Some apps will start the camera app to take pictures. This cannot be restricted and there is no need for this, because only you can take pictures in this scenario, not the app.
 * Some apps will use [OpenSL ES for Android](https://developer.android.com/ndk/guides/audio/opensl-for-android.html) to record audio, an example is WhatsApp. Xposed cannot hook into native code, so this cannot be prevented.
+* The get applications restriction will not restrict getting information about individual apps for stability and performance reasons.
 
 Compatibility
 -------------
