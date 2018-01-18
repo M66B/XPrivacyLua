@@ -83,7 +83,7 @@ public class FragmentMain extends Fragment {
     public void onResume() {
         super.onResume();
 
-        IntentFilter ifData = new IntentFilter(XSettings.ACTION_DATA_CHANGED);
+        IntentFilter ifData = new IntentFilter(XProvider.ACTION_DATA_CHANGED);
         getContext().registerReceiver(dataChangedReceiver, ifData);
 
         IntentFilter ifPackage = new IntentFilter();
@@ -163,14 +163,14 @@ public class FragmentMain extends Fragment {
                         Bundle args = new Bundle();
                         args.putString("json", hook.toJSON());
                         getContext().getContentResolver()
-                                .call(XSettings.URI, "xlua", "putHook", args);
+                                .call(XProvider.URI, "xlua", "putHook", args);
                     }
                 }
 
                 Cursor chooks = null;
                 try {
                     chooks = getContext().getContentResolver()
-                            .query(XSettings.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                            .query(XProvider.URI, new String[]{"xlua.getHooks"}, null, null, null);
                     while (chooks != null && chooks.moveToNext())
                         data.hooks.add(XHook.fromJSON(chooks.getString(0)));
                 } finally {
@@ -181,7 +181,7 @@ public class FragmentMain extends Fragment {
                 Cursor capps = null;
                 try {
                     capps = getContext().getContentResolver()
-                            .query(XSettings.URI, new String[]{"xlua.getApps"}, null, null, null);
+                            .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
                     while (capps != null && capps.moveToNext())
                         data.apps.add(XApp.fromJSON(capps.getString(0)));
                 } finally {

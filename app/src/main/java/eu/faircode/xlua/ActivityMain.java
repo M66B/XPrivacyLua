@@ -74,7 +74,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Check if service is running
-        if (!XSettings.isAvailable(this)) {
+        if (!XProvider.isAvailable(this)) {
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_service), Snackbar.LENGTH_INDEFINITE).show();
             return;
         }
@@ -125,16 +125,16 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         // Initialize drawer
-        boolean showAll = XSettings.getSettingBoolean(this, "global", "show_all_apps");
-        boolean notifyNew = XSettings.getSettingBoolean(this, "global", "notify_new_apps");
-        boolean restrictNew = XSettings.getSettingBoolean(this, "global", "restrict_new_apps");
+        boolean showAll = XProvider.getSettingBoolean(this, "global", "show_all_apps");
+        boolean notifyNew = XProvider.getSettingBoolean(this, "global", "notify_new_apps");
+        boolean restrictNew = XProvider.getSettingBoolean(this, "global", "restrict_new_apps");
 
         final ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityMain.this, R.layout.draweritem);
 
         drawerArray.add(new DrawerItem(this, R.string.menu_show_all, showAll, new DrawerItem.IListener() {
             @Override
             public void onClick(DrawerItem item) {
-                XSettings.putSettingBoolean(ActivityMain.this, "global", "show_all_apps", item.isChecked());
+                XProvider.putSettingBoolean(ActivityMain.this, "global", "show_all_apps", item.isChecked());
                 drawerArray.notifyDataSetChanged();
                 fragmentMain.setShowAll(item.isChecked());
                 //Log.e(TAG, Log.getStackTraceString(ex));
@@ -145,7 +145,7 @@ public class ActivityMain extends AppCompatActivity {
         drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
             @Override
             public void onClick(DrawerItem item) {
-                XSettings.putSettingBoolean(ActivityMain.this, "global", "notify_new_apps", item.isChecked());
+                XProvider.putSettingBoolean(ActivityMain.this, "global", "notify_new_apps", item.isChecked());
                 drawerArray.notifyDataSetChanged();
             }
         }));
@@ -153,7 +153,7 @@ public class ActivityMain extends AppCompatActivity {
         drawerArray.add(new DrawerItem(this, R.string.menu_restrict_new, restrictNew, new DrawerItem.IListener() {
             @Override
             public void onClick(DrawerItem item) {
-                XSettings.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
+                XProvider.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
                 drawerArray.notifyDataSetChanged();
             }
         }));

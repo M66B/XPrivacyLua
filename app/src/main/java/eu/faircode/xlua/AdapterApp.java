@@ -204,14 +204,14 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                             args.putInt("uid", app.uid);
                             args.putBoolean("kill", !app.persistent);
                             compoundButton.getContext().getContentResolver()
-                                    .call(XSettings.URI, "xlua", "initApp", args);
+                                    .call(XProvider.URI, "xlua", "initApp", args);
                         } else {
                             Bundle args = new Bundle();
                             args.putString("packageName", app.packageName);
                             args.putInt("uid", app.uid);
                             args.putBoolean("kill", !app.persistent);
                             compoundButton.getContext().getContentResolver()
-                                    .call(XSettings.URI, "xlua", "clearApp", args);
+                                    .call(XProvider.URI, "xlua", "clearApp", args);
                         }
                     }
                 });

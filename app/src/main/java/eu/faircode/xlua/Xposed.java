@@ -160,7 +160,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                                 Context context = (Context) mGetContext.invoke(param.thisObject);
                                 getVersion(context);
-                                param.setResult(XSettings.call(context, arg, extras));
+                                param.setResult(XProvider.call(context, arg, extras));
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);
@@ -187,7 +187,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                             Context context = (Context) mGetContext.invoke(param.thisObject);
                             getVersion(context);
-                            param.setResult(XSettings.query(context, projection[0].split("\\.")[1], selection));
+                            param.setResult(XProvider.query(context, projection[0].split("\\.")[1], selection));
                         } catch (Throwable ex) {
                             Log.e(TAG, Log.getStackTraceString(ex));
                             XposedBridge.log(ex);
@@ -231,7 +231,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         Cursor hcursor = null;
                         try {
                             hcursor = resolver
-                                    .query(XSettings.URI, new String[]{"xlua.getAssignedHooks"},
+                                    .query(XProvider.URI, new String[]{"xlua.getAssignedHooks"},
                                             null, new String[]{lpparam.packageName, Integer.toString(uid)},
                                             null);
                             while (hcursor != null && hcursor.moveToNext())
@@ -247,7 +247,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         Cursor scursor1 = null;
                         try {
                             scursor1 = resolver
-                                    .query(XSettings.URI, new String[]{"xlua.getSettings"},
+                                    .query(XProvider.URI, new String[]{"xlua.getSettings"},
                                             null, new String[]{"global", Integer.toString(uid)},
                                             null);
                             while (scursor1 != null && scursor1.moveToNext())
@@ -261,7 +261,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         Cursor scursor2 = null;
                         try {
                             scursor2 = resolver
-                                    .query(XSettings.URI, new String[]{"xlua.getSettings"},
+                                    .query(XProvider.URI, new String[]{"xlua.getSettings"},
                                             null, new String[]{lpparam.packageName, Integer.toString(uid)},
                                             null);
                             while (scursor2 != null && scursor2.moveToNext())
@@ -595,7 +595,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         args.putString("event", event);
         args.putBundle("data", data);
         context.getContentResolver()
-                .call(XSettings.URI, "xlua", "report", args);
+                .call(XProvider.URI, "xlua", "report", args);
     }
 
     private static Globals getGlobals(XC_LoadPackage.LoadPackageParam lpparam, int uid, XHook hook) {

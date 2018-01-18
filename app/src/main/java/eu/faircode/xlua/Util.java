@@ -129,7 +129,7 @@ class Util {
             String self = Util.class.getPackage().getName();
             Resources resources = pm.getResourcesForApplication(self);
             NotificationChannel channel = new NotificationChannel(
-                    XSettings.cChannelName, resources.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
+                    XProvider.cChannelName, resources.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
             channel.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
             nm.createNotificationChannel(channel);
         }

@@ -35,19 +35,19 @@ public class ReceiverPackage extends BroadcastReceiver {
                     args.putString("packageName", packageName);
                     args.putInt("uid", uid);
                     context.getContentResolver()
-                            .call(XSettings.URI, "xlua", "clearApp", args);
-                    if (XSettings.getSettingBoolean(context, userid, "global", "restrict_new_apps"))
+                            .call(XProvider.URI, "xlua", "clearApp", args);
+                    if (XProvider.getSettingBoolean(context, userid, "global", "restrict_new_apps"))
                         context.getContentResolver()
-                                .call(XSettings.URI, "xlua", "initApp", args);
+                                .call(XProvider.URI, "xlua", "initApp", args);
 
                     // Notify new app
-                    if (XSettings.getSettingBoolean(context, userid, "global", "notify_new_apps")) {
+                    if (XProvider.getSettingBoolean(context, userid, "global", "notify_new_apps")) {
                         PackageManager pm = ctx.getPackageManager();
                         Resources resources = pm.getResourcesForApplication(self);
 
                         Notification.Builder builder = new Notification.Builder(ctx);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                            builder.setChannelId(XSettings.cChannelName);
+                            builder.setChannelId(XProvider.cChannelName);
                         builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
                         builder.setContentTitle(resources.getString(R.string.msg_review_settings));
                         builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
@@ -72,14 +72,14 @@ public class ReceiverPackage extends BroadcastReceiver {
                     Bundle args = new Bundle();
                     args.putInt("user", userid);
                     context.getContentResolver()
-                            .call(XSettings.URI, "xlua", "clearData", args);
+                            .call(XProvider.URI, "xlua", "clearData", args);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("packageName", packageName);
                     args.putInt("uid", uid);
                     args.putBoolean("settings", true);
                     context.getContentResolver()
-                            .call(XSettings.URI, "xlua", "clearApp", args);
+                            .call(XProvider.URI, "xlua", "clearApp", args);
 
                     Util.cancelAsUser(ctx, "xlua_new_app", uid, userid);
                 }

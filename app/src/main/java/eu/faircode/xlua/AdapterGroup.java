@@ -147,7 +147,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                             args.putBoolean("delete", !checked);
                             args.putBoolean("kill", !app.persistent);
                             compoundButton.getContext().getContentResolver()
-                                    .call(XSettings.URI, "xlua", "assignHooks", args);
+                                    .call(XProvider.URI, "xlua", "assignHooks", args);
                         }
                     });
                     break;

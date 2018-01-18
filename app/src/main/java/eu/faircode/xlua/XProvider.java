@@ -56,8 +56,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import de.robv.android.xposed.XposedBridge;
 
-class XSettings {
-    private final static String TAG = "XLua.Settings";
+class XProvider {
+    private final static String TAG = "XLua.Provider";
 
     private final static Object lock = new Object();
 
@@ -68,7 +68,7 @@ class XSettings {
     final static String cChannelName = "xlua";
 
     static Uri URI = Settings.System.CONTENT_URI;
-    static String ACTION_DATA_CHANGED = XSettings.class.getPackage().getName() + ".DATA_CHANGED";
+    static String ACTION_DATA_CHANGED = XProvider.class.getPackage().getName() + ".DATA_CHANGED";
 
     static void loadData(Context context) throws Throwable {
         synchronized (lock) {
@@ -203,7 +203,7 @@ class XSettings {
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
                 if (!"android".equals(ai.packageName) &&
-                        !XSettings.class.getPackage().getName().equals(ai.packageName)) {
+                        !XProvider.class.getPackage().getName().equals(ai.packageName)) {
                     int esetting = pm.getApplicationEnabledSetting(ai.packageName);
                     boolean enabled = (ai.enabled &&
                             (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
@@ -483,14 +483,14 @@ class XSettings {
             // Notify data changed
             Intent intent = new Intent();
             intent.setAction(ACTION_DATA_CHANGED);
-            intent.setPackage(XSettings.class.getPackage().getName());
+            intent.setPackage(XProvider.class.getPackage().getName());
             intent.putExtra("packageName", packageName);
             intent.putExtra("uid", uid);
             context.sendBroadcastAsUser(intent, Util.getUserHandle(uid));
 
             Context ctx = Util.createContextForUser(context, Util.getUserId(uid));
             PackageManager pm = ctx.getPackageManager();
-            String self = XSettings.class.getPackage().getName();
+            String self = XProvider.class.getPackage().getName();
             Resources resources = pm.getResourcesForApplication(self);
 
             // Notify usage
@@ -787,7 +787,7 @@ class XSettings {
 
             // Allow same signature
             PackageManager pm = context.getPackageManager();
-            String self = XSettings.class.getPackage().getName();
+            String self = XProvider.class.getPackage().getName();
             int uid = pm.getApplicationInfo(self, 0).uid;
             if (pm.checkSignatures(cuid, uid) != PackageManager.SIGNATURE_MATCH)
                 throw new SecurityException("Signature error cuid=" + cuid);
@@ -801,7 +801,7 @@ class XSettings {
     private static Map<String, XHook> loadHooks(Context context) throws Throwable {
         Map<String, XHook> result = new HashMap<>();
         PackageManager pm = context.getPackageManager();
-        String self = XSettings.class.getPackage().getName();
+        String self = XProvider.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
         List<XHook> hooks = XHook.readHooks(context, ai.publicSourceDir);
         for (XHook hook : hooks)
@@ -897,10 +897,10 @@ class XSettings {
 
     static boolean isAvailable(Context context) {
         try {
-            String self = XSettings.class.getPackage().getName();
+            String self = XProvider.class.getPackage().getName();
             PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
             Bundle result = context.getContentResolver()
-                    .call(XSettings.URI, "xlua", "getVersion", new Bundle());
+                    .call(XProvider.URI, "xlua", "getVersion", new Bundle());
             return (result != null && pi.versionCode == result.getInt("version"));
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
@@ -933,7 +933,7 @@ class XSettings {
         args.putString("category", category);
         args.putString("name", name);
         Bundle result = context.getContentResolver()
-                .call(XSettings.URI, "xlua", "getSetting", args);
+                .call(XProvider.URI, "xlua", "getSetting", args);
         return Boolean.parseBoolean(result.getString("value"));
     }
 
@@ -943,7 +943,7 @@ class XSettings {
         args.putString("category", category);
         args.putString("name", name);
         args.putString("value", value);
-        context.getContentResolver().call(XSettings.URI, "xlua", "putSetting", args);
+        context.getContentResolver().call(XProvider.URI, "xlua", "putSetting", args);
     }
 
     static void putSettingBoolean(Context context, String category, String name, boolean value) {
