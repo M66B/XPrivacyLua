@@ -38,6 +38,17 @@ This message means either that:
 * *Security specific*: features related to security only will not be added.
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
 
+Considered as tracking/profile related:
+
+* IP address
+* MAC address
+* Host name
+* Device [data](https://developer.android.com/reference/android/os/Build.html)
+* Country
+* Network type
+* Network operator
+* Browser user agent string
+
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
 
 See also [question 7](#FAQ7).

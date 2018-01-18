@@ -18,6 +18,7 @@ Features
 Restrictions
 ------------
 
+* Determine activity (see [here](https://developers.google.com/location-context/activity-recognition/))
 * Get applications (hide installed apps)
 * Get calendars (hide calendars)
 * Get call log (hide call log)
@@ -28,6 +29,7 @@ Restrictions
 * Read account name (fake name, mostly e-mail address)
 * Read clipboard (fake paste)
 * Read identifiers (fake build serial number, Android ID, GSF ID, advertising ID)
+* Read notifications (status bar)
 * Read network data (hide cell info, Wi-Fi networks / scan results / network name)
 * Read sync data (see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
 * Read telephony data (hide IMEI, MEI, SIM serial number, voicemail number, etc)

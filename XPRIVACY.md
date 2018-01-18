@@ -33,14 +33,12 @@ Different browsers (stock, Chrome, Firefox, etc) have different content provider
 
 <a name="calling"></a>
 * Calling
-	* ~~prevent calls from being placed~~ see remark below
-	* ~~prevent SIP calls from being placed~~ see remark below
-	* ~~prevent SMS messages from being sent~~ see remark below
-	* ~~prevent MMS messages from being sent~~ see remark below
-	* ~~prevent data messages from being sent~~ see remark below
+	* ~~prevent calls from being placed~~ user choice
+	* ~~prevent SIP calls from being placed~~ user choice
+	* prevent SMS messages from being sent
+	* prevent MMS messages from being sent
+	* prevent data messages from being sent
 	* **return an empty call log**
-
-Placing calls and sending messages is security specific.
 
 <a name="clipboard"></a>
 * Clipboard
