@@ -25,7 +25,7 @@
   <string name="msg_review_settings">Vérifier les paramètres de confidentialité</string>
   <string name="msg_usage">\'%1$s\' restreint</string>
   <string name="msg_exception">Erreur dans %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
+  <string name="group_determine_activity">Déterminer l\'activité</string>
   <string name="group_get_applications">Lister les applications</string>
   <string name="group_get_calendars">Voir les calendriers</string>
   <string name="group_get_call_log">Voir le journal des appels</string>
@@ -34,7 +34,7 @@
   <string name="group_get_messages">Voir les messages</string>
   <string name="group_get_sensors">Voir les capteurs</string>
   <string name="group_read_account">Lire le nom du compte</string>
-  <string name="group_read_clipboard">Lire le presse-papiers</string>
+  <string name="group_read_clipboard">Lire le presse-papier</string>
   <string name="group_read_identifiers">Lire les identifiants</string>
   <string name="group_read_network">Lire les données réseaux</string>
   <string name="group_read_notifications">Lire les notifications</string>
