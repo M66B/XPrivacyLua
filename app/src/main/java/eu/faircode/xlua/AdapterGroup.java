@@ -99,7 +99,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                                 sb.append("<b>");
                                 sb.append(Html.escapeHtml(assignment.hook.getId()));
                                 sb.append("</b><br>");
-                                sb.append(Html.escapeHtml(assignment.exception));
+                                sb.append(Html.escapeHtml(assignment.exception).replace("\n", "<br>"));
                                 sb.append("<br>");
                             }
 
@@ -172,7 +172,8 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                 Resources resources = context.getResources();
                 String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
                 group.id = resources.getIdentifier("group_" + name, "string", context.getPackageName());
-                group.name = resources.getString(group.id);
+                group.name = hook.getGroup();
+                group.title = resources.getString(group.id);
 
                 map.put(hook.getGroup(), group);
             }
@@ -202,7 +203,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         Collections.sort(this.groups, new Comparator<Group>() {
             @Override
             public int compare(Group group1, Group group2) {
-                return collator.compare(group1.name, group2.name);
+                return collator.compare(group1.title, group2.title);
             }
         });
 
@@ -239,7 +240,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         holder.tvUsed.setVisibility(holder.group.lastUsed() < 0 ? View.GONE : View.VISIBLE);
         holder.tvUsed.setText(DateUtils.formatDateTime(context, holder.group.lastUsed(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
-        holder.tvGroup.setText(holder.group.name);
+        holder.tvGroup.setText(holder.group.title);
         holder.cbAssigned.setChecked(holder.group.hasAssigned());
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
                 holder.group.allAssigned() ? R.color.colorAccent : android.R.color.darker_gray, null)));
@@ -250,6 +251,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
     private class Group {
         int id;
         String name;
+        String title;
         boolean exception = false;
         int installed = 0;
         int optional = 0;
