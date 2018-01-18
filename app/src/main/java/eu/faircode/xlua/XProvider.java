@@ -210,6 +210,8 @@ class XProvider {
                                     esetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED));
                     boolean persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 ||
                             "android".equals(ai.packageName));
+                    boolean system = ((ai.flags &
+                            (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
 
                     XApp app = new XApp();
                     app.uid = ai.uid;
@@ -218,6 +220,7 @@ class XProvider {
                     app.label = (String) pm.getApplicationLabel(ai);
                     app.enabled = enabled;
                     app.persistent = persistent;
+                    app.system = system;
                     app.assignments = new ArrayList<>();
                     apps.put(app.packageName + ":" + app.uid, app);
                 }

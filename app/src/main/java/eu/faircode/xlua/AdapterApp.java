@@ -425,6 +425,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         // App info
+        holder.itemView.setBackgroundColor(resources.getColor(
+                holder.app.system ? R.color.colorSystem : android.R.color.transparent, null));
         holder.tvLabel.setText(holder.app.label);
         holder.tvUid.setText(Integer.toString(holder.app.uid));
         holder.tvPackage.setText(holder.app.packageName);

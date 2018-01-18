@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#005da9</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorSystem">#20FF0000</color>
+
     <!-- Primokorn -->
     <color name="_primaryColor">#1c8adb</color>
     <color name="_primaryLightColor">#67baff</color>

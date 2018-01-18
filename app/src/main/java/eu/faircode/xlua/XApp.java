@@ -33,6 +33,7 @@ class XApp {
     String label;
     boolean enabled;
     boolean persistent;
+    boolean system;
     List<XAssignment> assignments;
 
     XApp() {
@@ -51,6 +52,7 @@ class XApp {
         jroot.put("label", this.label);
         jroot.put("enabled", this.enabled);
         jroot.put("persistent", this.persistent);
+        jroot.put("system", this.system);
 
         JSONArray jassignments = new JSONArray();
         for (XAssignment assignment : this.assignments)
@@ -73,6 +75,7 @@ class XApp {
         app.label = (jroot.has("label") ? jroot.getString("label") : null);
         app.enabled = jroot.getBoolean("enabled");
         app.persistent = jroot.getBoolean("persistent");
+        app.system = jroot.getBoolean("system");
 
         app.assignments = new ArrayList<>();
         JSONArray jassignment = jroot.getJSONArray("assignments");
