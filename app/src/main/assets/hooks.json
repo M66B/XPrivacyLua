@@ -1065,19 +1065,19 @@
     "luaScript": "@wifiinfo_getssid"
   },
   // Read notifications
+  // https://developer.android.com/reference/android/service/notification/NotificationListenerService.html
   {
     "collection": "Privacy",
     "group": "Read.Notifications",
-    "name": "ActivityThread.handleBindService/notification",
+    "name": "StatusBarNotification.getNotification",
     "author": "M66B",
-    "className": "android.app.ActivityThread",
-    "methodName": "handleBindService",
+    "className": "android.service.notification.StatusBarNotification",
+    "methodName": "getNotification",
     "parameterTypes": [
-      "android.app.ActivityThread$BindServiceData"
     ],
-    "returnType": "void",
-    "minSdk": 1,
-    "luaScript": "@activitythread_handle"
+    "returnType": "android.app.Notification",
+    "minSdk": 18,
+    "luaScript": "@statusbarnotification_getnotification"
   },
   // Read sync data
   // https://developer.android.com/reference/android/content/ContentResolver.html#getCurrentSyncs()
