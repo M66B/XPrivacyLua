@@ -25,6 +25,7 @@
   <string name="msg_review_settings">查看隐私设定</string>
   <string name="msg_usage">在 \'%1$s\' 中受限</string>
   <string name="msg_exception">在 %1$s 中发生错误</string>
+  <string name="group_determine_activity">Determine activity</string>
   <string name="group_get_applications">读取已安装应用列表</string>
   <string name="group_get_calendars">读取日历</string>
   <string name="group_get_call_log">读取通话记录</string>
@@ -36,7 +37,8 @@
   <string name="group_read_clipboard">读取剪贴板</string>
   <string name="group_read_identifiers">读取标识符</string>
   <string name="group_read_network">读取网络参数</string>
-  <string name="group_read_sync">Read sync data</string>
+  <string name="group_read_notifications">Read notifications</string>
+  <string name="group_read_sync">读取可同步到服务器的数据</string>
   <string name="group_read_telephony">读取电话相关数据</string>
   <string name="group_record_audio">音频录制</string>
   <string name="group_record_video">视频录制</string>

@@ -25,6 +25,7 @@
   <string name="msg_review_settings">Revisa la configuración de privacidad</string>
   <string name="msg_usage">Restricted \'%1$s\'</string>
   <string name="msg_exception">Error en %1$s</string>
+  <string name="group_determine_activity">Determine activity</string>
   <string name="group_get_applications">Obtener aplicaciones</string>
   <string name="group_get_calendars">Obtener los calendarios</string>
   <string name="group_get_call_log">Obtener historial de llamadas</string>
@@ -36,6 +37,7 @@
   <string name="group_read_clipboard">Leer el portapapeles</string>
   <string name="group_read_identifiers">Read identifiers</string>
   <string name="group_read_network">Read network data</string>
+  <string name="group_read_notifications">Read notifications</string>
   <string name="group_read_sync">Read sync data</string>
   <string name="group_read_telephony">Leer datos de telefonía</string>
   <string name="group_record_audio">Grabar audio</string>
