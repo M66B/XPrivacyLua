@@ -44,9 +44,9 @@ Considered as tracking/profile related:
 * MAC address
 * Host name
 * Device [data](https://developer.android.com/reference/android/os/Build.html)
-* Country
+* Country, MCC
 * Network type
-* Network operator
+* Network operator, MNC
 * Browser user agent string
 
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
