@@ -299,7 +299,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
                 } catch (ClassNotFoundException ex) {
                     if (hook.isOptional()) {
-                        Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                        Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex);
                         continue;
                     } else
                         throw ex;

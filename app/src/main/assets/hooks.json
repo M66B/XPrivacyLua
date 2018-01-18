@@ -613,6 +613,35 @@
     "optional": true,
     "luaScript": "@geofence$builder_setcircularregion"
   },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "PlaceLikelihoodBuffer.getCount",
+    "author": "M66B",
+    "className": "com.google.android.gms.location.places.PlaceLikelihoodBuffer",
+    "methodName": "getCount",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_zero_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Location",
+    "name": "PlaceLikelihoodBuffer.get",
+    "author": "M66B",
+    "className": "com.google.android.gms.location.places.PlaceLikelihoodBuffer",
+    "methodName": "get",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "com.google.android.gms.location.places.PlaceLikelihood",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_null_value"
+  },
   // Get messages
   // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
   // https://developer.android.com/reference/android/provider/Telephony.MmsSms.html API 19
