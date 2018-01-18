@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>;请参阅<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">此处</a>]]>; 了解常见问题。
     </string>
   <string name="title_help_installed">已限制</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">应用限制设置</string>
   <string name="title_help_persistent">限制需要重启生效</string>
   <string name="title_help_exception">应用限制失败 (点击图标查看原因)</string>
@@ -42,5 +43,6 @@
   <string name="group_read_telephony">读取电话相关数据</string>
   <string name="group_record_audio">音频录制</string>
   <string name="group_record_video">视频录制</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">使用相机</string>
 </resources>

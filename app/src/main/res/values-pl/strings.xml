@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">tutaj</a>]]> odpowiedzi na często zadawane pytania.
     </string>
   <string name="title_help_installed">Ograniczenie zastosowane</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">Ustawienia ograniczeń aplikacji</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
   <string name="title_help_exception">Zastosowanie ograniczenia nie powiodło się (dotknij ikonę, aby dowiedzieć się dlaczego)</string>
@@ -42,5 +43,6 @@
   <string name="group_read_telephony">Odczyt danych telefonu</string>
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">Użycie aparatu</string>
 </resources>

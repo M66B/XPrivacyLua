@@ -12,6 +12,7 @@
         <![CDATA[<br><br>]]>Revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aquí</a>]]> las preguntas más frecuentes.
     </string>
   <string name="title_help_installed">Restricción instalada</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Para la aplicación de restricciones se requiere reiniciar el dispositivo</string>
   <string name="title_help_exception">La aplicación de restricciones ha fallado (Pulsa el ícono para mayor información)</string>
@@ -42,5 +43,6 @@
   <string name="group_read_telephony">Leer datos de telefonía</string>
   <string name="group_record_audio">Grabar audio</string>
   <string name="group_record_video">Grabar video</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">Utilizar la cámara</string>
 </resources>

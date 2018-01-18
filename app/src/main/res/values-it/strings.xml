@@ -10,6 +10,7 @@ Se possibile, le applicazioni vengono automaticamente chiuse per applicare (o ri
 <![CDATA[<br><br>]]>;Tieni premuto il nome o l\'icona di un\'applicazione per avviarla.
 <![CDATA[<br><br>]]>;Vedi<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui</a>]]>; per le domande frequenti.    </string>
   <string name="title_help_installed">Restrizione applicata</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">Impostazioni delle restrizioni dell\'app</string>
   <string name="title_help_persistent">Applicare le restrizioni richiede un riavvio del dispositivo</string>
   <string name="title_help_exception">Applicazione delle restrizioni fallita (clicca l\'icona per sapere il motivo)</string>
@@ -23,7 +24,7 @@ Se possibile, le applicazioni vengono automaticamente chiuse per applicare (o ri
   <string name="msg_review_settings">Ricontrolla le impostazioni per la privacy</string>
   <string name="msg_usage">\'%1$s\' Ristretta</string>
   <string name="msg_exception">Errore in %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
+  <string name="group_determine_activity">Determina l\'attività</string>
   <string name="group_get_applications">Ottieni lista delle applicazioni</string>
   <string name="group_get_calendars">Ottieni il calendario</string>
   <string name="group_get_call_log">Ottieni il registro delle chiamate</string>
@@ -40,5 +41,6 @@ Se possibile, le applicazioni vengono automaticamente chiuse per applicare (o ri
   <string name="group_read_telephony">Leggi i dati della telefonia</string>
   <string name="group_record_audio">Registra audio</string>
   <string name="group_record_video">Registra video</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">Usa la fotocamera</string>
 </resources>

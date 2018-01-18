@@ -10,6 +10,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
 <![CDATA[<br><br>]]>Den App-Namen lange gedrückt halten oder direkt auf das Symbol tippen, um die App zu starten.
 <![CDATA[<br><br>]]>Bitte<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]>für häufig gestellte Fragen drücken.    </string>
   <string name="title_help_installed">Beschränkung installiert</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">Einstellungen für Anwendungsbeschränkungen</string>
   <string name="title_help_persistent">Das Anwenden von Beschränkungen erfordert einen Neustart des Gerätes</string>
   <string name="title_help_exception">Anwenden der Beschränkung fehlgeschlagen (Icon antippen für mehr Informationen)</string>
@@ -40,5 +41,6 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_read_telephony">Telefondaten lesen</string>
   <string name="group_record_audio">Audio aufnehmen</string>
   <string name="group_record_video">Video aufzeichnen</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">Kamera verwenden</string>
 </resources>

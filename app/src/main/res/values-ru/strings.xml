@@ -5,13 +5,14 @@
   <string name="title_deny">Не принимаю</string>
   <string name="title_restrict">Restrict</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick a restriction to apply it.
+        Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
         but applying restrictions to some apps requires a device restart (see icons below).
         <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
         <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Restriction installed</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Применение ограничений требует перезагрузки</string>
   <string name="title_help_exception">Применение не удалось (нажмите на значок для информации)</string>
@@ -42,5 +43,6 @@
   <string name="group_read_telephony">Чтение данных телефонии</string>
   <string name="group_record_audio">Запись аудио</string>
   <string name="group_record_video">Запись видео</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">Использование камеры</string>
 </resources>

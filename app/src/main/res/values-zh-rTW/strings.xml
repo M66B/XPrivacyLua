@@ -10,6 +10,7 @@
         <![CDATA[<br><br>]]>長按程式圖示或名稱，可以開啟程式。
         <![CDATA[<br><br>]]>按 <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">這裡</a>]]> 查看更多常見問題。    </string>
   <string name="title_help_installed">限制已套用</string>
+  <string name="title_help_system">Applying restrictions can result in problems</string>
   <string name="title_help_settings">應用程式限制設置</string>
   <string name="title_help_persistent">需要重啟裝置才能套用限制</string>
   <string name="title_help_exception">限制失敗（按下圖示顯示原因）</string>
@@ -40,5 +41,6 @@
   <string name="group_read_telephony">讀取通話資料</string>
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>
+  <string name="group_send_messages">Send messages</string>
   <string name="group_use_camera">使用相機</string>
 </resources>
