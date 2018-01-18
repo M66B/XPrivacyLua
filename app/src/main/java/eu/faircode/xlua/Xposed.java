@@ -291,7 +291,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 // Compile script
                 InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
-                final Prototype script = LuaC.instance.compile(is, "script");
+                final Prototype compiledScript = LuaC.instance.compile(is, "script");
 
                 // Get class
                 Class<?> cls;
@@ -337,19 +337,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
 
                     // Initialize Lua runtime
-                    Globals globals = JsePlatform.standardGlobals();
-                    if (BuildConfig.DEBUG)
-                        globals.load(new DebugLib());
-                    LuaClosure closure = new LuaClosure(script, globals);
+                    Globals globals = getGlobals(lpparam, uid, hook);
+                    LuaClosure closure = new LuaClosure(compiledScript, globals);
                     closure.call();
 
                     // Check if function exists
                     LuaValue func = globals.get("after");
                     if (func.isnil())
                         return;
-
-                    // Setup globals
-                    globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
 
                     // Run function
                     Varargs result = func.invoke(
@@ -404,21 +399,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 long run = SystemClock.elapsedRealtime();
 
                                 // Initialize Lua runtime
-                                Globals globals = JsePlatform.standardGlobals();
-                                if (BuildConfig.DEBUG)
-                                    globals.load(new DebugLib());
-                                LuaClosure closure = new LuaClosure(script, globals);
+                                Globals globals = getGlobals(lpparam, uid, hook);
+                                LuaClosure closure = new LuaClosure(compiledScript, globals);
                                 closure.call();
 
                                 // Check if function exists
                                 LuaValue func = globals.get(function);
                                 if (func.isnil())
                                     return;
-
-                                // Setup globals
-                                globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
-                                globals.set("getPrivateField", new LuaGetPrivateField());
-                                globals.set("invokePrivateMethod", new LuaInvokePrivateMethod());
 
                                 // Run function
                                 Varargs result = func.invoke(
@@ -589,6 +577,19 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         args.putBundle("data", data);
         context.getContentResolver()
                 .call(XSettings.URI, "xlua", "report", args);
+    }
+
+    private static Globals getGlobals(XC_LoadPackage.LoadPackageParam lpparam, int uid, XHook hook) {
+        Globals globals = JsePlatform.standardGlobals();
+
+        if (BuildConfig.DEBUG)
+            globals.load(new DebugLib());
+
+        globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
+        globals.set("getPrivateField", new LuaGetPrivateField());
+        globals.set("invokePrivateMethod", new LuaInvokePrivateMethod());
+
+        return globals;
     }
 
     private static class LuaLog extends OneArgFunction {
