@@ -604,9 +604,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
         @Override
         public LuaValue call(LuaValue arg) {
-            Log.i(TAG, "Log " +
-                    packageName + ":" + uid + " " + hook + " " +
-                    arg.toString() + " (" + arg.typename() + ")");
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "Log " + packageName + ":" + uid + " " + hook + " " +
+                        arg.toString() + " (" + arg.typename() + ")");
             return LuaValue.NIL;
         }
     }

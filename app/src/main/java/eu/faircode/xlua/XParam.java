@@ -134,7 +134,8 @@ public class XParam {
     @SuppressWarnings("unused")
     public Object getResult() throws Throwable {
         Object result = (this.field == null ? this.param.getResult() : this.field.get(null));
-        Log.i(TAG, "Get " + this.packageName + ":" + this.uid + " result=" + result);
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, "Get " + this.packageName + ":" + this.uid + " result=" + result);
         return result;
     }
 
@@ -144,7 +145,8 @@ public class XParam {
             if (result instanceof Throwable)
                 this.param.setThrowable((Throwable) result);
             else {
-                Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
+                if (BuildConfig.DEBUG)
+                    Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
                 if (result != null && !boxType(this.returnType).isInstance(result))
                     throw new IllegalArgumentException(
                             "Expected return " + this.returnType + " got " + result.getClass());
