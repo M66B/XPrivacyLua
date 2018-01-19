@@ -111,10 +111,7 @@ public class FragmentMain extends Fragment {
                     spGroup.setTag(group);
                     pbApplication.setVisibility(View.VISIBLE);
                     grpApplication.setVisibility(View.GONE);
-                    Bundle args = new Bundle();
-                    args.putString("group", group);
-                    getActivity().getSupportLoaderManager().restartLoader(
-                            ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
+                    loadData();
                 }
             }
         });
@@ -136,10 +133,17 @@ public class FragmentMain extends Fragment {
         ifPackage.addDataScheme("package");
         getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
-        // Load data
+        loadData();
+    }
+
+    private void loadData() {
         Log.i(TAG, "Starting data loader");
+        XGroup selected = (XGroup) spGroup.getSelectedItem();
+        String group = (selected == null ? null : selected.name);
+        Bundle args = new Bundle();
+        args.putString("group", group);
         getActivity().getSupportLoaderManager().restartLoader(
-                ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+                ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
     }
 
     @Override
