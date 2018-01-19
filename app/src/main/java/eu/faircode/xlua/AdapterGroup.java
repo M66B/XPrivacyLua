@@ -56,8 +56,6 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-        Group group;
-
         final View itemView;
         final ImageView ivException;
         final ImageView ivInstalled;
@@ -90,6 +88,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
         @Override
         public void onClick(View view) {
+            Group group = groups.get(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.ivException:
                     StringBuilder sb = new StringBuilder();
@@ -122,6 +121,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
 
         @Override
         public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
+            final Group group = groups.get(getAdapterPosition());
             switch (compoundButton.getId()) {
                 case R.id.cbAssigned:
                     for (XHook hook : group.hooks) {
@@ -229,22 +229,22 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.unwire();
-        holder.group = groups.get(position);
+        Group group = groups.get(position);
 
         // Get localized group name
         Context context = holder.itemView.getContext();
         Resources resources = holder.itemView.getContext().getResources();
 
-        holder.ivException.setVisibility(holder.group.hasException() ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setVisibility(holder.group.hasInstalled() ? View.VISIBLE : View.GONE);
-        holder.ivInstalled.setAlpha(holder.group.allInstalled() ? 1.0f : 0.5f);
-        holder.tvUsed.setVisibility(holder.group.lastUsed() < 0 ? View.GONE : View.VISIBLE);
-        holder.tvUsed.setText(DateUtils.formatDateTime(context, holder.group.lastUsed(),
+        holder.ivException.setVisibility(group.hasException() ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setVisibility(group.hasInstalled() ? View.VISIBLE : View.GONE);
+        holder.ivInstalled.setAlpha(group.allInstalled() ? 1.0f : 0.5f);
+        holder.tvUsed.setVisibility(group.lastUsed() < 0 ? View.GONE : View.VISIBLE);
+        holder.tvUsed.setText(DateUtils.formatDateTime(context, group.lastUsed(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_ALL));
-        holder.tvGroup.setText(holder.group.title);
-        holder.cbAssigned.setChecked(holder.group.hasAssigned());
+        holder.tvGroup.setText(group.title);
+        holder.cbAssigned.setChecked(group.hasAssigned());
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                holder.group.allAssigned() ? R.color.colorAccent : android.R.color.darker_gray, null)));
+                group.allAssigned() ? R.color.colorAccent : android.R.color.darker_gray, null)));
 
         holder.wire();
     }

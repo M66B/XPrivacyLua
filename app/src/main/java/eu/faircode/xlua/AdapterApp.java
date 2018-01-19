@@ -71,8 +71,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, XApp.IListener {
-        XApp app;
-
         final View itemView;
         final ImageView ivExpander;
         final ImageView ivIcon;
@@ -142,6 +140,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         @Override
         public void onClick(View view) {
+            XApp app = filtered.get(getAdapterPosition());
             switch (view.getId()) {
                 case R.id.ivExpander:
                 case R.id.ivIcon:
@@ -176,6 +175,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         @Override
         public boolean onLongClick(View view) {
+            XApp app = filtered.get(getAdapterPosition());
             Intent launch = view.getContext().getPackageManager().getLaunchIntentForPackage(app.packageName);
             if (launch != null)
                 view.getContext().startActivity(launch);
@@ -185,6 +185,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         @Override
         public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
             Log.i(TAG, "Check changed");
+            final XApp app = filtered.get(getAdapterPosition());
             int id = compoundButton.getId();
             if (id == R.id.cbAssigned) {
                 app.assignments.clear();
@@ -225,6 +226,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         void updateExpand() {
+            XApp app = filtered.get(getAdapterPosition());
             boolean isExpanded = (expanded.containsKey(app.packageName) && expanded.get(app.packageName));
             ivExpander.setImageLevel(isExpanded ? 1 : 0);
             rvGroup.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -408,16 +410,16 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.unwire();
-        holder.app = filtered.get(position);
-        holder.app.setListener(holder);
+        XApp app = filtered.get(position);
+        app.setListener(holder);
 
         Resources resources = holder.itemView.getContext().getResources();
 
         // App icon
-        if (holder.app.icon <= 0)
+        if (app.icon <= 0)
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
         else {
-            Uri uri = Uri.parse("android.resource://" + holder.app.packageName + "/" + holder.app.icon);
+            Uri uri = Uri.parse("android.resource://" + app.packageName + "/" + app.icon);
             GlideApp.with(holder.itemView.getContext())
                     .load(uri)
                     .override(iconSize, iconSize)
@@ -426,19 +428,20 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         // App info
         holder.itemView.setBackgroundColor(resources.getColor(
-                holder.app.system ? R.color.colorSystem : android.R.color.transparent, null));
-        holder.tvLabel.setText(holder.app.label);
-        holder.tvUid.setText(Integer.toString(holder.app.uid));
-        holder.tvPackage.setText(holder.app.packageName);
-        holder.ivPersistent.setVisibility(holder.app.persistent ? View.VISIBLE : View.GONE);
+                app.system ? R.color.colorSystem : android.R.color.transparent, null));
+        holder.tvLabel.setText(app.label);
+        holder.tvUid.setText(Integer.toString(app.uid));
+        holder.tvPackage.setText(app.packageName);
+        holder.ivPersistent.setVisibility(app.persistent ? View.VISIBLE : View.GONE);
 
         // Assignment info
-        holder.cbAssigned.setChecked(holder.app.assignments.size() > 0);
+        Log.i(TAG, app.packageName + "=" + app.assignments.size());
+        holder.cbAssigned.setChecked(app.assignments.size() > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                holder.app.assignments.size() == hooks.size()
+                app.assignments.size() == hooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
-        holder.adapter.set(holder.app, hooks, holder.itemView.getContext());
+        holder.adapter.set(app, hooks, holder.itemView.getContext());
 
         holder.updateExpand();
 
