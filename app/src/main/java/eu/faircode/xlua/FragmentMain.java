@@ -136,16 +136,6 @@ public class FragmentMain extends Fragment {
         loadData();
     }
 
-    private void loadData() {
-        Log.i(TAG, "Starting data loader");
-        XGroup selected = (XGroup) spGroup.getSelectedItem();
-        String group = (selected == null ? null : selected.name);
-        Bundle args = new Bundle();
-        args.putString("group", group);
-        getActivity().getSupportLoaderManager().restartLoader(
-                ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
-    }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -164,6 +154,17 @@ public class FragmentMain extends Fragment {
         this.query = query;
         if (rvAdapter != null)
             rvAdapter.getFilter().filter(query);
+    }
+
+    private void loadData() {
+        XGroup selected = (XGroup) spGroup.getSelectedItem();
+        String group = (selected == null ? null : selected.name);
+
+        Log.i(TAG, "Starting data loader group=" + group);
+        Bundle args = new Bundle();
+        args.putString("group", group);
+        getActivity().getSupportLoaderManager().restartLoader(
+                ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
     }
 
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
@@ -301,8 +302,7 @@ public class FragmentMain extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            getActivity().getSupportLoaderManager().restartLoader(
-                    ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+            loadData();
         }
     };
 
@@ -310,8 +310,7 @@ public class FragmentMain extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            getActivity().getSupportLoaderManager().restartLoader(
-                    ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+            loadData();
         }
     };
 
