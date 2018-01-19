@@ -3,15 +3,15 @@
 <resources>
   <string name="title_accept">Ik ga akkoord</string>
   <string name="title_deny">Ik ga niet akkoord</string>
-  <string name="title_all">All</string>
+  <string name="title_all">Alle</string>
   <string name="title_restrict">Beperk</string>
   <string name="title_help_instructions">Klik op een app icoon of naam en vink een beperking aan om deze toe te passen.
 Indien mogelijk worden apps automatisch gestopt om de beperkingen direct toe te passen,
 maar soms is het nodig om het apparaat te herstarten (zie iconen hieronder).
-<![CDATA[<br><br>]]>Klik lang op een app icoon of naam om de app te starten
+<![CDATA[<br><br>]]>Klik lang op een app icoon of naam om de app te starten.
 <![CDATA[<br><br>]]>Zie <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]> voor veelgestelde vragen.</string>
   <string name="title_help_installed">Beperking geïnstalleerd</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
+  <string name="title_help_system">Het toepassen van beperkingen kan resulteren in problemen</string>
   <string name="title_help_settings">App beperking instellingen</string>
   <string name="title_help_persistent">Het toepassen van beperkingen vereist een apparaat herstart</string>
   <string name="title_help_exception">Toepassen beperking mislukt (klik op icoon voor waarom)</string>
@@ -42,6 +42,6 @@ maar soms is het nodig om het apparaat te herstarten (zie iconen hieronder).
   <string name="group_read_telephony">Telefoongegevens lezen</string>
   <string name="group_record_audio">Geluid opnemen</string>
   <string name="group_record_video">Video opnemen</string>
-  <string name="group_send_messages">Send messages</string>
+  <string name="group_send_messages">Berichten sturen</string>
   <string name="group_use_camera">Camera gebruiken</string>
 </resources>
