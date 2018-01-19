@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">Acepto</string>
   <string name="title_deny">No acepto</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
         Pulsa en el ícono o nombre de una app y marca una restricción para aplicarla.

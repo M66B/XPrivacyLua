@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">接受</string>
   <string name="title_deny">拒絕</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">限制</string>
   <string name="title_help_instructions">        按下程式圖示或名稱，然後勾選限制即可套用。
         一般情況下，程式會立即停止並套用（或刪除）限制，

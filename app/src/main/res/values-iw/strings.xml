@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">אני מסכים</string>
   <string name="title_deny">אני מסרב</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">הגבל</string>
   <string name="title_help_instructions">
         Tap on an app icon or name and tick restrictions to apply them.

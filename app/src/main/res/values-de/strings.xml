@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">Ich stimme zu</string>
   <string name="title_deny">Ich lehne ab</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">Beschränken</string>
   <string name="title_help_instructions">
 Tippen Sie auf ein App-Symbol oder einen App-Namen und aktivieren Sie eine Beschränkung, um diese anzuwenden.
@@ -10,7 +11,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
 <![CDATA[<br><br>]]>Den App-Namen lange gedrückt halten oder direkt auf das Symbol tippen, um die App zu starten.
 <![CDATA[<br><br>]]>Bitte<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]>für häufig gestellte Fragen drücken.    </string>
   <string name="title_help_installed">Beschränkung installiert</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
+  <string name="title_help_system">Beschränkungen können zu Problemen führen</string>
   <string name="title_help_settings">Einstellungen für Anwendungsbeschränkungen</string>
   <string name="title_help_persistent">Das Anwenden von Beschränkungen erfordert einen Neustart des Gerätes</string>
   <string name="title_help_exception">Anwenden der Beschränkung fehlgeschlagen (Icon antippen für mehr Informationen)</string>
@@ -24,7 +25,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="msg_review_settings">Datenschutzeinstellungen überprüfen</string>
   <string name="msg_usage">Beschränkte \'%1$s\'</string>
   <string name="msg_exception">Fehler in %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
+  <string name="group_determine_activity">Aktivität bestimmen</string>
   <string name="group_get_applications">Anwendungsliste lesen</string>
   <string name="group_get_calendars">Kalenderinformationen lesen</string>
   <string name="group_get_call_log">Anrufliste lesen</string>
@@ -36,11 +37,11 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_read_clipboard">Zwischenablage lesen</string>
   <string name="group_read_identifiers">Identifizierer lesen</string>
   <string name="group_read_network">Netzwerkdaten lesen</string>
-  <string name="group_read_notifications">Read notifications</string>
-  <string name="group_read_sync">Read sync data</string>
+  <string name="group_read_notifications">Benachrichtungen lesen</string>
+  <string name="group_read_sync">Synchronisationsdaten lesen</string>
   <string name="group_read_telephony">Telefondaten lesen</string>
   <string name="group_record_audio">Audio aufnehmen</string>
   <string name="group_record_video">Video aufzeichnen</string>
-  <string name="group_send_messages">Send messages</string>
+  <string name="group_send_messages">Nachrichten senden</string>
   <string name="group_use_camera">Kamera verwenden</string>
 </resources>

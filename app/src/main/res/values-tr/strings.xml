@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">Kabul ediyorum</string>
   <string name="title_deny">Reddediyorum</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">Sınırlamak</string>
   <string name="title_help_instructions">
         Uygulama simgesine ya da adına dokunun ve kısıtlamaları uygulamak için kısıtlamaları işaretleyin.

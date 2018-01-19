@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">Sunt de acord</string>
   <string name="title_deny">Nu sunt de acord</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">Restricționare</string>
   <string name="title_help_instructions">
         Atinge semnul sau numele aplicației și bifează o restricție pentru a o pune în aplicare.

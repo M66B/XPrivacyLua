@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">J\'accepte</string>
   <string name="title_deny">Je refuse</string>
+  <string name="title_all">All</string>
   <string name="title_restrict">Restreindre</string>
   <string name="title_help_instructions">
         Appuyez sur l\'icône d\'une appli ou le nom puis cochez une restriction pour l\'appliquer.
@@ -12,7 +13,7 @@
         <![CDATA[<br><br>]]>Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
+  <string name="title_help_system">L\'application de restrictions peut causer des problèmes</string>
   <string name="title_help_settings">Paramètres des restrictions des applis</string>
   <string name="title_help_persistent">Appliquer des restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
@@ -43,6 +44,6 @@
   <string name="group_read_telephony">Lire les données téléphoniques</string>
   <string name="group_record_audio">Enregistrement audio</string>
   <string name="group_record_video">Enregistrement vidéo</string>
-  <string name="group_send_messages">Send messages</string>
+  <string name="group_send_messages">Envoyer des messages</string>
   <string name="group_use_camera">Utiliser l\'appareil photo</string>
 </resources>
