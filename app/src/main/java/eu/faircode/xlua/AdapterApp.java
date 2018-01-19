@@ -62,7 +62,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
     private boolean showAll = false;
     private CharSequence query = null;
-    private boolean hooksChanged;
+    private List<XHook> newHooks = new ArrayList<>();
     private List<XHook> hooks = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
@@ -243,8 +243,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         Log.i(TAG, "Set all=" + showAll + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
         this.showAll = showAll;
         this.query = query;
-        this.hooksChanged = (this.hooks.size() != hooks.size());
-        this.hooks = hooks;
+        this.newHooks = hooks;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
@@ -324,27 +323,25 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 final List<XApp> apps = (result.values == null
                         ? new ArrayList<XApp>()
                         : (List<XApp>) result.values);
-                Log.i(TAG, "Filtered apps count=" + apps.size());
+                boolean changed = (hooks.size() != newHooks.size());
+                Log.i(TAG, "Filtered apps count=" + apps.size() + " changed=" + changed);
 
+                hooks = newHooks;
                 filtered = apps;
-                if (hooksChanged) {
-                    hooksChanged = false;
-                    notifyDataSetChanged();
-                } else {
-                    DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
-                    diff.dispatchUpdatesTo(AdapterApp.this);
-                }
+                DiffUtil.DiffResult diff =
+                        DiffUtil.calculateDiff(new AppDiffCallback(expanded1 || changed, filtered, apps));
+                diff.dispatchUpdatesTo(AdapterApp.this);
             }
         };
     }
 
     private class AppDiffCallback extends DiffUtil.Callback {
-        private final boolean expanded1;
+        private final boolean refresh;
         private final List<XApp> prev;
         private final List<XApp> next;
 
-        AppDiffCallback(boolean expanded1, List<XApp> prev, List<XApp> next) {
-            this.expanded1 = expanded1;
+        AppDiffCallback(boolean refresh, List<XApp> prev, List<XApp> next) {
+            this.refresh = refresh;
             this.prev = prev;
             this.next = next;
         }
@@ -364,7 +361,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             XApp app1 = prev.get(oldItemPosition);
             XApp app2 = next.get(newItemPosition);
 
-            return (!expanded1 && app1.packageName.equals(app2.packageName) && app1.uid == app2.uid);
+            return (!refresh && app1.packageName.equals(app2.packageName) && app1.uid == app2.uid);
         }
 
         @Override
