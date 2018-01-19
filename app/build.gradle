@@ -7,8 +7,8 @@ android {
     defaultConfig {
         applicationId "eu.faircode.xlua"
         minSdkVersion 23
-        targetSdkVersion 27
-        versionCode 27
+        targetSdkVersion 28
+        versionCode 28
         versionName "0.27"
         archivesBaseName = "XPrivacyLua-v$versionName"
     }
