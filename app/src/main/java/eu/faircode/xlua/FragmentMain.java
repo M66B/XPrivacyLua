@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,10 +40,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class FragmentMain extends Fragment {
     private final static String TAG = "XLua.Main";
@@ -50,6 +58,8 @@ public class FragmentMain extends Fragment {
     private boolean showAll = false;
     private String query = null;
     private ProgressBar pbApplication;
+    private Spinner spGroup;
+    private ArrayAdapter<XGroup> spAdapter;
     private RecyclerView rvApplication;
     private Group grpApplication;
     private AdapterApp rvAdapter;
@@ -75,6 +85,39 @@ public class FragmentMain extends Fragment {
         rvApplication.setLayoutManager(llm);
         rvAdapter = new AdapterApp(getActivity());
         rvApplication.setAdapter(rvAdapter);
+
+        spAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+        spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spGroup = main.findViewById(R.id.spGroup);
+        spGroup.setTag(null);
+        spGroup.setAdapter(spAdapter);
+        spGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateSelection();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                updateSelection();
+            }
+
+            private void updateSelection() {
+                XGroup selected = (XGroup) spGroup.getSelectedItem();
+                String group = (selected == null ? null : selected.name);
+                if (group == null ? spGroup.getTag() != null : !group.equals(spGroup.getTag())) {
+                    Log.i(TAG, "Select group=" + group);
+                    spGroup.setTag(group);
+                    pbApplication.setVisibility(View.VISIBLE);
+                    grpApplication.setVisibility(View.GONE);
+                    Bundle args = new Bundle();
+                    args.putString("group", group);
+                    getActivity().getSupportLoaderManager().restartLoader(
+                            ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
+                }
+            }
+        });
 
         return main;
     }
@@ -122,12 +165,16 @@ public class FragmentMain extends Fragment {
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
         @Override
         public Loader<DataHolder> onCreateLoader(int id, Bundle args) {
-            return new DataLoader(getContext());
+            DataLoader loader = new DataLoader(getContext());
+            loader.setData(args.getString("group"));
+            return loader;
         }
 
         @Override
         public void onLoadFinished(Loader<DataHolder> loader, DataHolder data) {
             if (data.exception == null) {
+                if (spAdapter.getCount() == 0)
+                    spAdapter.addAll(data.groups);
                 rvAdapter.set(showAll, query, data.hooks, data.apps);
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
@@ -144,9 +191,15 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
+        private String group;
+
         DataLoader(Context context) {
             super(context);
             setUpdateThrottle(1000);
+        }
+
+        void setData(String group) {
+            this.group = group;
         }
 
         @Nullable
@@ -155,6 +208,7 @@ public class FragmentMain extends Fragment {
             Log.i(TAG, "Data loader started");
             DataHolder data = new DataHolder();
             try {
+                // Define hooks
                 if (BuildConfig.DEBUG) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
                     List<XHook> hooks = XHook.readHooks(getContext(), apk);
@@ -167,35 +221,74 @@ public class FragmentMain extends Fragment {
                     }
                 }
 
+                // Load groups
+                Resources res = getContext().getResources();
+                Bundle result = getContext().getContentResolver()
+                        .call(XProvider.URI, "xlua", "getGroups", new Bundle());
+                for (String name : result.getStringArray("groups")) {
+                    String g = name.toLowerCase().replaceAll("[^a-z]", "_");
+                    int id = res.getIdentifier("group_" + g, "string", getContext().getPackageName());
+
+                    XGroup group = new XGroup();
+                    group.name = name;
+                    group.title = res.getString(id);
+                    data.groups.add(group);
+                }
+
+                final Collator collator = Collator.getInstance(Locale.getDefault());
+                collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+                Collections.sort(data.groups, new Comparator<XGroup>() {
+                    @Override
+                    public int compare(XGroup group1, XGroup group2) {
+                        return collator.compare(group1.title, group2.title);
+                    }
+                });
+
+                XGroup all = new XGroup();
+                all.name = null;
+                all.title = getContext().getString(R.string.title_all);
+                data.groups.add(0, all);
+
+                // Load hooks
                 Cursor chooks = null;
                 try {
                     chooks = getContext().getContentResolver()
                             .query(XProvider.URI, new String[]{"xlua.getHooks"}, null, null, null);
-                    while (chooks != null && chooks.moveToNext())
-                        data.hooks.add(XHook.fromJSON(chooks.getString(0)));
+                    while (chooks != null && chooks.moveToNext()) {
+                        XHook hook = XHook.fromJSON(chooks.getString(0));
+                        if (group == null || group.equals(hook.getGroup()))
+                            data.hooks.add(hook);
+                    }
                 } finally {
                     if (chooks != null)
                         chooks.close();
                 }
 
+                // Load apps
                 Cursor capps = null;
                 try {
                     capps = getContext().getContentResolver()
                             .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
-                    while (capps != null && capps.moveToNext())
-                        data.apps.add(XApp.fromJSON(capps.getString(0)));
+                    while (capps != null && capps.moveToNext()) {
+                        XApp app = XApp.fromJSON(capps.getString(0));
+                        if (group != null)
+                            for (XAssignment assignment : new ArrayList<>(app.assignments))
+                                if (!group.equals(assignment.hook.getGroup()))
+                                    app.assignments.remove(assignment);
+                        data.apps.add(app);
+                    }
                 } finally {
                     if (capps != null)
                         capps.close();
                 }
-
             } catch (Throwable ex) {
                 data.hooks.clear();
                 data.apps.clear();
                 data.exception = ex;
             }
 
-            Log.i(TAG, "Data loader finished hooks=" + data.hooks.size() + " apps=" + data.apps.size());
+            Log.i(TAG, "Data loader finished groups=" + data.groups.size() +
+                    " hooks=" + data.hooks.size() + " apps=" + data.apps.size());
             return data;
         }
     }
@@ -219,8 +312,19 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataHolder {
+        List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();
         Throwable exception = null;
+    }
+
+    private static class XGroup {
+        String name;
+        String title;
+
+        @Override
+        public String toString() {
+            return title;
+        }
     }
 }

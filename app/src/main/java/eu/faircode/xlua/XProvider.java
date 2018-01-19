@@ -91,6 +91,9 @@ class XProvider {
                 case "putHook":
                     result = putHook(context, extras);
                     break;
+                case "getGroups":
+                    result = getGroups(context, extras);
+                    break;
                 case "assignHooks":
                     result = assignHooks(context, extras);
                     break;
@@ -171,6 +174,20 @@ class XProvider {
         }
 
         return new Bundle();
+    }
+
+    private static Bundle getGroups(Context context, Bundle extras) throws Throwable {
+        List<String> groups = new ArrayList<>();
+
+        synchronized (lock) {
+            for (XHook hook : hooks.values())
+                if (!groups.contains(hook.getGroup()))
+                    groups.add(hook.getGroup());
+        }
+
+        Bundle result = new Bundle();
+        result.putStringArray("groups", groups.toArray(new String[0]));
+        return result;
     }
 
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {

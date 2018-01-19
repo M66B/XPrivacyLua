@@ -188,10 +188,13 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             final XApp app = filtered.get(getAdapterPosition());
             int id = compoundButton.getId();
             if (id == R.id.cbAssigned) {
-                app.assignments.clear();
-                if (checked) {
-                    for (XHook hook : hooks)
+                final ArrayList<String> hookids = new ArrayList<>();
+                for (XHook hook : hooks) {
+                    hookids.add(hook.getId());
+                    if (checked)
                         app.assignments.add(new XAssignment(hook));
+                    else
+                        app.assignments.remove(new XAssignment(hook));
                 }
 
                 notifyItemChanged(getAdapterPosition());
@@ -199,21 +202,14 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 executor.submit(new Runnable() {
                     @Override
                     public void run() {
-                        if (checked) {
-                            Bundle args = new Bundle();
-                            args.putString("packageName", app.packageName);
-                            args.putInt("uid", app.uid);
-                            args.putBoolean("kill", !app.persistent);
-                            compoundButton.getContext().getContentResolver()
-                                    .call(XProvider.URI, "xlua", "initApp", args);
-                        } else {
-                            Bundle args = new Bundle();
-                            args.putString("packageName", app.packageName);
-                            args.putInt("uid", app.uid);
-                            args.putBoolean("kill", !app.persistent);
-                            compoundButton.getContext().getContentResolver()
-                                    .call(XProvider.URI, "xlua", "clearApp", args);
-                        }
+                        Bundle args = new Bundle();
+                        args.putStringArrayList("hooks", hookids);
+                        args.putString("packageName", app.packageName);
+                        args.putInt("uid", app.uid);
+                        args.putBoolean("delete", !checked);
+                        args.putBoolean("kill", !app.persistent);
+                        compoundButton.getContext().getContentResolver()
+                                .call(XProvider.URI, "xlua", "assignHooks", args);
                     }
                 });
             }
