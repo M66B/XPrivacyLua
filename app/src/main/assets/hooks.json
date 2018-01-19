@@ -637,7 +637,7 @@
     "parameterTypes": [
       "int"
     ],
-    "returnType": "java.lang.Object",
+    // any return type
     "minSdk": 1,
     "optional": true,
     "luaScript": "@generic_null_value"

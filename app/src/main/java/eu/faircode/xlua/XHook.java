@@ -285,7 +285,8 @@ public class XHook {
             jparam.put(this.parameterTypes[i]);
         jroot.put("parameterTypes", jparam);
 
-        jroot.put("returnType", this.returnType);
+        if (this.returnType != null)
+            jroot.put("returnType", this.returnType);
 
         jroot.put("minSdk", this.minSdk);
         jroot.put("maxSdk", this.maxSdk);
@@ -319,7 +320,7 @@ public class XHook {
         for (int i = 0; i < jparam.length(); i++)
             hook.parameterTypes[i] = jparam.getString(i);
 
-        hook.returnType = jroot.getString("returnType");
+        hook.returnType = (jroot.has("returnType") ? jroot.getString("returnType") : null);
 
         hook.minSdk = jroot.getInt("minSdk");
         hook.maxSdk = (jroot.has("maxSdk") ? jroot.getInt("maxSdk") : 999);

@@ -320,7 +320,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
 
                 // Get return type
-                final Class<?> returnType = resolveClass(hook.getReturnType(), lpparam.classLoader);
+                final Class<?> returnType = (hook.getReturnType() == null ? null :
+                        resolveClass(hook.getReturnType(), lpparam.classLoader));
 
                 if (methodName.startsWith("#")) {
                     // Get field
@@ -378,7 +379,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
 
                     // Check return type
-                    if (!method.getReturnType().equals(returnType))
+                    if (returnType != null && !method.getReturnType().equals(returnType))
                         throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + returnType);
 
                     // Hook method
