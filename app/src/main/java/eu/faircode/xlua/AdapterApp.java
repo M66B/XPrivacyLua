@@ -326,10 +326,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 boolean changed = (hooks.size() != newHooks.size());
                 Log.i(TAG, "Filtered apps count=" + apps.size() + " changed=" + changed);
 
-                hooks = newHooks;
-                filtered = apps;
                 DiffUtil.DiffResult diff =
                         DiffUtil.calculateDiff(new AppDiffCallback(expanded1 || changed, filtered, apps));
+                hooks = newHooks;
+                filtered = apps;
                 diff.dispatchUpdatesTo(AdapterApp.this);
             }
         };
