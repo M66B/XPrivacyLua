@@ -637,7 +637,7 @@
     "parameterTypes": [
       "int"
     ],
-    "returnType": "com.google.android.gms.location.places.PlaceLikelihood",
+    "returnType": "java.lang.Object",
     "minSdk": 1,
     "optional": true,
     "luaScript": "@generic_null_value"
