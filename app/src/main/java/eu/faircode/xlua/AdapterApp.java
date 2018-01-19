@@ -62,7 +62,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
     private boolean showAll = false;
     private CharSequence query = null;
-    private List<XHook> hooks;
+    private boolean hooksChanged;
+    private List<XHook> hooks = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
     private Map<String, Boolean> expanded = new HashMap<>();
@@ -242,6 +243,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         Log.i(TAG, "Set all=" + showAll + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
         this.showAll = showAll;
         this.query = query;
+        this.hooksChanged = (this.hooks.size() != hooks.size());
         this.hooks = hooks;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
@@ -324,9 +326,14 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                         : (List<XApp>) result.values);
                 Log.i(TAG, "Filtered apps count=" + apps.size());
 
-                DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
                 filtered = apps;
-                diff.dispatchUpdatesTo(AdapterApp.this);
+                if (hooksChanged) {
+                    hooksChanged = false;
+                    notifyDataSetChanged();
+                } else {
+                    DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
+                    diff.dispatchUpdatesTo(AdapterApp.this);
+                }
             }
         };
     }
