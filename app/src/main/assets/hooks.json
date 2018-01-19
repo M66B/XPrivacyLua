@@ -1620,7 +1620,6 @@
     ],
     "returnType": "int",
     "minSdk": 9,
-    "notify": true,
     "luaScript": "@generic_zero_value"
   },
   {
