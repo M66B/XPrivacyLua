@@ -10,7 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 29
         versionName "0.29"
-        archivesBaseName = "XPrivacyLua-v$versionName"
+        archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
     }
 
     buildTypes {
