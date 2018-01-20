@@ -367,7 +367,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     }
                 } else {
                     // Get method
-                    Method method;
+                    final Method method;
                     try {
                         method = resolveMethod(cls, methodName, paramTypes);
                     } catch (NoSuchMethodException ex) {
@@ -415,7 +415,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         CoerceJavaToLua.coerce(new XParam(
                                                 lpparam.packageName, uid,
                                                 param,
-                                                paramTypes, returnType, lpparam.classLoader,
+                                                method.getParameterTypes(), method.getReturnType(),
+                                                lpparam.classLoader,
                                                 settings))
                                 );
 
