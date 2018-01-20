@@ -28,7 +28,7 @@ Restrictions
 * Get sensors (hide all sensors)
 * Read account name (fake name, mostly e-mail address)
 * Read clipboard (fake paste)
-* Read identifiers (fake build serial number, Android ID, GSF ID, advertising ID)
+* Read identifiers (fake build serial number, Android ID, advertising ID)
 * Read notifications (fake status bar notifications)
 * Read network data (hide cell info, Wi-Fi networks, fake Wi-Fi network name)
 * Read sync data (hide sync data, see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
