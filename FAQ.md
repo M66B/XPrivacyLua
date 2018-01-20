@@ -83,6 +83,7 @@ You can enable the new hooks by toggling the check box once (turning it off and 
 * The restrictions of XPrivacyLua are designed to prevent apps from crashing, while a number of XPrivacy restrictions can apps cause to crash, see also [question 4](#FAQ4)
 * XPrivacyLua has no on demand restricting for stability and maintenance reasons, see also [question 4](#FAQ4)
 
+In general XPrivacyLua and XPrivacy are comparable in protecting your privacy.
 For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPrivacyLua/blob/master/XPRIVACY.md).
 
 <br>

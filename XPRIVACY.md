@@ -3,7 +3,6 @@ Comparison with XPrivacy
 
 The list below is [taken from](https://github.com/M66B/XPrivacy#restrictions) the XPrivacy documentation.
 
-* Normal text means yet to be determined
 * **Bold** means that XPrivacyLua supports the restriction
 * ~~Strike through~~ means that XPrivacyLua won't support the restriction
 
@@ -212,6 +211,11 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* ~~return fake unmounted state~~ not privacy related
 	* ~~prevent access to provided assets (media, etc.)~~ will result in crashes
 
+The supported Android versions provide the [Storage Access Framework](https://developer.android.com/guide/topics/providers/document-provider.html),
+which apps should use to open files instead of opening files directly.
+Moreover, the supported Android versions provide [runtime permissions](https://developer.android.com/training/permissions/requesting.html),
+so you can always choose to not grant storage permission to an app.
+
 <a name="system"></a>
 * System
 	* **return an empty list of installed applications**
@@ -228,3 +232,5 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* ~~prevent links from opening in the browser~~ not privacy related
 	* ~~return fake browser user agent string~~
 		* ~~*Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9*~~ tracking related
+
+The browser is a user choice, so the browser could/should provide different user agent string and preventing opening malicious links.
