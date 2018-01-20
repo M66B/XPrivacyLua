@@ -217,10 +217,12 @@ class XProvider {
         long ident = Binder.clearCallingIdentity();
         try {
             // Get installed apps for current user
+            String self = XProvider.class.getPackage().getName();
+            String pro = self + ".pro";
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
                 if (!"android".equals(ai.packageName) &&
-                        !XProvider.class.getPackage().getName().equals(ai.packageName)) {
+                        !self.equals(ai.packageName) && !pro.equals(ai.packageName)) {
                     int esetting = pm.getApplicationEnabledSetting(ai.packageName);
                     boolean enabled = (ai.enabled &&
                             (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
