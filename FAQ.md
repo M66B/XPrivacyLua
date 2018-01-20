@@ -49,6 +49,9 @@ Considered as tracking/profile related:
 * Network operator, MNC
 * Browser user agent string
 
+Apps having access to the IP address generally have access to the internet and therefore can get your IP address in a simple way,
+see for example [here](https://www.privateinternetaccess.com/pages/whats-my-ip/). Therefore an IP address restriction doesn't make sense.
+
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
 
 See also [question 7](#FAQ7).

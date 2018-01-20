@@ -38,7 +38,7 @@ Restrictions
 * Send messages (prevent sending MMS, SMS, data)
 * Use camera (fake camera not available)
 
-You can see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json) all technical details.
+You can see all technical details [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json).
 
 Notes
 -----
@@ -46,6 +46,7 @@ Notes
 * Some apps will start the camera app to take pictures. This cannot be restricted and there is no need for this, because only you can take pictures in this scenario, not the app.
 * Some apps will use [OpenSL ES for Android](https://developer.android.com/ndk/guides/audio/opensl-for-android.html) to record audio, an example is WhatsApp. Xposed cannot hook into native code, so this cannot be prevented.
 * The get applications restriction will not restrict getting information about individual apps for stability and performance reasons.
+* The telephony data restriction will result in apps seeing a fake IMEI. However, this doesn't change the IMEI address of your device.
 
 Compatibility
 -------------
