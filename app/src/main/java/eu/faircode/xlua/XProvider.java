@@ -799,11 +799,12 @@ class XProvider {
     }
 
     private static void enforcePermission(Context context) throws SecurityException {
+        int cuid = Util.getAppId(Binder.getCallingUid());
+
         // Access package manager as system user
         long ident = Binder.clearCallingIdentity();
         try {
             // Allow system
-            int cuid = Util.getAppId(Binder.getCallingUid());
             if (cuid == Process.SYSTEM_UID)
                 return;
 
