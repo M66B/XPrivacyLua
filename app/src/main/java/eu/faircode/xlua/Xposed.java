@@ -74,7 +74,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         int uid = Process.myUid();
         String self = Xposed.class.getPackage().getName();
-        String pro = self + ".pro";
         Log.i(TAG, "Loaded " + lpparam.packageName + ":" + uid);
 
         if ("android".equals(lpparam.packageName))
@@ -83,7 +82,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         if ("com.android.providers.settings".equals(lpparam.packageName))
             hookSettings(lpparam);
 
-        if (!"android".equals(lpparam.packageName) && !self.equals(lpparam.packageName) && !pro.equals(lpparam.packageName))
+        if (!"android".equals(lpparam.packageName) &&
+                !self.equals(lpparam.packageName) && !Util.PRO_PACKAGE_NAME.equals(lpparam.packageName))
             hookApplication(lpparam);
     }
 

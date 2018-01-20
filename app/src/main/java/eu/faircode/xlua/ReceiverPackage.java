@@ -29,7 +29,7 @@ public class ReceiverPackage extends BroadcastReceiver {
             Context ctx = Util.createContextForUser(context, userid);
 
             if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-                if (!replacing && !self.equals(packageName)) {
+                if (!replacing && !self.equals(packageName) && !Util.PRO_PACKAGE_NAME.equals(packageName)) {
                     // Initialize app
                     Bundle args = new Bundle();
                     args.putString("packageName", packageName);
