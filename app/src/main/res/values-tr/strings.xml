@@ -6,11 +6,12 @@
   <string name="title_all">All</string>
   <string name="title_restrict">Sınırlamak</string>
   <string name="title_help_instructions">
-        Uygulama simgesine ya da adına dokunun ve kısıtlamaları uygulamak için kısıtlamaları işaretleyin.
-        Eğer mümkünse uygulamalar kısıtlamaların uygulanmasını (yada silinmesini) otomatik olarak derhal durduracaktır.
-        fakat bazı uygulamalara kısıtlama eklemek cihazın yeniden başlatılmasını gerektirir (aşağıdaki simgelere bakın).
-        <![CDATA[<br><br>]]>;Uygulamayı çalıştırmak için uygulama adına ya da simgesine uzun süre basın.
-        <![CDATA[<br><br>]]>;Sıkça sorulan sorula için <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">buraya</a>]]>; bakınız.
+        Tap on an app icon or name and tick restrictions to apply them.
+        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
+        but applying restrictions to some apps requires a device restart (see icons below).
+        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Sınırlama yüklendi</string>
   <string name="title_help_system">Applying restrictions can result in problems</string>

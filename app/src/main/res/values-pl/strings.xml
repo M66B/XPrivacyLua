@@ -6,11 +6,12 @@
   <string name="title_all">All</string>
   <string name="title_restrict">Ogranicz</string>
   <string name="title_help_instructions">
-        Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenie, aby je zastosować.
-        Jeśli to możliwe, aplikacje zostaną automatycznie zatrzymane, aby od razu zastosować (lub usunąć) ograniczenia,
-        ale zastosowanie ograniczeń dla niektórych aplikacji wymaga ponownego uruchomienia urządzenia (zobacz ikony poniżej).
-        <![CDATA[<br><br>]]>Przytrzymaj nazwę lub ikonę aplikacji, aby uruchomić aplikację.
-        <![CDATA[<br><br>]]>Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">tutaj</a>]]> odpowiedzi na często zadawane pytania.
+        Tap on an app icon or name and tick restrictions to apply them.
+        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
+        but applying restrictions to some apps requires a device restart (see icons below).
+        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Ograniczenie zastosowane</string>
   <string name="title_help_system">Applying restrictions can result in problems</string>

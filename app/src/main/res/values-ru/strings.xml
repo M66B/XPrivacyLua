@@ -3,47 +3,48 @@
 <resources>
   <string name="title_accept">Принимаю</string>
   <string name="title_deny">Не принимаю</string>
-  <string name="title_all">All</string>
-  <string name="title_restrict">Restrict</string>
+  <string name="title_all">Все</string>
+  <string name="title_restrict">Ограничить</string>
   <string name="title_help_instructions">
         Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
         but applying restrictions to some apps requires a device restart (see icons below).
         <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
-  <string name="title_help_installed">Restriction installed</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
-  <string name="title_help_settings">App restriction settings</string>
+  <string name="title_help_installed">Ограничение установлено</string>
+  <string name="title_help_system">Применение ограничений может вызвать проблемы</string>
+  <string name="title_help_settings">Настройки ограничения приложения</string>
   <string name="title_help_persistent">Применение ограничений требует перезагрузки</string>
   <string name="title_help_exception">Применение не удалось (нажмите на значок для информации)</string>
   <string name="menu_search">Поиск</string>
   <string name="menu_help">Справка</string>
   <string name="menu_show_all">Все приложения</string>
   <string name="menu_notify_new">Уведомлять о новых приложениях</string>
-  <string name="menu_restrict_new">Restrict new apps</string>
+  <string name="menu_restrict_new">Ограничивать новые приложения</string>
   <string name="menu_donate">Поддержать</string>
   <string name="msg_no_service">Модуль не запущен или обновлен</string>
   <string name="msg_review_settings">Настройки конфиденциальности</string>
-  <string name="msg_usage">Restricted \'%1$s\'</string>
+  <string name="msg_usage">Ограничено \'%1$s\'</string>
   <string name="msg_exception">Ошибка в %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
-  <string name="group_get_applications">Список приложений</string>
-  <string name="group_get_calendars">Календарь</string>
-  <string name="group_get_call_log">Журнал вызовов</string>
-  <string name="group_get_contacts">Контакты</string>
-  <string name="group_get_location">Местоположение</string>
-  <string name="group_get_messages">Сообщения</string>
-  <string name="group_get_sensors">Датчики</string>
-  <string name="group_read_account">Имя аккаунта</string>
-  <string name="group_read_clipboard">Буфер обмена</string>
-  <string name="group_read_identifiers">Read identifiers</string>
-  <string name="group_read_network">Read network data</string>
-  <string name="group_read_notifications">Read notifications</string>
-  <string name="group_read_sync">Read sync data</string>
+  <string name="group_determine_activity">Определение активности</string>
+  <string name="group_get_applications">Чтение списка приложений</string>
+  <string name="group_get_calendars">Чтение календаря</string>
+  <string name="group_get_call_log">Чтение журнала вызовов</string>
+  <string name="group_get_contacts">Чтение контактов</string>
+  <string name="group_get_location">Определение местоположения</string>
+  <string name="group_get_messages">Чтение сообщений</string>
+  <string name="group_get_sensors">Чтение датчиков</string>
+  <string name="group_read_account">Чтение имени аккаунта</string>
+  <string name="group_read_clipboard">Чтение буфера обмена</string>
+  <string name="group_read_identifiers">Чтение идентификаторов</string>
+  <string name="group_read_network">Чтение данных сети</string>
+  <string name="group_read_notifications">Чтение уведомлений</string>
+  <string name="group_read_sync">Чтение данных синхронизации</string>
   <string name="group_read_telephony">Чтение данных телефонии</string>
   <string name="group_record_audio">Запись аудио</string>
   <string name="group_record_video">Запись видео</string>
-  <string name="group_send_messages">Send messages</string>
+  <string name="group_send_messages">Отправка сообщений</string>
   <string name="group_use_camera">Использование камеры</string>
 </resources>

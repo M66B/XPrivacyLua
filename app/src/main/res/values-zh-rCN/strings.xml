@@ -6,11 +6,12 @@
   <string name="title_all">All</string>
   <string name="title_restrict">限制</string>
   <string name="title_help_instructions">
-        点击应用程序图标或名称，勾选你需要的限制选项并应用。
-        理想情况下, 应用程序会自动停止以应用 (或删除) 新的限制，
-        对于某些应用程序，若想限制生效则需要重新启动设备 (请参见下面的图标)。
-        <![CDATA[<br><br>]]>;长按应用名称或图标启动应用程序。
-        <![CDATA[<br><br>]]>;请参阅<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">此处</a>]]>; 了解常见问题。
+        Tap on an app icon or name and tick restrictions to apply them.
+        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
+        but applying restrictions to some apps requires a device restart (see icons below).
+        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">已限制</string>
   <string name="title_help_system">应用此限制可能会导致不可预料的问题</string>

@@ -3,14 +3,15 @@
 <resources>
   <string name="title_accept">J\'accepte</string>
   <string name="title_deny">Je refuse</string>
-  <string name="title_all">All</string>
+  <string name="title_all">Toutes</string>
   <string name="title_restrict">Restreindre</string>
   <string name="title_help_instructions">
-        Appuyez sur l\'icône d\'une appli ou le nom puis cochez une restriction pour l\'appliquer.
-        Si possible, les applis sont automatiquement stoppées pour immédiatement appliquer (ou retirer) les restrictions,
-        mais appliquer les restrictions à certaines applis peut nécessiter un redémarrage (voir les icônes ci-dessous).
-        <![CDATA[<br><br>]]>Un appui long sur le nom d\'une appli ou l\'icône lance l\'appli.
-        <![CDATA[<br><br>]]>Voir <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
+        Tap on an app icon or name and tick restrictions to apply them.
+        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
+        but applying restrictions to some apps requires a device restart (see icons below).
+        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
   <string name="title_help_system">L\'application de restrictions peut causer des problèmes</string>

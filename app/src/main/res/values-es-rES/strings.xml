@@ -6,11 +6,12 @@
   <string name="title_all">All</string>
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
-        Pulsa en el ícono o nombre de una app y marca una restricción para aplicarla.
-        Si es posible, las apps se detienen automáticamente para aplicar (o eliminar) las restricciones inmediatamente,
-        pero para poder aplicar restricciones a algunas apps se requiere un reinicio del dispositivo (ve los íconos abajo).
-        <![CDATA[<br><br>]]>Pulsa y mantén presionado sobre el nombre de un app o su ícono para iniciarla.
-        <![CDATA[<br><br>]]>Revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aquí</a>]]> las preguntas más frecuentes.
+        Tap on an app icon or name and tick restrictions to apply them.
+        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
+        but applying restrictions to some apps requires a device restart (see icons below).
+        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
     </string>
   <string name="title_help_installed">Restricción instalada</string>
   <string name="title_help_system">Applying restrictions can result in problems</string>
