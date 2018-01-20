@@ -874,7 +874,9 @@
     "luaScript": "@clipdata_createfromparcel"
   },
   // Read identifiers
+  // https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.html
   // https://developer.android.com/reference/android/os/Build.html
+  // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/SystemProperties.java
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
@@ -984,6 +986,83 @@
     "returnType": "java.lang.String",
     "minSdk": 3,
     "luaScript": "@settingssecure_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.get",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.get/default",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.getInt",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "getInt",
+    "parameterTypes": [
+      "java.lang.String",
+      "int"
+    ],
+    "returnType": "int",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.getLong",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "getLong",
+    "parameterTypes": [
+      "java.lang.String",
+      "long"
+    ],
+    "returnType": "long",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.getBoolean",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "getBoolean",
+    "parameterTypes": [
+      "java.lang.String",
+      "boolean"
+    ],
+    "returnType": "boolean",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@systemproperties_get"
   },
   // Read network data
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html
