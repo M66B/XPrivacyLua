@@ -236,7 +236,7 @@ public class FragmentMain extends Fragment {
 
                     XGroup group = new XGroup();
                     group.name = name;
-                    group.title = res.getString(id);
+                    group.title = (id > 0 ? res.getString(id) : name);
                     data.groups.add(group);
                 }
 

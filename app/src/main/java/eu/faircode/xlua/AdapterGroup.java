@@ -174,7 +174,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                 String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
                 group.id = resources.getIdentifier("group_" + name, "string", context.getPackageName());
                 group.name = hook.getGroup();
-                group.title = resources.getString(group.id);
+                group.title = (group.id > 0 ? resources.getString(group.id) : hook.getGroup());
 
                 map.put(hook.getGroup(), group);
             }
