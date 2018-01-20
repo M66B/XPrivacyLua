@@ -126,11 +126,13 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 <a name="network"></a>
 * Network
 	* ~~return fake IP's~~ tracking related
-	* ~~return fake MAC's (network, Wi-Fi, bluetooth)~~ tracking related
+	* ~~return fake MAC's (network, Wi-Fi, bluetooth)~~ see remark below
 	* **return fake BSSID/SSID**
 	* **return an empty list of Wi-Fi scan results**
 	* **return an empty list of configured Wi-Fi networks**
 	* ~~return an empty list of bluetooth adapters/devices~~ tracking related
+
+MAC addresses are [not available anymore](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m) on supported Android versions.
 
 <a name="nfc"></a>
 * NFC

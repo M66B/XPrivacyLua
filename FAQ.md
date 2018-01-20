@@ -40,8 +40,8 @@ This message means either that:
 
 Considered as tracking/profile related:
 
-* IP address
-* MAC address
+* IP address, see remark below
+* MAC address, see remark below
 * Host name
 * Device [data](https://developer.android.com/reference/android/os/Build.html)
 * Country, MCC
@@ -51,6 +51,8 @@ Considered as tracking/profile related:
 
 Apps having access to the IP address generally have access to the internet and therefore can get your IP address in a simple way,
 see for example [here](https://www.privateinternetaccess.com/pages/whats-my-ip/). Therefore an IP address restriction doesn't make sense.
+
+MAC addresses are [not available anymore](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m) on supported Android versions.
 
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
 
