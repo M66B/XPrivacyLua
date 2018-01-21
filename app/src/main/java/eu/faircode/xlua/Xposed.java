@@ -52,9 +52,12 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -160,7 +163,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             try {
                                 Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                                 Context context = (Context) mGetContext.invoke(param.thisObject);
-                                getVersion(context);
+                                getModuleVersion(context);
                                 param.setResult(XProvider.call(context, arg, extras));
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
@@ -187,7 +190,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         try {
                             Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                             Context context = (Context) mGetContext.invoke(param.thisObject);
-                            getVersion(context);
+                            getModuleVersion(context);
                             param.setResult(XProvider.query(context, projection[0].split("\\.")[1], selection));
                         } catch (Throwable ex) {
                             Log.e(TAG, Log.getStackTraceString(ex));
@@ -208,6 +211,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         Class<?> at = Class.forName("android.app.LoadedApk", false, lpparam.classLoader);
         XposedBridge.hookAllMethods(at, "makeApplication", new XC_MethodHook() {
             private boolean made = false;
+            private Timer timer = null;
+            private final Map<String, Map<String, Bundle>> queue = new HashMap<>();
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -279,187 +284,226 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     XposedBridge.log(ex);
                 }
             }
+
+            private void hookPackage(
+                    final Context context,
+                    final XC_LoadPackage.LoadPackageParam lpparam, final int uid,
+                    List<XHook> hooks, final Map<String, String> settings) {
+
+                for (final XHook hook : hooks)
+                    try {
+                        long install = SystemClock.elapsedRealtime();
+
+                        // Compile script
+                        InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
+                        final Prototype compiledScript = LuaC.instance.compile(is, "script");
+
+                        // Get class
+                        Class<?> cls;
+                        try {
+                            cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
+                        } catch (ClassNotFoundException ex) {
+                            if (hook.isOptional()) {
+                                Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex);
+                                continue;
+                            } else
+                                throw ex;
+                        }
+
+                        String[] m = hook.getMethodName().split(":");
+                        if (m.length > 1) {
+                            Field field = cls.getField(m[0]);
+                            Object obj = field.get(null);
+                            cls = obj.getClass();
+                        }
+                        String methodName = m[m.length - 1];
+
+                        // Get parameter types
+                        String[] p = hook.getParameterTypes();
+                        final Class<?>[] paramTypes = new Class[p.length];
+                        for (int i = 0; i < p.length; i++)
+                            paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
+
+                        // Get return type
+                        final Class<?> returnType = (hook.getReturnType() == null ? null :
+                                resolveClass(hook.getReturnType(), lpparam.classLoader));
+
+                        if (methodName.startsWith("#")) {
+                            // Get field
+                            Field field;
+                            try {
+                                field = resolveField(cls, methodName.substring(1), returnType);
+                                field.setAccessible(true);
+                            } catch (NoSuchFieldException ex) {
+                                if (hook.isOptional()) {
+                                    Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                                    continue;
+                                } else
+                                    throw ex;
+                            }
+
+                            // Initialize Lua runtime
+                            Globals globals = getGlobals(lpparam, uid, hook);
+                            LuaClosure closure = new LuaClosure(compiledScript, globals);
+                            closure.call();
+
+                            // Check if function exists
+                            LuaValue func = globals.get("after");
+                            if (func.isnil())
+                                return;
+
+                            // Run function
+                            Varargs result = func.invoke(
+                                    CoerceJavaToLua.coerce(hook),
+                                    CoerceJavaToLua.coerce(new XParam(
+                                            lpparam.packageName, uid,
+                                            field,
+                                            paramTypes, returnType, lpparam.classLoader,
+                                            settings))
+                            );
+
+                            // Report use
+                            boolean restricted = result.arg1().checkboolean();
+                            if (restricted && hook.doUsage()) {
+                                Bundle data = new Bundle();
+                                data.putString("function", "after");
+                                data.putInt("restricted", restricted ? 1 : 0);
+                                report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                            }
+                        } else {
+                            // Get method
+                            final Method method;
+                            try {
+                                method = resolveMethod(cls, methodName, paramTypes);
+                            } catch (NoSuchMethodException ex) {
+                                if (hook.isOptional()) {
+                                    Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
+                                    continue;
+                                } else
+                                    throw ex;
+                            }
+
+                            // Check return type
+                            if (returnType != null && !method.getReturnType().equals(returnType))
+                                throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + returnType);
+
+                            // Hook method
+                            XposedBridge.hookMethod(method, new XC_MethodHook() {
+                                @Override
+                                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                    execute(param, "before");
+                                }
+
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    execute(param, "after");
+                                }
+
+                                // Execute hook
+                                private void execute(MethodHookParam param, String function) {
+                                    try {
+                                        long run = SystemClock.elapsedRealtime();
+
+                                        // Initialize Lua runtime
+                                        Globals globals = getGlobals(lpparam, uid, hook);
+                                        LuaClosure closure = new LuaClosure(compiledScript, globals);
+                                        closure.call();
+
+                                        // Check if function exists
+                                        LuaValue func = globals.get(function);
+                                        if (func.isnil())
+                                            return;
+
+                                        // Run function
+                                        Varargs result = func.invoke(
+                                                CoerceJavaToLua.coerce(hook),
+                                                CoerceJavaToLua.coerce(new XParam(
+                                                        lpparam.packageName, uid,
+                                                        param,
+                                                        method.getParameterTypes(), method.getReturnType(),
+                                                        lpparam.classLoader,
+                                                        settings))
+                                        );
+
+                                        // Report use
+                                        boolean restricted = result.arg1().checkboolean();
+                                        if (restricted) {
+                                            Bundle data = new Bundle();
+                                            data.putString("function", function);
+                                            data.putInt("restricted", restricted ? 1 : 0);
+                                            data.putLong("duration", SystemClock.elapsedRealtime() - run);
+                                            report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                        }
+                                    } catch (Throwable ex) {
+                                        Log.e(TAG, Log.getStackTraceString(ex));
+
+                                        // Report use error
+                                        Bundle data = new Bundle();
+                                        data.putString("function", function);
+                                        data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
+                                        report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                    }
+                                }
+                            });
+                        }
+
+                        // Report install
+                        if (BuildConfig.DEBUG) {
+                            Bundle data = new Bundle();
+                            data.putLong("duration", SystemClock.elapsedRealtime() - install);
+                            report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, Log.getStackTraceString(ex));
+
+                        // Report install error
+                        Bundle data = new Bundle();
+                        data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
+                        report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                    }
+            }
+
+            private void report(final Context context, String hook, final String packageName, final int uid, String event, Bundle data) {
+                Bundle args = new Bundle();
+                args.putString("hook", hook);
+                args.putString("packageName", packageName);
+                args.putInt("uid", uid);
+                args.putString("event", event);
+                args.putLong("time", new Date().getTime());
+                args.putBundle("data", data);
+
+                synchronized (queue) {
+                    if (!queue.containsKey(event))
+                        queue.put(event, new HashMap<String, Bundle>());
+                    queue.get(event).put(hook, args);
+
+                    if (timer == null) {
+                        timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            public void run() {
+                                Log.i(TAG, "Processing event queue package=" + packageName + ":" + uid);
+
+                                List<Bundle> work = new ArrayList<>();
+                                synchronized (queue) {
+                                    for (String event : queue.keySet())
+                                        for (String hook : queue.get(event).keySet())
+                                            work.add(queue.get(event).get(hook));
+                                    queue.clear();
+                                    timer = null;
+                                }
+
+                                for (Bundle args : work)
+                                    context.getContentResolver()
+                                            .call(XProvider.URI, "xlua", "report", args);
+                            }
+                        }, 1000);
+                    }
+                }
+            }
         });
     }
 
-    private void hookPackage(
-            final Context context,
-            final XC_LoadPackage.LoadPackageParam lpparam, final int uid,
-            List<XHook> hooks, final Map<String, String> settings) {
-        for (final XHook hook : hooks)
-            try {
-                long install = SystemClock.elapsedRealtime();
-
-                // Compile script
-                InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
-                final Prototype compiledScript = LuaC.instance.compile(is, "script");
-
-                // Get class
-                Class<?> cls;
-                try {
-                    cls = Class.forName(hook.getClassName(), false, lpparam.classLoader);
-                } catch (ClassNotFoundException ex) {
-                    if (hook.isOptional()) {
-                        Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex);
-                        continue;
-                    } else
-                        throw ex;
-                }
-
-                String[] m = hook.getMethodName().split(":");
-                if (m.length > 1) {
-                    Field field = cls.getField(m[0]);
-                    Object obj = field.get(null);
-                    cls = obj.getClass();
-                }
-                String methodName = m[m.length - 1];
-
-                // Get parameter types
-                String[] p = hook.getParameterTypes();
-                final Class<?>[] paramTypes = new Class[p.length];
-                for (int i = 0; i < p.length; i++)
-                    paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
-
-                // Get return type
-                final Class<?> returnType = (hook.getReturnType() == null ? null :
-                        resolveClass(hook.getReturnType(), lpparam.classLoader));
-
-                if (methodName.startsWith("#")) {
-                    // Get field
-                    Field field;
-                    try {
-                        field = resolveField(cls, methodName.substring(1), returnType);
-                        field.setAccessible(true);
-                    } catch (NoSuchFieldException ex) {
-                        if (hook.isOptional()) {
-                            Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
-                            continue;
-                        } else
-                            throw ex;
-                    }
-
-                    // Initialize Lua runtime
-                    Globals globals = getGlobals(lpparam, uid, hook);
-                    LuaClosure closure = new LuaClosure(compiledScript, globals);
-                    closure.call();
-
-                    // Check if function exists
-                    LuaValue func = globals.get("after");
-                    if (func.isnil())
-                        return;
-
-                    // Run function
-                    Varargs result = func.invoke(
-                            CoerceJavaToLua.coerce(hook),
-                            CoerceJavaToLua.coerce(new XParam(
-                                    lpparam.packageName, uid,
-                                    field,
-                                    paramTypes, returnType, lpparam.classLoader,
-                                    settings))
-                    );
-
-                    // Report use
-                    boolean restricted = result.arg1().checkboolean();
-                    if (restricted && hook.doUsage()) {
-                        Bundle data = new Bundle();
-                        data.putString("function", "after");
-                        data.putInt("restricted", restricted ? 1 : 0);
-                        report(context, hook.getId(), lpparam.packageName, uid, "use", data);
-                    }
-                } else {
-                    // Get method
-                    final Method method;
-                    try {
-                        method = resolveMethod(cls, methodName, paramTypes);
-                    } catch (NoSuchMethodException ex) {
-                        if (hook.isOptional()) {
-                            Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
-                            continue;
-                        } else
-                            throw ex;
-                    }
-
-                    // Check return type
-                    if (returnType != null && !method.getReturnType().equals(returnType))
-                        throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + returnType);
-
-                    // Hook method
-                    XposedBridge.hookMethod(method, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            execute(param, "before");
-                        }
-
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            execute(param, "after");
-                        }
-
-                        // Execute hook
-                        private void execute(MethodHookParam param, String function) {
-                            try {
-                                long run = SystemClock.elapsedRealtime();
-
-                                // Initialize Lua runtime
-                                Globals globals = getGlobals(lpparam, uid, hook);
-                                LuaClosure closure = new LuaClosure(compiledScript, globals);
-                                closure.call();
-
-                                // Check if function exists
-                                LuaValue func = globals.get(function);
-                                if (func.isnil())
-                                    return;
-
-                                // Run function
-                                Varargs result = func.invoke(
-                                        CoerceJavaToLua.coerce(hook),
-                                        CoerceJavaToLua.coerce(new XParam(
-                                                lpparam.packageName, uid,
-                                                param,
-                                                method.getParameterTypes(), method.getReturnType(),
-                                                lpparam.classLoader,
-                                                settings))
-                                );
-
-                                // Report use
-                                boolean restricted = result.arg1().checkboolean();
-                                if (restricted) {
-                                    Bundle data = new Bundle();
-                                    data.putString("function", function);
-                                    data.putInt("restricted", restricted ? 1 : 0);
-                                    data.putLong("duration", SystemClock.elapsedRealtime() - run);
-                                    report(context, hook.getId(), lpparam.packageName, uid, "use", data);
-                                }
-                            } catch (Throwable ex) {
-                                Log.e(TAG, Log.getStackTraceString(ex));
-
-                                // Report use error
-                                Bundle data = new Bundle();
-                                data.putString("function", function);
-                                data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
-                                report(context, hook.getId(), lpparam.packageName, uid, "use", data);
-                            }
-                        }
-                    });
-                }
-
-                // Report install
-                if (BuildConfig.DEBUG) {
-                    Bundle data = new Bundle();
-                    data.putLong("duration", SystemClock.elapsedRealtime() - install);
-                    report(context, hook.getId(), lpparam.packageName, uid, "install", data);
-                }
-            } catch (Throwable ex) {
-                Log.e(TAG, Log.getStackTraceString(ex));
-
-                // Report install error
-                Bundle data = new Bundle();
-                data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
-                report(context, hook.getId(), lpparam.packageName, uid, "install", data);
-            }
-    }
-
-    private void getVersion(Context context) throws PackageManager.NameNotFoundException {
+    private static void getModuleVersion(Context context) throws PackageManager.NameNotFoundException {
         if (version < 0) {
             String self = Xposed.class.getPackage().getName();
             PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
@@ -588,17 +632,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             }
             throw ex;
         }
-    }
-
-    private static void report(Context context, String hook, String packageName, int uid, String event, Bundle data) {
-        Bundle args = new Bundle();
-        args.putString("hook", hook);
-        args.putString("packageName", packageName);
-        args.putInt("uid", uid);
-        args.putString("event", event);
-        args.putBundle("data", data);
-        context.getContentResolver()
-                .call(XProvider.URI, "xlua", "report", args);
     }
 
     private static Globals getGlobals(XC_LoadPackage.LoadPackageParam lpparam, int uid, XHook hook) {

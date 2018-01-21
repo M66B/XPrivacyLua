@@ -48,7 +48,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -456,6 +455,7 @@ class XProvider {
         String packageName = extras.getString("packageName");
         int uid = extras.getInt("uid");
         String event = extras.getString("event");
+        long time = extras.getLong("time");
         Bundle data = extras.getBundle("data");
 
         if (uid != Binder.getCallingUid())
@@ -477,9 +477,9 @@ class XProvider {
             try {
                 ContentValues cv = new ContentValues();
                 if ("install".equals(event))
-                    cv.put("installed", new Date().getTime());
+                    cv.put("installed", time);
                 else if ("use".equals(event)) {
-                    cv.put("used", new Date().getTime());
+                    cv.put("used", time);
                     if (data.containsKey("restricted"))
                         cv.put("restricted", data.getInt("restricted"));
                 }
