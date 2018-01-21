@@ -184,65 +184,54 @@ public class XHook {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.appwidget.AppWidgetManager".equals(hook.className)) {
                         Object service = context.getSystemService(AppWidgetManager.class);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
-
                     } else if ("android.media.AudioManager".equals(hook.className)) {
                         Object service = context.getSystemService(AudioManager.class);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.hardware.camera2.CameraManager".equals(hook.className)) {
                         Object service = context.getSystemService(CameraManager.class);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.content.ContentResolver".equals(hook.className)) {
                         String className = context.getContentResolver().getClass().getName();
                         hook.className = className;
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.content.pm.PackageManager".equals(hook.className)) {
                         String className = context.getPackageManager().getClass().getName();
                         hook.className = className;
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.hardware.SensorManager".equals(hook.className)) {
                         Object service = context.getSystemService(SensorManager.class);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.telephony.SmsManager".equals(hook.className)) {
                         Object service = SmsManager.getDefault();
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.telephony.TelephonyManager".equals(hook.className)) {
                         Object service = context.getSystemService(Context.TELEPHONY_SERVICE);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     } else if ("android.net.wifi.WifiManager".equals(hook.className)) {
                         Object service = context.getSystemService(Context.WIFI_SERVICE);
                         if (service != null) {
                             String className = service.getClass().getName();
                             hook.className = className;
                         }
-                        Log.i(TAG, hook.getId() + " class name=" + hook.className);
                     }
 
                     hooks.add(hook);
