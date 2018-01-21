@@ -14,6 +14,8 @@
     <string name="title_accept">I accept</string>
     <string name="title_deny">I deny</string>
 
+    <string name="title_fix">Fix</string>
+
     <string name="title_all">All</string>
     <string name="title_restrict">Restrict</string>
 

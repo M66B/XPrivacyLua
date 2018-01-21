@@ -75,7 +75,18 @@ public class ActivityMain extends AppCompatActivity {
 
         // Check if service is running
         if (!XProvider.isAvailable(this)) {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_service), Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_service), Snackbar.LENGTH_INDEFINITE);
+
+            final Intent intent = getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
+            if (intent.resolveActivity(getPackageManager()) != null)
+                snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(intent);
+                    }
+                });
+
+            snackbar.show();
             return;
         }
 
