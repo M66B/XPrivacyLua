@@ -60,9 +60,10 @@ class XProvider {
 
     private final static Object lock = new Object();
 
-    private static Map<String, XHook> hooks = null;
     private static SQLiteDatabase db = null;
     private static ReentrantReadWriteLock dbLock = new ReentrantReadWriteLock(true);
+
+    private static Map<String, XHook> hooks = null;
 
     final static String cChannelName = "xlua";
 
@@ -71,10 +72,10 @@ class XProvider {
 
     static void loadData(Context context) throws Throwable {
         synchronized (lock) {
-            if (hooks == null)
-                hooks = loadHooks(context);
             if (db == null)
                 db = getDatabase();
+            if (hooks == null)
+                hooks = loadHooks(context);
         }
     }
 
@@ -166,10 +167,54 @@ class XProvider {
     private static Bundle putHook(Context context, Bundle extras) throws Throwable {
         enforcePermission(context);
 
-        XHook hook = XHook.fromJSON(extras.getString("json"));
+        // Get arguments
+        String id = extras.getString("id");
+        String definition = extras.getString("definition");
+        if (id == null)
+            throw new IllegalArgumentException();
+        XHook hook = null;
+        if (definition != null) {
+            hook = XHook.fromJSON(definition);
+            if (!id.equals(hook.getId()))
+                throw new IllegalArgumentException();
+        }
 
+        // Cache hook
         synchronized (lock) {
-            hooks.put(hook.getId(), hook);
+            if (definition == null)
+                hooks.remove(id);
+            else {
+                hook.resolveClassName(context);
+                hooks.put(id, hook);
+            }
+        }
+
+        // Persist define hook
+        if (!hook.isBuiltin()) {
+            dbLock.writeLock().lock();
+            try {
+                db.beginTransaction();
+                try {
+                    if (definition == null) {
+                        long rows = db.delete("hook", "id = ?", new String[]{id});
+                        if (rows < 0)
+                            throw new Throwable("Error deleting hook definition");
+                    } else {
+                        ContentValues cv = new ContentValues();
+                        cv.put("id", id);
+                        cv.put("definition", definition);
+                        long rows = db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                        if (rows < 0)
+                            throw new Throwable("Error inserting hook definition");
+                    }
+
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+            } finally {
+                dbLock.writeLock().unlock();
+            }
         }
 
         return new Bundle();
@@ -180,7 +225,7 @@ class XProvider {
 
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (!groups.contains(hook.getGroup()))
+                if (hook.isAvailable(null) && !groups.contains(hook.getGroup()))
                     groups.add(hook.getGroup());
         }
 
@@ -190,19 +235,23 @@ class XProvider {
     }
 
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {
-        MatrixCursor result = new MatrixCursor(new String[]{"json"});
+        List<XHook> hv = new ArrayList();
         synchronized (lock) {
-            List<XHook> hv = new ArrayList(hooks.values());
-            Collections.sort(hv, new Comparator<XHook>() {
-                @Override
-                public int compare(XHook h1, XHook h2) {
-                    return h1.getId().compareTo(h2.getId());
-                }
-            });
-            for (XHook hook : hv)
-                if (hook.isEnabled())
-                    result.addRow(new String[]{hook.toJSON()});
+            for (XHook hook : hooks.values())
+                if (hook.isAvailable(null))
+                    hv.add(hook);
         }
+
+        Collections.sort(hv, new Comparator<XHook>() {
+            @Override
+            public int compare(XHook h1, XHook h2) {
+                return h1.getId().compareTo(h2.getId());
+            }
+        });
+
+        MatrixCursor result = new MatrixCursor(new String[]{"json"});
+        for (XHook hook : hv)
+            result.addRow(new Object[]{hook.toJSON()});
         return result;
     }
 
@@ -279,7 +328,7 @@ class XProvider {
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
-                                    if (hook.isEnabled()) {
+                                    if (hook.isAvailable(pkg)) {
                                         XAssignment assignment = new XAssignment(hook);
                                         assignment.installed = cursor.getLong(colInstalled);
                                         assignment.used = cursor.getLong(colUsed);
@@ -388,7 +437,7 @@ class XProvider {
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
-                                if (hook.isEnabled() && hook.isPackageIncluded(packageName))
+                                if (hook.isAvailable(packageName))
                                     result.addRow(new String[]{hook.toJSON()});
                             } else if (BuildConfig.DEBUG)
                                 Log.w(TAG, "Hook " + hookid + " not found");
@@ -681,7 +730,8 @@ class XProvider {
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                hookids.add(hook.getId());
+                if (hook.isAvailable(packageName))
+                    hookids.add(hook.getId());
         }
 
         dbLock.writeLock().lock();
@@ -822,14 +872,54 @@ class XProvider {
     }
 
     private static Map<String, XHook> loadHooks(Context context) throws Throwable {
-        Map<String, XHook> result = new HashMap<>();
+        // Read built-in definition
         PackageManager pm = context.getPackageManager();
         String self = XProvider.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
-        List<XHook> hooks = XHook.readHooks(context, ai.publicSourceDir);
-        for (XHook hook : hooks)
+        List<XHook> builtin = XHook.readHooks(context, ai.publicSourceDir);
+
+        // Read external definitions
+        List<XHook> defined = new ArrayList<>();
+        dbLock.readLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                Cursor cursor = null;
+                try {
+                    cursor = db.query("hook", null,
+                            null, null,
+                            null, null, null);
+                    int colDefinition = cursor.getColumnIndex("definition");
+                    while (cursor.moveToNext()) {
+                        String definition = cursor.getString(colDefinition);
+                        XHook hook = XHook.fromJSON(definition);
+                        defined.add(hook);
+                    }
+                } finally {
+                    if (cursor != null)
+                        cursor.close();
+                }
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.readLock().unlock();
+        }
+
+        // Build map
+        Map<String, XHook> result = new HashMap<>();
+        for (XHook hook : builtin) {
+            hook.resolveClassName(context);
             result.put(hook.getId(), hook);
-        Log.i(TAG, "Loaded hooks=" + result.size());
+        }
+        for (XHook hook : defined) {
+            hook.resolveClassName(context);
+            result.put(hook.getId(), hook);
+        }
+
+        Log.i(TAG, "Loaded hook definitions builtin=" + builtin.size() + " defined=" + defined.size());
         return result;
     }
 
@@ -843,8 +933,8 @@ class XProvider {
         dbFile.getParentFile().mkdirs();
 
         // Open database
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
-        Log.i(TAG, "Database version=" + db.getVersion() + " file=" + dbFile);
+        SQLiteDatabase _db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        Log.i(TAG, "Database file=" + dbFile);
 
         // Set database file permissions
         // Owner: rwx (system)
@@ -859,59 +949,75 @@ class XProvider {
         dbLock.writeLock().lock();
         try {
             // Upgrade database if needed
-            if (db.needUpgrade(1)) {
-                db.beginTransaction();
+            if (_db.needUpgrade(1)) {
+                _db.beginTransaction();
                 try {
                     // http://www.sqlite.org/lang_createtable.html
-                    db.execSQL("CREATE TABLE assignment (package TEXT NOT NULL, uid INTEGER NOT NULL, hook TEXT NOT NULL, installed INTEGER, used INTEGER, restricted INTEGER, exception TEXT)");
-                    db.execSQL("CREATE UNIQUE INDEX idx_assignment ON assignment(package, uid, hook)");
+                    _db.execSQL("CREATE TABLE assignment (package TEXT NOT NULL, uid INTEGER NOT NULL, hook TEXT NOT NULL, installed INTEGER, used INTEGER, restricted INTEGER, exception TEXT)");
+                    _db.execSQL("CREATE UNIQUE INDEX idx_assignment ON assignment(package, uid, hook)");
 
-                    db.execSQL("CREATE TABLE setting (user INTEGER, category TEXT NOT NULL, name TEXT NOT NULL, value TEXT)");
-                    db.execSQL("CREATE UNIQUE INDEX idx_setting ON setting(user, category, name)");
+                    _db.execSQL("CREATE TABLE setting (user INTEGER, category TEXT NOT NULL, name TEXT NOT NULL, value TEXT)");
+                    _db.execSQL("CREATE UNIQUE INDEX idx_setting ON setting(user, category, name)");
 
-                    db.setVersion(1);
-                    db.setTransactionSuccessful();
+                    _db.setVersion(1);
+                    _db.setTransactionSuccessful();
                 } finally {
-                    db.endTransaction();
+                    _db.endTransaction();
                 }
             }
 
-            deleteHook(db, "Privacy.ContentResolver/query1");
-            deleteHook(db, "Privacy.ContentResolver/query16");
-            deleteHook(db, "Privacy.ContentResolver/query26");
-            renameHook(db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
-            renameHook(db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
+            if (_db.needUpgrade(2)) {
+                _db.beginTransaction();
+                try {
+                    // http://www.sqlite.org/lang_createtable.html
+                    _db.execSQL("CREATE TABLE hook (id TEXT NOT NULL, definition TEXT NOT NULL)");
+                    _db.execSQL("CREATE UNIQUE INDEX idx_hook ON hook(id, definition)");
+
+                    _db.setVersion(2);
+                    _db.setTransactionSuccessful();
+                } finally {
+                    _db.endTransaction();
+                }
+            }
+
+            deleteHook(_db, "Privacy.ContentResolver/query1");
+            deleteHook(_db, "Privacy.ContentResolver/query16");
+            deleteHook(_db, "Privacy.ContentResolver/query26");
+            renameHook(_db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
+            renameHook(_db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
+
+            Log.i(TAG, "Database version=" + _db.getVersion());
 
             // Reset usage data
             ContentValues cv = new ContentValues();
             cv.put("installed", -1);
             cv.putNull("exception");
-            long rows = db.update("assignment", cv, null, null);
+            long rows = _db.update("assignment", cv, null, null);
             Log.i(TAG, "Reset assigned hook data count=" + rows);
 
-            return db;
+            return _db;
         } catch (Throwable ex) {
-            db.close();
+            _db.close();
             throw ex;
         } finally {
             dbLock.writeLock().unlock();
         }
     }
 
-    private static void renameHook(SQLiteDatabase db, String oldId, String newId) {
+    private static void renameHook(SQLiteDatabase _db, String oldId, String newId) {
         try {
             ContentValues cvMediaStart = new ContentValues();
             cvMediaStart.put("hook", oldId);
-            long rows = db.update("assignment", cvMediaStart, "hook = ?", new String[]{newId});
+            long rows = _db.update("assignment", cvMediaStart, "hook = ?", new String[]{newId});
             Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " rows=" + rows);
         } catch (Throwable ex) {
             Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " ex=" + ex.getMessage());
         }
     }
 
-    private static void deleteHook(SQLiteDatabase db, String id) {
+    private static void deleteHook(SQLiteDatabase _db, String id) {
         try {
-            long rows = db.delete("assignment", "hook = ?", new String[]{id});
+            long rows = _db.delete("assignment", "hook = ?", new String[]{id});
             Log.i(TAG, "Deleted hook " + id + " rows=" + rows);
         } catch (Throwable ex) {
             Log.i(TAG, "Deleted hook " + id + " ex=" + ex.getMessage());

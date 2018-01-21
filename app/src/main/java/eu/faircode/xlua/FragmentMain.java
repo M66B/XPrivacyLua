@@ -220,7 +220,8 @@ public class FragmentMain extends Fragment {
                     Log.i(TAG, "Loaded hooks=" + hooks.size());
                     for (XHook hook : hooks) {
                         Bundle args = new Bundle();
-                        args.putString("json", hook.toJSON());
+                        args.putString("id", hook.getId());
+                        args.putString("definition", hook.toJSON());
                         getContext().getContentResolver()
                                 .call(XProvider.URI, "xlua", "putHook", args);
                     }

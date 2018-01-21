@@ -45,12 +45,14 @@ import java.util.zip.ZipFile;
 public class XHook {
     private final static String TAG = "XLua.XHook";
 
+    private boolean builtin = false;
     private String collection;
     private String group;
     private String name;
     private String author;
 
     private String className;
+    private String resolvedClassName = null;
     private String methodName;
     private String[] parameterTypes;
     private String returnType;
@@ -72,6 +74,10 @@ public class XHook {
         return this.collection + "." + this.name;
     }
 
+    public boolean isBuiltin() {
+        return this.builtin;
+    }
+
     @SuppressWarnings("unused")
     public String getCollection() {
         return this.collection;
@@ -90,8 +96,13 @@ public class XHook {
         return this.author;
     }
 
+    @SuppressWarnings("unused")
     public String getClassName() {
         return this.className;
+    }
+
+    public String getResolvedClassName() {
+        return (this.resolvedClassName == null ? this.className : this.resolvedClassName);
     }
 
     public String getMethodName() {
@@ -106,31 +117,30 @@ public class XHook {
         return this.returnType;
     }
 
-    public int getMinSdk() {
-        return this.minSdk;
-    }
+    public boolean isAvailable(String packageName) {
+        if (!this.enabled)
+            return false;
 
-    public int getMaxSdk() {
-        return this.maxSdk;
-    }
+        if (Build.VERSION.SDK_INT < this.minSdk || Build.VERSION.SDK_INT > this.maxSdk)
+            return false;
 
-    public boolean isPackageIncluded(String packageName) {
+        if (packageName == null)
+            return true;
+
+        if (this.excludePackages == null)
+            return true;
+
         boolean included = true;
-        if (this.excludePackages != null)
-            for (String excluded : this.excludePackages)
-                if (Pattern.matches(excluded, packageName)) {
-                    included = false;
-                    break;
-                }
+        for (String excluded : this.excludePackages)
+            if (Pattern.matches(excluded, packageName)) {
+                included = false;
+                break;
+            }
 
         if (!included)
             Log.i(TAG, "Excluded " + this.getId() + " for " + packageName);
 
         return included;
-    }
-
-    public boolean isEnabled() {
-        return this.enabled;
     }
 
     public boolean isOptional() {
@@ -149,8 +159,53 @@ public class XHook {
         return this.luaScript;
     }
 
-    private void setLuaScript(String script) {
-        this.luaScript = script;
+    public void resolveClassName(Context context) {
+        if ("android.app.ActivityManager".equals(this.className)) {
+            Object service = context.getSystemService(ActivityManager.class);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.appwidget.AppWidgetManager".equals(this.className)) {
+            Object service = context.getSystemService(AppWidgetManager.class);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.media.AudioManager".equals(this.className)) {
+            Object service = context.getSystemService(AudioManager.class);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.hardware.camera2.CameraManager".equals(this.className)) {
+            Object service = context.getSystemService(CameraManager.class);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.content.ContentResolver".equals(this.className)) {
+            this.resolvedClassName = context.getContentResolver().getClass().getName();
+
+        } else if ("android.content.pm.PackageManager".equals(this.className)) {
+            this.resolvedClassName = context.getPackageManager().getClass().getName();
+
+        } else if ("android.hardware.SensorManager".equals(this.className)) {
+            Object service = context.getSystemService(SensorManager.class);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.telephony.SmsManager".equals(this.className)) {
+            Object service = SmsManager.getDefault();
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.telephony.TelephonyManager".equals(this.className)) {
+            Object service = context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+
+        } else if ("android.net.wifi.WifiManager".equals(this.className)) {
+            Object service = context.getSystemService(Context.WIFI_SERVICE);
+            if (service != null)
+                this.resolvedClassName = service.getClass().getName();
+        }
     }
 
     // Read hook definitions from asset file
@@ -170,8 +225,7 @@ public class XHook {
                 JSONArray jarray = new JSONArray(json);
                 for (int i = 0; i < jarray.length(); i++) {
                     XHook hook = XHook.fromJSONObject(jarray.getJSONObject(i));
-                    if (Build.VERSION.SDK_INT < hook.getMinSdk() || Build.VERSION.SDK_INT > hook.getMaxSdk())
-                        continue;
+                    hook.builtin = true;
 
                     // Link script
                     String script = hook.getLuaScript();
@@ -184,7 +238,7 @@ public class XHook {
                             try {
                                 lis = zipFile.getInputStream(luaEntry);
                                 script = new Scanner(lis).useDelimiter("\\A").next();
-                                hook.setLuaScript(script);
+                                hook.luaScript = script;
                             } finally {
                                 if (lis != null)
                                     try {
@@ -192,63 +246,6 @@ public class XHook {
                                     } catch (IOException ignored) {
                                     }
                             }
-                        }
-                    }
-
-                    // Resolve class names
-                    if ("android.app.ActivityManager".equals(hook.className)) {
-                        Object service = context.getSystemService(ActivityManager.class);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.appwidget.AppWidgetManager".equals(hook.className)) {
-                        Object service = context.getSystemService(AppWidgetManager.class);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.media.AudioManager".equals(hook.className)) {
-                        Object service = context.getSystemService(AudioManager.class);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.hardware.camera2.CameraManager".equals(hook.className)) {
-                        Object service = context.getSystemService(CameraManager.class);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.content.ContentResolver".equals(hook.className)) {
-                        String className = context.getContentResolver().getClass().getName();
-                        hook.className = className;
-                    } else if ("android.content.pm.PackageManager".equals(hook.className)) {
-                        String className = context.getPackageManager().getClass().getName();
-                        hook.className = className;
-                    } else if ("android.hardware.SensorManager".equals(hook.className)) {
-                        Object service = context.getSystemService(SensorManager.class);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.telephony.SmsManager".equals(hook.className)) {
-                        Object service = SmsManager.getDefault();
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.telephony.TelephonyManager".equals(hook.className)) {
-                        Object service = context.getSystemService(Context.TELEPHONY_SERVICE);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
-                        }
-                    } else if ("android.net.wifi.WifiManager".equals(hook.className)) {
-                        Object service = context.getSystemService(Context.WIFI_SERVICE);
-                        if (service != null) {
-                            String className = service.getClass().getName();
-                            hook.className = className;
                         }
                     }
 
@@ -279,12 +276,15 @@ public class XHook {
     JSONObject toJSONObject() throws JSONException {
         JSONObject jroot = new JSONObject();
 
+        jroot.put("builtin", this.builtin);
         jroot.put("collection", this.collection);
         jroot.put("group", this.group);
         jroot.put("name", this.name);
         jroot.put("author", this.author);
 
         jroot.put("className", this.className);
+        if (this.resolvedClassName != null)
+            jroot.put("resolvedClassName", this.resolvedClassName);
         jroot.put("methodName", this.methodName);
 
         JSONArray jparam = new JSONArray();
@@ -318,12 +318,14 @@ public class XHook {
     static XHook fromJSONObject(JSONObject jroot) throws JSONException {
         XHook hook = new XHook();
 
+        hook.builtin = (jroot.has("builtin") ? jroot.getBoolean("builtin") : false);
         hook.collection = jroot.getString("collection");
         hook.group = jroot.getString("group");
         hook.name = jroot.getString("name");
         hook.author = jroot.getString("author");
 
         hook.className = jroot.getString("className");
+        hook.resolvedClassName = (jroot.has("resolvedClassName") ? jroot.getString("resolvedClassName") : null);
         hook.methodName = jroot.getString("methodName");
 
         JSONArray jparam = jroot.getJSONArray("parameterTypes");
