@@ -287,7 +287,7 @@ class XProvider {
                                         assignment.exception = cursor.getString(colException);
                                         app.assignments.add(assignment);
                                     }
-                                } else
+                                } else if (BuildConfig.DEBUG)
                                     Log.w(TAG, "Hook " + hookid + " not found");
                             }
                         } else
@@ -388,9 +388,9 @@ class XProvider {
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
-                                if (hook.isEnabled())
+                                if (hook.isEnabled() && hook.isPackageIncluded(packageName))
                                     result.addRow(new String[]{hook.toJSON()});
-                            } else
+                            } else if (BuildConfig.DEBUG)
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }
                     }

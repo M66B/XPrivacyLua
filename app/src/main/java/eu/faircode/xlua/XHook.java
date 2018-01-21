@@ -27,6 +27,7 @@ import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -55,6 +57,7 @@ public class XHook {
 
     private int minSdk;
     private int maxSdk;
+    private String[] excludePackages;
     private boolean enabled;
     private boolean optional;
     private boolean usage;
@@ -109,6 +112,21 @@ public class XHook {
 
     public int getMaxSdk() {
         return this.maxSdk;
+    }
+
+    public boolean isPackageIncluded(String packageName) {
+        boolean included = true;
+        if (this.excludePackages != null)
+            for (String excluded : this.excludePackages)
+                if (Pattern.matches(excluded, packageName)) {
+                    included = false;
+                    break;
+                }
+
+        if (!included)
+            Log.i(TAG, "Excluded " + this.getId() + " for " + packageName);
+
+        return included;
     }
 
     public boolean isEnabled() {
@@ -279,6 +297,10 @@ public class XHook {
 
         jroot.put("minSdk", this.minSdk);
         jroot.put("maxSdk", this.maxSdk);
+
+        if (this.excludePackages != null)
+            jroot.put("excludePackages", TextUtils.join(",", this.excludePackages));
+
         jroot.put("enabled", this.enabled);
         jroot.put("optional", this.optional);
         jroot.put("usage", this.usage);
@@ -313,6 +335,10 @@ public class XHook {
 
         hook.minSdk = jroot.getInt("minSdk");
         hook.maxSdk = (jroot.has("maxSdk") ? jroot.getInt("maxSdk") : 999);
+
+        hook.excludePackages = (jroot.has("excludePackages")
+                ? jroot.getString("excludePackages").split(",") : null);
+
         hook.enabled = (jroot.has("enabled") ? jroot.getBoolean("enabled") : true);
         hook.optional = (jroot.has("optional") ? jroot.getBoolean("optional") : false);
         hook.usage = (jroot.has("usage") ? jroot.getBoolean("usage") : true);
