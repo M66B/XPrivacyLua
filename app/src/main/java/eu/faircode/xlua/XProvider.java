@@ -573,7 +573,7 @@ class XProvider {
                         hook = hooks.get(hookid);
                 }
 
-                if (hook.doNotify()) {
+                if (hook != null && hook.doNotify()) {
                     // Get group name
                     String group = hookid;
                     if (hook != null) {
