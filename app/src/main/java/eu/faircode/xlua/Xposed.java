@@ -165,6 +165,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 Context context = (Context) mGetContext.invoke(param.thisObject);
                                 getModuleVersion(context);
                                 param.setResult(XProvider.call(context, arg, extras));
+                            } catch (IllegalArgumentException ex) {
+                                Log.i(TAG, "Error: " + ex.getMessage());
+                                param.setThrowable(ex);
                             } catch (Throwable ex) {
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);

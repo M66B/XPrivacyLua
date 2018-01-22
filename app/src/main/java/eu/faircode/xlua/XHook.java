@@ -70,6 +70,25 @@ public class XHook {
     private XHook() {
     }
 
+    public void validate() {
+        if (TextUtils.isEmpty(this.collection))
+            throw new IllegalArgumentException("collection missing");
+        if (TextUtils.isEmpty(this.group))
+            throw new IllegalArgumentException("group missing");
+        if (TextUtils.isEmpty(this.name))
+            throw new IllegalArgumentException("name missing");
+        if (TextUtils.isEmpty(this.author))
+            throw new IllegalArgumentException("author missing");
+        if (TextUtils.isEmpty(this.className))
+            throw new IllegalArgumentException("class name missing");
+        if (TextUtils.isEmpty(this.methodName))
+            throw new IllegalArgumentException("method name missing");
+        if (parameterTypes == null)
+            throw new IllegalArgumentException("parameter types missing");
+        if (TextUtils.isEmpty(this.luaScript))
+            throw new IllegalArgumentException("Lua script missing");
+    }
+
     public String getId() {
         return this.collection + "." + this.name;
     }

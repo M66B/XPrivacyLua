@@ -39,6 +39,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Process;
+import android.os.RemoteException;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.Log;
@@ -64,22 +65,34 @@ class XProvider {
     private static ReentrantReadWriteLock dbLock = new ReentrantReadWriteLock(true);
 
     private static Map<String, XHook> hooks = null;
+    private static Map<String, XHook> builtins = null;
 
     final static String cChannelName = "xlua";
 
     static Uri URI = Settings.System.CONTENT_URI;
     static String ACTION_DATA_CHANGED = XProvider.class.getPackage().getName() + ".DATA_CHANGED";
 
-    static void loadData(Context context) throws Throwable {
-        synchronized (lock) {
-            if (db == null)
-                db = getDatabase();
-            if (hooks == null)
-                hooks = loadHooks(context);
+    static void loadData(Context context) throws RemoteException {
+        try {
+            synchronized (lock) {
+                if (db == null)
+                    db = getDatabase();
+                if (hooks == null) {
+                    hooks = loadHooks(context);
+                    builtins = new HashMap<>();
+                    for (XHook hook : hooks.values())
+                        if (hook.isBuiltin())
+                            builtins.put(hook.getId(), hook);
+                }
+            }
+        } catch (RemoteException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            throw new RemoteException(ex.getMessage());
         }
     }
 
-    static Bundle call(Context context, String method, Bundle extras) throws Throwable {
+    static Bundle call(Context context, String method, Bundle extras) throws RemoteException, IllegalArgumentException {
         loadData(context);
 
         Bundle result = null;
@@ -116,6 +129,12 @@ class XProvider {
                     result = clearData(context, extras);
                     break;
             }
+        } catch (IllegalArgumentException ex) {
+            throw ex;
+        } catch (RemoteException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            throw new RemoteException(ex.getMessage());
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
         }
@@ -128,7 +147,7 @@ class XProvider {
         return result;
     }
 
-    static Cursor query(Context context, String method, String[] selection) throws Throwable {
+    static Cursor query(Context context, String method, String[] selection) throws RemoteException {
         loadData(context);
 
         Cursor result = null;
@@ -150,6 +169,10 @@ class XProvider {
                     result = getSettings(context, selection);
                     break;
             }
+        } catch (RemoteException ex) {
+            throw ex;
+        } catch (Throwable ex) {
+            throw new RemoteException(ex.getMessage());
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
         }
@@ -171,41 +194,50 @@ class XProvider {
         String id = extras.getString("id");
         String definition = extras.getString("definition");
         if (id == null)
-            throw new IllegalArgumentException();
-        XHook hook = null;
-        if (definition != null) {
-            hook = XHook.fromJSON(definition);
+            throw new IllegalArgumentException("id missing");
+
+        // Get hook
+        XHook hook = (definition == null ? null : XHook.fromJSON(definition));
+        if (hook != null) {
+            hook.validate();
             if (!id.equals(hook.getId()))
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("id mismatch");
         }
 
         // Cache hook
         synchronized (lock) {
-            if (definition == null)
+            if (hook == null) {
+                if (hooks.containsKey(id) && hooks.get(id).isBuiltin())
+                    throw new IllegalArgumentException("builtin");
                 hooks.remove(id);
-            else {
+                if (builtins.containsKey(id)) {
+                    XHook builtin = builtins.get(id);
+                    builtin.resolveClassName(context);
+                    hooks.put(id, builtin);
+                }
+            } else {
                 hook.resolveClassName(context);
                 hooks.put(id, hook);
             }
         }
 
         // Persist define hook
-        if (!hook.isBuiltin()) {
+        if (hook == null || !hook.isBuiltin()) {
             dbLock.writeLock().lock();
             try {
                 db.beginTransaction();
                 try {
-                    if (definition == null) {
+                    if (hook == null) {
                         long rows = db.delete("hook", "id = ?", new String[]{id});
                         if (rows < 0)
-                            throw new Throwable("Error deleting hook definition");
+                            throw new Throwable("Error deleting hook");
                     } else {
                         ContentValues cv = new ContentValues();
                         cv.put("id", id);
-                        cv.put("definition", definition);
+                        cv.put("definition", hook.toJSON());
                         long rows = db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting hook definition");
+                            throw new Throwable("Error inserting hook");
                     }
 
                     db.setTransactionSuccessful();
@@ -413,7 +445,7 @@ class XProvider {
 
     private static Cursor getAssignedHooks(Context context, String[] selection) throws Throwable {
         if (selection == null || selection.length != 2)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("selection invalid");
 
         String packageName = selection[0];
         int uid = Integer.parseInt(selection[1]);
@@ -461,7 +493,7 @@ class XProvider {
 
     private static Cursor getSettings(Context context, String[] selection) throws Throwable {
         if (selection == null || selection.length != 2)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("selection invalid");
 
         String packageName = selection[0];
         int uid = Integer.parseInt(selection[1]);
@@ -923,7 +955,7 @@ class XProvider {
         return result;
     }
 
-    private static SQLiteDatabase getDatabase() {
+    private static SQLiteDatabase getDatabase() throws Throwable {
         // Build database file
         File dbFile = new File(
                 Environment.getDataDirectory() + File.separator +
