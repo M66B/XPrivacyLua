@@ -1423,6 +1423,7 @@
     ],
     "returnType": "void",
     "minSdk": 3,
+    "notify": true,
     "luaScript": "@generic_block_method"
   },
   {
@@ -1437,6 +1438,7 @@
     ],
     "returnType": "void",
     "minSdk": 16,
+    "notify": true,
     "luaScript": "@generic_block_method"
   },
   {
