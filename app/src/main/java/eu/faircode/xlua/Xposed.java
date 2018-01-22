@@ -345,6 +345,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     throw ex;
                             }
 
+                            if (paramTypes.length > 0)
+                                throw new NoSuchFieldException("Field with parameters");
+
                             // Initialize Lua runtime
                             Globals globals = getGlobals(lpparam, uid, hook);
                             LuaClosure closure = new LuaClosure(compiledScript, globals);
