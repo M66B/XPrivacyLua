@@ -239,8 +239,22 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(boolean showAll, String query, List<XHook> hooks, List<XApp> apps) {
-        Log.i(TAG, "Set all=" + showAll + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
+    void set(boolean showAll, String query, List<XHook> hooks, List<XApp> apps, String packageName, int uid) {
+        Log.i(TAG, "Set all=" + showAll + " query=" + query +
+                " hooks=" + hooks.size() + " apps=" + apps.size() +
+                " pkg=" + packageName + ":" + uid);
+
+        if (packageName != null) {
+            List<XApp> updated = new ArrayList<>();
+            for (XApp app : apps)
+                if (app.uid == uid && packageName.equals(app.packageName))
+                    updated.add(app);
+            for (XApp app : this.all)
+                if (app.uid != uid && !packageName.equals(app.packageName))
+                    updated.add(app);
+            apps = updated;
+        }
+
         this.showAll = showAll;
         this.query = query;
         this.newHooks = hooks;
@@ -435,7 +449,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         holder.ivPersistent.setVisibility(app.persistent ? View.VISIBLE : View.GONE);
 
         // Assignment info
-        Log.i(TAG, app.packageName + "=" + app.assignments.size());
         holder.cbAssigned.setChecked(app.assignments.size() > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
                 app.assignments.size() == hooks.size()

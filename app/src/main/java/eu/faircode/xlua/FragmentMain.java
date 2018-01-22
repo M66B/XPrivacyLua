@@ -111,7 +111,7 @@ public class FragmentMain extends Fragment {
                     spGroup.setTag(group);
                     pbApplication.setVisibility(View.VISIBLE);
                     grpApplication.setVisibility(View.GONE);
-                    loadData();
+                    loadData(null, -1);
                 }
             }
         });
@@ -133,7 +133,7 @@ public class FragmentMain extends Fragment {
         ifPackage.addDataScheme("package");
         getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
-        loadData();
+        loadData(null, -1);
     }
 
     @Override
@@ -156,13 +156,15 @@ public class FragmentMain extends Fragment {
             rvAdapter.getFilter().filter(query);
     }
 
-    private void loadData() {
+    private void loadData(String packageName, int uid) {
         XGroup selected = (XGroup) spGroup.getSelectedItem();
         String group = (selected == null ? null : selected.name);
 
         Log.i(TAG, "Starting data loader group=" + group);
         Bundle args = new Bundle();
         args.putString("group", group);
+        args.putString("packageName", packageName);
+        args.putInt("uid", uid);
         getActivity().getSupportLoaderManager().restartLoader(
                 ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
     }
@@ -171,7 +173,10 @@ public class FragmentMain extends Fragment {
         @Override
         public Loader<DataHolder> onCreateLoader(int id, Bundle args) {
             DataLoader loader = new DataLoader(getContext());
-            loader.setData(args.getString("group"));
+            loader.setData(
+                    args.getString("group"),
+                    args.getString("packageName"),
+                    args.getInt("uid"));
             return loader;
         }
 
@@ -181,7 +186,7 @@ public class FragmentMain extends Fragment {
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
                 spAdapter.notifyDataSetChanged();
-                rvAdapter.set(showAll, query, data.hooks, data.apps);
+                rvAdapter.set(showAll, query, data.hooks, data.apps, data.packageName, data.uid);
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
             } else {
@@ -198,14 +203,18 @@ public class FragmentMain extends Fragment {
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
         private String group;
+        private String packageName;
+        private int uid;
 
         DataLoader(Context context) {
             super(context);
             setUpdateThrottle(1000);
         }
 
-        void setData(String group) {
+        void setData(String group, String packageName, int uid) {
             this.group = group;
+            this.packageName = packageName;
+            this.uid = uid;
         }
 
         @Nullable
@@ -213,6 +222,8 @@ public class FragmentMain extends Fragment {
         public DataHolder loadInBackground() {
             Log.i(TAG, "Data loader started");
             DataHolder data = new DataHolder();
+            data.packageName = packageName;
+            data.uid = uid;
             try {
                 // Define hooks
                 if (BuildConfig.DEBUG) {
@@ -304,7 +315,10 @@ public class FragmentMain extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            loadData();
+            String packageName = intent.getStringExtra("packageName");
+            int uid = intent.getIntExtra("uid", -1);
+            Log.i(TAG, "pkg=" + packageName + ":" + uid);
+            loadData(null, -1);
         }
     };
 
@@ -312,11 +326,16 @@ public class FragmentMain extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            loadData();
+            String packageName = intent.getData().getSchemeSpecificPart();
+            int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+            Log.i(TAG, "pkg=" + packageName + ":" + uid);
+            loadData(packageName, uid);
         }
     };
 
     private static class DataHolder {
+        String packageName;
+        int uid;
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();
