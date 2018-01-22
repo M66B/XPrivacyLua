@@ -88,6 +88,11 @@ You can enable the new hooks by toggling the check box once (turning it off and 
 In general XPrivacyLua and XPrivacy are comparable in protecting your privacy.
 For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPrivacyLua/blob/master/XPRIVACY.md).
 
+<a name="FAQ8"></a>
+**(8) How can I define custom restrictions?**
+
+See [here](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) for the documenation.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
