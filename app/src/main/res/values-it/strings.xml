@@ -3,16 +3,16 @@
 <resources>
   <string name="title_accept">Accetto</string>
   <string name="title_deny">Non accetto</string>
-  <string name="title_all">All</string>
+  <string name="title_fix">Fix</string>
+  <string name="title_all">Tutte</string>
   <string name="title_restrict">Restringere</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
-    </string>
+Clicca sull\'icona o il nome di un\'applicazione e seleziona le restrizioni per applicarle.
+Se possibile, le applicazioni vengono chiuse automaticamente per applicare (o rimuovere) le restrizioni immediatamente,
+Ma l\'applicazione delle restrizioni ad alcune applicazioni richiede un riavvio del dispositivo (vedi le icone qui sotto).
+<![CDATA[<br><br>]]>Premi a lungo sul nome o sull\'icona di un\'applicazione per avviarla.
+<![CDATA[<br><br>]]>Vedi<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">qui</a>]]> per la documentazione
+e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui</a>]]> per le FAQ.    </string>
   <string name="title_help_installed">Restrizione applicata</string>
   <string name="title_help_system">Applicare le restrizioni può dare problemi</string>
   <string name="title_help_settings">Impostazioni delle restrizioni dell\'app</string>

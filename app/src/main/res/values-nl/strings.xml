@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">Ik ga akkoord</string>
   <string name="title_deny">Ik ga niet akkoord</string>
+  <string name="title_fix">Fix</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Beperk</string>
   <string name="title_help_instructions">Klik op een app icoon of naam en vink een beperking aan om deze toe te passen.

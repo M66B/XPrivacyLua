@@ -3,6 +3,7 @@
 <resources>
   <string name="title_accept">אני מסכים</string>
   <string name="title_deny">אני מסרב</string>
+  <string name="title_fix">Fix</string>
   <string name="title_all">All</string>
   <string name="title_restrict">הגבל</string>
   <string name="title_help_instructions">
@@ -10,8 +11,8 @@
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
         but applying restrictions to some apps requires a device restart (see icons below).
         <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
+        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
+        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
     </string>
   <string name="title_help_installed">הגבלה הושמה</string>
   <string name="title_help_system">Applying restrictions can result in problems</string>

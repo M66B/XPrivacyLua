@@ -3,15 +3,14 @@
 <resources>
   <string name="title_accept">Ich stimme zu</string>
   <string name="title_deny">Ich lehne ab</string>
-  <string name="title_all">All</string>
+  <string name="title_fix">Fix</string>
+  <string name="title_all">Alle</string>
   <string name="title_restrict">Beschränken</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">here</a>]]> for the documentation
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">here</a>]]> for frequently asked question.
+Tippen Sie auf ein App-Symbol oder einen App-Namen und aktivieren Sie eine Beschränkung, um diese anzuwenden.
+Wenn möglich werden Apps automatisch gestoppt, um die Beschränkungen sofort anzuwenden (oder zu entfernen), allerdings erfordert das Beschränken von manchen Apps einen Geräteneustart (siehe Symbole unten).
+<![CDATA[<br><br>]]>Den App-Namen oder Symbol lange gedrückt halten um die App zu starten.
+<![CDATA[<br><br>]]>Bitte <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">hier</a>]]>; für das Handbuch oder <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hier</a>]]> für häufig gestellte Fragen klicken.
     </string>
   <string name="title_help_installed">Beschränkung installiert</string>
   <string name="title_help_system">Beschränkungen können zu Problemen führen</string>
