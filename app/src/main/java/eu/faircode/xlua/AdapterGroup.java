@@ -98,7 +98,10 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                                 sb.append("<b>");
                                 sb.append(Html.escapeHtml(assignment.hook.getId()));
                                 sb.append("</b><br>");
-                                sb.append(Html.escapeHtml(assignment.exception).replace("\n", "<br>"));
+                                for (String line : assignment.exception.split("\n")) {
+                                    sb.append(Html.escapeHtml(line));
+                                    sb.append("<br>");
+                                }
                                 sb.append("<br>");
                             }
 

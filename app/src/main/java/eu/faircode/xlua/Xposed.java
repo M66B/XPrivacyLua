@@ -438,12 +438,38 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                                         }
                                     } catch (Throwable ex) {
-                                        Log.e(TAG, Log.getStackTraceString(ex));
+                                        StringBuilder sb = new StringBuilder();
+                                        if (ex instanceof LuaError)
+                                            sb.append(ex.getMessage());
+                                        else
+                                            sb.append(Log.getStackTraceString(ex));
+
+                                        sb.append("\n\nMethod:\n");
+                                        sb.append(method.toString());
+
+                                        sb.append("\n\nArguments:\n");
+                                        if (param.args != null)
+                                            for (int i = 0; i < param.args.length; i++) {
+                                                sb.append("arg #");
+                                                sb.append(i);
+                                                sb.append(' ');
+                                                if (param.args[i] == null)
+                                                    sb.append("null");
+                                                else {
+                                                    sb.append(param.args[i].toString());
+                                                    sb.append(" (");
+                                                    sb.append(param.args[i].getClass().getName());
+                                                    sb.append(')');
+                                                }
+                                                sb.append("\n");
+                                            }
+
+                                        Log.e(TAG, sb.toString());
 
                                         // Report use error
                                         Bundle data = new Bundle();
                                         data.putString("function", function);
-                                        data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
+                                        data.putString("exception", sb.toString());
                                         report(context, hook.getId(), lpparam.packageName, uid, "use", data);
                                     }
                                 }
