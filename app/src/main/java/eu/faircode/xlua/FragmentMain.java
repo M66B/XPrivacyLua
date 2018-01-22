@@ -178,8 +178,9 @@ public class FragmentMain extends Fragment {
         @Override
         public void onLoadFinished(Loader<DataHolder> loader, DataHolder data) {
             if (data.exception == null) {
-                if (spAdapter.getCount() == 0)
-                    spAdapter.addAll(data.groups);
+                spAdapter.clear();
+                spAdapter.addAll(data.groups);
+                spAdapter.notifyDataSetChanged();
                 rvAdapter.set(showAll, query, data.hooks, data.apps);
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
