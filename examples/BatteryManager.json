@@ -1,0 +1,14 @@
+  {
+    "collection": "Privacy",
+    "group": "Get.Battery",
+    "name": "Intent.createFromParcel/battery",
+    "author": "M66B",
+    "className": "android.content.Intent",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.content.Intent",
+    "minSdk": 1,
+    "luaScript": "function after(hook, param)\r\n    local intent = param:getResult()\r\n    if intent == nil then\r\n        return false\r\n    end\r\n\r\n    local action = intent:getAction()\r\n    if action == nil then\r\n        return false\r\n    end\r\n\r\n    if action == 'android.intent.action.BATTERY_CHANGED' then\r\n        local fake = 0\r\n        intent:putExtra('voltage', fake)\r\n        intent:putExtra('temperature', fake)\r\n        return true\r\n    else\r\n        return false\r\n    end\r\nend\r\n"
+  },

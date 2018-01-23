@@ -1,0 +1,18 @@
+{
+  "builtin": false,
+  "collection": "Privacy",
+  "group": "Read.Device",
+  "name": "Build.FINGERPRINT",
+  "author": "M66B",
+  "className": "android.os.Build",
+  "methodName": "#FINGERPRINT",
+  "parameterTypes": [],
+  "returnType": "java.lang.String",
+  "minSdk": 1,
+  "maxSdk": 999,
+  "enabled": true,
+  "optional": false,
+  "usage": true,
+  "notify": false,
+  "luaScript": "function after(hook, param)\n  param:setResult(\"unknown\")\n  return true\nend\n"
+}
