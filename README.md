@@ -31,7 +31,7 @@ Restrictions
 * Read identifiers (fake build serial number, Android ID, advertising ID)
 * Read notifications (fake status bar notifications)
 * Read network data (hide cell info, Wi-Fi networks, fake Wi-Fi network name)
-* Read sync data (hide sync data, like contacts, see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
+* Read sync data (hide sync data, like calendars, contacts, etc, see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
 * Read telephony data (fake IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
