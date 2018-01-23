@@ -47,7 +47,10 @@ function after(hook, param)
     end
 
     if result:hasAccuracy() then
-        latitude, longitude = randomoffset(latitude, longitude, result:getAccuracy())
+        local accuracy = result:getAccuracy()
+        if accuracy > 0 then
+            latitude, longitude = randomoffset(latitude, longitude, accuracy)
+        end
     end
 
     result:setLatitude(latitude)
