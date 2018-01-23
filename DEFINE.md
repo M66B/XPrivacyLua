@@ -66,6 +66,18 @@ The function will always have exacty two parameters:
 
 These functions should return *true* when something was restricted and *false* otherwise.
 
+You can also modify field values by prefixing the method name by a # character, for example
+
+```
+  "methodName": "#SERIAL"
+```
+
+Another special case is hooking a method of a field by using the syntax *[field name]:[method name]*, for example
+
+```
+  "methodName": "CREATOR:createFromParcel"
+```
+
 An error in the definition, like class or method not found or a compile time or run time error in the Lua script will result in a status bar notification.
 
 Using the companion you can edit built-in definitions, which will result in making a copy of the definition.
