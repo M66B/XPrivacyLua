@@ -442,20 +442,35 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         }
                                     } catch (Throwable ex) {
                                         StringBuilder sb = new StringBuilder();
+
+                                        sb.append("\nException:\n");
                                         if (ex instanceof LuaError)
                                             sb.append(ex.getMessage());
                                         else
                                             sb.append(Log.getStackTraceString(ex));
+                                        sb.append("\n");
 
-                                        sb.append("\n\nMethod:\n");
+                                        sb.append("\nPackage:\n");
+                                        sb.append(lpparam.packageName);
+                                        sb.append(':');
+                                        sb.append(Integer.toString(uid));
+                                        sb.append("\n");
+                                        sb.append(lpparam.processName);
+                                        sb.append("\n");
+
+                                        sb.append("\nMethod:\n");
+                                        sb.append(function);
+                                        sb.append(' ');
                                         sb.append(method.toString());
+                                        sb.append("\n");
 
-                                        sb.append("\n\nArguments:\n");
-                                        if (param.args != null)
+                                        sb.append("\nArguments:\n");
+                                        if (param.args == null)
+                                            sb.append("null\n");
+                                        else
                                             for (int i = 0; i < param.args.length; i++) {
-                                                sb.append("arg #");
                                                 sb.append(i);
-                                                sb.append(' ');
+                                                sb.append(": ");
                                                 if (param.args[i] == null)
                                                     sb.append("null");
                                                 else {
@@ -466,6 +481,17 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                                 }
                                                 sb.append("\n");
                                             }
+
+                                        sb.append("\nReturn:\n");
+                                        if (param.getResult() == null)
+                                            sb.append("null");
+                                        else {
+                                            sb.append(param.getResult().toString());
+                                            sb.append(" (");
+                                            sb.append(param.getResult().getClass().getName());
+                                            sb.append(')');
+                                        }
+                                        sb.append("\n");
 
                                         Log.e(TAG, sb.toString());
 

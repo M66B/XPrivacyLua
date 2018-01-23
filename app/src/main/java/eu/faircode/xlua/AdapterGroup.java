@@ -97,12 +97,12 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
                             if (assignment.exception != null) {
                                 sb.append("<b>");
                                 sb.append(Html.escapeHtml(assignment.hook.getId()));
-                                sb.append("</b><br>");
+                                sb.append("</b><br><br>");
                                 for (String line : assignment.exception.split("\n")) {
                                     sb.append(Html.escapeHtml(line));
                                     sb.append("<br>");
                                 }
-                                sb.append("<br>");
+                                sb.append("<br><br>");
                             }
 
                     LayoutInflater inflater = LayoutInflater.from(view.getContext());
