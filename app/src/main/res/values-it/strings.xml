@@ -3,7 +3,7 @@
 <resources>
   <string name="title_accept">Accetto</string>
   <string name="title_deny">Non accetto</string>
-  <string name="title_fix">Fix</string>
+  <string name="title_fix">Risolvi</string>
   <string name="title_all">Tutte</string>
   <string name="title_restrict">Restringere</string>
   <string name="title_help_instructions">

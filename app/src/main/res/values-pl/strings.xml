@@ -3,19 +3,19 @@
 <resources>
   <string name="title_accept">Akceptuję</string>
   <string name="title_deny">Odmawiam</string>
-  <string name="title_fix">Fix</string>
-  <string name="title_all">All</string>
+  <string name="title_fix">Napraw</string>
+  <string name="title_all">Wszystkie</string>
   <string name="title_restrict">Ogranicz</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
+        Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenia, aby je zastosować.
+        Jeśli to możliwe, aplikacje są automatycznie zatrzymywane w celu natychmiastowego zastosowania (lub usunięcia) ograniczeń,
+        ale stosowanie ograniczeń dla niektórych aplikacji może wymagać uruchomienia ponownego (zobacz ikony poniżej).
+        <![CDATA[<br><br>]]>Przytrzymaj ikonę lub nazwę aplikacji, aby ją uruchomić.
+        <![CDATA[<br><br>]]>Zobacz <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">dokumentację</a>]]>
+        i <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">często zadawane pytania</a>]]>, aby uzyskać więcej informacji.
     </string>
   <string name="title_help_installed">Ograniczenie zastosowane</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
+  <string name="title_help_system">Stosowanie ograniczeń może powodować problemy</string>
   <string name="title_help_settings">Ustawienia ograniczeń aplikacji</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
   <string name="title_help_exception">Zastosowanie ograniczenia nie powiodło się (dotknij ikonę, aby dowiedzieć się dlaczego)</string>
@@ -29,7 +29,7 @@
   <string name="msg_review_settings">Przejrzyj ustawienia prywatności</string>
   <string name="msg_usage">Ograniczono \'%1$s\'</string>
   <string name="msg_exception">Błąd w %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
+  <string name="group_determine_activity">Określanie aktywności</string>
   <string name="group_get_applications">Odczyt aplikacji</string>
   <string name="group_get_calendars">Dostęp do kalendarza</string>
   <string name="group_get_call_log">Odczyt historii rozmów</string>
@@ -40,12 +40,12 @@
   <string name="group_read_account">Odczyt nazwy konta</string>
   <string name="group_read_clipboard">Odczyt schowka</string>
   <string name="group_read_identifiers">Odczyt identyfikatorów</string>
-  <string name="group_read_network">Read network data</string>
-  <string name="group_read_notifications">Read notifications</string>
-  <string name="group_read_sync">Read sync data</string>
+  <string name="group_read_network">Odczyt danych sieci</string>
+  <string name="group_read_notifications">Odczyt powiadomień</string>
+  <string name="group_read_sync">Odczyt danych synchronizacji</string>
   <string name="group_read_telephony">Odczyt danych telefonu</string>
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>
-  <string name="group_send_messages">Send messages</string>
+  <string name="group_send_messages">Wysyłanie wiadomości</string>
   <string name="group_use_camera">Użycie aparatu</string>
 </resources>
