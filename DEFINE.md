@@ -71,7 +71,7 @@ The function will always have exacty two parameters:
 
 The before/after function should return *true* when something was restricted and *false* otherwise.
 
-You can also modify field values by prefixing the method name with a # character, for example
+You can also modify field values in an after function by prefixing the method name with a # character, for example
 
 ```
   "methodName": "#SERIAL"
