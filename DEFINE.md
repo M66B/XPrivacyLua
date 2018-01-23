@@ -10,35 +10,35 @@ The *where to hook* is described as:
 * Which [class](https://developer.android.com/reference/java/lang/Class.html)
 * Which [method](https://developer.android.com/reference/java/lang/reflect/Method.html)
 
-See [here](https://github.com/rovo89/XposedBridge/wiki/Development-tutorial#exploring-your-target-and-finding-a-way-to-modify-it) about finding out where to hook.
+In the well documented [Android API](https://developer.android.com/reference/packages.html) you can find class and method names.
+For more advanced hooks, see [here](https://github.com/rovo89/XposedBridge/wiki/Development-tutorial#exploring-your-target-and-finding-a-way-to-modify-it).
 
 The *what to do when the hook executes* is described in the form of a [Lua](https://www.lua.org/pil/contents.html) script.
 
 Unlike normal Xposed hooks, defined hooks can be added and updated at run time, with the big advantage that there is no reboot required to test a new or changed hook
 (with the exception of persistent system apps).
 
-Hook definitions are [JSON](https://en.wikipedia.org/wiki/JSON) formatted. A simple example:
+Hook definitions are [JSON](https://en.wikipedia.org/wiki/JSON) formatted. An example:
 
-```
+```JSON
 {
+  "builtin": true,
   "collection": "Privacy",
-  "group": "Read.Device",
-  "name": "Build.FINGERPRINT",
+  "group": "Read.Telephony",
+  "name": "TelephonyManager\/getDeviceId",
   "author": "M66B",
-
-  "className": "android.os.Build",
-  "methodName": "#FINGERPRINT",
+  "className": "android.telephony.TelephonyManager",
+  "resolvedClassName": "android.telephony.TelephonyManager",
+  "methodName": "getDeviceId",
   "parameterTypes": [],
   "returnType": "java.lang.String",
-
   "minSdk": 1,
   "maxSdk": 999,
   "enabled": true,
   "optional": false,
   "usage": true,
   "notify": false,
-
-  "luaScript": "function after(hook, param)\n  param:setResult(\"unknown\")\n  return true\nend\n"
+  "luaScript": "function after(hook, param)\n    local result = param:getResult()\n    if result == nil then\n        return false\n    end\n\n    param:setResult(null)\n    return true\nend\n"
 }
 ```
 
@@ -51,22 +51,27 @@ Hook definitions are [JSON](https://en.wikipedia.org/wiki/JSON) formatted. A sim
 
 The Lua script from the above definition without the JSON escapes looks like this:
 
-```
+```Lua
 function after(hook, param)
-  param:setResult("unknown")
-  return true
+    local result = param:getResult()
+    if result == nil then
+        return false
+    end
+
+    param:setResult(null)
+    return true
 end
 ```
 
-There should be a *before* and/or and *after* function, which will be executed before/after the original method is executed.
+There should be a *before* and/or an *after* function, which will be executed before/after the original method is executed.
 The function will always have exacty two parameters:
 
 * *hook*: information about the hooked method, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XHook.java) for the available public methods
 * *param*: information about the current parameters, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
 
-These functions should return *true* when something was restricted and *false* otherwise.
+The before/after function should return *true* when something was restricted and *false* otherwise.
 
-You can also modify field values by prefixing the method name by a # character, for example
+You can also modify field values by prefixing the method name with a # character, for example
 
 ```
   "methodName": "#SERIAL"
@@ -80,8 +85,11 @@ Another special case is hooking a method of a field by using the syntax *[field 
 
 An error in the definition, like class or method not found or a compile time or run time error in the Lua script will result in a status bar notification.
 
-Using the companion you can edit built-in definitions, which will result in making a copy of the definition.
-You could for example enable notifications or change the returned fake value.
+Using the companion app you can edit built-in definitions, which will result in making a copy of the definition.
+You could for example enable usage notifications or change returned fake values.
 Deleting copied definitions will restore the built-in definitions.
 
-The companion app can export and import definitions.
+The companion app can also export and import definitions, making it easy to use definitions provided by others.
+
+You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
+and the built-in definition [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
