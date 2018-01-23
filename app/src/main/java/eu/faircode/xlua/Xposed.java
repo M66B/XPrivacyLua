@@ -36,6 +36,7 @@ import android.util.Log;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Prototype;
 import org.luaj.vm2.Varargs;
@@ -58,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.WeakHashMap;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -395,6 +397,8 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Hook method
                             XposedBridge.hookMethod(method, new XC_MethodHook() {
+                                WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
+
                                 @Override
                                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                     execute(param, "before");
@@ -411,7 +415,13 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         long run = SystemClock.elapsedRealtime();
 
                                         // Initialize Lua runtime
-                                        Globals globals = getGlobals(lpparam, uid, hook);
+                                        Globals globals;
+                                        synchronized (threadGlobals) {
+                                            Thread thread = Thread.currentThread();
+                                            if (!threadGlobals.containsKey(thread))
+                                                threadGlobals.put(thread, getGlobals(lpparam, uid, hook));
+                                            globals = threadGlobals.get(thread);
+                                        }
                                         LuaClosure closure = new LuaClosure(compiledScript, globals);
                                         closure.call();
 
@@ -443,7 +453,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     } catch (Throwable ex) {
                                         StringBuilder sb = new StringBuilder();
 
-                                        sb.append("\nException:\n");
+                                        sb.append("Exception:\n");
                                         if (ex instanceof LuaError)
                                             sb.append(ex.getMessage());
                                         else
@@ -694,6 +704,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     private static Globals getGlobals(XC_LoadPackage.LoadPackageParam lpparam, int uid, XHook hook) {
         Globals globals = JsePlatform.standardGlobals();
+        // base, bit32, coroutine, io, math, os, package, string, table, luajava
 
         if (BuildConfig.DEBUG)
             globals.load(new DebugLib());
@@ -702,7 +713,44 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         globals.set("getPrivateField", new LuaGetPrivateField());
         globals.set("invokePrivateMethod", new LuaInvokePrivateMethod());
 
-        return globals;
+        return new LuaLocals(globals);
+    }
+
+    private static class LuaLocals extends Globals {
+        LuaLocals(Globals globals) {
+            this.presize(globals.length(), 0);
+            Varargs entry = globals.next(LuaValue.NIL);
+            while (!entry.arg1().isnil()) {
+                LuaValue key = entry.arg1();
+                LuaValue value = entry.arg(2);
+                super.rawset(key, value);
+                entry = globals.next(entry.arg1());
+            }
+        }
+
+        @Override
+        public void set(int key, LuaValue value) {
+            if (value.isfunction())
+                super.set(key, value);
+            else
+                error("Globals not allowed: set " + value);
+        }
+
+        @Override
+        public void rawset(int key, LuaValue value) {
+            if (value.isfunction())
+                super.rawset(key, value);
+            else
+                error("Globals not allowed: rawset " + value);
+        }
+
+        @Override
+        public void rawset(LuaValue key, LuaValue value) {
+            if (value.isfunction())
+                super.rawset(key, value);
+            else
+                error("Globals not allowed: " + key + "=" + value);
+        }
     }
 
     private static class LuaLog extends OneArgFunction {
