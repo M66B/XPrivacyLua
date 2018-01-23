@@ -397,7 +397,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Hook method
                             XposedBridge.hookMethod(method, new XC_MethodHook() {
-                                WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
+                                private WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
 
                                 @Override
                                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -431,7 +431,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             return;
 
                                         // Run function
-                                        Varargs result = func.invoke(
+                                        LuaValue result = func.call(
                                                 CoerceJavaToLua.coerce(hook),
                                                 CoerceJavaToLua.coerce(new XParam(
                                                         lpparam.packageName, uid,
@@ -442,7 +442,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         );
 
                                         // Report use
-                                        boolean restricted = result.arg1().checkboolean();
+                                        boolean restricted = result.checkboolean();
                                         if (restricted) {
                                             Bundle data = new Bundle();
                                             data.putString("function", function);
