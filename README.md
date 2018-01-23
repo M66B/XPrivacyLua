@@ -18,7 +18,7 @@ Features
 Restrictions
 ------------
 
-* Determine activity (fake activity, see [here](https://developers.google.com/location-context/activity-recognition/))
+* Determine activity (fake unknown activity, see [here](https://developers.google.com/location-context/activity-recognition/))
 * Get applications (hide installed apps)
 * Get calendars (hide calendars)
 * Get call log (hide call log)
@@ -31,12 +31,17 @@ Restrictions
 * Read identifiers (fake build serial number, Android ID, advertising ID)
 * Read notifications (fake status bar notifications)
 * Read network data (hide cell info, Wi-Fi networks, fake Wi-Fi network name)
-* Read sync data (hide sync data, see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
+* Read sync data (hide sync data, like contacts, see [here](https://developer.android.com/training/sync-adapters/creating-sync-adapter.html))
 * Read telephony data (fake IMEI, MEI, SIM serial number, voicemail number, etc)
 * Record audio (prevent recording)
 * Record video (prevent recording)
 * Send messages (prevent sending MMS, SMS, data)
-* Use camera (fake camera not available)
+* Use camera (fake camera not available and/or hide cameras)
+
+Hide or fake?
+
+* Hide: return empty list
+* Fake: return empty or fixed fake value
 
 You can see all technical details [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json).
 
