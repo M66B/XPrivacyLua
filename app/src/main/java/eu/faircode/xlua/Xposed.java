@@ -315,6 +315,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 throw ex;
                         }
 
+                        // Handle field method
                         String[] m = hook.getMethodName().split(":");
                         if (m.length > 1) {
                             Field field = cls.getField(m[0]);
@@ -332,6 +333,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Get return type
                         final Class<?> returnType = (hook.getReturnType() == null ? null :
                                 resolveClass(hook.getReturnType(), lpparam.classLoader));
+
+                        // Prevent threading problems
+                        final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
 
                         if (methodName.startsWith("#")) {
                             // Get field
@@ -362,7 +366,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Run function
                             Varargs result = func.invoke(
-                                    CoerceJavaToLua.coerce(hook),
+                                    coercedHook,
                                     CoerceJavaToLua.coerce(new XParam(
                                             lpparam.packageName, uid,
                                             field,
@@ -432,7 +436,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                         // Run function
                                         LuaValue result = func.call(
-                                                CoerceJavaToLua.coerce(hook),
+                                                coercedHook,
                                                 CoerceJavaToLua.coerce(new XParam(
                                                         lpparam.packageName, uid,
                                                         param,
