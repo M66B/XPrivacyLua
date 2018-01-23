@@ -20,7 +20,9 @@ function after(hook, param)
     if result == nil then
         return false
     end
-    if param:getArgument(1) ~= 'android_id' then
+
+    local key = param:getArgument(1)
+    if key ~= 'android_id' then
         return false
     end
 

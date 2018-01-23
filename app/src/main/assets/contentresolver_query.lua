@@ -22,7 +22,8 @@ function after(hook, param)
         return false
     end
 
-    local match = string.gmatch(hook:getName(), '[^/]+')
+    local h = hook:getName()
+    local match = string.gmatch(h, '[^/]+')
     local func = match()
     local name = match()
     local authority = uri:getAuthority()
@@ -66,6 +67,7 @@ function after(hook, param)
             local array = luajava.bindClass('java.lang.reflect.Array')
             local found = false
             local length = array:getLength(args)
+            local index
             for index = 0, length - 1 do
                 local arg = array:get(args, index)
                 if arg == 'android_id' then

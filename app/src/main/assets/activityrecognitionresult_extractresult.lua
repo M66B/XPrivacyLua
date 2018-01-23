@@ -19,7 +19,6 @@
 function after(hook, param)
     local result = param:getResult()
     if result == nil then
-        log('result null')
         return false
     end
 

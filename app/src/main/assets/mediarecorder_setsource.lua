@@ -17,6 +17,7 @@
 
 function before(hook, param)
     local source = param:getArgument(0)
-    param:putValue('source', source, param:getThis())
+    local this = param:getThis()
+    param:putValue('source', source, this)
     return false
 end

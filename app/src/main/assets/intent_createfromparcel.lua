@@ -38,7 +38,7 @@ function after(hook, param)
             action == 'android.intent.action.PACKAGE_RESTARTED' or
             action == 'android.intent.action.PACKAGE_VERIFIED' then
         local uriClass = luajava.bindClass('android.net.Uri')
-        local uri = uriClass:parse("package:" .. param:getPackageName())
+        local uri = uriClass:parse('package:' .. param:getPackageName())
         intent:setData(uri)
         return true
     elseif action == 'android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE' or
