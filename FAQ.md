@@ -34,6 +34,7 @@ This message means either that:
 * *Tracking/profiling restrictions*: there are hundreds of data items that can be used for tracking and profiling purposes. It is too much work to add restrictions for all of them.
 * *User interface features*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
 * *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added.
+* *Randomizing fake values*: this is known to let apps crash, so this will not be added.
 * *App specific*: anything specific for an app will not be added.
 * *Security specific*: features related to security only will not be added.
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
