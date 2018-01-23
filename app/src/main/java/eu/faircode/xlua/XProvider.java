@@ -360,7 +360,7 @@ class XProvider {
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
-                                    if (hook.isAvailable(pkg)) {
+                                    if (hook.isAvailable(null)) {
                                         XAssignment assignment = new XAssignment(hook);
                                         assignment.installed = cursor.getLong(colInstalled);
                                         assignment.used = cursor.getLong(colUsed);
@@ -762,7 +762,7 @@ class XProvider {
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (hook.isAvailable(packageName))
+                if (hook.isAvailable(null))
                     hookids.add(hook.getId());
         }
 
