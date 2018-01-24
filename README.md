@@ -43,6 +43,8 @@ Hide or fake?
 * Hide: return empty list
 * Fake: return empty or fixed fake value
 
+It is possible to add custom restriction definitions, see [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#FAQ8) for details.
+
 You can see all technical details [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/assets/hooks.json).
 
 Notes

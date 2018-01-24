@@ -39,6 +39,8 @@ This message means either that:
 * *Security specific*: features related to security only will not be added.
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
 
+If you want to confine apps to their own folder, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
+
 Considered as tracking/profile related:
 
 * IP address, see remark below
@@ -57,6 +59,8 @@ Revoking internet permission will result in apps crashing
 and faking offline state doesn't prevent apps from accessing the internet.
 Therefore internet restriction cannot properly be implemented.
 You are adviced to use a firewall app to control internet access, for example [NetGuard](https://forum.xda-developers.com/android/apps-games/app-netguard-root-firewall-t3233012).
+
+If you still want to fake offline state, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
 
 MAC addresses are [not available anymore](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m) on supported Android versions.
 

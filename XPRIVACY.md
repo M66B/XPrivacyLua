@@ -90,6 +90,8 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 	* ~~return fake disconnected state~~ not privacy related
 	* ~~return fake supplicant disconnected state~~ not privacy related
 
+If you want to fake offline state, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
+
 <a name="IPC"></a>
 * IPC
 	* ~~Binder~~ will result in crashes
@@ -217,6 +219,8 @@ The supported Android versions provide the [Storage Access Framework](https://de
 which apps should use to open files instead of opening files directly.
 Moreover, the supported Android versions provide [runtime permissions](https://developer.android.com/training/permissions/requesting.html),
 so you can always choose to not grant storage permission to an app.
+
+If you want to confine apps to their own folder, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
 
 <a name="system"></a>
 * System
