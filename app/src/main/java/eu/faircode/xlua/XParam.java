@@ -19,6 +19,7 @@
 
 package eu.faircode.xlua;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -31,62 +32,61 @@ import de.robv.android.xposed.XC_MethodHook;
 public class XParam {
     private static final String TAG = "XLua.XParam";
 
-    private final String packageName;
-    private final int uid;
+    private final Context context;
     private final Field field;
     private final XC_MethodHook.MethodHookParam param;
     private final Class<?>[] paramTypes;
     private final Class<?> returnType;
-    private final ClassLoader loader;
     private final Map<String, String> settings;
 
     private static final Map<Object, Map<String, Object>> nv = new WeakHashMap<>();
 
     // Field param
     public XParam(
-            String packageName, int uid,
+            Context context,
             Field field,
-            Class<?>[] paramTypes, Class<?> returnType, ClassLoader loader,
+            Class<?>[] paramTypes, Class<?> returnType,
             Map<String, String> settings) {
-        this.packageName = packageName;
-        this.uid = uid;
+        this.context = context;
         this.field = field;
         this.param = null;
         this.paramTypes = paramTypes;
         this.returnType = returnType;
-        this.loader = loader;
         this.settings = settings;
     }
 
     // Method param
     public XParam(
-            String packageName, int uid,
+            Context context,
             XC_MethodHook.MethodHookParam param,
-            Class<?>[] paramTypes, Class<?> returnType, ClassLoader loader,
+            Class<?>[] paramTypes, Class<?> returnType,
             Map<String, String> settings) {
-        this.packageName = packageName;
-        this.uid = uid;
+        this.context = context;
         this.field = null;
         this.param = param;
         this.paramTypes = paramTypes;
         this.returnType = returnType;
-        this.loader = loader;
         this.settings = settings;
     }
 
     @SuppressWarnings("unused")
+    public Context getApplicationContext() {
+        return this.context;
+    }
+
+    @SuppressWarnings("unused")
     public String getPackageName() {
-        return this.packageName;
+        return this.context.getPackageName();
     }
 
     @SuppressWarnings("unused")
     public int getUid() {
-        return this.uid;
+        return this.context.getApplicationInfo().uid;
     }
 
     @SuppressWarnings("unused")
     public ClassLoader getClassLoader() {
-        return this.loader;
+        return this.context.getClassLoader();
     }
 
     @SuppressWarnings("unused")
@@ -126,7 +126,7 @@ public class XParam {
 
         boolean has = (this.param.getThrowable() != null);
         if (has)
-            Log.i(TAG, this.packageName + ":" + this.uid + " " + param.method.getName() +
+            Log.i(TAG, this.getPackageName() + ":" + this.getUid() + " " + param.method.getName() +
                     " throwable=" + this.param.getThrowable());
         return has;
     }
@@ -135,7 +135,7 @@ public class XParam {
     public Object getResult() throws Throwable {
         Object result = (this.field == null ? this.param.getResult() : this.field.get(null));
         if (BuildConfig.DEBUG)
-            Log.i(TAG, "Get " + this.packageName + ":" + this.uid + " result=" + result);
+            Log.i(TAG, "Get " + this.getPackageName() + ":" + this.getUid() + " result=" + result);
         return result;
     }
 
@@ -146,7 +146,7 @@ public class XParam {
                 this.param.setThrowable((Throwable) result);
             else {
                 if (BuildConfig.DEBUG)
-                    Log.i(TAG, "Set " + this.packageName + ":" + this.uid + " result=" + result);
+                    Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() + " result=" + result);
                 if (result != null && !boxType(this.returnType).isInstance(result))
                     throw new IllegalArgumentException(
                             "Expected return " + this.returnType + " got " + result.getClass());
@@ -160,14 +160,14 @@ public class XParam {
     public String getSetting(String name) {
         synchronized (this.settings) {
             String value = (this.settings.containsKey(name) ? this.settings.get(name) : null);
-            Log.i(TAG, "Get setting " + this.packageName + ":" + this.uid + " " + name + "=" + value);
+            Log.i(TAG, "Get setting " + this.getPackageName() + ":" + this.getUid() + " " + name + "=" + value);
             return value;
         }
     }
 
     @SuppressWarnings("unused")
     public void putValue(String name, Object value, Object scope) {
-        Log.i(TAG, "Put value " + this.packageName + ":" + this.uid + " " + name + "=" + value + " @" + scope);
+        Log.i(TAG, "Put value " + this.getPackageName() + ":" + this.getUid() + " " + name + "=" + value + " @" + scope);
         synchronized (nv) {
             if (!nv.containsKey(scope))
                 nv.put(scope, new HashMap<String, Object>());
@@ -178,7 +178,7 @@ public class XParam {
     @SuppressWarnings("unused")
     public Object getValue(String name, Object scope) {
         Object value = getValueInternal(name, scope);
-        Log.i(TAG, "Get value " + this.packageName + ":" + this.uid + " " + name + "=" + value + " @" + scope);
+        Log.i(TAG, "Get value " + this.getPackageName() + ":" + this.getUid() + " " + name + "=" + value + " @" + scope);
         return value;
     }
 

@@ -99,7 +99,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 try {
                     Log.i(TAG, "System ready");
 
-                    // Search for context
+                    // Searching for context
                     Context context = null;
                     Class<?> cAm = param.thisObject.getClass();
                     while (cAm != null && context == null) {
@@ -283,7 +283,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 scursor2.close();
                         }
 
-                        hookPackage(app, lpparam, uid, hooks, settings);
+                        hookPackage(app, hooks, settings);
                     }
                 } catch (Throwable ex) {
                     Log.e(TAG, Log.getStackTraceString(ex));
@@ -291,11 +291,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 }
             }
 
-            private void hookPackage(
-                    final Context context,
-                    final XC_LoadPackage.LoadPackageParam lpparam, final int uid,
-                    List<XHook> hooks, final Map<String, String> settings) {
-
+            private void hookPackage(final Context context, List<XHook> hooks, final Map<String, String> settings) {
                 for (final XHook hook : hooks)
                     try {
                         long install = SystemClock.elapsedRealtime();
@@ -307,7 +303,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Get class
                         Class<?> cls;
                         try {
-                            cls = Class.forName(hook.getResolvedClassName(), false, lpparam.classLoader);
+                            cls = Class.forName(hook.getResolvedClassName(), false, context.getClassLoader());
                         } catch (ClassNotFoundException ex) {
                             if (hook.isOptional()) {
                                 Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex);
@@ -329,11 +325,11 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         String[] p = hook.getParameterTypes();
                         final Class<?>[] paramTypes = new Class[p.length];
                         for (int i = 0; i < p.length; i++)
-                            paramTypes[i] = resolveClass(p[i], lpparam.classLoader);
+                            paramTypes[i] = resolveClass(p[i], context.getClassLoader());
 
                         // Get return type
                         final Class<?> returnType = (hook.getReturnType() == null ? null :
-                                resolveClass(hook.getReturnType(), lpparam.classLoader));
+                                resolveClass(hook.getReturnType(), context.getClassLoader()));
 
                         // Prevent threading problems
                         final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
@@ -356,7 +352,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 throw new NoSuchFieldException("Field with parameters");
 
                             // Initialize Lua runtime
-                            Globals globals = getGlobals(lpparam, uid, hook);
+                            Globals globals = getGlobals(context, hook);
                             LuaClosure closure = new LuaClosure(compiledScript, globals);
                             closure.call();
 
@@ -369,9 +365,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             Varargs result = func.invoke(
                                     coercedHook,
                                     CoerceJavaToLua.coerce(new XParam(
-                                            lpparam.packageName, uid,
+                                            context,
                                             field,
-                                            paramTypes, returnType, lpparam.classLoader,
+                                            paramTypes, returnType,
                                             settings))
                             );
 
@@ -381,7 +377,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 Bundle data = new Bundle();
                                 data.putString("function", "after");
                                 data.putInt("restricted", restricted ? 1 : 0);
-                                report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                report(context, hook.getId(), "use", data);
                             }
                         } else {
                             // Get method
@@ -402,7 +398,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Hook method
                             XposedBridge.hookMethod(method, new XC_MethodHook() {
-                                private WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
+                                private final WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
 
                                 @Override
                                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -424,7 +420,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         synchronized (threadGlobals) {
                                             Thread thread = Thread.currentThread();
                                             if (!threadGlobals.containsKey(thread))
-                                                threadGlobals.put(thread, getGlobals(lpparam, uid, hook));
+                                                threadGlobals.put(thread, getGlobals(context, hook));
                                             globals = threadGlobals.get(thread);
                                         }
                                         LuaClosure closure = new LuaClosure(compiledScript, globals);
@@ -439,10 +435,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         LuaValue result = func.call(
                                                 coercedHook,
                                                 CoerceJavaToLua.coerce(new XParam(
-                                                        lpparam.packageName, uid,
+                                                        context,
                                                         param,
                                                         method.getParameterTypes(), method.getReturnType(),
-                                                        lpparam.classLoader,
                                                         settings))
                                         );
 
@@ -453,7 +448,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             data.putString("function", function);
                                             data.putInt("restricted", restricted ? 1 : 0);
                                             data.putLong("duration", SystemClock.elapsedRealtime() - run);
-                                            report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                            report(context, hook.getId(), "use", data);
                                         }
                                     } catch (Throwable ex) {
                                         StringBuilder sb = new StringBuilder();
@@ -466,11 +461,9 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         sb.append("\n");
 
                                         sb.append("\nPackage:\n");
-                                        sb.append(lpparam.packageName);
+                                        sb.append(context.getPackageName());
                                         sb.append(':');
-                                        sb.append(Integer.toString(uid));
-                                        sb.append("\n");
-                                        sb.append(lpparam.processName);
+                                        sb.append(Integer.toString(context.getApplicationInfo().uid));
                                         sb.append("\n");
 
                                         sb.append("\nMethod:\n");
@@ -514,7 +507,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         Bundle data = new Bundle();
                                         data.putString("function", function);
                                         data.putString("exception", sb.toString());
-                                        report(context, hook.getId(), lpparam.packageName, uid, "use", data);
+                                        report(context, hook.getId(), "use", data);
                                     }
                                 }
                             });
@@ -524,7 +517,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         if (BuildConfig.DEBUG) {
                             Bundle data = new Bundle();
                             data.putLong("duration", SystemClock.elapsedRealtime() - install);
-                            report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                            report(context, hook.getId(), "install", data);
                         }
                     } catch (Throwable ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
@@ -532,11 +525,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Report install error
                         Bundle data = new Bundle();
                         data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
-                        report(context, hook.getId(), lpparam.packageName, uid, "install", data);
+                        report(context, hook.getId(), "install", data);
                     }
             }
 
-            private void report(final Context context, String hook, final String packageName, final int uid, String event, Bundle data) {
+            private void report(final Context context, String hook, String event, Bundle data) {
+                final String packageName = context.getPackageName();
+                final int uid = context.getApplicationInfo().uid;
+
                 Bundle args = new Bundle();
                 args.putString("hook", hook);
                 args.putString("packageName", packageName);
@@ -698,14 +694,14 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
     }
 
-    private static Globals getGlobals(XC_LoadPackage.LoadPackageParam lpparam, int uid, XHook hook) {
+    private static Globals getGlobals(Context context, XHook hook) {
         Globals globals = JsePlatform.standardGlobals();
         // base, bit32, coroutine, io, math, os, package, string, table, luajava
 
         if (BuildConfig.DEBUG)
             globals.load(new DebugLib());
 
-        globals.set("log", new LuaLog(lpparam.packageName, uid, hook.getId()));
+        globals.set("log", new LuaLog(context.getPackageName(), context.getApplicationInfo().uid, hook.getId()));
         globals.set("getPrivateField", new LuaGetPrivateField());
         globals.set("invokePrivateMethod", new LuaInvokePrivateMethod());
 
