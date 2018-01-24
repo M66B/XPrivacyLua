@@ -90,6 +90,11 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
+    public Object getScope() {
+        return this.param;
+    }
+
+    @SuppressWarnings("unused")
     public Object getThis() {
         if (this.field == null)
             return this.param.thisObject;
