@@ -1,0 +1,22 @@
+{
+  "builtin": true,
+  "collection": "Privacy",
+  "group": "Public.Storage",
+  "name": "BlockGuardOs.open",
+  "author": "M66B",
+  "className": "libcore.io.BlockGuardOs",
+  "methodName": "open",
+  "parameterTypes": [
+    "java.lang.String",
+    "int",
+    "int"
+  ],
+  "returnType": "java.io.FileDescriptor",
+  "minSdk": 1,
+  "maxSdk": 999,
+  "enabled": true,
+  "optional": false,
+  "usage": true,
+  "notify": false,
+  "luaScript": "function before(hook, param)\n    local class = luajava.bindClass('java.lang.Class')\n    local clsFile = class:forName('java.io.File')\n\n    local ai = param:getApplicationContext():getApplicationInfo()\n    local dataDir = ai.dataDir .. '\/'\n    local sourceDir = luajava.new(clsFile, ai.sourceDir):getParent() .. '\/'\n\n    local path = param:getArgument(0)\n    if path == nil or\n            string.sub(path, 1, string.len(dataDir)) == dataDir or\n            string.sub(path, 1, string.len(sourceDir)) == sourceDir then\n        log('Allow ' .. path)\n        return false\n    else\n        log('Deny ' .. path)\n        local clsFileNotFound = class:forName('java.io.FileNotFoundException')\n        local fake = luajava.new(clsFileNotFound, path)\n        param:setResult(fake)\n        return true\n    end\nend\n"
+}
