@@ -244,7 +244,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 " hooks=" + hooks.size() + " apps=" + apps.size() +
                 " pkg=" + packageName + ":" + uid);
 
-        if (packageName != null) {
+        if (packageName != null && all.size() > 0) {
             List<XApp> updated = new ArrayList<>();
             for (XApp app : apps)
                 if (app.uid == uid && packageName.equals(app.packageName))
