@@ -377,7 +377,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 Bundle data = new Bundle();
                                 data.putString("function", "after");
                                 data.putInt("restricted", restricted ? 1 : 0);
-                                report(context, hook.getId(), "use", data);
+                                report(context, hook.getId(), "after", "use", data);
                             }
                         } else {
                             // Get method
@@ -448,7 +448,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             data.putString("function", function);
                                             data.putInt("restricted", restricted ? 1 : 0);
                                             data.putLong("duration", SystemClock.elapsedRealtime() - run);
-                                            report(context, hook.getId(), "use", data);
+                                            report(context, hook.getId(), function, "use", data);
                                         }
                                     } catch (Throwable ex) {
                                         StringBuilder sb = new StringBuilder();
@@ -507,7 +507,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         Bundle data = new Bundle();
                                         data.putString("function", function);
                                         data.putString("exception", sb.toString());
-                                        report(context, hook.getId(), "use", data);
+                                        report(context, hook.getId(), function, "use", data);
                                     }
                                 }
                             });
@@ -517,7 +517,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         if (BuildConfig.DEBUG) {
                             Bundle data = new Bundle();
                             data.putLong("duration", SystemClock.elapsedRealtime() - install);
-                            report(context, hook.getId(), "install", data);
+                            report(context, hook.getId(), null, "install", data);
                         }
                     } catch (Throwable ex) {
                         Log.e(TAG, Log.getStackTraceString(ex));
@@ -525,11 +525,11 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         // Report install error
                         Bundle data = new Bundle();
                         data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
-                        report(context, hook.getId(), "install", data);
+                        report(context, hook.getId(), null, "install", data);
                     }
             }
 
-            private void report(final Context context, String hook, String event, Bundle data) {
+            private void report(final Context context, String hook, String function, String event, Bundle data) {
                 final String packageName = context.getPackageName();
                 final int uid = context.getApplicationInfo().uid;
 
@@ -542,9 +542,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 args.putBundle("data", data);
 
                 synchronized (queue) {
-                    if (!queue.containsKey(event))
-                        queue.put(event, new HashMap<String, Bundle>());
-                    queue.get(event).put(hook, args);
+                    String key = (function == null ? "*" : function) + ":" + event;
+                    if (!queue.containsKey(key))
+                        queue.put(key, new HashMap<String, Bundle>());
+                    queue.get(key).put(hook, args);
 
                     if (timer == null) {
                         timer = new Timer();
@@ -554,9 +555,9 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                 List<Bundle> work = new ArrayList<>();
                                 synchronized (queue) {
-                                    for (String event : queue.keySet())
-                                        for (String hook : queue.get(event).keySet())
-                                            work.add(queue.get(event).get(hook));
+                                    for (String key : queue.keySet())
+                                        for (String hook : queue.get(key).keySet())
+                                            work.add(queue.get(key).get(hook));
                                     queue.clear();
                                     timer = null;
                                 }
