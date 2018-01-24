@@ -902,7 +902,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "luaScript": "@generic_unknown_value"
+    "luaScript": "@value_serial"
   },
   {
     "collection": "Privacy",
@@ -916,7 +916,7 @@
     "returnType": "java.lang.String",
     "minSdk": 9,
     "usage": false,
-    "luaScript": "@generic_unknown_value"
+    "luaScript": "@value_serial"
   },
   {
     "collection": "Privacy",
@@ -988,7 +988,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 3,
-    "luaScript": "@settingssecure_get"
+    "luaScript": "@value_settings"
   },
   {
     "collection": "Privacy",
@@ -1247,7 +1247,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_device_id"
   },
   {
     "collection": "Privacy",
@@ -1261,7 +1261,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 23,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_device_id"
   },
   {
     "collection": "Privacy",
@@ -1287,7 +1287,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_imei"
   },
   {
     "collection": "Privacy",
@@ -1301,7 +1301,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_imei"
   },
   {
     "collection": "Privacy",
@@ -1315,7 +1315,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_phone_number"
   },
   {
     "collection": "Privacy",
@@ -1328,7 +1328,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_meid"
   },
   {
     "collection": "Privacy",
@@ -1342,7 +1342,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 26,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_meid"
   },
   {
     "collection": "Privacy",
@@ -1395,7 +1395,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_phone_number"
   },
   {
     "collection": "Privacy",
@@ -1408,7 +1408,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "luaScript": "@generic_null_value"
+    "luaScript": "@value_phone_number"
   },
   // Record audio
   // https://developer.android.com/reference/android/media/AudioRecord.html

@@ -17,16 +17,17 @@
 
 function after(hook, param)
     local result = param:getResult()
-    if result == nil then
+    local type = param:getThis():getPhoneType()
+
+    local fake
+    if type == 2 then -- CDMA
+        fake = param:getSetting('value.meid')
+    end
+
+    if result == nil and fake == nil then
         return false
     end
 
-    local key = param:getArgument(1)
-    if key ~= 'android_id' then
-        return false
-    end
-
-    local fake = '0000000000000000'
     param:setResult(fake)
     return true
 end
