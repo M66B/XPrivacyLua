@@ -71,6 +71,13 @@ The function will always have exacty two parameters:
 
 The before/after function should return *true* when something was restricted and *false* otherwise.
 
+A common problem when developing an Xposed module is getting [a context](https://developer.android.com/reference/android/content/Context.html).
+With XPrivacyLua you'll never have to worry about this because you can simply call:
+
+```
+param:getApplicationContext()
+```
+
 You can also modify field values in an after function by prefixing the method name with a # character, for example
 
 ```
