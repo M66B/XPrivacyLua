@@ -74,19 +74,19 @@ The before/after function should return *true* when something was restricted and
 A common problem when developing an Xposed module is getting [a context](https://developer.android.com/reference/android/content/Context.html).
 With XPrivacyLua you'll never have to worry about this because you can simply call:
 
-```
+```Lua
 param:getApplicationContext()
 ```
 
 You can also modify field values in an after function by prefixing the method name with a # character, for example
 
-```
+```JSON
   "methodName": "#SERIAL"
 ```
 
 Another special case is hooking a method of a field by using the syntax *[field name]:[method name]*, for example
 
-```
+```JSON
   "methodName": "CREATOR:createFromParcel"
 ```
 
