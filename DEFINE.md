@@ -78,19 +78,19 @@ With XPrivacyLua you'll never have to worry about this because you can simply ca
 param:getApplicationContext()
 ```
 
-You can also modify field values in an after function by prefixing the method name with a # character, for example
+You can also modify field values in an *after* function by prefixing the method name with a # character, for example:
 
 ```JSON
   "methodName": "#SERIAL"
 ```
 
-Another special case is hooking a method of a field by using the syntax *[field name]:[method name]*, for example
+Another special case is hooking a method of a field using the syntax *[field name]:[method name]*, for example:
 
 ```JSON
   "methodName": "CREATOR:createFromParcel"
 ```
 
-An error in the definition, like class or method not found or a compile time or run time error in the Lua script will result in a status bar notification.
+An error in the definition, like class or method not found, or a compile time or run time error in the Lua script will result in a status bar notification.
 
 Using the companion app you can edit built-in definitions, which will result in making a copy of the definition.
 You could for example enable usage notifications or change returned fake values.
