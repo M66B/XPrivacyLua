@@ -3,49 +3,49 @@
 <resources>
   <string name="title_accept">Eu concordo</string>
   <string name="title_deny">Eu discordo</string>
-  <string name="title_fix">Fix</string>
-  <string name="title_all">All</string>
-  <string name="title_restrict">Restrict</string>
+  <string name="title_fix">Corrigir</string>
+  <string name="title_all">Tudo</string>
+  <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
+        Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
+        Se possível, os aplicativos são automaticamente interrompidos para aplicar (ou remover) restrições imediatamente,
+        mas aplicar restrições a alguns aplicativos requer um reinício do dispositivo (veja os ícones abaixo).
+        <![CDATA[<br><br>]]>;Pressione prolongadamente no nome ou no ícone do aplicativo para iniciar o aplicativo.
+        <![CDATA[<br><br>]]>;See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">a documentação</a>]]>;
+        e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">as perguntas frequentes</a>]]>; para mais informações.
     </string>
-  <string name="title_help_installed">Restriction installed</string>
-  <string name="title_help_system">Applying restrictions can result in problems</string>
-  <string name="title_help_settings">App restriction settings</string>
-  <string name="title_help_persistent">Applying restrictions requires a device restart</string>
-  <string name="title_help_exception">Applying restriction failed (tap icon to show why)</string>
-  <string name="menu_search">Search</string>
-  <string name="menu_help">Help</string>
-  <string name="menu_show_all">Show all apps</string>
-  <string name="menu_notify_new">Notify new apps</string>
-  <string name="menu_restrict_new">Restrict new apps</string>
-  <string name="menu_donate">Donate</string>
-  <string name="msg_no_service">Module not running or updated</string>
-  <string name="msg_review_settings">Review privacy settings</string>
-  <string name="msg_usage">Restricted \'%1$s\'</string>
-  <string name="msg_exception">Error in %1$s</string>
-  <string name="group_determine_activity">Determine activity</string>
-  <string name="group_get_applications">Get applications</string>
-  <string name="group_get_calendars">Get calendars</string>
-  <string name="group_get_call_log">Get call log</string>
-  <string name="group_get_contacts">Get contacts</string>
-  <string name="group_get_location">Get location</string>
-  <string name="group_get_messages">Get messages</string>
-  <string name="group_get_sensors">Get sensors</string>
-  <string name="group_read_account">Read account name</string>
-  <string name="group_read_clipboard">Read clipboard</string>
-  <string name="group_read_identifiers">Read identifiers</string>
-  <string name="group_read_network">Read network data</string>
-  <string name="group_read_notifications">Read notifications</string>
-  <string name="group_read_sync">Read sync data</string>
-  <string name="group_read_telephony">Read telephony data</string>
-  <string name="group_record_audio">Record audio</string>
-  <string name="group_record_video">Record video</string>
-  <string name="group_send_messages">Send messages</string>
-  <string name="group_use_camera">Use camera</string>
+  <string name="title_help_installed">Restrição instalada</string>
+  <string name="title_help_system">Aplicar restrições pode resultar em problemas</string>
+  <string name="title_help_settings">Configurações de restrição de App</string>
+  <string name="title_help_persistent">A aplicação de restrições requer uma reinicialização do dispositivo</string>
+  <string name="title_help_exception">Falha ao aplicar restrição (toque ícone para mostrar o porquê)</string>
+  <string name="menu_search">Pesquisar</string>
+  <string name="menu_help">Ajuda</string>
+  <string name="menu_show_all">Mostrar todos os apps</string>
+  <string name="menu_notify_new">Notificar novos apps</string>
+  <string name="menu_restrict_new">Restringir novos apps</string>
+  <string name="menu_donate">Doar</string>
+  <string name="msg_no_service">Módulo não está atualizado ou em execução</string>
+  <string name="msg_review_settings">Revise as configurações de privacidade</string>
+  <string name="msg_usage">Restrito \'%1$s\'</string>
+  <string name="msg_exception">Erro em %1$s</string>
+  <string name="group_determine_activity">Determinar a activity</string>
+  <string name="group_get_applications">Obter aplicativos</string>
+  <string name="group_get_calendars">Obter os calendários</string>
+  <string name="group_get_call_log">Obter o registro de chamadas</string>
+  <string name="group_get_contacts">Obter os contatos</string>
+  <string name="group_get_location">Obter a localização</string>
+  <string name="group_get_messages">Obter as mensagens</string>
+  <string name="group_get_sensors">Obter os sensores</string>
+  <string name="group_read_account">Ler nome de conta</string>
+  <string name="group_read_clipboard">Ler área de transferência</string>
+  <string name="group_read_identifiers">Ler os Identificadores</string>
+  <string name="group_read_network">Ler os dados de rede</string>
+  <string name="group_read_notifications">Ler as notificações</string>
+  <string name="group_read_sync">Ler os dados de sincronização</string>
+  <string name="group_read_telephony">Ler os dados de telefonia</string>
+  <string name="group_record_audio">Gravar áudio</string>
+  <string name="group_record_video">Gravar vídeo</string>
+  <string name="group_send_messages">Enviar mensagens</string>
+  <string name="group_use_camera">Usar câmera</string>
 </resources>
