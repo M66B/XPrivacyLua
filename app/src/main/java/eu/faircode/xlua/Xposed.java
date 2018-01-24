@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,7 +35,6 @@ import android.util.Log;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Prototype;
 import org.luaj.vm2.Varargs;
@@ -117,13 +115,18 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     if (context == null)
                         throw new Throwable("Context not found");
 
+                    // Store current module version
+                    String self = Xposed.class.getPackage().getName();
+                    PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
+                    version = pi.versionCode;
+                    Log.i(TAG, "Module version " + version);
+
                     // public static UserManagerService getInstance()
                     Class<?> clsUM = Class.forName("com.android.server.pm.UserManagerService", false, param.thisObject.getClass().getClassLoader());
                     Object um = clsUM.getDeclaredMethod("getInstance").invoke(null);
 
                     //  public int[] getUserIds()
                     int[] userids = (int[]) um.getClass().getDeclaredMethod("getUserIds").invoke(um);
-
 
                     // Listen for package changes
                     for (int userid : userids) {
@@ -165,7 +168,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             try {
                                 Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                                 Context context = (Context) mGetContext.invoke(param.thisObject);
-                                getModuleVersion(context);
                                 param.setResult(XProvider.call(context, arg, extras));
                             } catch (IllegalArgumentException ex) {
                                 Log.i(TAG, "Error: " + ex.getMessage());
@@ -195,7 +197,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         try {
                             Method mGetContext = param.thisObject.getClass().getMethod("getContext");
                             Context context = (Context) mGetContext.invoke(param.thisObject);
-                            getModuleVersion(context);
                             param.setResult(XProvider.query(context, projection[0].split("\\.")[1], selection));
                         } catch (Throwable ex) {
                             Log.e(TAG, Log.getStackTraceString(ex));
@@ -573,15 +574,6 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 }
             }
         });
-    }
-
-    private static void getModuleVersion(Context context) throws PackageManager.NameNotFoundException {
-        if (version < 0) {
-            String self = Xposed.class.getPackage().getName();
-            PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
-            version = pi.versionCode;
-            Log.i(TAG, "Loaded module version " + version);
-        }
     }
 
     private static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
