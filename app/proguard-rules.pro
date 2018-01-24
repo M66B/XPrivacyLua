@@ -21,7 +21,7 @@
 -renamesourcefileattribute SourceFile
 
 #XPrivacyLua
--keep class eu.faircode.xlua.Xposed {*; }
+-keep class eu.faircode.xlua.XLua {*; }
 -keep class eu.faircode.xlua.XHook {*; }
 -keep class eu.faircode.xlua.XParam {*; }
 -keepnames class eu.faircode.xlua.** {*; }

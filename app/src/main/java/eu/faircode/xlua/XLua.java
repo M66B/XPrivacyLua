@@ -65,7 +65,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
+public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String TAG = "XLua.Xposed";
 
     private static int version = -1;
@@ -76,7 +76,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         int uid = Process.myUid();
-        String self = Xposed.class.getPackage().getName();
+        String self = XLua.class.getPackage().getName();
         Log.i(TAG, "Loaded " + lpparam.packageName + ":" + uid);
 
         if ("android".equals(lpparam.packageName))
@@ -116,7 +116,7 @@ public class Xposed implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         throw new Throwable("Context not found");
 
                     // Store current module version
-                    String self = Xposed.class.getPackage().getName();
+                    String self = XLua.class.getPackage().getName();
                     PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
                     version = pi.versionCode;
                     Log.i(TAG, "Module version " + version);

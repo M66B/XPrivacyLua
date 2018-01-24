@@ -25,7 +25,7 @@ public class ReceiverPackage extends BroadcastReceiver {
             Log.i(TAG, "Received " + intent + " uid=" + uid);
 
             int userid = Util.getUserId(uid);
-            String self = Xposed.class.getPackage().getName();
+            String self = XLua.class.getPackage().getName();
             Context ctx = Util.createContextForUser(context, userid);
 
             if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
