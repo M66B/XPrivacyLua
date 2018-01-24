@@ -26,7 +26,7 @@ function after(hook, param)
         return false
     end
 
-    local fake = 'unknown'
+    local fake = '0000000000000000'
     param:setResult(fake)
     return true
 end
