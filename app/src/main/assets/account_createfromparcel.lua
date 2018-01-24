@@ -21,6 +21,25 @@ function after(hook, param)
         return false
     end
 
-    result.name = 'privacy@private.com'
-    return true
+    local clsAm = luajava.bindClass('android.accounts.AccountManager')
+    local am = clsAm:get(param:getApplicationContext())
+    local auths = am:getAuthenticatorTypes()
+
+    local restricted = true
+    local packageName = param:getPackageName()
+    local clsArray = luajava.bindClass('java.lang.reflect.Array')
+    for index = 0, auths.length - 1 do
+        local auth = clsArray:get(auths, index)
+        if result.type == auth.type and auth.packageName == packageName then
+            restricted = false
+            break
+        end
+    end
+
+    log((restricted and 'Restricted' or 'Allowed') .. ' account ' .. result.type .. '/' .. result.name)
+    if restricted then
+        result.name = 'privacy@private.com'
+    end
+
+    return restricted
 end
