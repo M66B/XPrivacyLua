@@ -3,19 +3,18 @@
 <resources>
   <string name="title_accept">接受</string>
   <string name="title_deny">拒绝</string>
-  <string name="title_fix">Fix</string>
-  <string name="title_all">All</string>
+  <string name="title_fix">修复</string>
+  <string name="title_all">所有的</string>
   <string name="title_restrict">限制</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
+点击应用程序的图标或名称并勾选限制项，从而将限制应用到应用程序。    
+        如可行, 应用程序会自动停止继而立即应用 (或解除) 限制， 但对某些应用程序，应用限制需要重启设备(参见下面的图标)。       
+        <![CDATA[<br><br>]]>;长按应用程序名称或图标启动应用程序。
+        <![CDATA[<br><br>]]>;参见 <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md"> 这份文档 </a>]]>;
+        以及 <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">常见问答</a>]]>; 以了解更多信息。
     </string>
   <string name="title_help_installed">已限制</string>
-  <string name="title_help_system">应用此限制可能会导致不可预料的问题</string>
+  <string name="title_help_system">应用限制可能会导致多种问题</string>
   <string name="title_help_settings">应用限制设置</string>
   <string name="title_help_persistent">限制需要重启生效</string>
   <string name="title_help_exception">应用限制失败 (点击图标查看原因)</string>
@@ -29,7 +28,7 @@
   <string name="msg_review_settings">查看隐私设定</string>
   <string name="msg_usage">在 \'%1$s\' 中受限</string>
   <string name="msg_exception">在 %1$s 中发生错误</string>
-  <string name="group_determine_activity">运行中</string>
+  <string name="group_determine_activity">判别活动交互</string>
   <string name="group_get_applications">读取已安装应用列表</string>
   <string name="group_get_calendars">读取日历</string>
   <string name="group_get_call_log">读取通话记录</string>
@@ -43,7 +42,7 @@
   <string name="group_read_network">读取网络参数</string>
   <string name="group_read_notifications">读取通知</string>
   <string name="group_read_sync">读取可同步到服务器的数据</string>
-  <string name="group_read_telephony">读取电话相关数据</string>
+  <string name="group_read_telephony">读取话机相关数据</string>
   <string name="group_record_audio">音频录制</string>
   <string name="group_record_video">视频录制</string>
   <string name="group_send_messages">发送信息​​​​​​​​</string>
