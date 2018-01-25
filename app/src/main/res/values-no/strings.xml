@@ -6,13 +6,12 @@
   <string name="title_fix">Fiks</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Innskrenk</string>
-  <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
+  <string name="title_help_instructions">        Trykk på ikonet eller navnet til en app og avkryss restriksjoner til å anvende de.
+        Hvis mulig, blir apper stoppet automatisk for å anvende (eller fjerne) restriksjoner umiddelbart,
+        men anvendelsen av restriksjoner til noen få apper krever en omstart (se ikonene nedenfor).
+        <![CDATA[<br><br>]]>Kjør en app ved å trykke og holde navnet eller ikonet til appen.
+        <![CDATA[<br><br>]]>Videre informasjon finnes i <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">dokumentasjonen</a>]]>;
+        og <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ofte stilte spørsmål (FAQ)</a>]]>;.
     </string>
   <string name="title_help_installed">Restriksjon installert</string>
   <string name="title_help_system">Anvendelsen av restriksjoner kan utløse problemer</string>

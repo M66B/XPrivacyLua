@@ -8,9 +8,9 @@
   <string name="title_restrict">Beschränken</string>
   <string name="title_help_instructions">
 Tippen Sie auf ein App-Symbol oder einen App-Namen und aktivieren Sie eine Beschränkung, um diese anzuwenden.
-Wenn möglich werden Apps automatisch gestoppt um die Beschränkungen sofort anzuwenden (oder zu entfernen), allerdings erfordert das Beschränken von manchen Apps einen Geräteneustart (siehe Symbole unten).
-<![CDATA[<br><br>]]>;Den App-Namen oder Symbol lange gedrückt halten um die App zu starten.
-<![CDATA[<br><br>]]>;Lesen Sie <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">das Handbuch</a>]]>; und <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">die häufig gestellten Fragen</a>]]>; für mehr Informationen.
+Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort anzuwenden (oder zu entfernen), allerdings erfordert das Beschränken von manchen Apps einen Neustart des Gerätes (siehe Symbole unten).
+<![CDATA[<br><br>]]>Den App-Namen oder Symbol lange gedrückt halten um die App zu starten.
+<![CDATA[<br><br>]]>Lesen Sie <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">das Handbuch</a>]]> und <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">die häufig gestellten Fragen</a>]]> für mehr Informationen.
     </string>
   <string name="title_help_installed">Beschränkung installiert</string>
   <string name="title_help_system">Beschränkungen können zu Problemen führen</string>
