@@ -19,13 +19,13 @@ Restrictions
 ------------
 
 * Determine activity (fake unknown activity, see [here](https://developers.google.com/location-context/activity-recognition/))
-* Get applications (hide installed apps)
+* Get applications (hide installed apps and [widgets](https://developer.android.com/reference/android/appwidget/AppWidgetManager.html))
 * Get calendars (hide calendars)
 * Get call log (hide call log)
 * Get contacts (hide contacts, including blocked numbers)
 * Get location (fake location, hide [NMEA](https://en.wikipedia.org/wiki/NMEA_0183) messages)
 * Get messages (hide MMS, SMS, SIM, voicemail)
-* Get sensors (hide all sensors)
+* Get sensors (hide all available sensors)
 * Read account name (fake name, mostly e-mail address)
 * Read clipboard (fake paste)
 * Read identifiers (fake build serial number, Android ID, advertising ID)
@@ -41,7 +41,7 @@ Restrictions
 Hide or fake?
 
 * Hide: return empty list
-* Fake: return empty or fixed fake value
+* Fake: return empty or fake value
 
 It is possible to add custom restriction definitions, see [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#FAQ8) for details.
 
