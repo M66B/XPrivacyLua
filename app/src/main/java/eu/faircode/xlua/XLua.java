@@ -362,14 +362,14 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 return;
 
                             // Run function
-                            Varargs result = func.invoke(
+                            Varargs result = func.invoke(new LuaValue[]{
                                     coercedHook,
                                     CoerceJavaToLua.coerce(new XParam(
                                             context,
                                             field,
                                             paramTypes, returnType,
                                             settings))
-                            );
+                            });
 
                             // Report use
                             boolean restricted = result.arg1().checkboolean();
@@ -377,6 +377,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 Bundle data = new Bundle();
                                 data.putString("function", "after");
                                 data.putInt("restricted", restricted ? 1 : 0);
+                                if (result.narg() > 1) {
+                                    data.putString("old", result.isnil(2) ? null : result.checkjstring(2));
+                                    data.putString("new", result.isnil(3) ? null : result.checkjstring(3));
+                                }
                                 report(context, hook.getId(), "after", "use", data);
                             }
                         } else {
@@ -432,22 +436,27 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             return;
 
                                         // Run function
-                                        LuaValue result = func.call(
+                                        Varargs result = func.invoke(new LuaValue[]{
                                                 coercedHook,
                                                 CoerceJavaToLua.coerce(new XParam(
                                                         context,
                                                         param,
-                                                        method.getParameterTypes(), method.getReturnType(),
+                                                        method.getParameterTypes(),
+                                                        method.getReturnType(),
                                                         settings))
-                                        );
+                                        });
 
                                         // Report use
-                                        boolean restricted = result.checkboolean();
+                                        boolean restricted = result.arg1().checkboolean();
                                         if (restricted) {
                                             Bundle data = new Bundle();
                                             data.putString("function", function);
                                             data.putInt("restricted", restricted ? 1 : 0);
                                             data.putLong("duration", SystemClock.elapsedRealtime() - run);
+                                            if (result.narg() > 1) {
+                                                data.putString("old", result.isnil(2) ? null : result.checkjstring(2));
+                                                data.putString("new", result.isnil(3) ? null : result.checkjstring(3));
+                                            }
                                             report(context, hook.getId(), function, "use", data);
                                         }
                                     } catch (Throwable ex) {

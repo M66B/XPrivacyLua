@@ -31,5 +31,5 @@ function after(hook, param)
     local elapsed = result:getElapsedRealtimeMillis()
     local fake = luajava.new(classResult, detected, time, elapsed)
     param:setResult(fake)
-    return true
+    return true, result:toString(), fake:toString()
 end

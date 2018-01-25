@@ -16,7 +16,8 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
-    if param:hasException() then
+    local result = param:getResult()
+    if param:getException() ~= nil or result == nil then
         return false
     end
 
@@ -29,5 +30,5 @@ function after(hook, param)
     fake:setLatitude(0)
     fake:setLongitude(0)
     param:setResult(fake)
-    return true
+    return true, result:toString(), fake:toString()
 end

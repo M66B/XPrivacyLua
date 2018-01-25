@@ -31,7 +31,11 @@ function after(hook, param)
         return false
     end
 
-    local fake = 'unknown'
+    local fake = param:getSetting('value.serial')
+    if fake == nil then
+        fake = 'unknown'
+    end
+
     param:setResult(fake)
-    return true
+    return true, result, fake
 end

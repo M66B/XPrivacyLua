@@ -23,5 +23,5 @@ function after(hook, param)
 
     local fake = param:getSetting('value.phone_number')
     param:setResult(fake)
-    return true
+    return true, result, fake
 end

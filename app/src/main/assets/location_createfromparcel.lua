@@ -20,6 +20,7 @@ function after(hook, param)
     if result == nil then
         return false
     end
+    local old = result:toString()
 
     local latitude = 0
     local longitude = 0
@@ -55,8 +56,7 @@ function after(hook, param)
 
     result:setLatitude(latitude)
     result:setLongitude(longitude)
-    log(result)
-    return true
+    return true, old, result:toString()
 end
 
 function randomoffset(latitude, longitude, radius)

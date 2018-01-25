@@ -125,15 +125,11 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
-    public boolean hasException() {
-        if (this.field == null)
-            return false;
-
-        boolean has = (this.param.getThrowable() != null);
-        if (has)
-            Log.i(TAG, this.getPackageName() + ":" + this.getUid() + " " + param.method.getName() +
-                    " throwable=" + this.param.getThrowable());
-        return has;
+    public Throwable getException() {
+        Throwable ex = (this.field == null ? this.param.getThrowable() : null);
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, "Get " + this.getPackageName() + ":" + this.getUid() + " result=" + ex.getMessage());
+        return ex;
     }
 
     @SuppressWarnings("unused")

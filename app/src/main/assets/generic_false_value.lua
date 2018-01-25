@@ -22,5 +22,5 @@ function after(hook, param)
     end
 
     param:setResult(false)
-    return true
+    return true, 'true', 'false'
 end

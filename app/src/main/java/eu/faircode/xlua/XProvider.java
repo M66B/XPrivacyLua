@@ -168,6 +168,9 @@ class XProvider {
                 case "getSettings":
                     result = getSettings(context, selection);
                     break;
+                case "getLog":
+                    result = getLog(context, selection);
+                    break;
             }
         } catch (RemoteException ex) {
             throw ex;
@@ -547,7 +550,8 @@ class XProvider {
             sb.append(' ');
             sb.append(key);
             sb.append('=');
-            sb.append(data.get(key).toString());
+            Object value = data.get(key);
+            sb.append(value == null ? "null" : value.toString());
         }
         Log.i(TAG, "Hook " + hookid + " pkg=" + packageName + ":" + uid + " event=" + event + sb.toString());
 
@@ -566,6 +570,10 @@ class XProvider {
                 }
                 if (data.containsKey("exception"))
                     cv.put("exception", data.getString("exception"));
+                if (data.containsKey("old"))
+                    cv.put("old", data.getString("old"));
+                if (data.containsKey("new"))
+                    cv.put("new", data.getString("new"));
 
                 long rows = db.update("assignment", cv,
                         "package = ? AND uid = ? AND hook = ?",
@@ -669,6 +677,31 @@ class XProvider {
         }
 
         return new Bundle();
+    }
+
+    private static Cursor getLog(Context context, String[] selection) throws Throwable {
+        if (selection != null)
+            throw new IllegalArgumentException("selection invalid");
+
+        dbLock.readLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                Cursor cursor = db.query(
+                        "assignment",
+                        new String[]{"package", "uid", "hook", "used", "old", "new"},
+                        "restricted = 1", new String[]{},
+                        null, null, "used DESC");
+
+                db.setTransactionSuccessful();
+
+                return cursor;
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.readLock().unlock();
+        }
     }
 
     private static Bundle getSetting(Context context, Bundle extras) throws Throwable {
@@ -982,9 +1015,9 @@ class XProvider {
         try {
             // Upgrade database if needed
             if (_db.needUpgrade(1)) {
+                Log.i(TAG, "Database upgrade 1");
                 _db.beginTransaction();
                 try {
-                    // http://www.sqlite.org/lang_createtable.html
                     _db.execSQL("CREATE TABLE assignment (package TEXT NOT NULL, uid INTEGER NOT NULL, hook TEXT NOT NULL, installed INTEGER, used INTEGER, restricted INTEGER, exception TEXT)");
                     _db.execSQL("CREATE UNIQUE INDEX idx_assignment ON assignment(package, uid, hook)");
 
@@ -999,13 +1032,28 @@ class XProvider {
             }
 
             if (_db.needUpgrade(2)) {
+                Log.i(TAG, "Database upgrade 2");
                 _db.beginTransaction();
                 try {
-                    // http://www.sqlite.org/lang_createtable.html
                     _db.execSQL("CREATE TABLE hook (id TEXT NOT NULL, definition TEXT NOT NULL)");
                     _db.execSQL("CREATE UNIQUE INDEX idx_hook ON hook(id, definition)");
 
                     _db.setVersion(2);
+                    _db.setTransactionSuccessful();
+                } finally {
+                    _db.endTransaction();
+                }
+            }
+
+            if (_db.needUpgrade(3)) {
+                Log.i(TAG, "Database upgrade 3");
+                _db.beginTransaction();
+                try {
+                    _db.execSQL("ALTER TABLE assignment ADD COLUMN old TEXT");
+                    _db.execSQL("ALTER TABLE assignment ADD COLUMN new TEXT");
+                    _db.execSQL("CREATE INDEX idx_assignment_used ON assignment(used)");
+
+                    _db.setVersion(3);
                     _db.setTransactionSuccessful();
                 } finally {
                     _db.endTransaction();
