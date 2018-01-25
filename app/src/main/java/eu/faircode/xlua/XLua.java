@@ -361,15 +361,17 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             if (func.isnil())
                                 return;
 
-                            // Run function
-                            Varargs result = func.invoke(new LuaValue[]{
+                            LuaValue[] args = new LuaValue[]{
                                     coercedHook,
                                     CoerceJavaToLua.coerce(new XParam(
                                             context,
                                             field,
                                             paramTypes, returnType,
                                             settings))
-                            });
+                            };
+
+                            // Run function
+                            Varargs result = func.invoke(args);
 
                             // Report use
                             boolean restricted = result.arg1().checkboolean();
@@ -420,31 +422,37 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         long run = SystemClock.elapsedRealtime();
 
                                         // Initialize Lua runtime
-                                        Globals globals;
+                                        LuaValue func;
+                                        LuaValue[] args;
                                         synchronized (threadGlobals) {
                                             Thread thread = Thread.currentThread();
                                             if (!threadGlobals.containsKey(thread))
                                                 threadGlobals.put(thread, getGlobals(context, hook));
-                                            globals = threadGlobals.get(thread);
-                                        }
-                                        LuaClosure closure = new LuaClosure(compiledScript, globals);
-                                        closure.call();
+                                            Globals globals = threadGlobals.get(thread);
 
-                                        // Check if function exists
-                                        LuaValue func = globals.get(function);
-                                        if (func.isnil())
-                                            return;
+                                            // Define functions
+                                            LuaClosure closure = new LuaClosure(compiledScript, globals);
+                                            closure.call();
+
+                                            // Check if function exists
+                                            func = globals.get(function);
+                                            if (func.isnil())
+                                                return;
+
+                                            // Build arguments
+                                            args = new LuaValue[]{
+                                                    coercedHook,
+                                                    CoerceJavaToLua.coerce(new XParam(
+                                                            context,
+                                                            param,
+                                                            method.getParameterTypes(),
+                                                            method.getReturnType(),
+                                                            settings))
+                                            };
+                                        }
 
                                         // Run function
-                                        Varargs result = func.invoke(new LuaValue[]{
-                                                coercedHook,
-                                                CoerceJavaToLua.coerce(new XParam(
-                                                        context,
-                                                        param,
-                                                        method.getParameterTypes(),
-                                                        method.getReturnType(),
-                                                        settings))
-                                        });
+                                        Varargs result = func.invoke(args);
 
                                         // Report use
                                         boolean restricted = result.arg1().checkboolean();
