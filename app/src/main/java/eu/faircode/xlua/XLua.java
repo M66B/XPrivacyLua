@@ -471,10 +471,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         StringBuilder sb = new StringBuilder();
 
                                         sb.append("Exception:\n");
-                                        if (ex instanceof LuaError)
-                                            sb.append(ex.getMessage());
-                                        else
-                                            sb.append(Log.getStackTraceString(ex));
+                                        sb.append(Log.getStackTraceString(ex));
                                         sb.append("\n");
 
                                         sb.append("\nPackage:\n");
