@@ -44,15 +44,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> {
     private static final String TAG = "XLua.Group";
 
+    private ExecutorService executor;
     private XApp app;
     private List<Group> groups = new ArrayList<>();
-
-    private ExecutorService executor = Executors.newCachedThreadPool();
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
@@ -158,8 +156,9 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         }
     }
 
-    AdapterGroup() {
+    AdapterGroup(ExecutorService executor) {
         setHasStableIds(true);
+        this.executor = executor;
     }
 
     void set(XApp app, List<XHook> hooks, Context context) {

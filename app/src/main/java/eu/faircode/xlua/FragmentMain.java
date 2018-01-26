@@ -34,6 +34,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -60,20 +62,19 @@ public class FragmentMain extends Fragment {
     private ProgressBar pbApplication;
     private Spinner spGroup;
     private ArrayAdapter<XGroup> spAdapter;
-    private RecyclerView rvApplication;
     private Group grpApplication;
     private AdapterApp rvAdapter;
 
     @Override
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View main = inflater.inflate(R.layout.restrictions, container, false);
+        final View main = inflater.inflate(R.layout.restrictions, container, false);
 
         pbApplication = main.findViewById(R.id.pbApplication);
         grpApplication = main.findViewById(R.id.grpApplication);
 
         // Initialize app list
-        rvApplication = main.findViewById(R.id.rvApplication);
+        RecyclerView rvApplication = main.findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(false);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity()) {
             @Override
@@ -88,6 +89,8 @@ public class FragmentMain extends Fragment {
 
         spAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final Button btnRestrict = main.findViewById(R.id.btnRestrict);
 
         spGroup = main.findViewById(R.id.spGroup);
         spGroup.setTag(null);
@@ -113,6 +116,23 @@ public class FragmentMain extends Fragment {
                     grpApplication.setVisibility(View.GONE);
                     loadData(null, -1);
                 }
+                btnRestrict.setEnabled(group != null);
+            }
+        });
+
+        btnRestrict.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final XGroup selected = (XGroup) spGroup.getSelectedItem();
+                Util.areYouSure(
+                        (AppCompatActivity) getActivity(),
+                        getString(R.string.msg_restrict_sure, selected.title),
+                        new Util.DoubtListener() {
+                            @Override
+                            public void onSure() {
+                                rvAdapter.restrict(getContext(), selected.name);
+                            }
+                        });
             }
         });
 

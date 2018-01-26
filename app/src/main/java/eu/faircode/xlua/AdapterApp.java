@@ -68,7 +68,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private List<XApp> filtered = new ArrayList<>();
     private Map<String, Boolean> expanded = new HashMap<>();
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener, XApp.IListener {
@@ -103,7 +103,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             LinearLayoutManager llm = new LinearLayoutManager(itemView.getContext());
             llm.setAutoMeasureEnabled(true);
             rvGroup.setLayoutManager(llm);
-            adapter = new AdapterGroup();
+            adapter = new AdapterGroup(executor);
             rvGroup.setAdapter(adapter);
         }
 
@@ -280,6 +280,64 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             showAll = value;
             getFilter().filter(query);
         }
+    }
+
+    void restrict(final Context context, String group) {
+        final List<Bundle> actions = new ArrayList<>();
+
+        boolean revert = false;
+        for (XApp app : filtered)
+            for (XHook hook : hooks)
+                if (group == null || group.equals(hook.getGroup())) {
+                    XAssignment assignment = new XAssignment(hook);
+                    if (app.assignments.contains(assignment)) {
+                        revert = true;
+                        break;
+                    }
+                }
+        Log.i(TAG, "revert=" + revert);
+
+        for (XApp app : filtered) {
+            ArrayList<String> hookids = new ArrayList<>();
+
+            for (XHook hook : hooks)
+                if (group == null || group.equals(hook.getGroup())) {
+                    XAssignment assignment = new XAssignment(hook);
+                    if (revert) {
+                        if (app.assignments.contains(assignment)) {
+                            hookids.add(hook.getId());
+                            app.assignments.remove(assignment);
+                        }
+                    } else {
+                        if (!app.assignments.contains(assignment)) {
+                            hookids.add(hook.getId());
+                            app.assignments.add(assignment);
+                        }
+                    }
+                }
+
+            if (hookids.size() > 0) {
+                Log.i(TAG, "Applying " + group + "=" + hookids.size() + "=" + revert + " package=" + app.packageName);
+                Bundle args = new Bundle();
+                args.putStringArrayList("hooks", hookids);
+                args.putString("packageName", app.packageName);
+                args.putInt("uid", app.uid);
+                args.putBoolean("delete", revert);
+                args.putBoolean("kill", !app.persistent);
+                actions.add(args);
+            }
+        }
+
+        notifyDataSetChanged();
+
+        executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                for (Bundle args : actions)
+                    context.getContentResolver()
+                            .call(XProvider.URI, "xlua", "assignHooks", args);
+            }
+        });
     }
 
     @Override

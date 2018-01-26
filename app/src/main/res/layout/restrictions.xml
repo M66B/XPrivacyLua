@@ -21,19 +21,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/tvRestrict"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRestrict"
+        app:layout_constraintEnd_toStartOf="@+id/btnRestrict"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvRestrict"
+    <Button
+        android:id="@+id/btnRestrict"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:enabled="false"
+        android:minHeight="0dp"
         android:text="@string/title_restrict"
-        app:layout_constraintBottom_toBottomOf="@id/spGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/spGroup" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvApplication"
@@ -44,12 +45,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spGroup" />
+        app:layout_constraintTop_toBottomOf="@id/btnRestrict" />
 
     <android.support.constraint.Group
         android:id="@+id/grpApplication"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="spGroup,tvRestrict,rvApplication" />
+        app:constraint_referenced_ids="spGroup,btnRestrict,rvApplication" />
 </android.support.constraint.ConstraintLayout>

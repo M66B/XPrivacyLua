@@ -28,12 +28,15 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Process;
 import android.os.UserHandle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.lang.reflect.Constructor;
@@ -149,6 +152,38 @@ class Util {
                 "cancelAsUser", String.class, int.class, UserHandle.class);
         mCancelAsUser.invoke(nm, tag, id, Util.getUserHandle(userid));
         Log.i(TAG, "Cancelled " + tag + ":" + id + " as " + userid);
+    }
+
+    static void areYouSure(AppCompatActivity activity, String question, final DoubtListener listener) {
+        final DialogObserver observer = new DialogObserver();
+        AlertDialog ad = new AlertDialog.Builder(activity)
+                .setTitle(question)
+                .setCancelable(true)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onSure();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        observer.stopObserving();
+                    }
+                })
+                .create();
+        ad.show();
+        observer.startObserving(activity, ad);
+    }
+
+    public interface DoubtListener {
+        void onSure();
     }
 
     static class DialogObserver implements LifecycleObserver {
