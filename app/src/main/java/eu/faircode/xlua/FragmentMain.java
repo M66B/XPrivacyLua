@@ -57,8 +57,6 @@ import java.util.Locale;
 public class FragmentMain extends Fragment {
     private final static String TAG = "XLua.Main";
 
-    private boolean showAll = false;
-    private String query = null;
     private ProgressBar pbApplication;
     private Spinner spGroup;
     private ArrayAdapter<XGroup> spAdapter;
@@ -165,13 +163,11 @@ public class FragmentMain extends Fragment {
     }
 
     public void setShowAll(boolean showAll) {
-        this.showAll = showAll;
         if (rvAdapter != null)
             rvAdapter.setShowAll(showAll);
     }
 
     public void filter(String query) {
-        this.query = query;
         if (rvAdapter != null)
             rvAdapter.getFilter().filter(query);
     }
@@ -185,9 +181,7 @@ public class FragmentMain extends Fragment {
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
         @Override
         public Loader<DataHolder> onCreateLoader(int id, Bundle args) {
-            DataLoader loader = new DataLoader(getContext());
-            loader.setData(args.getString("group"));
-            return loader;
+            return new DataLoader(getContext());
         }
 
         @Override
@@ -196,10 +190,7 @@ public class FragmentMain extends Fragment {
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
 
-                XGroup selected = (XGroup) spGroup.getSelectedItem();
-                String group = (selected == null ? null : selected.name);
-
-                rvAdapter.set(showAll, query, group, data.hooks, data.apps);
+                rvAdapter.set(data.hooks, data.apps);
 
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
@@ -216,15 +207,9 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
-        private String group;
-
         DataLoader(Context context) {
             super(context);
             setUpdateThrottle(1000);
-        }
-
-        void setData(String group) {
-            this.group = group;
         }
 
         @Nullable
@@ -282,8 +267,7 @@ public class FragmentMain extends Fragment {
                             .query(XProvider.URI, new String[]{"xlua.getHooks"}, null, null, null);
                     while (chooks != null && chooks.moveToNext()) {
                         XHook hook = XHook.fromJSON(chooks.getString(0));
-                        if (group == null || group.equals(hook.getGroup()))
-                            data.hooks.add(hook);
+                        data.hooks.add(hook);
                     }
                 } finally {
                     if (chooks != null)
@@ -295,14 +279,8 @@ public class FragmentMain extends Fragment {
                 try {
                     capps = getContext().getContentResolver()
                             .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
-                    while (capps != null && capps.moveToNext()) {
-                        XApp app = XApp.fromJSON(capps.getString(0));
-                        if (group != null)
-                            for (XAssignment assignment : new ArrayList<>(app.assignments))
-                                if (!group.equals(assignment.hook.getGroup()))
-                                    app.assignments.remove(assignment);
-                        data.apps.add(app);
-                    }
+                    while (capps != null && capps.moveToNext())
+                        data.apps.add(XApp.fromJSON(capps.getString(0)));
                 } finally {
                     if (capps != null)
                         capps.close();

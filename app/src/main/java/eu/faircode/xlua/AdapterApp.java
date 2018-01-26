@@ -241,8 +241,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(boolean showAll, String group, String query, List<XHook> hooks, List<XApp> apps) {
-        Log.i(TAG, "Set all=" + showAll + " group=" + group + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
+    void set(List<XHook> hooks, List<XApp> apps) {
+        Log.i(TAG, "Set hooks=" + hooks.size() + " apps=" + apps.size());
+
+        this.hooks = hooks;
 
         // Assignments are exclusively managed by the adapter
         for (XApp app : apps) {
@@ -250,11 +252,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             if (index >= 0)
                 app.assignments = all.get(index).assignments;
         }
-
-        this.showAll = showAll;
-        this.group = group;
-        this.hooks = hooks;
-        this.query = query;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
