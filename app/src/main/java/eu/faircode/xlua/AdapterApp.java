@@ -249,8 +249,21 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         // Assignments are exclusively managed by the adapter
         for (XApp app : apps) {
             int index = all.indexOf(app);
-            if (index >= 0)
-                app.assignments = all.get(index).assignments;
+            if (index >= 0) {
+                List<XAssignment> copies = new ArrayList<>();
+                List<XAssignment> existing = all.get(index).assignments;
+                for (XAssignment updated : app.assignments)
+                    if (existing.indexOf(updated) >= 0) {
+                        XAssignment copy = new XAssignment(updated.hook);
+                        copy.installed = updated.installed;
+                        copy.used = updated.used;
+                        copy.restricted = updated.restricted;
+                        copy.exception = updated.exception;
+                        copies.add(copy);
+                    } else
+                        Log.w(TAG, app.packageName + "/" + updated.hook.getId() + " missing");
+                app.assignments = copies;
+            }
         }
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
