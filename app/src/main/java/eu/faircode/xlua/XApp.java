@@ -39,6 +39,18 @@ class XApp {
     XApp() {
     }
 
+    List<XAssignment> getAssignments(String group) {
+        if (group == null)
+            return assignments;
+
+        List<XAssignment> filtered = new ArrayList<>();
+        for (XAssignment assignment : assignments)
+            if (group.equals(assignment.hook.getGroup()))
+                filtered.add(assignment);
+
+        return filtered;
+    }
+
     String toJSON() throws JSONException {
         return toJSONObject().toString(2);
     }

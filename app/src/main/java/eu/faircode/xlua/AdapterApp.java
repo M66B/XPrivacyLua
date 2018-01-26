@@ -61,8 +61,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private int iconSize;
 
     private boolean showAll = false;
+    private String group = null;
     private CharSequence query = null;
-    private List<XHook> newHooks = new ArrayList<>();
     private List<XHook> hooks = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
@@ -190,13 +190,14 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             int id = compoundButton.getId();
             if (id == R.id.cbAssigned) {
                 final ArrayList<String> hookids = new ArrayList<>();
-                for (XHook hook : hooks) {
-                    hookids.add(hook.getId());
-                    if (checked)
-                        app.assignments.add(new XAssignment(hook));
-                    else
-                        app.assignments.remove(new XAssignment(hook));
-                }
+                for (XHook hook : hooks)
+                    if (group == null || group.equals(hook.getGroup())) {
+                        hookids.add(hook.getId());
+                        if (checked)
+                            app.assignments.add(new XAssignment(hook));
+                        else
+                            app.assignments.remove(new XAssignment(hook));
+                    }
 
                 notifyItemChanged(getAdapterPosition());
 
@@ -224,8 +225,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         void updateExpand() {
             XApp app = filtered.get(getAdapterPosition());
-            boolean isExpanded = (expanded.containsKey(app.packageName) && expanded.get(app.packageName));
+            boolean isExpanded = (group == null && expanded.containsKey(app.packageName) && expanded.get(app.packageName));
             ivExpander.setImageLevel(isExpanded ? 1 : 0);
+            ivExpander.setVisibility(group == null ? View.VISIBLE : View.INVISIBLE);
             rvGroup.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         }
     }
@@ -239,25 +241,13 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(boolean showAll, String query, List<XHook> hooks, List<XApp> apps, String packageName, int uid) {
-        Log.i(TAG, "Set all=" + showAll + " query=" + query +
-                " hooks=" + hooks.size() + " apps=" + apps.size() +
-                " pkg=" + packageName + ":" + uid);
-
-        if (packageName != null && all.size() > 0) {
-            List<XApp> updated = new ArrayList<>();
-            for (XApp app : apps)
-                if (app.uid == uid && packageName.equals(app.packageName))
-                    updated.add(app);
-            for (XApp app : this.all)
-                if (app.uid != uid && !packageName.equals(app.packageName))
-                    updated.add(app);
-            apps = updated;
-        }
+    void set(boolean showAll, String group, String query, List<XHook> hooks, List<XApp> apps) {
+        Log.i(TAG, "Set all=" + showAll + " group=" + group + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
 
         this.showAll = showAll;
+        this.group = group;
+        this.hooks = hooks;
         this.query = query;
-        this.newHooks = hooks;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
@@ -282,7 +272,14 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
     }
 
-    void restrict(final Context context, String group) {
+    void setGroup(String name) {
+        if (group == null ? name != null : !group.equals(name)) {
+            group = name;
+            notifyDataSetChanged();
+        }
+    }
+
+    void restrict(final Context context) {
         final List<Bundle> actions = new ArrayList<>();
 
         boolean revert = false;
@@ -395,12 +392,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 final List<XApp> apps = (result.values == null
                         ? new ArrayList<XApp>()
                         : (List<XApp>) result.values);
-                boolean changed = (hooks.size() != newHooks.size());
-                Log.i(TAG, "Filtered apps count=" + apps.size() + " changed=" + changed);
+                Log.i(TAG, "Filtered apps count=" + apps.size());
 
                 DiffUtil.DiffResult diff =
-                        DiffUtil.calculateDiff(new AppDiffCallback(expanded1 || changed, filtered, apps));
-                hooks = newHooks;
+                        DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
                 filtered = apps;
                 diff.dispatchUpdatesTo(AdapterApp.this);
             }
@@ -445,10 +440,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     !app1.label.equals(app2.label) ||
                     app1.enabled != app2.enabled ||
                     app1.persistent != app2.persistent ||
-                    app1.assignments.size() != app2.assignments.size())
+                    app1.getAssignments(group).size() != app2.getAssignments(group).size())
                 return false;
 
-            for (XAssignment a1 : app1.assignments) {
+            for (XAssignment a1 : app1.getAssignments(group)) {
                 int i2 = app2.assignments.indexOf(a1); // by hookid
                 if (i2 < 0)
                     return false;
@@ -506,10 +501,15 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         holder.tvPackage.setText(app.packageName);
         holder.ivPersistent.setVisibility(app.persistent ? View.VISIBLE : View.GONE);
 
+        int h = 0;
+        for (XHook hook : hooks)
+            if (group == null || group.equals(hook.getGroup()))
+                h++;
+
         // Assignment info
-        holder.cbAssigned.setChecked(app.assignments.size() > 0);
+        holder.cbAssigned.setChecked(app.getAssignments(group).size() > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                app.assignments.size() == hooks.size()
+                app.getAssignments(group).size() == h
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
         holder.adapter.set(app, hooks, holder.itemView.getContext());

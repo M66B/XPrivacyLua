@@ -90,7 +90,7 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
             switch (view.getId()) {
                 case R.id.ivException:
                     StringBuilder sb = new StringBuilder();
-                    for (XAssignment assignment : app.assignments)
+                    for (XAssignment assignment : app.getAssignments(group.name))
                         if (assignment.hook.getGroup().equals(group.name))
                             if (assignment.exception != null) {
                                 sb.append("<b>");

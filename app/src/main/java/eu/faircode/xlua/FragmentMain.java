@@ -109,13 +109,13 @@ public class FragmentMain extends Fragment {
             private void updateSelection() {
                 XGroup selected = (XGroup) spGroup.getSelectedItem();
                 String group = (selected == null ? null : selected.name);
+
                 if (group == null ? spGroup.getTag() != null : !group.equals(spGroup.getTag())) {
                     Log.i(TAG, "Select group=" + group);
                     spGroup.setTag(group);
-                    pbApplication.setVisibility(View.VISIBLE);
-                    grpApplication.setVisibility(View.GONE);
-                    loadData(null, -1);
+                    rvAdapter.setGroup(group);
                 }
+
                 btnRestrict.setEnabled(group != null);
             }
         });
@@ -123,14 +123,14 @@ public class FragmentMain extends Fragment {
         btnRestrict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final XGroup selected = (XGroup) spGroup.getSelectedItem();
+                XGroup selected = (XGroup) spGroup.getSelectedItem();
                 Util.areYouSure(
                         (AppCompatActivity) getActivity(),
                         getString(R.string.msg_restrict_sure, selected.title),
                         new Util.DoubtListener() {
                             @Override
                             public void onSure() {
-                                rvAdapter.restrict(getContext(), selected.name);
+                                rvAdapter.restrict(getContext());
                             }
                         });
             }
@@ -153,7 +153,7 @@ public class FragmentMain extends Fragment {
         ifPackage.addDataScheme("package");
         getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
-        loadData(null, -1);
+        loadData();
     }
 
     @Override
@@ -176,27 +176,17 @@ public class FragmentMain extends Fragment {
             rvAdapter.getFilter().filter(query);
     }
 
-    private void loadData(String packageName, int uid) {
-        XGroup selected = (XGroup) spGroup.getSelectedItem();
-        String group = (selected == null ? null : selected.name);
-
-        Log.i(TAG, "Starting data loader group=" + group);
-        Bundle args = new Bundle();
-        args.putString("group", group);
-        args.putString("packageName", packageName);
-        args.putInt("uid", uid);
+    private void loadData() {
+        Log.i(TAG, "Starting data loader");
         getActivity().getSupportLoaderManager().restartLoader(
-                ActivityMain.LOADER_DATA, args, dataLoaderCallbacks).forceLoad();
+                ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
     }
 
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
         @Override
         public Loader<DataHolder> onCreateLoader(int id, Bundle args) {
             DataLoader loader = new DataLoader(getContext());
-            loader.setData(
-                    args.getString("group"),
-                    args.getString("packageName"),
-                    args.getInt("uid"));
+            loader.setData(args.getString("group"));
             return loader;
         }
 
@@ -205,8 +195,12 @@ public class FragmentMain extends Fragment {
             if (data.exception == null) {
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
-                spAdapter.notifyDataSetChanged();
-                rvAdapter.set(showAll, query, data.hooks, data.apps, data.packageName, data.uid);
+
+                XGroup selected = (XGroup) spGroup.getSelectedItem();
+                String group = (selected == null ? null : selected.name);
+
+                rvAdapter.set(showAll, query, group, data.hooks, data.apps);
+
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
             } else {
@@ -223,18 +217,14 @@ public class FragmentMain extends Fragment {
 
     private static class DataLoader extends AsyncTaskLoader<DataHolder> {
         private String group;
-        private String packageName;
-        private int uid;
 
         DataLoader(Context context) {
             super(context);
             setUpdateThrottle(1000);
         }
 
-        void setData(String group, String packageName, int uid) {
+        void setData(String group) {
             this.group = group;
-            this.packageName = packageName;
-            this.uid = uid;
         }
 
         @Nullable
@@ -242,8 +232,6 @@ public class FragmentMain extends Fragment {
         public DataHolder loadInBackground() {
             Log.i(TAG, "Data loader started");
             DataHolder data = new DataHolder();
-            data.packageName = packageName;
-            data.uid = uid;
             try {
                 // Define hooks
                 if (BuildConfig.DEBUG) {
@@ -338,7 +326,7 @@ public class FragmentMain extends Fragment {
             String packageName = intent.getStringExtra("packageName");
             int uid = intent.getIntExtra("uid", -1);
             Log.i(TAG, "pkg=" + packageName + ":" + uid);
-            loadData(null, -1);
+            loadData();
         }
     };
 
@@ -349,13 +337,11 @@ public class FragmentMain extends Fragment {
             String packageName = intent.getData().getSchemeSpecificPart();
             int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
             Log.i(TAG, "pkg=" + packageName + ":" + uid);
-            loadData(packageName, uid);
+            loadData();
         }
     };
 
     private static class DataHolder {
-        String packageName;
-        int uid;
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();
