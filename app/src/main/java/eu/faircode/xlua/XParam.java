@@ -85,11 +85,6 @@ public class XParam {
     }
 
     @SuppressWarnings("unused")
-    public ClassLoader getClassLoader() {
-        return this.context.getClassLoader();
-    }
-
-    @SuppressWarnings("unused")
     public Object getScope() {
         return this.param;
     }

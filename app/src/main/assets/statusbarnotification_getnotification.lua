@@ -21,9 +21,7 @@ function after(hook, param)
         return false
     end
 
-    local loader = param:getClassLoader()
-    local class = luajava.bindClass('java.lang.Class')
-    local notificationClass = class:forName('android.app.Notification', false, loader)
+    local notificationClass = luajava.bindClass('android.app.Notification')
     local fake = luajava.new(notificationClass, result.icon, 'private', result.when) -- deprecated
     param:setResult(fake)
     return true

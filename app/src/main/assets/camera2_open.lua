@@ -16,9 +16,7 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function before(hook, param)
-    local loader = param:getClassLoader()
-    local class = luajava.bindClass('java.lang.Class')
-    local exception = class:forName('android.hardware.camera2.CameraAccessException', false, loader)
+    local exception = luajava.bindClass('android.hardware.camera2.CameraAccessException')
     local fake = luajava.new(exception, 1, 'privacy') -- 1=disabled
     param:setResult(fake)
     return true

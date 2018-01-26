@@ -22,11 +22,9 @@ function after(hook, param)
         return false
     end
 
-    local loader = param:getClassLoader()
-    local class = luajava.bindClass('java.lang.Class')
-    local classActivity = class:forName('com.google.android.gms.location.DetectedActivity', false, loader)
+    local classActivity = luajava.bindClass('com.google.android.gms.location.DetectedActivity')
     local detected = luajava.new(classActivity, 4, 100) -- unknown, 100%
-    local classResult = class:forName('com.google.android.gms.location.ActivityRecognitionResult', false, loader)
+    local classResult = luajava.bindClass('com.google.android.gms.location.ActivityRecognitionResult')
     local time = result:getTime()
     local elapsed = result:getElapsedRealtimeMillis()
     local fake = luajava.new(classResult, detected, time, elapsed)
