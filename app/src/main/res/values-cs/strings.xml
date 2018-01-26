@@ -29,6 +29,7 @@
   <string name="msg_review_settings">Zkontrolujte nastavení ochrany osobních údajů</string>
   <string name="msg_usage">S omezeným přístupem \"%1$s\"</string>
   <string name="msg_exception">Chyba %1$s</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">Určení aktivity</string>
   <string name="group_get_applications">Spustit aplikaci</string>
   <string name="group_get_calendars">Přístup ke kalendáři</string>
@@ -47,5 +48,6 @@
   <string name="group_record_audio">Nahrávání zvuku</string>
   <string name="group_record_video">Nahrát video</string>
   <string name="group_send_messages">Odeslat zprávu</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">Použití fotoaparátu</string>
 </resources>

@@ -3,7 +3,7 @@
 <resources>
   <string name="title_accept">Ik ga akkoord</string>
   <string name="title_deny">Ik ga niet akkoord</string>
-  <string name="title_fix">Fix</string>
+  <string name="title_fix">Repareer</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Beperk</string>
   <string name="title_help_instructions">Klik op een app icoon of naam en vink een beperking aan om deze toe te passen.
@@ -27,6 +27,7 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="msg_review_settings">Herzie privacy instellingen</string>
   <string name="msg_usage">\'%1$s\' werd beperkt</string>
   <string name="msg_exception">Fout in %1$s</string>
+  <string name="msg_restrict_sure">Weet u zeker dat u \'%1$s\' voor alle apps wilt in- of uitschakelen?</string>
   <string name="group_determine_activity">Activiteit bepalen</string>
   <string name="group_get_applications">Apps opvragen</string>
   <string name="group_get_calendars">Agenda\'s opvragen</string>
@@ -45,5 +46,6 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="group_record_audio">Geluid opnemen</string>
   <string name="group_record_video">Video opnemen</string>
   <string name="group_send_messages">Berichten sturen</string>
+  <string name="group_use_analytics">Analytics gebruiken</string>
   <string name="group_use_camera">Camera gebruiken</string>
 </resources>

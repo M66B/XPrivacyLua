@@ -29,6 +29,7 @@
   <string name="msg_review_settings">بازبینی تنظیمات حریم خصوصی</string>
   <string name="msg_usage">محدود شده \'%1$s\'</string>
   <string name="msg_exception">خطا در \'%1$s\'</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">تعیین فعالیت‌ها</string>
   <string name="group_get_applications">دریافت برنامه‌ها</string>
   <string name="group_get_calendars">دریافت تقویم</string>
@@ -42,10 +43,11 @@
   <string name="group_read_identifiers">مشاهده شناسه‌های دستگاه</string>
   <string name="group_read_network">مشاهده اطلاعات شبکه</string>
   <string name="group_read_notifications">مشاهده اعلان‌ها</string>
-  <string name="group_read_sync">مشاهده اطلاعات همگام سازی شده</string>
+  <string name="group_read_sync">مشاهده اطلاعات همگام سازی</string>
   <string name="group_read_telephony">مشاهده اطلاعات تلفن</string>
   <string name="group_record_audio">ضبط صدا</string>
   <string name="group_record_video">ضبط ویدیو</string>
   <string name="group_send_messages">ارسال پیام</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">استفاده از دوربین</string>
 </resources>

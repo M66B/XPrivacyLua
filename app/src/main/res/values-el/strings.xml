@@ -29,6 +29,7 @@
   <string name="msg_review_settings">Ελέγξτε τις ρυθμίσεις προστασίας προσωπικών δεδομένων</string>
   <string name="msg_usage">Περιορισμός: \'%1$s\'</string>
   <string name="msg_exception">Σφάλμα: \'%1$s\'</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">Δραστηριότητα συσκευής</string>
   <string name="group_get_applications">Εφαρμογές</string>
   <string name="group_get_calendars">Ημερολόγια</string>
@@ -47,5 +48,6 @@
   <string name="group_record_audio">Εγγραφή ήχου</string>
   <string name="group_record_video">Εγγραφή βίντεο</string>
   <string name="group_send_messages">Αποστολή μηνυμάτων</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">Χρήση κάμερας</string>
 </resources>

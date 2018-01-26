@@ -29,6 +29,7 @@
   <string name="msg_review_settings">Vérifier les paramètres de confidentialité</string>
   <string name="msg_usage">\'%1$s\' restreint</string>
   <string name="msg_exception">Erreur dans %1$s</string>
+  <string name="msg_restrict_sure">Êtes-vous sûr(e) de vouloir intervertir \'%1$s\' pour toutes les applis ?</string>
   <string name="group_determine_activity">Déterminer l\'activité</string>
   <string name="group_get_applications">Voir les applications installées</string>
   <string name="group_get_calendars">Voir les calendriers</string>
@@ -47,5 +48,6 @@
   <string name="group_record_audio">Enregistrement audio</string>
   <string name="group_record_video">Enregistrement vidéo</string>
   <string name="group_send_messages">Envoyer des messages</string>
+  <string name="group_use_analytics">Utiliser des outils analytiques</string>
   <string name="group_use_camera">Utiliser l\'appareil photo</string>
 </resources>

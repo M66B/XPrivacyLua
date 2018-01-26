@@ -27,6 +27,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="msg_review_settings">Datenschutzeinstellungen überprüfen</string>
   <string name="msg_usage">Beschränkte \'%1$s\'</string>
   <string name="msg_exception">Fehler in %1$s</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">Aktivität bestimmen</string>
   <string name="group_get_applications">Anwendungsliste lesen</string>
   <string name="group_get_calendars">Kalenderinformationen lesen</string>
@@ -45,5 +46,6 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_record_audio">Audio aufnehmen</string>
   <string name="group_record_video">Video aufzeichnen</string>
   <string name="group_send_messages">Nachrichten senden</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">Kamera verwenden</string>
 </resources>

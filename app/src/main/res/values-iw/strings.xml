@@ -30,6 +30,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">The Documentati
   <string name="msg_review_settings">סקור את הגדרות הפרטיות</string>
   <string name="msg_usage">מוגבל \'%1$s\'</string>
   <string name="msg_exception">שגיאה ב- %1$s</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">גילוי פעילות</string>
   <string name="group_get_applications">קריאת אפליקציות</string>
   <string name="group_get_calendars">קריאת לוח שנה</string>
@@ -48,5 +49,6 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">The Documentati
   <string name="group_record_audio">הקלטת שמע</string>
   <string name="group_record_video">צילום וידאו</string>
   <string name="group_send_messages">שליחת הודעות</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">שימוש במצלמה</string>
 </resources>

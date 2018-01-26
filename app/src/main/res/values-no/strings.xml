@@ -28,6 +28,7 @@
   <string name="msg_review_settings">Sjekk personverninnstillinger</string>
   <string name="msg_usage">Innskrenket \'%1$s\'</string>
   <string name="msg_exception">Feil i %1$s</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">Bestem aktivitet</string>
   <string name="group_get_applications">Hent programmer</string>
   <string name="group_get_calendars">Hent kalendere</string>
@@ -46,5 +47,6 @@
   <string name="group_record_audio">Ta opp lyd</string>
   <string name="group_record_video">Ta opp video</string>
   <string name="group_send_messages">Send meldinger</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">Bruk kameraet</string>
 </resources>

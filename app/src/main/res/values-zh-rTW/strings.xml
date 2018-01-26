@@ -28,6 +28,7 @@
   <string name="msg_review_settings">查看隱私設定</string>
   <string name="msg_usage">\'%1$s\' 已限制</string>
   <string name="msg_exception">%1$s 發生錯誤</string>
+  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
   <string name="group_determine_activity">判別活動交互</string>
   <string name="group_get_applications">讀取程式列表</string>
   <string name="group_get_calendars">讀取日曆</string>
@@ -46,5 +47,6 @@
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>
   <string name="group_send_messages">發送訊息</string>
+  <string name="group_use_analytics">Use analytics</string>
   <string name="group_use_camera">使用相機</string>
 </resources>
