@@ -75,11 +75,10 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	Field getField(LuaValue key) {
 		if ( fields == null ) {
 			Map m = new HashMap();
-			Class<?> cls = ((Class)m_instance);
-			while (cls != null) {
-				Field[] f = cls.getDeclaredFields();
-				for (int i = 0; i < f.length; i++) {
-					Field fi = f[i];
+			Field[] f = ((Class)m_instance).getFields();
+			for ( int i=0; i<f.length; i++ ) {
+				Field fi = f[i];
+				if ( Modifier.isPublic(fi.getModifiers()) ) {
 					m.put(LuaValue.valueOf(fi.getName()), fi);
 					try {
 						if (!fi.isAccessible())
@@ -87,7 +86,6 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 					} catch (SecurityException s) {
 					}
 				}
-				cls = cls.getSuperclass();
 			}
 			fields = m;
 		}
@@ -97,38 +95,29 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	LuaValue getMethod(LuaValue key) {
 		if ( methods == null ) {
 			Map namedlists = new HashMap();
-			Map map = new HashMap();
-
-			Class<?> cls = ((Class)m_instance);
-			while (cls != null) {
-				Method[] m = cls.getDeclaredMethods();
-				for (int i = 0; i < m.length; i++) {
-					Method mi = m[i];
+			Method[] m = ((Class)m_instance).getMethods();
+			for ( int i=0; i<m.length; i++ ) {
+				Method mi = m[i];
+				if ( Modifier.isPublic( mi.getModifiers()) ) {
 					String name = mi.getName();
 					List list = (List) namedlists.get(name);
-					if (list == null)
+					if ( list == null )
 						namedlists.put(name, list = new ArrayList());
-					list.add(JavaMethod.forMethod(mi));
+					list.add( JavaMethod.forMethod(mi) );
 				}
-
-				Constructor[] c = cls.getDeclaredConstructors();
-				List list = new ArrayList();
-				for (int i = 0; i < c.length; i++)
-					list.add(JavaConstructor.forConstructor(c[i]));
-				switch (list.size()) {
-					case 0:
-						break;
-					case 1:
-						map.put(NEW, list.get(0));
-						break;
-					default:
-						map.put(NEW, JavaConstructor.forConstructors((JavaConstructor[]) list.toArray(new JavaConstructor[list.size()])));
-						break;
-				}
-
-				cls = cls.getSuperclass();
 			}
-
+			Map map = new HashMap();
+			Constructor[] c = ((Class)m_instance).getConstructors();
+			List list = new ArrayList();
+			for ( int i=0; i<c.length; i++ ) 
+				if ( Modifier.isPublic(c[i].getModifiers()) )
+					list.add( JavaConstructor.forConstructor(c[i]) );
+			switch ( list.size() ) {
+			case 0: break;
+			case 1: map.put(NEW, list.get(0)); break;
+			default: map.put(NEW, JavaConstructor.forConstructors( (JavaConstructor[])list.toArray(new JavaConstructor[list.size()]) ) ); break;
+			}
+			
 			for ( Iterator it=namedlists.entrySet().iterator(); it.hasNext(); ) {
 				Entry e = (Entry) it.next();
 				String name = (String) e.getKey();

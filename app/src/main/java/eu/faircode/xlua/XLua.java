@@ -41,6 +41,8 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.DebugLib;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
@@ -715,6 +717,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             globals.load(new DebugLib());
 
         globals.set("log", new LuaLog(context.getPackageName(), context.getApplicationInfo().uid, hook.getId()));
+        globals.set("getPrivateField", new LuaGetPrivateField());
+        globals.set("invokePrivateMethod", new LuaInvokePrivateMethod());
 
         return new LuaLocals(globals);
     }
@@ -773,6 +777,63 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 Log.i(TAG, "Log " + packageName + ":" + uid + " " + hook + " " +
                         arg.toString() + " (" + arg.typename() + ")");
             return LuaValue.NIL;
+        }
+    }
+
+    private static class LuaGetPrivateField extends TwoArgFunction {
+        @Override
+        public LuaValue call(LuaValue lobject, LuaValue jname) {
+            try {
+                Object object = lobject.touserdata();
+                String name = jname.checkjstring();
+                Field field = object.getClass().getDeclaredField(name);
+                field.setAccessible(true);
+                Object result = field.get(object);
+                Log.i(TAG, "getPrivateField(" + name + ")=" + result);
+                // TODO: result LuaValue's
+                return LuaValue.userdataOf(result);
+            } catch (Throwable ex) {
+                Log.e(TAG, Log.getStackTraceString(ex));
+                return LuaValue.NIL;
+            }
+        }
+    }
+
+    private static class LuaInvokePrivateMethod extends VarArgFunction {
+        @Override
+        public Varargs invoke(Varargs args) {
+            try {
+                Object object = args.touserdata(1);
+                String name = args.tojstring(2);
+                Object[] params = new Object[args.narg() - 2];
+                Class<?>[] types = new Class<?>[args.narg() - 2];
+                for (int i = 3; i <= args.narg(); i++) {
+                    if (args.isstring(i))
+                        params[i - 3] = args.toString();
+                    else // TODO: more argument types
+                        params[i - 3] = args.touserdata(i);
+
+                    if (params[i - 3] == null)
+                        types[i - 3] = null;
+                    else
+                        types[i - 3] = params[i - 3].getClass();
+                }
+
+                // TODO: resolve method with null arguments
+                Method method = object.getClass().getDeclaredMethod(name, types);
+
+                Object result = method.invoke(object, params);
+                Log.i(TAG, "invokePrivateMethod(" + name + ")=" + result);
+                if (result == null)
+                    return LuaValue.NIL;
+                else if (result instanceof String)
+                    return LuaValue.valueOf((String) result);
+                else // TODO: more LuaValue types
+                    return LuaValue.userdataOf(result);
+            } catch (Throwable ex) {
+                Log.e(TAG, Log.getStackTraceString(ex));
+                return LuaValue.NIL;
+            }
         }
     }
 }
