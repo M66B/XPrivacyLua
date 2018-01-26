@@ -1673,7 +1673,25 @@
     "minSdk": 4,
     "luaScript": "@generic_block_method"
   },
-  // Take picture
+  // Use analytics
+  // https://docs.fabric.io/javadocs/fabric/1.3.17/index.html
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "Fabric.with/kits",
+    "author": "M66B",
+    "className": "io.fabric.sdk.android.Fabric",
+    "methodName": "with",
+    "parameterTypes": [
+      "android.content.Context",
+      "[Lio.fabric.sdk.android.Kit;"
+    ],
+    "returnType": "io.fabric.sdk.android.Fabric",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@fabric_with_kits"
+  },
+  // Use camera
   // https://developer.android.com/reference/android/hardware/Camera.html
   // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
   // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/hardware/Camera.java

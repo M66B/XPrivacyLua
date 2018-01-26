@@ -64,5 +64,6 @@
     <string name="group_record_audio">Record audio</string>
     <string name="group_record_video">Record video</string>
     <string name="group_send_messages">Send messages</string>
+    <string name="group_use_analytics">Use analytics</string>
     <string name="group_use_camera">Use camera</string>
 </resources>

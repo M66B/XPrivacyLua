@@ -15,13 +15,25 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function before(hook, param)
-    local this = param:getThis()
-    local source = param:getValue('source', this)
-    if source == nil then
+function after(hook, param)
+    local kits = param:getArgument(1)
+    if kits == nil then
         return false
     end
 
-    param:setResult(nil)
-    return true
+    local clsArray = luajava.bindClass('java.lang.reflect.Array')
+    for index = 0, kits.length - 1 do
+        local kit = clsArray:get(kits, index)
+        if kit ~= nil then
+            local identifier = kit:getIdentifier()
+            log(identifier)
+            if identifier == 'com.crashlytics.sdk.android:crashlytics' then
+                log(kit)
+                kit.core.disabled = true
+                return true
+            end
+        end
+    end
+
+    return false
 end

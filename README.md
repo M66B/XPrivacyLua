@@ -36,6 +36,7 @@ Restrictions
 * Record audio (prevent recording)
 * Record video (prevent recording)
 * Send messages (prevent sending MMS, SMS, data)
+* Use analytics ([Fabric/Crashlytics](https://get.fabric.io/))
 * Use camera (fake camera not available and/or hide cameras)
 
 Hide or fake?
