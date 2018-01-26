@@ -108,34 +108,16 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         private void wire() {
-            ivExpander.setOnClickListener(this);
-            ivIcon.setOnClickListener(this);
-            tvLabel.setOnClickListener(this);
-            tvUid.setOnClickListener(this);
-            tvPackage.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             ivSettings.setOnClickListener(this);
-
-            ivIcon.setOnLongClickListener(this);
-            tvLabel.setOnLongClickListener(this);
-            tvUid.setOnLongClickListener(this);
-            tvPackage.setOnLongClickListener(this);
-
             cbAssigned.setOnCheckedChangeListener(this);
         }
 
         private void unwire() {
-            ivExpander.setOnClickListener(null);
-            ivIcon.setOnClickListener(null);
-            tvLabel.setOnClickListener(null);
-            tvUid.setOnClickListener(null);
-            tvPackage.setOnClickListener(null);
+            itemView.setOnClickListener(null);
+            itemView.setOnLongClickListener(null);
             ivSettings.setOnClickListener(null);
-
-            ivIcon.setOnLongClickListener(null);
-            tvLabel.setOnLongClickListener(null);
-            tvUid.setOnLongClickListener(null);
-            tvPackage.setOnLongClickListener(null);
-
             cbAssigned.setOnCheckedChangeListener(null);
         }
 
@@ -143,11 +125,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         public void onClick(View view) {
             XApp app = filtered.get(getAdapterPosition());
             switch (view.getId()) {
-                case R.id.ivExpander:
-                case R.id.ivIcon:
-                case R.id.tvLabel:
-                case R.id.tvUid:
-                case R.id.tvPackage:
+                case R.id.itemView:
                     if (!expanded.containsKey(app.packageName))
                         expanded.put(app.packageName, false);
                     expanded.put(app.packageName, !expanded.get(app.packageName));
