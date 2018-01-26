@@ -244,6 +244,13 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     void set(boolean showAll, String group, String query, List<XHook> hooks, List<XApp> apps) {
         Log.i(TAG, "Set all=" + showAll + " group=" + group + " query=" + query + " hooks=" + hooks.size() + " apps=" + apps.size());
 
+        // Assignments are exclusively managed by the adapter
+        for (XApp app : apps) {
+            int index = all.indexOf(app);
+            if (index >= 0)
+                app.assignments = all.get(index).assignments;
+        }
+
         this.showAll = showAll;
         this.group = group;
         this.hooks = hooks;
@@ -501,18 +508,18 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         holder.tvPackage.setText(app.packageName);
         holder.ivPersistent.setVisibility(app.persistent ? View.VISIBLE : View.GONE);
 
-        int h = 0;
+        List<XHook> selectedHooks = new ArrayList<>();
         for (XHook hook : hooks)
             if (group == null || group.equals(hook.getGroup()))
-                h++;
+                selectedHooks.add(hook);
 
         // Assignment info
         holder.cbAssigned.setChecked(app.getAssignments(group).size() > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                app.getAssignments(group).size() == h
+                app.getAssignments(group).size() == selectedHooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
-        holder.adapter.set(app, hooks, holder.itemView.getContext());
+        holder.adapter.set(app, selectedHooks, holder.itemView.getContext());
 
         holder.updateExpand();
 

@@ -111,4 +111,17 @@ class XApp {
     public interface IListener {
         void onChange();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof XApp))
+            return false;
+        XApp other = (XApp) obj;
+        return (this.packageName.equals(other.packageName) && this.uid == other.uid);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.packageName.hashCode();
+    }
 }
