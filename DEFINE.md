@@ -53,13 +53,13 @@ The Lua script from the above definition without the JSON escapes looks like thi
 
 ```Lua
 function after(hook, param)
-    local result = param:getResult()
-    if result == nil then
-        return false
-    end
+	local result = param:getResult()
+	if result == nil then
+		return false
+	end
 
-    param:setResult(null)
-    return true
+	param:setResult(null)
+	return true
 end
 ```
 
@@ -90,7 +90,11 @@ Another special case is hooking a method of a field using the syntax *[field nam
   "methodName": "CREATOR:createFromParcel"
 ```
 
-An error in the definition, like class or method not found, or a compile time or run time error in the Lua script will result in a status bar notification.
+An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
+By tapping on the error notification you can navigate to the app restriction settings where you can tap on the corresponding !-icon to see the details of the error.
+
+To apply an updated definition an app needs to be force closed and started again.
+The simplest way to do this is to toggle the restriction off and on.
 
 Using the companion app you can edit built-in definitions, which will result in making a copy of the definition.
 You could for example enable usage notifications or change returned fake values.
