@@ -7,12 +7,13 @@
   <string name="title_all">Tudo</string>
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
-        Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
+Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
         Se possível, os aplicativos são automaticamente interrompidos para aplicar (ou remover) restrições imediatamente,
         mas aplicar restrições a alguns aplicativos requer um reinício do dispositivo (veja os ícones abaixo).
-        <![CDATA[<br><br>]]>;Pressione prolongadamente no nome ou no ícone do aplicativo para iniciar o aplicativo.
-        <![CDATA[<br><br>]]>;See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">a documentação</a>]]>;
-        e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">as perguntas frequentes</a>]]>; para mais informações.
+        <![CDATA[<br><br>]]>Pressione prolongadamente no nome ou no ícone do aplicativo para iniciar o aplicativo.
+        <![CDATA[<br><br>]]>Veja <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">a documentação</a>]]>
+        e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">as perguntas frequentes</a>]]> para mais informações.
+
     </string>
   <string name="title_help_installed">Restrição instalada</string>
   <string name="title_help_system">Aplicar restrições pode resultar em problemas</string>
@@ -29,7 +30,7 @@
   <string name="msg_review_settings">Revise as configurações de privacidade</string>
   <string name="msg_usage">Restrito \'%1$s\'</string>
   <string name="msg_exception">Erro em %1$s</string>
-  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
+  <string name="msg_restrict_sure">Tem certeza que quer alternar o \'%1$s\' para todos os apps?</string>
   <string name="group_determine_activity">Determinar a activity</string>
   <string name="group_get_applications">Obter aplicativos</string>
   <string name="group_get_calendars">Obter os calendários</string>
@@ -48,6 +49,6 @@
   <string name="group_record_audio">Gravar áudio</string>
   <string name="group_record_video">Gravar vídeo</string>
   <string name="group_send_messages">Enviar mensagens</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">Usar analítica</string>
   <string name="group_use_camera">Usar câmera</string>
 </resources>
