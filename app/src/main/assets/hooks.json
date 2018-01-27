@@ -1675,6 +1675,7 @@
   },
   // Use analytics
   // https://docs.fabric.io/javadocs/fabric/1.3.17/index.html
+  // https://developers.google.com/android/reference/com/google/android/gms/analytics/GoogleAnalytics
   {
     "collection": "Privacy",
     "group": "Use.Analytics",
@@ -1690,6 +1691,21 @@
     "minSdk": 1,
     "optional": true,
     "luaScript": "@fabric_with_kits"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "GoogleAnalytics.getInstance",
+    "author": "M66B",
+    "className": "com.google.android.gms.analytics.GoogleAnalytics",
+    "methodName": "getInstance",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "com.google.android.gms.analytics.GoogleAnalytics",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@ga_getinstance"
   },
   // Use camera
   // https://developer.android.com/reference/android/hardware/Camera.html
