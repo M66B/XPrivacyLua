@@ -1675,6 +1675,7 @@
   },
   // Use analytics
   // https://docs.fabric.io/javadocs/fabric/1.3.17/index.html
+  // https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/
   // https://developers.google.com/android/reference/com/google/android/gms/analytics/GoogleAnalytics
   {
     "collection": "Privacy",
@@ -1691,6 +1692,195 @@
     "minSdk": 1,
     "optional": true,
     "luaScript": "@fabric_with_kits"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.activateApp/app",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "activateApp",
+    "parameterTypes": [
+      "android.app.Application"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.activateApp/app/id",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "activateApp",
+    "parameterTypes": [
+      "android.app.Application",
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.activateApp/context",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "activateApp",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.activateApp/context/id",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "activateApp",
+    "parameterTypes": [
+      "android.content.Context",
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.deactivateApp/context",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "deactivateApp",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.deactivateApp/context/id",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "deactivateApp",
+    "parameterTypes": [
+      "android.content.Context",
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logEvent/name",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logEvent/name/bundle",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "android.os.Bundle"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logEvent/name/double",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "double"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logEvent/name/double/bundle",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "double",
+      "android.os.Bundle"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  // logPurchase is not restricted to prevent trouble with purchases
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logPushNotificationOpen",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logPushNotificationOpen",
+    "parameterTypes": [
+      "android.os.Bundle"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "AppEventsLogger.logPushNotificationOpen/action",
+    "author": "M66B",
+    "className": "com.facebook.appevents.AppEventsLogger",
+    "methodName": "logPushNotificationOpen",
+    "parameterTypes": [
+      "android.os.Bundle",
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
   },
   {
     "collection": "Privacy",
