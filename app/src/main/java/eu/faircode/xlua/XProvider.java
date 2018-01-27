@@ -77,13 +77,8 @@ class XProvider {
             synchronized (lock) {
                 if (db == null)
                     db = getDatabase();
-                if (hooks == null) {
-                    hooks = loadHooks(context);
-                    builtins = new HashMap<>();
-                    for (XHook hook : hooks.values())
-                        if (hook.isBuiltin())
-                            builtins.put(hook.getId(), hook);
-                }
+                if (hooks == null)
+                    loadHooks(context);
             }
         } catch (RemoteException ex) {
             throw ex;
@@ -212,13 +207,17 @@ class XProvider {
             if (hook == null) {
                 if (hooks.containsKey(id) && hooks.get(id).isBuiltin())
                     throw new IllegalArgumentException("builtin");
+                Log.i(TAG, "Deleting hook id=" + id);
                 hooks.remove(id);
                 if (builtins.containsKey(id)) {
+                    Log.i(TAG, "Restoring builtin id=" + id);
                     XHook builtin = builtins.get(id);
                     builtin.resolveClassName(context);
                     hooks.put(id, builtin);
-                }
+                } else
+                    Log.w(TAG, "Builtin not found id=" + id);
             } else {
+                Log.i(TAG, "Storing hook id=" + id + " builtin=" + hook.isBuiltin());
                 hook.resolveClassName(context);
                 hooks.put(id, hook);
             }
@@ -270,10 +269,12 @@ class XProvider {
     }
 
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {
+        boolean all = (selection != null && selection.length == 1 && "all".equals(selection[0]));
+
         List<XHook> hv = new ArrayList();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (hook.isAvailable(null))
+                if (all || hook.isAvailable(null))
                     hv.add(hook);
         }
 
@@ -936,15 +937,21 @@ class XProvider {
         }
     }
 
-    private static Map<String, XHook> loadHooks(Context context) throws Throwable {
+    private static void loadHooks(Context context) throws Throwable {
+        hooks = new HashMap<>();
+        builtins = new HashMap<>();
+
         // Read built-in definition
         PackageManager pm = context.getPackageManager();
         String self = XProvider.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
-        List<XHook> builtin = XHook.readHooks(context, ai.publicSourceDir);
+        for (XHook hook : XHook.readHooks(context, ai.publicSourceDir)) {
+            hook.resolveClassName(context);
+            hooks.put(hook.getId(), hook);
+            builtins.put(hook.getId(), hook);
+        }
 
         // Read external definitions
-        List<XHook> defined = new ArrayList<>();
         dbLock.readLock().lock();
         try {
             db.beginTransaction();
@@ -958,7 +965,7 @@ class XProvider {
                     while (cursor.moveToNext()) {
                         String definition = cursor.getString(colDefinition);
                         XHook hook = XHook.fromJSON(definition);
-                        defined.add(hook);
+                        hooks.put(hook.getId(), hook);
                     }
                 } finally {
                     if (cursor != null)
@@ -973,19 +980,7 @@ class XProvider {
             dbLock.readLock().unlock();
         }
 
-        // Build map
-        Map<String, XHook> result = new HashMap<>();
-        for (XHook hook : builtin) {
-            hook.resolveClassName(context);
-            result.put(hook.getId(), hook);
-        }
-        for (XHook hook : defined) {
-            hook.resolveClassName(context);
-            result.put(hook.getId(), hook);
-        }
-
-        Log.i(TAG, "Loaded hook definitions builtin=" + builtin.size() + " defined=" + defined.size());
-        return result;
+        Log.i(TAG, "Loaded hook definitions hooks=" + hooks.size() + " builtins=" + builtins.size());
     }
 
     private static SQLiteDatabase getDatabase() throws Throwable {
