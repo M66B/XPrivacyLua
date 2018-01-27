@@ -662,6 +662,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     }
 
     private static Method resolveMethod(Class<?> cls, String name, Class<?>[] params) throws NoSuchMethodException {
+        boolean exists = false;
         try {
             Class<?> c = cls;
             while (c != null && !c.equals(Object.class))
@@ -671,6 +672,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     for (Method method : c.getDeclaredMethods()) {
                         if (!name.equals(method.getName()))
                             continue;
+
+                        exists = true;
 
                         Class<?>[] mparams = method.getParameterTypes();
 
@@ -700,7 +703,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             while (c != null && !c.equals(Object.class)) {
                 Log.i(TAG, c.toString());
                 for (Method method : c.getDeclaredMethods())
-                    Log.i(TAG, "- " + method.toString());
+                    if (!exists || name.equals(method.getName()))
+                        Log.i(TAG, "    " + method.toString());
                 c = c.getSuperclass();
             }
             throw ex;
