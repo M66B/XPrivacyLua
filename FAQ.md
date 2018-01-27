@@ -38,6 +38,7 @@ This message means either that:
 * *App specific*: anything specific for an app will not be added.
 * *Security specific*: features related to security only will not be added.
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
+* *Crowd sourced restrictions*: there are not enough users for this to be useful.
 
 If you want to confine apps to their own folder, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
 
