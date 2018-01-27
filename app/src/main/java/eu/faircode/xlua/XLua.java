@@ -299,16 +299,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         final Prototype compiledScript = LuaC.instance.compile(is, "script");
 
                         // Get class
-                        Class<?> cls;
-                        try {
-                            cls = Class.forName(hook.getResolvedClassName(), false, context.getClassLoader());
-                        } catch (ClassNotFoundException ex) {
-                            if (hook.isOptional()) {
-                                Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex);
-                                continue;
-                            } else
-                                throw ex;
-                        }
+                        Class<?> cls = Class.forName(hook.getResolvedClassName(), false, context.getClassLoader());
 
                         // Handle field method
                         String[] m = hook.getMethodName().split(":");
@@ -334,17 +325,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         if (methodName.startsWith("#")) {
                             // Get field
-                            Field field;
-                            try {
-                                field = resolveField(cls, methodName.substring(1), returnType);
-                                field.setAccessible(true);
-                            } catch (NoSuchFieldException ex) {
-                                if (hook.isOptional()) {
-                                    Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
-                                    continue;
-                                } else
-                                    throw ex;
-                            }
+                            Field field = resolveField(cls, methodName.substring(1), returnType);
+                            field.setAccessible(true);
 
                             if (paramTypes.length > 0)
                                 throw new NoSuchFieldException("Field with parameters");
@@ -385,16 +367,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             }
                         } else {
                             // Get method
-                            final Method method;
-                            try {
-                                method = resolveMethod(cls, methodName, paramTypes);
-                            } catch (NoSuchMethodException ex) {
-                                if (hook.isOptional()) {
-                                    Log.i(TAG, "Optional hook=" + hook.getId() + ": " + ex.getMessage());
-                                    continue;
-                                } else
-                                    throw ex;
-                            }
+                            final Method method = resolveMethod(cls, methodName, paramTypes);
 
                             // Check return type
                             if (returnType != null && !method.getReturnType().equals(returnType))
@@ -532,12 +505,20 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             report(context, hook.getId(), null, "install", data);
                         }
                     } catch (Throwable ex) {
-                        Log.e(TAG, Log.getStackTraceString(ex));
+                        if (hook.isOptional() &&
+                                (ex instanceof NoSuchFieldException ||
+                                        ex instanceof NoSuchMethodException ||
+                                        ex instanceof ClassNotFoundException))
+                            Log.i(TAG, "Optional hook=" + hook.getId() +
+                                    ": " + ex.getClass().getName() + ": " + ex.getMessage());
+                        else {
+                            Log.e(TAG, Log.getStackTraceString(ex));
 
-                        // Report install error
-                        Bundle data = new Bundle();
-                        data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
-                        report(context, hook.getId(), null, "install", data);
+                            // Report install error
+                            Bundle data = new Bundle();
+                            data.putString("exception", ex instanceof LuaError ? ex.getMessage() : Log.getStackTraceString(ex));
+                            report(context, hook.getId(), null, "install", data);
+                        }
                     }
             }
 
