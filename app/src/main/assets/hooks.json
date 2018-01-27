@@ -2203,5 +2203,39 @@
     "minSdk": 21,
     "notify": true,
     "luaScript": "@camera2_open"
+  },
+  // Misc
+  {
+    "collection": "Privacy",
+    "group": "Internet.Offline",
+    "name": "NetworkInfo.createFromParcel",
+    "author": "M66B",
+    "className": "android.net.NetworkInfo",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.net.NetworkInfo",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@networkinfo_createfromparcel"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Public.Storage",
+    "name": "BlockGuardOs.open",
+    "author": "M66B",
+    "className": "libcore.io.BlockGuardOs",
+    "methodName": "open",
+    "parameterTypes": [
+      "java.lang.String",
+      "int",
+      "int"
+    ],
+    "returnType": "java.io.FileDescriptor",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@blockguardos_open"
   }
 ]
