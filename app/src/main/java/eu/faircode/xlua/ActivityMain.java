@@ -169,6 +169,24 @@ public class ActivityMain extends AppCompatActivity {
             }
         }));
 
+        drawerArray.add(new DrawerItem(this, R.string.menu_readme, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M66B/XPrivacyLua"));
+                if (browse.resolveActivity(getPackageManager()) != null)
+                    startActivity(browse);
+            }
+        }));
+
+        drawerArray.add(new DrawerItem(this, R.string.menu_faq, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md"));
+                if (browse.resolveActivity(getPackageManager()) != null)
+                    startActivity(browse);
+            }
+        }));
+
         drawerArray.add(new DrawerItem(this, R.string.menu_donate, new DrawerItem.IListener() {
             @Override
             public void onClick(DrawerItem item) {

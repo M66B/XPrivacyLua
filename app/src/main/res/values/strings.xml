@@ -38,6 +38,8 @@
     <string name="menu_show_all">Show all apps</string>
     <string name="menu_notify_new">Notify new apps</string>
     <string name="menu_restrict_new">Restrict new apps</string>
+    <string name="menu_readme">Documentation</string>
+    <string name="menu_faq">FAQ</string>
     <string name="menu_donate">Donate</string>
 
     <string name="msg_no_service">Module not running or updated</string>
