@@ -29,8 +29,15 @@ function after(hook, param)
             log(identifier)
             if identifier == 'com.crashlytics.sdk.android:crashlytics' then
                 log(kit)
-                kit.core.disabled = true
-                return true
+                if kit.core ~= nil and kit.core.disabled ~= nil then
+                    kit.core.disabled = true
+                    return true
+                elseif kit.disabled ~= nil then
+                    kit.disabled = true
+                    return true
+                else
+                    log('Crashlytics not disabled')
+                end
             end
         end
     end
