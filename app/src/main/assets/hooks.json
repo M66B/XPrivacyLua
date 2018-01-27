@@ -1675,6 +1675,7 @@
   },
   // Use analytics
   // https://docs.fabric.io/javadocs/fabric/1.3.17/index.html
+  // http://flurry.github.io/flurry-android-sdk/
   // https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/
   // https://developers.google.com/android/reference/com/google/android/gms/analytics/GoogleAnalytics
   {
@@ -1693,6 +1694,217 @@
     "optional": true,
     "luaScript": "@fabric_with_kits"
   },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.endTimedEvent/id",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "endTimedEvent",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.endTimedEvent/id/parameters",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "endTimedEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.logEvent/id",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.logEvent/id/timed",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "boolean"
+    ],
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.logEvent/id/parameters",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.logEvent/id/parameters/timed",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "logEvent",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.util.Map",
+      "boolean"
+    ],
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.onEndSession",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "onEndSession",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.onPageView",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "onPageView",
+    "parameterTypes": [
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.onStartSession",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "onStartSession",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.onStartSession/apikey",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "onStartSession",
+    "parameterTypes": [
+      "android.content.Context",
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.setAge",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "setAge",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.setGender",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "setGender",
+    "parameterTypes": [
+      "byte"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FlurryAgent.setLocation",
+    "author": "M66B",
+    "className": "com.flurry.android.FlurryAgent",
+    "methodName": "setLocation",
+    "parameterTypes": [
+      "float",
+      "float"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "enabled": false,
+    "luaScript": "@generic_block_method"
+  },
+  // logPayment is not hooked to prevent problems with payments
   {
     "collection": "Privacy",
     "group": "Use.Analytics",
@@ -1850,7 +2062,7 @@
     "optional": true,
     "luaScript": "@generic_block_method"
   },
-  // logPurchase is not restricted to prevent trouble with purchases
+  // logPurchase is not hooked to prevent trouble with purchases
   {
     "collection": "Privacy",
     "group": "Use.Analytics",
