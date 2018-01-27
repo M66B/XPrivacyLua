@@ -1,0 +1,91 @@
+diff --git a/app/CMakeLists.txt b/app/CMakeLists.txt
+index e69de29..ef0bf73 100644
+--- a/app/CMakeLists.txt
++++ b/app/CMakeLists.txt
+@@ -0,0 +1,56 @@
++
++cmake_minimum_required(
++    VERSION 3.4.1
++)
++
++add_library(
++    lua
++     SHARED
++    src/main/jni/lua/lapi.c
++    src/main/jni/lua/lauxlib.c
++    src/main/jni/lua/lbaselib.c
++    src/main/jni/lua/lbitlib.c
++    src/main/jni/lua/lcode.c
++    src/main/jni/lua/lcorolib.c
++    src/main/jni/lua/lctype.c
++    src/main/jni/lua/ldblib.c
++    src/main/jni/lua/ldebug.c
++    src/main/jni/lua/ldo.c
++    src/main/jni/lua/ldump.c
++    src/main/jni/lua/lfunc.c
++    src/main/jni/lua/lgc.c
++    src/main/jni/lua/linit.c
++    src/main/jni/lua/liolib.c
++    src/main/jni/lua/llex.c
++    src/main/jni/lua/lmathlib.c
++    src/main/jni/lua/lmem.c
++    src/main/jni/lua/loadlib.c
++    src/main/jni/lua/lobject.c
++    src/main/jni/lua/lopcodes.c
++    src/main/jni/lua/loslib.c
++    src/main/jni/lua/lparser.c
++    src/main/jni/lua/lstate.c
++    src/main/jni/lua/lstring.c
++    src/main/jni/lua/lstrlib.c
++    src/main/jni/lua/ltable.c
++    src/main/jni/lua/ltablib.c
++    src/main/jni/lua/ltm.c
++    src/main/jni/lua/lundump.c
++    src/main/jni/lua/lutf8lib.c
++    src/main/jni/lua/lvm.c
++    src/main/jni/lua/lzio.c
++)
++
++include_directories(
++    src/main/jni/lua/
++)
++
++find_library(
++    log-lib
++    log
++)
++
++target_link_libraries(
++    lua
++    ${log-lib}
++)
+diff --git a/app/build.gradle b/app/build.gradle
+index 5929c45..6fcb8bf 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -11,6 +11,25 @@ android {
+         versionCode 45
+         versionName "1.9"
+         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
++
++        externalNativeBuild {
++            // https://developer.android.com/ndk/guides/cmake.html
++            cmake {
++                cppFlags "-O2 -Wall -DLUA_COMPAT_ALL -D\"getlocaledecpoint() ='.'\""
++                arguments "-DANDROID_PLATFORM=android-23"
++            }
++        }
++
++        ndk {
++            // https://developer.android.com/ndk/guides/abis.html#sa
++            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
++        }
++    }
++
++    externalNativeBuild {
++        cmake {
++            path "CMakeLists.txt"
++        }
+     }
+ 
+     buildTypes {
