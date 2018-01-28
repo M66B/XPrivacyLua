@@ -190,7 +190,7 @@ public class FragmentMain extends Fragment {
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
 
-                rvAdapter.set(data.hooks, data.apps);
+                rvAdapter.set(data.collection, data.hooks, data.apps);
 
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
@@ -231,6 +231,9 @@ public class FragmentMain extends Fragment {
                                 .call(XProvider.URI, "xlua", "putHook", args);
                     }
                 }
+
+                // Get collection
+                data.collection = XProvider.getSetting(getContext(), "global", "collection");
 
                 // Load groups
                 Resources res = getContext().getResources();
@@ -279,13 +282,17 @@ public class FragmentMain extends Fragment {
                 try {
                     capps = getContext().getContentResolver()
                             .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
-                    while (capps != null && capps.moveToNext())
-                        data.apps.add(XApp.fromJSON(capps.getString(0)));
+                    while (capps != null && capps.moveToNext()) {
+                        XApp app = XApp.fromJSON(capps.getString(0));
+                        data.apps.add(app);
+                    }
                 } finally {
                     if (capps != null)
                         capps.close();
                 }
             } catch (Throwable ex) {
+                data.collection = null;
+                data.groups.clear();
                 data.hooks.clear();
                 data.apps.clear();
                 data.exception = ex;
@@ -320,6 +327,7 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataHolder {
+        String collection;
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();

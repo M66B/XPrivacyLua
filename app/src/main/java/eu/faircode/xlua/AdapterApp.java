@@ -63,6 +63,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private boolean showAll = false;
     private String group = null;
     private CharSequence query = null;
+    private String collection = null;
+    private boolean collectionChanged = false;
     private List<XHook> hooks = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
@@ -227,30 +229,33 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(List<XHook> hooks, List<XApp> apps) {
-        Log.i(TAG, "Set hooks=" + hooks.size() + " apps=" + apps.size());
+    void set(String collection, List<XHook> hooks, List<XApp> apps) {
+        Log.i(TAG, "Set collection=" + collection + " hooks=" + hooks.size() + " apps=" + apps.size());
 
+        this.collectionChanged = (this.collection != null && !this.collection.equals(collection));
+        this.collection = collection;
         this.hooks = hooks;
 
         // Assignments are exclusively managed by the adapter
-        for (XApp app : apps) {
-            int index = all.indexOf(app);
-            if (index >= 0) {
-                List<XAssignment> copies = new ArrayList<>();
-                List<XAssignment> existing = all.get(index).assignments;
-                for (XAssignment updated : app.assignments)
-                    if (existing.indexOf(updated) >= 0) {
-                        XAssignment copy = new XAssignment(updated.hook);
-                        copy.installed = updated.installed;
-                        copy.used = updated.used;
-                        copy.restricted = updated.restricted;
-                        copy.exception = updated.exception;
-                        copies.add(copy);
-                    } else
-                        Log.w(TAG, app.packageName + "/" + updated.hook.getId() + " missing");
-                app.assignments = copies;
+        if (!collectionChanged)
+            for (XApp app : apps) {
+                int index = all.indexOf(app);
+                if (index >= 0) {
+                    List<XAssignment> copies = new ArrayList<>();
+                    List<XAssignment> existing = all.get(index).assignments;
+                    for (XAssignment updated : app.assignments)
+                        if (existing.indexOf(updated) >= 0) {
+                            XAssignment copy = new XAssignment(updated.hook);
+                            copy.installed = updated.installed;
+                            copy.used = updated.used;
+                            copy.restricted = updated.restricted;
+                            copy.exception = updated.exception;
+                            copies.add(copy);
+                        } else
+                            Log.w(TAG, app.packageName + "/" + updated.hook.getId() + " missing");
+                    app.assignments = copies;
+                }
             }
-        }
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
@@ -395,12 +400,18 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 final List<XApp> apps = (result.values == null
                         ? new ArrayList<XApp>()
                         : (List<XApp>) result.values);
-                Log.i(TAG, "Filtered apps count=" + apps.size());
+                Log.i(TAG, "Filtered apps count=" + apps.size() + " collection changed=" + collectionChanged);
 
-                DiffUtil.DiffResult diff =
-                        DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
-                filtered = apps;
-                diff.dispatchUpdatesTo(AdapterApp.this);
+                if (collectionChanged) {
+                    collectionChanged = false;
+                    filtered = apps;
+                    notifyDataSetChanged();
+                } else {
+                    DiffUtil.DiffResult diff =
+                            DiffUtil.calculateDiff(new AppDiffCallback(expanded1, filtered, apps));
+                    filtered = apps;
+                    diff.dispatchUpdatesTo(AdapterApp.this);
+                }
             }
         };
     }

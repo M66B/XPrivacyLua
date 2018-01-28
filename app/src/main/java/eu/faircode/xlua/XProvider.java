@@ -369,7 +369,7 @@ class XProvider {
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
-                                    if (hook.isAvailable(null, collection)) {
+                                    if (hook.isAvailable(pkg, collection)) {
                                         XAssignment assignment = new XAssignment(hook);
                                         assignment.installed = cursor.getLong(colInstalled);
                                         assignment.used = cursor.getLong(colUsed);
@@ -812,7 +812,7 @@ class XProvider {
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (hook.isAvailable(null, collection))
+                if (hook.isAvailable(packageName, collection))
                     hookids.add(hook.getId());
         }
 
@@ -1148,13 +1148,21 @@ class XProvider {
     }
 
     static boolean getSettingBoolean(Context context, int user, String category, String name) {
+        return Boolean.parseBoolean(getSetting(context, user, category, name));
+    }
+
+    static String getSetting(Context context, String category, String name) {
+        return getSetting(context, Util.getUserId(Process.myUid()), category, name);
+    }
+
+    static String getSetting(Context context, int user, String category, String name) {
         Bundle args = new Bundle();
         args.putInt("user", user);
         args.putString("category", category);
         args.putString("name", name);
         Bundle result = context.getContentResolver()
                 .call(XProvider.URI, "xlua", "getSetting", args);
-        return Boolean.parseBoolean(result.getString("value"));
+        return result.getString("value");
     }
 
     static void putSetting(Context context, String category, String name, String value) {
