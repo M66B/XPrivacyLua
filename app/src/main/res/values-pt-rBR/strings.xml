@@ -4,7 +4,7 @@
   <string name="title_accept">Eu concordo</string>
   <string name="title_deny">Eu discordo</string>
   <string name="title_fix">Corrigir</string>
-  <string name="title_all">Tudo</string>
+  <string name="title_all">Todos</string>
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
 Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
@@ -25,6 +25,8 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="menu_show_all">Mostrar todos os apps</string>
   <string name="menu_notify_new">Notificar novos apps</string>
   <string name="menu_restrict_new">Restringir novos apps</string>
+  <string name="menu_readme">Documentação</string>
+  <string name="menu_faq">Perguntas Frequentes</string>
   <string name="menu_donate">Doar</string>
   <string name="msg_no_service">Módulo não está atualizado ou em execução</string>
   <string name="msg_review_settings">Revise as configurações de privacidade</string>

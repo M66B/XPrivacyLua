@@ -24,6 +24,8 @@
   <string name="menu_show_all">Εμφάνιση όλων των εφαρμογών</string>
   <string name="menu_notify_new">Ειδοποίηση για νέες εφαρμογές</string>
   <string name="menu_restrict_new">Περιορισμός νέων εφαρμογών</string>
+  <string name="menu_readme">Τεκμηρίωση</string>
+  <string name="menu_faq">Συχνές ερωτήσεις</string>
   <string name="menu_donate">Δωρεά</string>
   <string name="msg_no_service">Η εφαρμογή δεν τρέχει ή έχει ενημερωθεί</string>
   <string name="msg_review_settings">Ελέγξτε τις ρυθμίσεις προστασίας προσωπικών δεδομένων</string>
@@ -48,6 +50,6 @@
   <string name="group_record_audio">Εγγραφή ήχου</string>
   <string name="group_record_video">Εγγραφή βίντεο</string>
   <string name="group_send_messages">Αποστολή μηνυμάτων</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">Αναλυτικά στοιχεία</string>
   <string name="group_use_camera">Χρήση κάμερας</string>
 </resources>

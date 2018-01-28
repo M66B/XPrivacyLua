@@ -24,6 +24,8 @@
   <string name="menu_show_all">Arată toate aplicațiile</string>
   <string name="menu_notify_new">Notifică aplicatiile noi</string>
   <string name="menu_restrict_new">Restrictionează aplicațiile noi</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Donează</string>
   <string name="msg_no_service">Modulul nu rulează sau a fost actualizat</string>
   <string name="msg_review_settings">Revizuiește setările private</string>

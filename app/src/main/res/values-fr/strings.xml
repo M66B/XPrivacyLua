@@ -24,6 +24,8 @@
   <string name="menu_show_all">Tout afficher</string>
   <string name="menu_notify_new">Notifier si nouvelles applis</string>
   <string name="menu_restrict_new">Restreindre les nouvelles applis</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Faire un don</string>
   <string name="msg_no_service">Module non exécuté ou mis à jour</string>
   <string name="msg_review_settings">Vérifier les paramètres de confidentialité</string>

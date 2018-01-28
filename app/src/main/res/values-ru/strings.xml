@@ -24,6 +24,8 @@
   <string name="menu_show_all">Показать все приложения</string>
   <string name="menu_notify_new">Уведомлять о новых приложениях</string>
   <string name="menu_restrict_new">Ограничивать новые приложения</string>
+  <string name="menu_readme">Документация</string>
+  <string name="menu_faq">Часто задаваемые вопросы</string>
   <string name="menu_donate">Поддержать</string>
   <string name="msg_no_service">Модуль не запущен или не обновлен</string>
   <string name="msg_review_settings">Настройки конфиденциальности</string>

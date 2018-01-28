@@ -23,6 +23,8 @@
   <string name="menu_show_all">顯示所有程式</string>
   <string name="menu_notify_new">通知新安裝程式</string>
   <string name="menu_restrict_new">限制新安裝程式</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">捐贈</string>
   <string name="msg_no_service">模組尚未執行或是剛更新</string>
   <string name="msg_review_settings">查看隱私設定</string>

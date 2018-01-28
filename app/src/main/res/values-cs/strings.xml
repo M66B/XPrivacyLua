@@ -24,6 +24,8 @@
   <string name="menu_show_all">Zobrazit všechny aplikace</string>
   <string name="menu_notify_new">Oznámit nové aplikace</string>
   <string name="menu_restrict_new">Omezit nové aplikace</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Přispět</string>
   <string name="msg_no_service">Modul není spuštěn nebo aktualizován (restartujte zařízení)</string>
   <string name="msg_review_settings">Zkontrolujte nastavení ochrany osobních údajů</string>

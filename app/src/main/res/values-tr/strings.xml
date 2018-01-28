@@ -24,6 +24,8 @@
   <string name="menu_show_all">Tüm uygulamaları göster</string>
   <string name="menu_notify_new">Yeni uygulamalardan haberdar et</string>
   <string name="menu_restrict_new">Yeni uygulamaları kısıtla</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Bağış yap</string>
   <string name="msg_no_service">Modül çalışmıyor ya da güncellenmemiş</string>
   <string name="msg_review_settings">Gizlilik ayarlarını gözden geçir</string>

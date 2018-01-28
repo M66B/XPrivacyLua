@@ -24,6 +24,8 @@
   <string name="menu_show_all">Mostrar todas las aplicaciones</string>
   <string name="menu_notify_new">Notificar sobre nuevas aplicaciones</string>
   <string name="menu_restrict_new">Restringir nuevas aplicaciones</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Donar</string>
   <string name="msg_no_service">El módulo no está en ejecución o se encuentra desactualizado</string>
   <string name="msg_review_settings">Revisa la configuración de privacidad</string>

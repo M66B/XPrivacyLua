@@ -24,6 +24,8 @@
   <string name="menu_show_all">Pokaż wszystkie aplikacje</string>
   <string name="menu_notify_new">Powiadamiaj dla nowych aplikacji</string>
   <string name="menu_restrict_new">Ogranicz nowe aplikacje</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Wesprzyj</string>
   <string name="msg_no_service">Moduł nie działa lub nie jest zaktualizowany</string>
   <string name="msg_review_settings">Przejrzyj ustawienia prywatności</string>

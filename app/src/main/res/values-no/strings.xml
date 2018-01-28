@@ -23,6 +23,8 @@
   <string name="menu_show_all">Vis alle apper</string>
   <string name="menu_notify_new">Varsling på nye apper</string>
   <string name="menu_restrict_new">Innskrenk nye apper</string>
+  <string name="menu_readme">Documentation</string>
+  <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Doner</string>
   <string name="msg_no_service">Modulen kjører ikke eller ble oppdatert</string>
   <string name="msg_review_settings">Sjekk personverninnstillinger</string>
