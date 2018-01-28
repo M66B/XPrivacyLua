@@ -15,16 +15,11 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
-function after(hook, param)
-    local result = param:getResult()
-    if result == nil then
-        return false
+function before(hook, param)
+    local enable = param:getArgument(0)
+    log(enable)
+    if not enable then
+        param:setArgument(0, true)
     end
-
-    if result:isDryRunEnabled() then
-        return false
-    else
-        result:setDryRun(true)
-        return true
-    end
+    return not enable
 end

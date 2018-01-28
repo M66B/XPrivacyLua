@@ -2109,6 +2109,21 @@
     "optional": true,
     "luaScript": "@ga_getinstance"
   },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "GoogleAnalytics.setDryRun",
+    "author": "M66B",
+    "className": "com.google.android.gms.analytics.GoogleAnalytics",
+    "methodName": "setDryRun",
+    "parameterTypes": [
+      "boolean"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@ga_setdryrun"
+  },
   // Use camera
   // https://developer.android.com/reference/android/hardware/Camera.html
   // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
