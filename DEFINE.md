@@ -1,6 +1,9 @@
 Defining hooks
 ==============
 
+Introduction
+------------
+
 XPrivacyLua allows you do define Xposed hooks without developing an Xposed module.
 
 Defined hooks can be added and updated at run time,
@@ -9,9 +12,12 @@ with the big advantage that no reboot is required to test a new or changed hook
 To apply an updated definition an app just needs to be stopped (force closed) and started again.
 An easy way to do this is by toggling a definition off/on in XPrivacyLua.
 
-XPrivacyLua allows you to select to which apps a definition should be applied.
+XPrivacyLua allows you to select which apps a definition should be applied to.
 
 You can edit hook definitions for free with the XPrivacyLua [pro companion app](https://play.google.com/apps/testing/eu.faircode.xlua.pro).
+
+Definition
+----------
 
 Hook definitions describe where to hook and what to do when the hook executes.
 
@@ -47,7 +53,11 @@ An exported definition in [JSON](https://en.wikipedia.org/wiki/JSON) format look
 }
 ```
 
+<br>
+
 Note that you can conveniently edit hook definitions in the pro companion app, so there is no need to edit JSON files.
+
+<br>
 
 * The *collection*, *group* and *name* attributes are use to identify a hook
 * The attributes *minSdk* and *maxSdk* determine for which [Android versions](https://source.android.com/setup/build-numbers) (API level) the hook should be used
@@ -97,6 +107,9 @@ Another special case is hooking a method of a field using the syntax *[field nam
 ```JSON
   "methodName": "CREATOR:createFromParcel"
 ```
+
+Remarks
+-------
 
 An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
 By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
