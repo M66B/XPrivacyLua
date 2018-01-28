@@ -157,7 +157,7 @@ class Util {
     static void areYouSure(AppCompatActivity activity, String question, final DoubtListener listener) {
         final DialogObserver observer = new DialogObserver();
         AlertDialog ad = new AlertDialog.Builder(activity)
-                .setTitle(question)
+                .setMessage(question)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
