@@ -1,9 +1,19 @@
-Defining restrictions
-=====================
+Defining hooks
+==============
 
-*Defining restrictions require the XPrivacyLua pro companion app with the definitions option activated.*
+XPrivacyLua allows you do define Xposed hooks without developing an Xposed module.
 
-Restriction or hook definitions describe where to hook and what to do when the hook executes.
+Defined hooks can be added and updated at run time,
+with the big advantage that no reboot is required to test a new or changed hook
+(with the exception of persistent system apps, which are clearly marked in XPrivacyLua).
+To apply an updated definition an app just needs to be stopped (force closed) and started again.
+An easy way to do this is by toggling a definition off/on in XPrivacyLua.
+
+XPrivacyLua allows you to select to which apps a definition should be applied.
+
+You can edit hook definitions for free with the XPrivacyLua [pro companion app](https://play.google.com/apps/testing/eu.faircode.xlua.pro).
+
+Hook definitions describe where to hook and what to do when the hook executes.
 
 The *where to hook* is described as:
 
@@ -13,22 +23,17 @@ The *where to hook* is described as:
 In the well documented [Android API](https://developer.android.com/reference/packages.html) you can find class and method names.
 For more advanced hooks, see [here](https://github.com/rovo89/XposedBridge/wiki/Development-tutorial#exploring-your-target-and-finding-a-way-to-modify-it).
 
-The *what to do when the hook executes* is described in the form of a [Lua](https://www.lua.org/pil/contents.html) script.
+The *what to do* is described in the form of a [Lua](https://www.lua.org/pil/contents.html) script.
 
-Unlike normal Xposed hooks, defined hooks can be added and updated at run time, with the big advantage that there is no reboot required to test a new or changed hook
-(with the exception of persistent system apps).
-
-Hook definitions are [JSON](https://en.wikipedia.org/wiki/JSON) formatted. An example:
+An exported definition in [JSON](https://en.wikipedia.org/wiki/JSON) format looks like this:
 
 ```JSON
 {
-  "builtin": true,
   "collection": "Privacy",
   "group": "Read.Telephony",
   "name": "TelephonyManager\/getDeviceId",
   "author": "M66B",
   "className": "android.telephony.TelephonyManager",
-  "resolvedClassName": "android.telephony.TelephonyManager",
   "methodName": "getDeviceId",
   "parameterTypes": [],
   "returnType": "java.lang.String",
@@ -41,6 +46,8 @@ Hook definitions are [JSON](https://en.wikipedia.org/wiki/JSON) formatted. An ex
   "luaScript": "function after(hook, param)\n    local result = param:getResult()\n    if result == nil then\n        return false\n    end\n\n    param:setResult(null)\n    return true\nend\n"
 }
 ```
+
+Note that you can conveniently edit hook definitions in the pro companion app, so there is no need to edit JSON files.
 
 * The *collection*, *group* and *name* attributes are use to identify a hook
 * The attributes *minSdk* and *maxSdk* determine for which [Android versions](https://source.android.com/setup/build-numbers) (API level) the hook should be used
@@ -63,19 +70,20 @@ function after(hook, param)
 end
 ```
 
-There should be a *before* and/or an *after* function, which will be executed before/after the original method is executed.
-The function will always have exacty two parameters:
+There should be a *before* and/or an *after* function, which will be executed before/after the hooked method is executed.
+The function always has exacty two parameters:
 
 * *hook*: information about the hooked method, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XHook.java) for the available public methods
 * *param*: information about the current parameters, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
 
-The before/after function should return *true* when something was restricted and *false* otherwise.
+The before/after function should return *true* when something was done and *false* otherwise.
+XPrivacyLua will show the last date/time of the last time *true* was returned.
 
 A common problem when developing an Xposed module is getting [a context](https://developer.android.com/reference/android/content/Context.html).
-With XPrivacyLua you'll never have to worry about this because you can simply call:
+With XPrivacyLua you'll never have to worry about this because you can simply get a context like this:
 
 ```Lua
-param:getApplicationContext()
+	local context = param:getApplicationContext()
 ```
 
 You can also modify field values in an *after* function by prefixing the method name with a # character, for example:
@@ -91,16 +99,13 @@ Another special case is hooking a method of a field using the syntax *[field nam
 ```
 
 An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
-By tapping on the error notification you can navigate to the app restriction settings where you can tap on the corresponding !-icon to see the details of the error.
+By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
 
-To apply an updated definition an app needs to be force closed and started again.
-The simplest way to do this is to toggle the restriction off and on.
-
-Using the companion app you can edit built-in definitions, which will result in making a copy of the definition.
+Using the pro companion app you can edit built-in definitions, which will result in making a copy of the definition.
 You could for example enable usage notifications or change returned fake values.
 Deleting copied definitions will restore the built-in definitions.
 
-The companion app can also export and import definitions, making it easy to use definitions provided by others.
+The pro companion app can also export and import definitions, making it easy to use definitions provided by others.
 
 You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
-and the built-in definition [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
+and the definition built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
