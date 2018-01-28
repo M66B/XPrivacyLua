@@ -15,6 +15,84 @@
 
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
+function before(hook, param)
+    local uri = param:getArgument(0)
+    if uri == nil then
+        return false
+    end
+
+    local path = uri:getPath()
+    if path == nil then
+        return false
+    end
+
+    local h = hook:getName()
+    local match = string.gmatch(h, '[^/]+')
+    local func = match()
+    local name = match()
+    local authority = uri:getAuthority()
+    if name == 'contacts' and authority == 'com.android.contacts' then
+        local starred = param:getSetting('contacts.starred')
+        if starred == nil then
+            return false
+        end
+
+        if path == '/contacts' or path == '/contacts/strequent' or path == '/raw_contacts' or path == '/data' then
+            local where
+            if func == 'ContentResolver.query26' then
+                local bundle = param:getArgument(2)
+                if bundle == nil then
+                    where = nil
+                else
+                    where = bundle:getString('android:query-arg-sql-selection')
+                end
+            else
+                where = param:getArgument(2)
+            end
+
+            if where == nil then
+                where = 'starred = ' .. starred
+            else
+                where = 'starred = ' .. starred .. ' AND (' .. where .. ')'
+            end
+
+            if func == 'ContentResolver.query26' then
+                param:getArgument(2):putString('android:query-arg-sql-selection', where)
+            else
+                param:setArgument(2, where)
+            end
+
+            if false then
+                local args
+                if func == 'ContentResolver.query26' then
+                    local bundle = param:getArgument(2)
+                    if bundle == nil then
+                        args = nil
+                    else
+                        args = bundle:getStringArray('android:query-arg-sql-selection-args')
+                    end
+                else
+                    args = param:getArgument(3)
+                end
+
+                local line = path .. ' where ' .. where .. ' ('
+                if args ~= nil then
+                    local index
+                    local array = luajava.bindClass('java.lang.reflect.Array')
+                    local length = array:getLength(args)
+                    for index = 0, length - 1 do
+                        line = line .. ' ' .. array:get(args, index)
+                    end
+                end
+                line = line .. ')'
+                log(line)
+            end
+        end
+    end
+
+    return false
+end
+
 function after(hook, param)
     local uri = param:getArgument(0)
     local cursor = param:getResult()
@@ -41,7 +119,12 @@ function after(hook, param)
             (name == 'mmssms' and authority == 'com.google.android.apps.messaging.shared.datamodel.BugleContentProvider') or
             (name == 'voicemail' and authority == 'com.android.voicemail') then
 
-        if name == 'contacts' then
+        if name == 'contacts' and authority == 'com.android.contacts' then
+            local starred = param:getSetting('contacts.starred')
+            if starred ~= nil then
+                return true
+            end
+
             local path = uri:getPath()
             if path == nil then
                 return false
@@ -63,11 +146,15 @@ function after(hook, param)
             else
                 args = param:getArgument(3)
             end
+            if args == nil then
+                return false
+            end
 
             local array = luajava.bindClass('java.lang.reflect.Array')
+
             local found = false
-            local length = array:getLength(args)
             local index
+            local length = array:getLength(args)
             for index = 0, length - 1 do
                 local arg = array:get(args, index)
                 if arg == 'android_id' then
