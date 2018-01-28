@@ -22,7 +22,6 @@ package eu.faircode.xlua;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
@@ -43,12 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> {
     private static final String TAG = "XLua.Group";
 
-    private ExecutorService executor;
     private XApp app;
     private List<Group> groups = new ArrayList<>();
 
@@ -121,44 +118,18 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         }
 
         @Override
-        public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
+        public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
             final Group group = groups.get(getAdapterPosition());
             switch (compoundButton.getId()) {
                 case R.id.cbAssigned:
-                    for (XHook hook : group.hooks) {
-                        app.assignments.remove(new XAssignment(hook));
-                        if (checked)
-                            app.assignments.add(new XAssignment(hook));
-                    }
-
-                    app.notifyChanged();
-
-                    executor.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            // TODO: set/clear group API
-                            ArrayList<String> hookids = new ArrayList<>();
-                            for (XHook hook : group.hooks)
-                                hookids.add(hook.getId());
-
-                            Bundle args = new Bundle();
-                            args.putStringArrayList("hooks", hookids);
-                            args.putString("packageName", app.packageName);
-                            args.putInt("uid", app.uid);
-                            args.putBoolean("delete", !checked);
-                            args.putBoolean("kill", !app.persistent);
-                            compoundButton.getContext().getContentResolver()
-                                    .call(XProvider.URI, "xlua", "assignHooks", args);
-                        }
-                    });
+                    app.notifyAssign(compoundButton.getContext(), group.name, checked);
                     break;
             }
         }
     }
 
-    AdapterGroup(ExecutorService executor) {
+    AdapterGroup() {
         setHasStableIds(true);
-        this.executor = executor;
     }
 
     void set(XApp app, List<XHook> hooks, Context context) {

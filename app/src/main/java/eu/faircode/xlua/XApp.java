@@ -19,6 +19,8 @@
 
 package eu.faircode.xlua;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,13 +105,13 @@ class XApp {
         this.listener = listener;
     }
 
-    void notifyChanged() {
+    void notifyAssign(Context context, String groupName, boolean assign) {
         if (this.listener != null)
-            this.listener.onChange();
+            this.listener.onAssign(context, groupName, assign);
     }
 
     public interface IListener {
-        void onChange();
+        void onAssign(Context context, String groupName, boolean assign);
     }
 
     @Override

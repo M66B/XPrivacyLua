@@ -32,12 +32,14 @@ function before(hook, param)
     local name = match()
     local authority = uri:getAuthority()
     if name == 'contacts' and authority == 'com.android.contacts' then
-        local starred = param:getSetting('contacts.starred')
-        if starred == nil then
+        local prefix = string.gmatch(path, '[^/]+')()
+        if prefix == 'provider_status' then
             return false
         end
 
-        if path == '/contacts' or path == '/contacts/strequent' or path == '/raw_contacts' or path == '/data' then
+        local starred = param:getSetting('contacts.starred')
+        if starred ~= nil and
+                (prefix == 'contacts' or prefix == 'raw_contacts' or prefix == 'data') then
             local where
             if func == 'ContentResolver.query26' then
                 local bundle = param:getArgument(2)
@@ -120,18 +122,20 @@ function after(hook, param)
             (name == 'voicemail' and authority == 'com.android.voicemail') then
 
         if name == 'contacts' and authority == 'com.android.contacts' then
-            local starred = param:getSetting('contacts.starred')
-            if starred ~= nil then
-                return true
-            end
-
             local path = uri:getPath()
             if path == nil then
                 return false
             end
+
             local prefix = string.gmatch(path, '[^/]+')()
             if prefix == 'provider_status' then
                 return false
+            end
+
+            local starred = param:getSetting('contacts.starred')
+            if starred ~= nil and
+                    (prefix == 'contacts' or prefix == 'raw_contacts' or prefix == 'data') then
+                return true
             end
         end
 

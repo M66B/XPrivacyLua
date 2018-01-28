@@ -103,7 +103,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             LinearLayoutManager llm = new LinearLayoutManager(itemView.getContext());
             llm.setAutoMeasureEnabled(true);
             rvGroup.setLayoutManager(llm);
-            adapter = new AdapterGroup(executor);
+            adapter = new AdapterGroup();
             rvGroup.setAdapter(adapter);
         }
 
@@ -162,43 +162,51 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         @Override
-        public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked) {
+        public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
             Log.i(TAG, "Check changed");
-            final XApp app = filtered.get(getAdapterPosition());
-            int id = compoundButton.getId();
-            if (id == R.id.cbAssigned) {
-                final ArrayList<String> hookids = new ArrayList<>();
-                for (XHook hook : hooks)
-                    if (group == null || group.equals(hook.getGroup())) {
-                        hookids.add(hook.getId());
-                        if (checked)
-                            app.assignments.add(new XAssignment(hook));
-                        else
-                            app.assignments.remove(new XAssignment(hook));
-                    }
-
-                notifyItemChanged(getAdapterPosition());
-
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bundle args = new Bundle();
-                        args.putStringArrayList("hooks", hookids);
-                        args.putString("packageName", app.packageName);
-                        args.putInt("uid", app.uid);
-                        args.putBoolean("delete", !checked);
-                        args.putBoolean("kill", !app.persistent);
-                        compoundButton.getContext().getContentResolver()
-                                .call(XProvider.URI, "xlua", "assignHooks", args);
-                    }
-                });
+            switch (compoundButton.getId()) {
+                case R.id.cbAssigned:
+                    XApp app = filtered.get(getAdapterPosition());
+                    updateAssignments(compoundButton.getContext(), app, group, checked);
+                    notifyItemChanged(getAdapterPosition());
+                    break;
             }
         }
 
         @Override
-        public void onChange() {
+        public void onAssign(Context context, String groupName, boolean assign) {
             Log.i(TAG, "Group changed");
+            XApp app = filtered.get(getAdapterPosition());
+            updateAssignments(context, app, groupName, assign);
             notifyItemChanged(getAdapterPosition());
+        }
+
+        private void updateAssignments(final Context context, final XApp app, String groupName, final boolean assign) {
+            Log.i(TAG, app.packageName + " " + groupName + "=" + assign);
+
+            final ArrayList<String> hookids = new ArrayList<>();
+            for (XHook hook : hooks)
+                if (groupName == null || groupName.equals(hook.getGroup())) {
+                    hookids.add(hook.getId());
+                    if (assign)
+                        app.assignments.add(new XAssignment(hook));
+                    else
+                        app.assignments.remove(new XAssignment(hook));
+                }
+
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    Bundle args = new Bundle();
+                    args.putStringArrayList("hooks", hookids);
+                    args.putString("packageName", app.packageName);
+                    args.putInt("uid", app.uid);
+                    args.putBoolean("delete", !assign);
+                    args.putBoolean("kill", !app.persistent);
+                    context.getContentResolver()
+                            .call(XProvider.URI, "xlua", "assignHooks", args);
+                }
+            });
         }
 
         void updateExpand() {
