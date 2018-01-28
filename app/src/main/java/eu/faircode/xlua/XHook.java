@@ -117,7 +117,10 @@ public class XHook {
         return this.returnType;
     }
 
-    public boolean isAvailable(String packageName) {
+    public boolean isAvailable(String packageName, String collection) {
+        if (!this.collection.equals(collection))
+            return false;
+
         if (!this.enabled)
             return false;
 

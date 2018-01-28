@@ -257,9 +257,11 @@ class XProvider {
     private static Bundle getGroups(Context context, Bundle extras) throws Throwable {
         List<String> groups = new ArrayList<>();
 
+        String collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
+
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (hook.isAvailable(null) && !groups.contains(hook.getGroup()))
+                if (hook.isAvailable(null, collection) && !groups.contains(hook.getGroup()))
                     groups.add(hook.getGroup());
         }
 
@@ -270,11 +272,12 @@ class XProvider {
 
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {
         boolean all = (selection != null && selection.length == 1 && "all".equals(selection[0]));
+        String collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
 
         List<XHook> hv = new ArrayList();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (all || hook.isAvailable(null))
+                if (all || hook.isAvailable(null, collection))
                     hv.add(hook);
         }
 
@@ -333,6 +336,8 @@ class XProvider {
 
         Log.i(TAG, "Installed apps=" + apps.size() + " cuid=" + cuid);
 
+        String collection = getCollection(context, userid);
+
         // Get assigned hooks
         dbLock.readLock().lock();
         try {
@@ -364,7 +369,7 @@ class XProvider {
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
-                                    if (hook.isAvailable(null)) {
+                                    if (hook.isAvailable(null, collection)) {
                                         XAssignment assignment = new XAssignment(hook);
                                         assignment.installed = cursor.getLong(colInstalled);
                                         assignment.used = cursor.getLong(colUsed);
@@ -455,6 +460,8 @@ class XProvider {
         int uid = Integer.parseInt(selection[1]);
         MatrixCursor result = new MatrixCursor(new String[]{"json"});
 
+        String collection = getCollection(context, Util.getUserId(uid));
+
         dbLock.readLock().lock();
         try {
             db.beginTransaction();
@@ -473,7 +480,7 @@ class XProvider {
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
-                                if (hook.isAvailable(packageName))
+                                if (hook.isAvailable(packageName, collection))
                                     result.addRow(new String[]{hook.toJSON()});
                             } else if (BuildConfig.DEBUG)
                                 Log.w(TAG, "Hook " + hookid + " not found");
@@ -705,6 +712,14 @@ class XProvider {
         }
     }
 
+    private static String getCollection(Context context, int userid) throws Throwable {
+        Bundle args = new Bundle();
+        args.putInt("user", userid);
+        args.putString("category", "global");
+        args.putString("name", "collection");
+        return getSetting(context, args).getString("value", "Privacy");
+    }
+
     private static Bundle getSetting(Context context, Bundle extras) throws Throwable {
         int userid = extras.getInt("user");
         String category = extras.getString("category");
@@ -792,11 +807,12 @@ class XProvider {
         boolean kill = extras.getBoolean("kill", false);
 
         int userid = Util.getUserId(uid);
+        String collection = getCollection(context, Util.getUserId(uid));
 
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {
             for (XHook hook : hooks.values())
-                if (hook.isAvailable(null))
+                if (hook.isAvailable(null, collection))
                     hookids.add(hook.getId());
         }
 
