@@ -121,4 +121,4 @@ Deleting copied definitions will restore the built-in definitions.
 The pro companion app can also export and import definitions, making it easy to use definitions provided by others.
 
 You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
-and the definition built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
+and the definitions built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
