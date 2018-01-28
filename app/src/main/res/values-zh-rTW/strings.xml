@@ -23,14 +23,14 @@
   <string name="menu_show_all">顯示所有程式</string>
   <string name="menu_notify_new">通知新安裝程式</string>
   <string name="menu_restrict_new">限制新安裝程式</string>
-  <string name="menu_readme">Documentation</string>
-  <string name="menu_faq">FAQ</string>
+  <string name="menu_readme">文檔</string>
+  <string name="menu_faq">常見問題</string>
   <string name="menu_donate">捐贈</string>
   <string name="msg_no_service">模組尚未執行或是剛更新</string>
   <string name="msg_review_settings">查看隱私設定</string>
   <string name="msg_usage">\'%1$s\' 已限制</string>
   <string name="msg_exception">%1$s 發生錯誤</string>
-  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
+  <string name="msg_restrict_sure">您確定要為所有應用程式切換 \"%1$s\" 嗎？</string>
   <string name="group_determine_activity">判別活動交互</string>
   <string name="group_get_applications">讀取程式列表</string>
   <string name="group_get_calendars">讀取日曆</string>
@@ -49,6 +49,6 @@
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>
   <string name="group_send_messages">發送訊息</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">使用分析（Google Analytics）</string>
   <string name="group_use_camera">使用相機</string>
 </resources>
