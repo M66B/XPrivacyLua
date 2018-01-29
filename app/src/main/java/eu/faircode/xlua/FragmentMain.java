@@ -46,6 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class FragmentMain extends Fragment {
     private ProgressBar pbApplication;
     private Spinner spGroup;
     private ArrayAdapter<XGroup> spAdapter;
+    private Button btnRestrict;
+    private TextView tvRestrict;
     private Group grpApplication;
     private AdapterApp rvAdapter;
 
@@ -69,6 +72,8 @@ public class FragmentMain extends Fragment {
         final View main = inflater.inflate(R.layout.restrictions, container, false);
 
         pbApplication = main.findViewById(R.id.pbApplication);
+        btnRestrict = main.findViewById(R.id.btnRestrict);
+        tvRestrict = main.findViewById(R.id.tvRestrict);
         grpApplication = main.findViewById(R.id.grpApplication);
 
         // Initialize app list
@@ -87,8 +92,6 @@ public class FragmentMain extends Fragment {
 
         spAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        final Button btnRestrict = main.findViewById(R.id.btnRestrict);
 
         spGroup = main.findViewById(R.id.spGroup);
         spGroup.setTag(null);
@@ -114,7 +117,8 @@ public class FragmentMain extends Fragment {
                     rvAdapter.setGroup(group);
                 }
 
-                btnRestrict.setEnabled(group != null);
+                tvRestrict.setVisibility(group == null ? View.VISIBLE : View.GONE);
+                btnRestrict.setVisibility(group == null ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
@@ -194,6 +198,11 @@ public class FragmentMain extends Fragment {
 
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
+
+                XGroup selected = (XGroup) spGroup.getSelectedItem();
+                String group = (selected == null ? null : selected.name);
+                tvRestrict.setVisibility(group == null ? View.VISIBLE : View.GONE);
+                btnRestrict.setVisibility(group == null ? View.INVISIBLE : View.VISIBLE);
             } else {
                 Log.e(TAG, Log.getStackTraceString(data.exception));
                 Snackbar.make(getView(), data.exception.toString(), Snackbar.LENGTH_LONG).show();
