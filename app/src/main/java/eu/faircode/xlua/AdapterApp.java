@@ -44,6 +44,9 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -502,6 +505,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         else {
             Uri uri = Uri.parse("android.resource://" + app.packageName + "/" + app.icon);
             GlideApp.with(holder.itemView.getContext())
+                    .applyDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565))
                     .load(uri)
                     .override(iconSize, iconSize)
                     .into(holder.ivIcon);
