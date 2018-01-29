@@ -17,7 +17,6 @@
 
 function before(hook, param)
     local enable = param:getArgument(0)
-    log(enable)
     if not enable then
         param:setArgument(0, true)
     end

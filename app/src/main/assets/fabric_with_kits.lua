@@ -24,7 +24,7 @@ function after(hook, param)
     local clsArray = luajava.bindClass('java.lang.reflect.Array')
     for index = 0, kits.length - 1 do
         local kit = clsArray:get(kits, index)
-        if kit ~= nil then
+        if kit ~= nil and kit.getIdentifier ~= nil then
             local identifier = kit:getIdentifier()
             log(identifier)
             if identifier == 'com.crashlytics.sdk.android:crashlytics' then

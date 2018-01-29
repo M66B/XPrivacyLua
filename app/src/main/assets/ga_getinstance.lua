@@ -17,7 +17,7 @@
 
 function after(hook, param)
     local result = param:getResult()
-    if result == nil then
+    if result == nil or result.isDryRunEnabled == nil or result.setDryRun == nil then
         return false
     end
 
