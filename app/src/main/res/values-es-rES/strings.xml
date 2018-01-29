@@ -3,16 +3,16 @@
 <resources>
   <string name="title_accept">Acepto</string>
   <string name="title_deny">No acepto</string>
-  <string name="title_fix">Fix</string>
+  <string name="title_fix">Reparar</string>
   <string name="title_all">Todas</string>
   <string name="title_restrict">Restringir</string>
   <string name="title_help_instructions">
         Pulsa en el ícono o nombre de una app y marca las restricciones para aplicarlas.
         Si es posible, las apps se detienen automáticamente para aplicar (o eliminar) las restricciones inmediatamente,
         pero para poder aplicar restricciones a algunas apps se requiere un reinicio del dispositivo (ve los íconos abajo).
-        <![CDATA[<br><br>]]>Pulsa y mantén presionado sobre el nombre de un app o su ícono para iniciarla.
-        <![CDATA[<br><br>]]>Revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">aquí</a>]]> la documentación
-        y <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">aquí</a>]]> las preguntas más frecuentes.
+        <![CDATA[<br><br>]]>Pulsa y mantén presionado sobre el nombre de una app o su ícono para iniciarla.
+        <![CDATA[<br><br>]]>Para mayor información, revisa <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">la documentación</a>]]>
+        y <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">las preguntas más frecuentes</a>]]>. 
     </string>
   <string name="title_help_installed">Restricción instalada</string>
   <string name="title_help_system">Aplicar las restricciones puede causar problemas</string>
@@ -21,19 +21,19 @@
   <string name="title_help_exception">La aplicación de restricciones ha fallado (Pulsa el ícono para mayor información)</string>
   <string name="menu_search">Buscar</string>
   <string name="menu_help">Ayuda</string>
-  <string name="menu_show_all">Mostrar todas las aplicaciones</string>
-  <string name="menu_notify_new">Notificar sobre nuevas aplicaciones</string>
-  <string name="menu_restrict_new">Restringir nuevas aplicaciones</string>
-  <string name="menu_readme">Documentation</string>
-  <string name="menu_faq">FAQ</string>
+  <string name="menu_show_all">Mostrar todas las apps</string>
+  <string name="menu_notify_new">Notificar sobre nuevas apps</string>
+  <string name="menu_restrict_new">Restringir nuevas apps</string>
+  <string name="menu_readme">Documentación</string>
+  <string name="menu_faq">Preguntas más frecuentes</string>
   <string name="menu_donate">Donar</string>
   <string name="msg_no_service">El módulo no está en ejecución o se encuentra desactualizado</string>
   <string name="msg_review_settings">Revisa la configuración de privacidad</string>
   <string name="msg_usage">Restringido \'%1$s\'</string>
   <string name="msg_exception">Error en %1$s</string>
-  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
+  <string name="msg_restrict_sure">¿Estás seguro que quieres alternar \'%1$s\' para todas las apps?</string>
   <string name="group_determine_activity">Determinar actividad</string>
-  <string name="group_get_applications">Obtener aplicaciones</string>
+  <string name="group_get_applications">Obtener apps</string>
   <string name="group_get_calendars">Obtener los calendarios</string>
   <string name="group_get_call_log">Obtener historial de llamadas</string>
   <string name="group_get_contacts">Obtener los contactos</string>
@@ -50,6 +50,6 @@
   <string name="group_record_audio">Grabar audio</string>
   <string name="group_record_video">Grabar video</string>
   <string name="group_send_messages">Enviar mensajes</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">Utilizar análisis</string>
   <string name="group_use_camera">Utilizar la cámara</string>
 </resources>
