@@ -136,23 +136,24 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         this.app = app;
 
         Map<String, Group> map = new HashMap<>();
-        for (XHook hook : hooks) {
-            Group group;
-            if (map.containsKey(hook.getGroup()))
-                group = map.get(hook.getGroup());
-            else {
-                group = new Group();
+        for (XHook hook : hooks)
+            if (hook.isAvailable(app.packageName, hook.getCollection())) {
+                Group group;
+                if (map.containsKey(hook.getGroup()))
+                    group = map.get(hook.getGroup());
+                else {
+                    group = new Group();
 
-                Resources resources = context.getResources();
-                String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
-                group.id = resources.getIdentifier("group_" + name, "string", context.getPackageName());
-                group.name = hook.getGroup();
-                group.title = (group.id > 0 ? resources.getString(group.id) : hook.getGroup());
+                    Resources resources = context.getResources();
+                    String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
+                    group.id = resources.getIdentifier("group_" + name, "string", context.getPackageName());
+                    group.name = hook.getGroup();
+                    group.title = (group.id > 0 ? resources.getString(group.id) : hook.getGroup());
 
-                map.put(hook.getGroup(), group);
+                    map.put(hook.getGroup(), group);
+                }
+                group.hooks.add(hook);
             }
-            group.hooks.add(hook);
-        }
 
         for (String groupid : map.keySet()) {
             for (XAssignment assignment : app.assignments)
