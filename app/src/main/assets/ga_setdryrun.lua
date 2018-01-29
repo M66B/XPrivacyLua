@@ -19,7 +19,7 @@ function before(hook, param)
     local enable = param:getArgument(0)
     log(enable)
     if not enable then
-        enable = not pcall(param:setArgument(0, true))
+        param:setArgument(0, true)
     end
     return not enable
 end
