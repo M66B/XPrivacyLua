@@ -21,6 +21,5 @@ function after(hook, param)
         return false
     end
 
-    result:setAnalyticsCollectionEnabled(false)
-    return true
+    return pcall(result:setAnalyticsCollectionEnabled(false))
 end
