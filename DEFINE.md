@@ -59,7 +59,9 @@ Note that you can conveniently edit hook definitions in the pro companion app, s
 
 <br>
 
-* The *collection*, *group* and *name* attributes are use to identify a hook
+* The *collection* and *name* attributes are used to uniquely identify a hook
+* The pro companion app allows you to select which *collection* XPrivacyLua should handle
+* For convenience XPrivacyLua applies hooks by *group*
 * The attributes *minSdk* and *maxSdk* determine for which [Android versions](https://source.android.com/setup/build-numbers) (API level) the hook should be used
 * Setting *enabled* to *false* will switch the hook off (default *true*)
 * Setting *optional* to *true* will suppress error messages about the class or method not being found (default *false*)
