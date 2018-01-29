@@ -36,7 +36,7 @@ Restrictions
 * Record audio (prevent recording)
 * Record video (prevent recording)
 * Send messages (prevent sending MMS, SMS, data)
-* Use analytics ([Google Analytic](https://www.google.com/analytics/), [Facebook app events](https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/), [Fabric/Crashlytics](https://get.fabric.io/))
+* Use analytics ([Fabric/Crashlytics](https://get.fabric.io/), [Facebook app events](https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/), [Firebase Analytics](https://firebase.google.com/docs/analytics/), [Google Analytic](https://www.google.com/analytics/))
 * Use camera (fake camera not available and/or hide cameras)
 
 Hide or fake?

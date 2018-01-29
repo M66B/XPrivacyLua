@@ -1675,6 +1675,7 @@
   },
   // Use analytics
   // https://docs.fabric.io/javadocs/fabric/1.3.17/index.html
+  // https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics
   // http://flurry.github.io/flurry-android-sdk/
   // https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/
   // https://developers.google.com/android/reference/com/google/android/gms/analytics/GoogleAnalytics
@@ -1693,6 +1694,36 @@
     "minSdk": 1,
     "optional": true,
     "luaScript": "@fabric_with_kits"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FirebaseAnalytics.getInstance",
+    "author": "M66B",
+    "className": "com.google.firebase.analytics.FirebaseAnalytics",
+    "methodName": "getInstance",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "returnType": "com.google.firebase.analytics.FirebaseAnalytics",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@firebase_getinstance"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "FirebaseAnalytics.setAnalyticsCollectionEnabled",
+    "author": "M66B",
+    "className": "com.google.firebase.analytics.FirebaseAnalytics",
+    "methodName": "setAnalyticsCollectionEnabled",
+    "parameterTypes": [
+      "boolean"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@firebase_setenabled"
   },
   {
     "collection": "Privacy",
