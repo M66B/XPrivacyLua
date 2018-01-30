@@ -540,5 +540,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     @Override
     public void onViewRecycled(ViewHolder holder) {
         holder.unwire();
+        GlideApp.with(holder.itemView.getContext()).clear(holder.ivIcon);
     }
 }
