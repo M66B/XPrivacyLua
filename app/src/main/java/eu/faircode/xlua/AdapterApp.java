@@ -66,7 +66,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private boolean showAll = false;
     private String group = null;
     private CharSequence query = null;
-    private String collection = null;
+    private String collection = "Privacy";
     private boolean collectionChanged = false;
     private List<XHook> hooks = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
@@ -236,7 +236,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     void set(String collection, List<XHook> hooks, List<XApp> apps) {
         Log.i(TAG, "Set collection=" + collection + " hooks=" + hooks.size() + " apps=" + apps.size());
 
-        this.collectionChanged = (this.collection != null && !this.collection.equals(collection));
+        this.collectionChanged = !this.collection.equals(collection);
         this.collection = collection;
         this.hooks = hooks;
 

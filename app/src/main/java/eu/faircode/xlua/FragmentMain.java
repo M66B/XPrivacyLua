@@ -243,6 +243,8 @@ public class FragmentMain extends Fragment {
 
                 // Get collection
                 data.collection = XProvider.getSetting(getContext(), "global", "collection");
+                if (data.collection == null)
+                    data.collection = "Privacy";
 
                 // Load groups
                 Resources res = getContext().getResources();
