@@ -16,7 +16,7 @@
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
   <string name="title_help_system">L\'application de restrictions (applis système) peut causer des problèmes</string>
-  <string name="title_help_settings">Paramètres des restrictions des applis</string>
+  <string name="title_help_settings">Paramètres de restrictions des applis (XPrivacyLua Pro)</string>
   <string name="title_help_persistent">L\'application de restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
   <string name="menu_search">Rechercher</string>
@@ -33,7 +33,7 @@
   <string name="msg_exception">Erreur dans %1$s</string>
   <string name="msg_restrict_sure">Êtes-vous sûr(e) de vouloir intervertir \'%1$s\' pour toutes les applis ?</string>
   <string name="group_determine_activity">Déterminer l\'activité</string>
-  <string name="group_get_applications">Voir les applications installées</string>
+  <string name="group_get_applications">Voir les applis installées</string>
   <string name="group_get_calendars">Voir les calendriers</string>
   <string name="group_get_call_log">Voir le journal des appels</string>
   <string name="group_get_contacts">Voir les contacts</string>

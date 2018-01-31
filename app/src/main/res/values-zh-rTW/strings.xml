@@ -49,6 +49,6 @@
   <string name="group_record_audio">錄音</string>
   <string name="group_record_video">錄影</string>
   <string name="group_send_messages">發送訊息</string>
-  <string name="group_use_analytics">使用分析（Google Analytics）</string>
+  <string name="group_use_analytics">使用分析（Google/Firebase Analytics）</string>
   <string name="group_use_camera">使用相機</string>
 </resources>

@@ -191,7 +191,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
             final ArrayList<String> hookids = new ArrayList<>();
             for (XHook hook : hooks)
-                if (groupName == null || groupName.equals(hook.getGroup())) {
+                if (hook.isAvailable(app.packageName, collection) &&
+                        (groupName == null || groupName.equals(hook.getGroup()))) {
                     hookids.add(hook.getId());
                     if (assign)
                         app.assignments.add(new XAssignment(hook));
