@@ -1679,6 +1679,7 @@
   // http://flurry.github.io/flurry-android-sdk/
   // https://developers.facebook.com/docs/reference/androidsdk/current/facebook/com/facebook/appevents/appeventslogger.html/
   // https://developers.google.com/android/reference/com/google/android/gms/analytics/GoogleAnalytics
+  // https://segment.com/docs/sources/mobile/android/
   {
     "collection": "Privacy",
     "group": "Use.Analytics",
