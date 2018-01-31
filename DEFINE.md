@@ -104,6 +104,9 @@ You can also modify field values in an *after* function by prefixing the method 
   "methodName": "#SERIAL"
 ```
 
+Note that *final static* fields (constants) might be optimized 'away' at compile time,
+so setting such a field might not work because it doesn't exist on run time anymore.
+
 Another special case is hooking a method of a field using the syntax *[field name]:[method name]*, for example:
 
 ```JSON
