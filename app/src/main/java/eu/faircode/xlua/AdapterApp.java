@@ -522,7 +522,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
         List<XHook> selectedHooks = new ArrayList<>();
         for (XHook hook : hooks)
-            if (group == null || group.equals(hook.getGroup()))
+            if (hook.isAvailable(app.packageName, collection) &&
+                    (group == null || group.equals(hook.getGroup())))
                 selectedHooks.add(hook);
 
         // Assignment info
