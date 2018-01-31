@@ -50,6 +50,7 @@ public class XHook {
     private String group;
     private String name;
     private String author;
+    private String description;
 
     private String className;
     private String resolvedClassName = null;
@@ -59,6 +60,8 @@ public class XHook {
 
     private int minSdk;
     private int maxSdk;
+    private int minApk;
+    private int maxApk;
     private String[] excludePackages;
     private boolean enabled;
     private boolean optional;
@@ -94,6 +97,11 @@ public class XHook {
     @SuppressWarnings("unused")
     public String getAuthor() {
         return this.author;
+    }
+
+    @SuppressWarnings("unused")
+    public String getDescription() {
+        return this.description;
     }
 
     @SuppressWarnings("unused")
@@ -144,6 +152,10 @@ public class XHook {
             Log.i(TAG, "Excluded " + this.getId() + " for " + packageName);
 
         return included;
+    }
+
+    public boolean isAvailable(int versionCode) {
+        return (versionCode >= this.minApk && versionCode <= maxApk);
     }
 
     public boolean isOptional() {
@@ -284,6 +296,8 @@ public class XHook {
         jroot.put("group", this.group);
         jroot.put("name", this.name);
         jroot.put("author", this.author);
+        if (this.description != null)
+            jroot.put("description", this.description);
 
         jroot.put("className", this.className);
         if (this.resolvedClassName != null)
@@ -300,6 +314,9 @@ public class XHook {
 
         jroot.put("minSdk", this.minSdk);
         jroot.put("maxSdk", this.maxSdk);
+
+        jroot.put("minApk", this.minApk);
+        jroot.put("maxApk", this.maxApk);
 
         if (this.excludePackages != null)
             jroot.put("excludePackages", TextUtils.join(",", this.excludePackages));
@@ -326,6 +343,7 @@ public class XHook {
         hook.group = jroot.getString("group");
         hook.name = jroot.getString("name");
         hook.author = jroot.getString("author");
+        hook.description = (jroot.has("description") ? jroot.getString("description") : null);
 
         hook.className = jroot.getString("className");
         hook.resolvedClassName = (jroot.has("resolvedClassName") ? jroot.getString("resolvedClassName") : null);
@@ -340,6 +358,9 @@ public class XHook {
 
         hook.minSdk = jroot.getInt("minSdk");
         hook.maxSdk = (jroot.has("maxSdk") ? jroot.getInt("maxSdk") : 999);
+
+        hook.minApk = (jroot.has("minApk") ? jroot.getInt("minApk") : 0);
+        hook.maxApk = (jroot.has("maxApk") ? jroot.getInt("maxApk") : Integer.MAX_VALUE);
 
         hook.excludePackages = (jroot.has("excludePackages")
                 ? jroot.getString("excludePackages").split(",") : null);

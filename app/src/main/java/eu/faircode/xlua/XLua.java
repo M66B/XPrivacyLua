@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.Uri;
@@ -289,9 +290,13 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 }
             }
 
-            private void hookPackage(final Context context, List<XHook> hooks, final Map<String, String> settings) {
+            private void hookPackage(final Context context, List<XHook> hooks, final Map<String, String> settings) throws Throwable {
+                PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                 for (final XHook hook : hooks)
                     try {
+                        if (!hook.isAvailable(pi.versionCode))
+                            continue;
+
                         long install = SystemClock.elapsedRealtime();
 
                         // Compile script

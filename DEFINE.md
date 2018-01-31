@@ -39,6 +39,7 @@ An exported definition in [JSON](https://en.wikipedia.org/wiki/JSON) format look
   "group": "Read.Telephony",
   "name": "TelephonyManager\/getDeviceId",
   "author": "M66B",
+  "description": "Let the telephony manager return NULL as device ID",
   "className": "android.telephony.TelephonyManager",
   "methodName": "getDeviceId",
   "parameterTypes": [],
