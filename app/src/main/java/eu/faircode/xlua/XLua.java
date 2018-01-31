@@ -331,38 +331,67 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             if (paramTypes.length > 0)
                                 throw new NoSuchFieldException("Field with parameters");
 
-                            // Initialize Lua runtime
-                            Globals globals = getGlobals(context, hook);
-                            LuaClosure closure = new LuaClosure(compiledScript, globals);
-                            closure.call();
+                            try {
+                                long run = SystemClock.elapsedRealtime();
 
-                            // Check if function exists
-                            LuaValue func = globals.get("after");
-                            if (func.isnil())
-                                return;
+                                // Initialize Lua runtime
+                                Globals globals = getGlobals(context, hook);
+                                LuaClosure closure = new LuaClosure(compiledScript, globals);
+                                closure.call();
 
-                            LuaValue[] args = new LuaValue[]{
-                                    coercedHook,
-                                    CoerceJavaToLua.coerce(new XParam(
-                                            context,
-                                            field,
-                                            paramTypes, returnType,
-                                            settings))
-                            };
+                                // Check if function exists
+                                LuaValue func = globals.get("after");
+                                if (func.isnil())
+                                    return;
 
-                            // Run function
-                            Varargs result = func.invoke(args);
+                                LuaValue[] args = new LuaValue[]{
+                                        coercedHook,
+                                        CoerceJavaToLua.coerce(new XParam(
+                                                context,
+                                                field,
+                                                paramTypes, returnType,
+                                                settings))
+                                };
 
-                            // Report use
-                            boolean restricted = result.arg1().checkboolean();
-                            if (restricted && hook.doUsage()) {
+                                // Run function
+                                Varargs result = func.invoke(args);
+
+                                // Report use
+                                boolean restricted = result.arg1().checkboolean();
+                                if (restricted && hook.doUsage()) {
+                                    Bundle data = new Bundle();
+                                    data.putString("function", "after");
+                                    data.putInt("restricted", restricted ? 1 : 0);
+                                    data.putLong("duration", SystemClock.elapsedRealtime() - run);
+                                    if (result.narg() > 1) {
+                                        data.putString("old", result.isnil(2) ? null : result.checkjstring(2));
+                                        data.putString("new", result.isnil(3) ? null : result.checkjstring(3));
+                                    }
+                                    report(context, hook.getId(), "after", "use", data);
+                                }
+                            } catch (Throwable ex) {
+                                StringBuilder sb = new StringBuilder();
+
+                                sb.append("Exception:\n");
+                                sb.append(Log.getStackTraceString(ex));
+                                sb.append("\n");
+
+                                sb.append("\nPackage:\n");
+                                sb.append(context.getPackageName());
+                                sb.append(':');
+                                sb.append(Integer.toString(context.getApplicationInfo().uid));
+                                sb.append("\n");
+
+                                sb.append("\nField:\n");
+                                sb.append(field.toString());
+                                sb.append("\n");
+
+                                Log.e(TAG, sb.toString());
+
+                                // Report use error
                                 Bundle data = new Bundle();
                                 data.putString("function", "after");
-                                data.putInt("restricted", restricted ? 1 : 0);
-                                if (result.narg() > 1) {
-                                    data.putString("old", result.isnil(2) ? null : result.checkjstring(2));
-                                    data.putString("new", result.isnil(3) ? null : result.checkjstring(3));
-                                }
+                                data.putString("exception", sb.toString());
                                 report(context, hook.getId(), "after", "use", data);
                             }
                         } else {
