@@ -112,6 +112,15 @@ If you see an app accessing the list of accounts while the accounts restriction 
 it is likely the Android account selector dialog you are seeing.
 The app will see only the account you actually select.
 
+<a name="FAQ10"></a>
+**(10) Can applying a restriction let an app crash?**
+
+XPrivacyLua is designed to let apps not crash.
+However, sometimes an app will crash because of a restriction because there is a bug in the app.
+For example XPrivacyLua can return no data to an app while the app is not expecting this but should be prepared to handle this because the Android API documentation says this might happen.
+
+If you suspect that a restriction is causing a crash because there is a bug in the restriction, please provide a logcat and I will check the restriction.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
