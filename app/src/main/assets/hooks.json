@@ -2155,6 +2155,36 @@
     "optional": true,
     "luaScript": "@ga_setdryrun"
   },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "SegmentAnalytics.setSingletonInstance",
+    "author": "M66B",
+    "className": "com.segment.analytics.Analytics",
+    "methodName": "setSingletonInstance",
+    "parameterTypes": [
+      "com.segment.analytics.Analytics"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@segment_getinstance"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "SegmentAnalytics.optOut",
+    "author": "M66B",
+    "className": "com.segment.analytics.Analytics",
+    "methodName": "optOut",
+    "parameterTypes": [
+      "boolean"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@segment_optout"
+  },
   // Use camera
   // https://developer.android.com/reference/android/hardware/Camera.html
   // https://developer.android.com/reference/android/hardware/camera2/CameraManager.html
