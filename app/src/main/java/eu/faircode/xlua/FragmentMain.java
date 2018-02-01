@@ -66,6 +66,8 @@ public class FragmentMain extends Fragment {
     private Group grpApplication;
     private AdapterApp rvAdapter;
 
+    private AdapterApp.enumShow show = AdapterApp.enumShow.none;
+
     @Override
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -166,9 +168,14 @@ public class FragmentMain extends Fragment {
         getContext().unregisterReceiver(packageChangedReceiver);
     }
 
-    public void setShowAll(boolean showAll) {
+    public AdapterApp.enumShow getShow() {
+        return this.show;
+    }
+
+    public void setShow(AdapterApp.enumShow value) {
+        this.show = value;
         if (rvAdapter != null)
-            rvAdapter.setShowAll(showAll);
+            rvAdapter.setShow(value);
     }
 
     public void filter(String query) {
@@ -194,6 +201,8 @@ public class FragmentMain extends Fragment {
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
 
+                show = data.show;
+                rvAdapter.setShow(data.show);
                 rvAdapter.set(data.collection, data.hooks, data.apps);
 
                 pbApplication.setVisibility(View.GONE);
@@ -240,6 +249,14 @@ public class FragmentMain extends Fragment {
                                 .call(XProvider.URI, "xlua", "putHook", args);
                     }
                 }
+
+                String show = XProvider.getSetting(getContext(), "global", "show");
+                if (show != null && show.equals("user"))
+                    data.show = AdapterApp.enumShow.user;
+                else if (show != null && show.equals("all"))
+                    data.show = AdapterApp.enumShow.all;
+                else
+                    data.show = AdapterApp.enumShow.icon;
 
                 // Get collection
                 data.collection = XProvider.getSetting(getContext(), "global", "collection");
@@ -338,6 +355,7 @@ public class FragmentMain extends Fragment {
     };
 
     private static class DataHolder {
+        AdapterApp.enumShow show;
         String collection;
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();

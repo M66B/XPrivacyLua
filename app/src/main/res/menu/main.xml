@@ -2,6 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_show"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/menu_show"
+        app:showAsAction="always">
+        <menu>
+            <group
+                android:id="@+id/groupShow"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_show_user"
+                    android:title="@string/menu_show_user" />
+                <item
+                    android:id="@+id/menu_show_icon"
+                    android:title="@string/menu_show_icon" />
+                <item
+                    android:id="@+id/menu_show_all"
+                    android:title="@string/menu_show_all" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"

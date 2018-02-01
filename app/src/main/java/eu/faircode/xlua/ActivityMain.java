@@ -52,6 +52,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ActivityMain extends AppCompatActivity {
     private final static String TAG = "XLua.Main";
@@ -61,13 +63,14 @@ public class ActivityMain extends AppCompatActivity {
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle = null;
 
-    private MenuItem menuSearch = null;
-    private SearchView searchView = null;
+    private Menu menu = null;
 
     private AlertDialog firstRunDialog = null;
 
     public static final int LOADER_DATA = 1;
     public static final String EXTRA_SEARCH_PACKAGE = "package";
+
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,22 +139,10 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         // Initialize drawer
-        boolean showAll = XProvider.getSettingBoolean(this, "global", "show_all_apps");
         boolean notifyNew = XProvider.getSettingBoolean(this, "global", "notify_new_apps");
         boolean restrictNew = XProvider.getSettingBoolean(this, "global", "restrict_new_apps");
 
         final ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityMain.this, R.layout.draweritem);
-
-        drawerArray.add(new DrawerItem(this, R.string.menu_show_all, showAll, new DrawerItem.IListener() {
-            @Override
-            public void onClick(DrawerItem item) {
-                XProvider.putSettingBoolean(ActivityMain.this, "global", "show_all_apps", item.isChecked());
-                drawerArray.notifyDataSetChanged();
-                fragmentMain.setShowAll(item.isChecked());
-                //Log.e(TAG, Log.getStackTraceString(ex));
-                //Snackbar.make(findViewById(android.R.id.content), ex.toString(), Snackbar.LENGTH_INDEFINITE).show();
-            }
-        }));
 
         drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
             @Override
@@ -198,8 +189,6 @@ public class ActivityMain extends AppCompatActivity {
 
         drawerList.setAdapter(drawerArray);
 
-        fragmentMain.setShowAll(showAll);
-
         checkFirstRun();
     }
 
@@ -215,7 +204,9 @@ public class ActivityMain extends AppCompatActivity {
         Log.i(TAG, "New " + intent);
         super.onNewIntent(intent);
         setIntent(intent);
-        updateMenu();
+
+        if (this.menu != null)
+            updateMenu(this.menu);
     }
 
     @Override
@@ -240,8 +231,7 @@ public class ActivityMain extends AppCompatActivity {
         if (fragmentMain != null) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.main, menu);
-
-            menuSearch = menu.findItem(R.id.menu_search);
+            this.menu = menu;
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -252,47 +242,46 @@ public class ActivityMain extends AppCompatActivity {
         Log.i(TAG, "Prepare options");
 
         // Search
-        if (menuSearch != null) {
-            searchView = (SearchView) menuSearch.getActionView();
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Log.i(TAG, "Search submit=" + query);
-                    fragmentMain.filter(query);
-                    searchView.clearFocus(); // close keyboard
-                    return true;
-                }
+        MenuItem menuSearch = menu.findItem(R.id.menu_search);
+        final SearchView searchView = (SearchView) menuSearch.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i(TAG, "Search submit=" + query);
+                fragmentMain.filter(query);
+                searchView.clearFocus(); // close keyboard
+                return true;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    Log.i(TAG, "Search change=" + newText);
-                    fragmentMain.filter(newText);
-                    return true;
-                }
-            });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.i(TAG, "Search change=" + newText);
+                fragmentMain.filter(newText);
+                return true;
+            }
+        });
 
-            menuSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                    Log.i(TAG, "Search expand");
-                    return true;
-                }
+        menuSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                Log.i(TAG, "Search expand");
+                return true;
+            }
 
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                    Log.i(TAG, "Search collapse");
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                Log.i(TAG, "Search collapse");
 
-                    // Search uid once
-                    Intent intent = getIntent();
-                    intent.removeExtra(EXTRA_SEARCH_PACKAGE);
-                    setIntent(intent);
+                // Search uid once
+                Intent intent = getIntent();
+                intent.removeExtra(EXTRA_SEARCH_PACKAGE);
+                setIntent(intent);
 
-                    return true;
-                }
-            });
+                return true;
+            }
+        });
 
-            updateMenu();
-        }
+        updateMenu(menu);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -304,6 +293,49 @@ public class ActivityMain extends AppCompatActivity {
 
         Log.i(TAG, "Selected option " + item.getTitle());
         switch (item.getItemId()) {
+            case R.id.menu_show:
+                AdapterApp.enumShow show = fragmentMain.getShow();
+                this.menu.findItem(R.id.menu_show_user).setEnabled(show != AdapterApp.enumShow.none);
+                this.menu.findItem(R.id.menu_show_icon).setEnabled(show != AdapterApp.enumShow.none);
+                this.menu.findItem(R.id.menu_show_all).setEnabled(show != AdapterApp.enumShow.none);
+                switch (show) {
+                    case user:
+                        this.menu.findItem(R.id.menu_show_user).setChecked(true);
+                        break;
+                    case icon:
+                        this.menu.findItem(R.id.menu_show_icon).setChecked(true);
+                        break;
+                    case all:
+                        this.menu.findItem(R.id.menu_show_all).setChecked(true);
+                        break;
+                }
+                return true;
+
+            case R.id.menu_show_user:
+            case R.id.menu_show_icon:
+            case R.id.menu_show_all:
+                item.setChecked(!item.isChecked());
+                final AdapterApp.enumShow set;
+                switch (item.getItemId()) {
+                    case R.id.menu_show_user:
+                        set = AdapterApp.enumShow.user;
+                        break;
+                    case R.id.menu_show_all:
+                        set = AdapterApp.enumShow.all;
+                        break;
+                    default:
+                        set = AdapterApp.enumShow.icon;
+                        break;
+                }
+                fragmentMain.setShow(set);
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        XProvider.putSetting(ActivityMain.this, "global", "show", set.name());
+                    }
+                });
+                return true;
+
             case R.id.menu_help:
                 menuHelp();
                 return true;
@@ -317,8 +349,10 @@ public class ActivityMain extends AppCompatActivity {
         startActivity(new Intent(this, ActivityHelp.class));
     }
 
-    public void updateMenu() {
+    public void updateMenu(Menu menu) {
         // Search
+        MenuItem menuSearch = menu.findItem(R.id.menu_search);
+        final SearchView searchView = (SearchView) menuSearch.getActionView();
         if (searchView != null) {
             String pkg = getIntent().getStringExtra(EXTRA_SEARCH_PACKAGE);
             if (pkg != null) {

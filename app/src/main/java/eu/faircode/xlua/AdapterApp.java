@@ -63,7 +63,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
     private int iconSize;
 
-    private boolean showAll = false;
+    public enum enumShow {none, user, icon, all}
+
+    private enumShow show = enumShow.icon;
     private String group = null;
     private CharSequence query = null;
     private String collection = "Privacy";
@@ -277,9 +279,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         getFilter().filter(query);
     }
 
-    void setShowAll(boolean value) {
-        if (showAll != value) {
-            showAll = value;
+    void setShow(enumShow value) {
+        if (show != value) {
+            show = value;
             getFilter().filter(query);
         }
     }
@@ -359,11 +361,12 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 AdapterApp.this.query = query;
 
                 List<XApp> visible = new ArrayList<>();
-                if (showAll || !TextUtils.isEmpty(query))
+                if (show == enumShow.all || !TextUtils.isEmpty(query))
                     visible.addAll(all);
                 else
                     for (XApp app : all)
-                        if (app.uid > Process.FIRST_APPLICATION_UID && app.icon > 0 && app.enabled)
+                        if (app.uid > Process.FIRST_APPLICATION_UID && app.enabled &&
+                                (show == enumShow.icon ? app.icon > 0 : !app.system))
                             visible.add(app);
 
                 List<XApp> results = new ArrayList<>();
