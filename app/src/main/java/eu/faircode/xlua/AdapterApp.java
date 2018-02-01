@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
+import android.support.constraint.Group;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
@@ -88,7 +89,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         final ImageView ivPersistent;
         final ImageView ivSettings;
         final AppCompatCheckBox cbAssigned;
+        final AppCompatCheckBox cbForceStop;
         final RecyclerView rvGroup;
+        final Group grpExpanded;
 
         final AdapterGroup adapter;
 
@@ -104,6 +107,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             ivPersistent = itemView.findViewById(R.id.ivPersistent);
             ivSettings = itemView.findViewById(R.id.ivSettings);
             cbAssigned = itemView.findViewById(R.id.cbAssigned);
+            cbForceStop = itemView.findViewById(R.id.cbForceStop);
 
             rvGroup = itemView.findViewById(R.id.rvGroup);
             rvGroup.setHasFixedSize(true);
@@ -112,6 +116,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             rvGroup.setLayoutManager(llm);
             adapter = new AdapterGroup();
             rvGroup.setAdapter(adapter);
+
+            grpExpanded = itemView.findViewById(R.id.grpExpanded);
         }
 
         private void wire() {
@@ -119,6 +125,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             itemView.setOnLongClickListener(this);
             ivSettings.setOnClickListener(this);
             cbAssigned.setOnCheckedChangeListener(this);
+            cbForceStop.setOnCheckedChangeListener(this);
         }
 
         private void unwire() {
@@ -126,6 +133,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             itemView.setOnLongClickListener(null);
             ivSettings.setOnClickListener(null);
             cbAssigned.setOnCheckedChangeListener(null);
+            cbForceStop.setOnCheckedChangeListener(null);
         }
 
         @Override
@@ -169,13 +177,25 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+        public void onCheckedChanged(final CompoundButton compoundButton, boolean checked) {
             Log.i(TAG, "Check changed");
+            final XApp app = filtered.get(getAdapterPosition());
+
             switch (compoundButton.getId()) {
                 case R.id.cbAssigned:
-                    XApp app = filtered.get(getAdapterPosition());
                     updateAssignments(compoundButton.getContext(), app, group, checked);
                     notifyItemChanged(getAdapterPosition());
+                    break;
+
+                case R.id.cbForceStop:
+                    app.forceStop = checked;
+                    executor.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            XProvider.putSettingBoolean(
+                                    compoundButton.getContext(), app.packageName, "forcestop", app.forceStop);
+                        }
+                    });
                     break;
             }
         }
@@ -210,7 +230,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     args.putString("packageName", app.packageName);
                     args.putInt("uid", app.uid);
                     args.putBoolean("delete", !assign);
-                    args.putBoolean("kill", !app.persistent);
+                    args.putBoolean("kill", app.forceStop);
                     context.getContentResolver()
                             .call(XProvider.URI, "xlua", "assignHooks", args);
                 }
@@ -222,7 +242,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             boolean isExpanded = (group == null && expanded.containsKey(app.packageName) && expanded.get(app.packageName));
             ivExpander.setImageLevel(isExpanded ? 1 : 0);
             ivExpander.setVisibility(group == null ? View.VISIBLE : View.INVISIBLE);
-            rvGroup.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+            grpExpanded.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -334,7 +354,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 args.putString("packageName", app.packageName);
                 args.putInt("uid", app.uid);
                 args.putBoolean("delete", revert);
-                args.putBoolean("kill", !app.persistent);
+                args.putBoolean("kill", app.forceStop);
                 actions.add(args);
             }
         }
@@ -535,6 +555,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 app.getAssignments(group).size() == selectedHooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
+
+        holder.cbForceStop.setChecked(app.forceStop);
+        holder.cbForceStop.setEnabled(!app.persistent);
+
         holder.adapter.set(app, selectedHooks, holder.itemView.getContext());
 
         holder.updateExpand();

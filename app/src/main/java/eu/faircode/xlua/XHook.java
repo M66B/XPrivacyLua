@@ -147,10 +147,6 @@ public class XHook {
                 included = false;
                 break;
             }
-
-        if (!included)
-            Log.i(TAG, "Excluded " + this.getId() + " for " + packageName);
-
         return included;
     }
 

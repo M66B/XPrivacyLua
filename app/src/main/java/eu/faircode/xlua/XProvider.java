@@ -217,7 +217,8 @@ class XProvider {
                 } else
                     Log.w(TAG, "Builtin not found id=" + id);
             } else {
-                Log.i(TAG, "Storing hook id=" + id + " builtin=" + hook.isBuiltin());
+                if (!hook.isBuiltin())
+                    Log.i(TAG, "Storing hook id=" + id);
                 hook.resolveClassName(context);
                 hooks.put(id, hook);
             }
@@ -327,8 +328,9 @@ class XProvider {
                     app.enabled = enabled;
                     app.persistent = persistent;
                     app.system = system;
+                    app.forceStop = (!persistent && !system);
                     app.assignments = new ArrayList<>();
-                    apps.put(app.packageName + ":" + app.uid, app);
+                    apps.put(app.packageName, app);
                 }
         } finally {
             Binder.restoreCallingIdentity(ident);
@@ -336,9 +338,42 @@ class XProvider {
 
         Log.i(TAG, "Installed apps=" + apps.size() + " cuid=" + cuid);
 
-        String collection = getCollection(context, userid);
+        // Get settings
+        dbLock.readLock().lock();
+        try {
+            db.beginTransaction();
+            try {
+                Cursor cursor = null;
+                try {
+                    cursor = db.query(
+                            "setting",
+                            new String[]{"category", "value"},
+                            "user = ? AND name = 'forcestop'",
+                            new String[]{Integer.toString(userid)},
+                            null, null, null);
+                    while (cursor.moveToNext()) {
+                        String pkg = cursor.getString(0);
+                        if (apps.containsKey(pkg)) {
+                            XApp app = apps.get(pkg);
+                            app.forceStop = Boolean.parseBoolean(cursor.getString(1));
+                        } else
+                            Log.i(TAG, "Package " + pkg + " not found (force stop)");
+                    }
+                } finally {
+                    if (cursor != null)
+                        cursor.close();
+                }
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            dbLock.readLock().unlock();
+        }
 
         // Get assigned hooks
+        String collection = getCollection(context, userid);
         dbLock.readLock().lock();
         try {
             db.beginTransaction();
@@ -364,8 +399,8 @@ class XProvider {
                         String pkg = cursor.getString(colPkg);
                         int uid = cursor.getInt(colUid);
                         String hookid = cursor.getString(colHook);
-                        if (apps.containsKey(pkg + ":" + uid)) {
-                            XApp app = apps.get(pkg + ":" + uid);
+                        if (apps.containsKey(pkg)) {
+                            XApp app = apps.get(pkg);
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
@@ -378,10 +413,10 @@ class XProvider {
                                         app.assignments.add(assignment);
                                     }
                                 } else if (BuildConfig.DEBUG)
-                                    Log.w(TAG, "Hook " + hookid + " not found");
+                                    Log.w(TAG, "Hook " + hookid + " not found (assignment)");
                             }
                         } else
-                            Log.i(TAG, "Package " + pkg + ":" + uid + " not found");
+                            Log.i(TAG, "Package " + pkg + " not found");
                     }
                 } finally {
                     if (cursor != null)
@@ -1071,11 +1106,11 @@ class XProvider {
                 }
             }
 
-            deleteHook(_db, "Privacy.ContentResolver/query1");
-            deleteHook(_db, "Privacy.ContentResolver/query16");
-            deleteHook(_db, "Privacy.ContentResolver/query26");
-            renameHook(_db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
-            renameHook(_db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
+            //deleteHook(_db, "Privacy.ContentResolver/query1");
+            //deleteHook(_db, "Privacy.ContentResolver/query16");
+            //deleteHook(_db, "Privacy.ContentResolver/query26");
+            //renameHook(_db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
+            //renameHook(_db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
 
             Log.i(TAG, "Database version=" + _db.getVersion());
 
@@ -1140,7 +1175,6 @@ class XProvider {
         } finally {
             Binder.restoreCallingIdentity(ident);
         }
-
     }
 
     static boolean getSettingBoolean(Context context, String category, String name) {

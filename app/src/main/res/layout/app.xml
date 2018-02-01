@@ -113,11 +113,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivIcon" />
 
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/cbForceStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/title_force_stop"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintTop_toBottomOf="@id/ivIcon" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivIcon" />
+        app:layout_constraintTop_toBottomOf="@id/cbForceStop" />
+
+    <android.support.constraint.Group
+        android:id="@+id/grpExpanded"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="cbForceStop,rvGroup" />
 </android.support.constraint.ConstraintLayout>
