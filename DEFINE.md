@@ -83,11 +83,30 @@ function after(hook, param)
 end
 ```
 
-There should be a *before* and/or an *after* function, which will be executed before/after the hooked method is executed.
-The function always has exacty two parameters:
+There should be a *before* and/or an *after* function, which will be executed before/after the hooked method is/has been executed.
+These functions always have exactly two parameters, in the example named *hook* and *param*.
+The *hook* parameter can be used to get meta information about the hook.
+The *param* parameter can be used to get or set the current arguments and the current result.
+The current arguments are typically modified *before* the hooked method is executed.
+The result can be set *before* the hooked method is executed,
+which will result in the actual method not executing (thus replacing the method),
+or can be set *after* the hooked method has been executed.
 
-* *hook*: information about the hooked method, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XHook.java) for the available public methods
-* *param*: information about the current parameters, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
+The most important functions of *hook* are:
+
+* *hook:getName()*
+* *hook:getClassName()*
+* For other functions, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XHook.java) for the available public methods
+
+The most important functions of *param* are:
+
+* *param:getApplicationContext()*: see below
+* *param:getThis()*: the current object instance or *nil* if the method is static
+* *param:getArgument(index)*: get the argument at the specified index (one based)
+* *param:setArgument(index, value)*
+* *param:getResult()*: only available after the hooked method has been executed
+* *param:setResult(value)*
+* For other functions, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
 
 The before/after function should return *true* when something was done and *false* otherwise.
 XPrivacyLua will show the last date/time of the last time *true* was returned.
