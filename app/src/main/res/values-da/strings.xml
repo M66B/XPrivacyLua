@@ -6,6 +6,7 @@
   <string name="title_fix">Ret</string>
   <string name="title_all">Samtlige</string>
   <string name="title_restrict">Begræns</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
 Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem.
          Om muligt stoppes apps automatisk med det samme for at effektuere (eller fjerne) begrænsninger,
@@ -18,10 +19,13 @@ Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem
   <string name="title_help_settings">Indstillinger for app-begrænsning</string>
   <string name="title_help_persistent">Begrænsningseffektueringer kræver genstart af enheden</string>
   <string name="title_help_exception">Effektuering af begrænsninger mislykkedes (tryk på ikonet for se hvorfor)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">Vis alle apps</string>
   <string name="menu_search">Søg</string>
   <string name="menu_help">Hjælp</string>
-  <string name="menu_show_all">Vis alle apps</string>
-  <string name="menu_notify_new">Notify new apps</string>
+  <string name="menu_notify_new">Notify on new apps</string>
   <string name="menu_restrict_new">Begrænse nye apps</string>
   <string name="menu_readme">Dokumentation</string>
   <string name="menu_faq">Ofte stillede spørgsmål (FAQ)</string>

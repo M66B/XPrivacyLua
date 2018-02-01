@@ -6,6 +6,7 @@
   <string name="title_fix">Исправить</string>
   <string name="title_all">Все</string>
   <string name="title_restrict">Ограничить</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Коснитесь значка или имени приложения и отметьте ограничения, чтобы их применить.
         По возможности приложения будут автоматически остановлены для немедленного применения (или удаления) ограничений,
@@ -19,9 +20,12 @@
   <string name="title_help_settings">Настройки ограничения приложения</string>
   <string name="title_help_persistent">Применение ограничений требует перезагрузки устройства</string>
   <string name="title_help_exception">Применение ограничения не удалось (нажмите значок, чтобы показать, почему)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">Показать все приложения</string>
   <string name="menu_search">Поиск</string>
   <string name="menu_help">Справка</string>
-  <string name="menu_show_all">Показать все приложения</string>
   <string name="menu_notify_new">Уведомлять о новых приложениях</string>
   <string name="menu_restrict_new">Ограничивать новые приложения</string>
   <string name="menu_readme">Документация</string>

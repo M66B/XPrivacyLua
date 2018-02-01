@@ -6,6 +6,7 @@
   <string name="title_fix">Fix</string>
   <string name="title_all">All</string>
   <string name="title_restrict">Restricționare</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
@@ -19,9 +20,12 @@
   <string name="title_help_settings">App restriction settings</string>
   <string name="title_help_persistent">Aplicarea restricțiilor necesită repornirea aparatului</string>
   <string name="title_help_exception">Aplicarea restricțiilor nu a fost posibilă (atinge semnul pentru a vedea de ce)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">Arată toate aplicațiile</string>
   <string name="menu_search">Caută</string>
   <string name="menu_help">Ajutor</string>
-  <string name="menu_show_all">Arată toate aplicațiile</string>
   <string name="menu_notify_new">Notifică aplicatiile noi</string>
   <string name="menu_restrict_new">Restrictionează aplicațiile noi</string>
   <string name="menu_readme">Documentation</string>

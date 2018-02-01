@@ -6,6 +6,7 @@
   <string name="title_fix">修复</string>
   <string name="title_all">全部</string>
   <string name="title_restrict">受限</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         点击应用程序的图标或名称并勾选限制项，从而将限制应用到应用程序。    
         如可行, 应用程序会自动停止继而立即应用 (或解除) 限制，但对某些应用程序，应用限制需要重启设备(参见下面的图标)。       
@@ -18,9 +19,12 @@
   <string name="title_help_settings">应用限制设置</string>
   <string name="title_help_persistent">限制在重启后生效</string>
   <string name="title_help_exception">应用限制失败 (点击图标查看原因)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">显示所有应用</string>
   <string name="menu_search">搜索</string>
   <string name="menu_help">帮助</string>
-  <string name="menu_show_all">显示所有应用</string>
   <string name="menu_notify_new">提示新应用</string>
   <string name="menu_restrict_new">限制新装应用</string>
   <string name="menu_readme">文档</string>

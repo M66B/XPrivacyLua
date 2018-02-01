@@ -6,6 +6,7 @@
   <string name="title_fix">Corrigir</string>
   <string name="title_all">Todos</string>
   <string name="title_restrict">Restringir</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
 Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
         Se possível, os aplicativos são automaticamente interrompidos para aplicar (ou remover) restrições imediatamente,
@@ -20,9 +21,12 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="title_help_settings">Configurações de restrição de App</string>
   <string name="title_help_persistent">A aplicação de restrições requer uma reinicialização do dispositivo</string>
   <string name="title_help_exception">Falha ao aplicar restrição (toque ícone para mostrar o porquê)</string>
+  <string name="menu_show">Mostrar</string>
+  <string name="menu_show_user">Mostrar aplicativos do usuário</string>
+  <string name="menu_show_icon">Mostrar aplicativos com ícone</string>
+  <string name="menu_show_all">Mostrar todos os apps</string>
   <string name="menu_search">Pesquisar</string>
   <string name="menu_help">Ajuda</string>
-  <string name="menu_show_all">Mostrar todos os apps</string>
   <string name="menu_notify_new">Notificar novos apps</string>
   <string name="menu_restrict_new">Restringir novos apps</string>
   <string name="menu_readme">Documentação</string>
@@ -34,7 +38,7 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="msg_exception">Erro em %1$s</string>
   <string name="msg_restrict_sure">Tem certeza que quer alternar o \'%1$s\' para todos os apps?</string>
   <string name="group_determine_activity">Determinar a activity</string>
-  <string name="group_get_applications">Obter aplicativos</string>
+  <string name="group_get_applications">Obter lista de aplicativos</string>
   <string name="group_get_calendars">Obter os calendários</string>
   <string name="group_get_call_log">Obter o registro de chamadas</string>
   <string name="group_get_contacts">Obter os contatos</string>

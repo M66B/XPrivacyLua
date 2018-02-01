@@ -6,6 +6,7 @@
   <string name="title_fix">Napraw</string>
   <string name="title_all">Wszystkie</string>
   <string name="title_restrict">Ogranicz</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenia, aby je zastosować.
         Jeśli to możliwe, aplikacje są automatycznie zatrzymywane w celu natychmiastowego zastosowania (lub usunięcia) ograniczeń,
@@ -19,9 +20,12 @@
   <string name="title_help_settings">Ustawienia ograniczeń aplikacji</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
   <string name="title_help_exception">Zastosowanie ograniczenia nie powiodło się (dotknij ikonę, aby dowiedzieć się dlaczego)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">Pokaż wszystkie aplikacje</string>
   <string name="menu_search">Szukaj</string>
   <string name="menu_help">Pomoc</string>
-  <string name="menu_show_all">Pokaż wszystkie aplikacje</string>
   <string name="menu_notify_new">Powiadamiaj dla nowych aplikacji</string>
   <string name="menu_restrict_new">Ogranicz nowe aplikacje</string>
   <string name="menu_readme">Documentation</string>

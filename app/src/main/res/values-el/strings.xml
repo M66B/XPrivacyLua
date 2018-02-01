@@ -6,6 +6,7 @@
   <string name="title_fix">Επιδιόρθωσε</string>
   <string name="title_all">Όλα</string>
   <string name="title_restrict">Περιορισμός</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Πατήστε ένα εικονίδιο ή όνομα εφαρμογής και τικάρετε περιορισμούς για να τους εφαρμόσετε.
         Αν γίνεται, οι εφαρμογές διακόπτονται αυτόματα για να εφαρμοστούν (ή να καταργηθούν) επι-τόπου οι περιορισμοί,
@@ -19,9 +20,12 @@
   <string name="title_help_settings">Ρυθμίσεις περιορισμών</string>
   <string name="title_help_persistent">Η εφαρμογή περιορισμών απαιτεί επανεκκίνηση συσκευής</string>
   <string name="title_help_exception">Η εφαρμογή περιορισμών απέτυχε (πατήστε εικονίδιο να δείτε γιατί)</string>
+  <string name="menu_show">Show</string>
+  <string name="menu_show_user">Show user apps</string>
+  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show_all">Εμφάνιση όλων των εφαρμογών</string>
   <string name="menu_search">Αναζήτηση</string>
   <string name="menu_help">Βοήθεια</string>
-  <string name="menu_show_all">Εμφάνιση όλων των εφαρμογών</string>
   <string name="menu_notify_new">Ειδοποίηση για νέες εφαρμογές</string>
   <string name="menu_restrict_new">Περιορισμός νέων εφαρμογών</string>
   <string name="menu_readme">Τεκμηρίωση</string>

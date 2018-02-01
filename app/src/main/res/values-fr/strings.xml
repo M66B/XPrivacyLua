@@ -6,6 +6,7 @@
   <string name="title_fix">Corriger</string>
   <string name="title_all">Toutes</string>
   <string name="title_restrict">Restreindre</string>
+  <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Appuyez sur l\'icône de l\'appli ou son nom et cochez les restrictions pour les appliquer.
         Si possible, les applis sont automatiquement stoppées pour immédiatement appliquer (ou annuler) les restrictions,
@@ -19,9 +20,12 @@
   <string name="title_help_settings">Paramètres de restrictions des applis (XPrivacyLua Pro)</string>
   <string name="title_help_persistent">L\'application de restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
+  <string name="menu_show">Afficher</string>
+  <string name="menu_show_user">Afficher les applis utilisateur</string>
+  <string name="menu_show_icon">Afficher les applis avec icône</string>
+  <string name="menu_show_all">Tout afficher</string>
   <string name="menu_search">Rechercher</string>
   <string name="menu_help">Aide</string>
-  <string name="menu_show_all">Tout afficher</string>
   <string name="menu_notify_new">Notifier si nouvelles applis</string>
   <string name="menu_restrict_new">Restreindre les nouvelles applis</string>
   <string name="menu_readme">Documentation</string>
