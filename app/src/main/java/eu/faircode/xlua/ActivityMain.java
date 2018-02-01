@@ -228,11 +228,9 @@ public class ActivityMain extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(TAG, "Create options");
 
-        if (fragmentMain != null) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.main, menu);
-            this.menu = menu;
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        this.menu = menu;
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -248,15 +246,18 @@ public class ActivityMain extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i(TAG, "Search submit=" + query);
-                fragmentMain.filter(query);
-                searchView.clearFocus(); // close keyboard
+                if (fragmentMain != null) {
+                    fragmentMain.filter(query);
+                    searchView.clearFocus(); // close keyboard
+                }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 Log.i(TAG, "Search change=" + newText);
-                fragmentMain.filter(newText);
+                if (fragmentMain != null)
+                    fragmentMain.filter(newText);
                 return true;
             }
         });
@@ -294,7 +295,7 @@ public class ActivityMain extends AppCompatActivity {
         Log.i(TAG, "Selected option " + item.getTitle());
         switch (item.getItemId()) {
             case R.id.menu_show:
-                AdapterApp.enumShow show = fragmentMain.getShow();
+                AdapterApp.enumShow show = (fragmentMain == null ? AdapterApp.enumShow.none : fragmentMain.getShow());
                 this.menu.findItem(R.id.menu_show_user).setEnabled(show != AdapterApp.enumShow.none);
                 this.menu.findItem(R.id.menu_show_icon).setEnabled(show != AdapterApp.enumShow.none);
                 this.menu.findItem(R.id.menu_show_all).setEnabled(show != AdapterApp.enumShow.none);
