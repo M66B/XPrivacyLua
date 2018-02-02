@@ -61,13 +61,16 @@ Note that you can conveniently edit hook definitions in the pro companion app, s
 <br>
 
 * The *collection* and *name* attributes are used to uniquely identify a hook
-* The pro companion app allows you to select which *collection* XPrivacyLua should handle
 * For convenience XPrivacyLua applies hooks by *group*
 * The attributes *minSdk* and *maxSdk* determine for which [Android versions](https://source.android.com/setup/build-numbers) (API level) the hook should be used
 * Setting *enabled* to *false* will switch the hook off (default *true*)
 * Setting *optional* to *true* will suppress error messages about the class or method not being found (default *false*)
 * Setting *usage* to *false* means that executing the hook will not be reported (default *true*)
 * Setting *notify* to *true* will result in showing notifications when the hook is applied (default *false*)
+
+The pro companion app allows you to select which *collection* of hooks XPrivacyLua should use. You can select only one collection at a time.
+If you want to use the built in privacy related hooks together with your own hooks, you should define your own hooks in the collection with the name *Privacy*.
+If you want to use your own hooks only, you should define your own hooks in collection named something else and select that collection in the companion app.
 
 The Lua script from the above definition without the JSON escapes looks like this:
 
