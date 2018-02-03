@@ -22,7 +22,9 @@ package eu.faircode.xlua;
 import android.content.Context;
 import android.util.Log;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -45,13 +47,12 @@ public class XParam {
     public XParam(
             Context context,
             Field field,
-            Class<?>[] paramTypes, Class<?> returnType,
             Map<String, String> settings) {
         this.context = context;
         this.field = field;
         this.param = null;
-        this.paramTypes = paramTypes;
-        this.returnType = returnType;
+        this.paramTypes = null;
+        this.returnType = field.getType();
         this.settings = settings;
     }
 
@@ -59,13 +60,17 @@ public class XParam {
     public XParam(
             Context context,
             XC_MethodHook.MethodHookParam param,
-            Class<?>[] paramTypes, Class<?> returnType,
             Map<String, String> settings) {
         this.context = context;
         this.field = null;
         this.param = param;
-        this.paramTypes = paramTypes;
-        this.returnType = returnType;
+        if (param.method instanceof Constructor) {
+            this.paramTypes = ((Constructor) param.method).getParameterTypes();
+            this.returnType = null;
+        } else {
+            this.paramTypes = ((Method) param.method).getParameterTypes();
+            this.returnType = ((Method) param.method).getReturnType();
+        }
         this.settings = settings;
     }
 

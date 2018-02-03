@@ -41,6 +41,7 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.DebugLib;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ThreeArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
@@ -348,7 +349,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 long run = SystemClock.elapsedRealtime();
 
                                 // Initialize Lua runtime
-                                Globals globals = getGlobals(context, hook);
+                                Globals globals = getGlobals(context, hook, settings);
                                 LuaClosure closure = new LuaClosure(compiledScript, globals);
                                 closure.call();
 
@@ -359,11 +360,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                 LuaValue[] args = new LuaValue[]{
                                         coercedHook,
-                                        CoerceJavaToLua.coerce(new XParam(
-                                                context,
-                                                field,
-                                                paramTypes, returnType,
-                                                settings))
+                                        CoerceJavaToLua.coerce(new XParam(context, field, settings))
                                 };
 
                                 // Run function
@@ -444,7 +441,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         synchronized (threadGlobals) {
                                             Thread thread = Thread.currentThread();
                                             if (!threadGlobals.containsKey(thread))
-                                                threadGlobals.put(thread, getGlobals(context, hook));
+                                                threadGlobals.put(thread, getGlobals(context, hook, settings));
                                             Globals globals = threadGlobals.get(thread);
 
                                             // Define functions
@@ -459,12 +456,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             // Build arguments
                                             args = new LuaValue[]{
                                                     coercedHook,
-                                                    CoerceJavaToLua.coerce(new XParam(
-                                                            context,
-                                                            param,
-                                                            memberParameterTypes,
-                                                            memberReturnType,
-                                                            settings))
+                                                    CoerceJavaToLua.coerce(new XParam(context, param, settings))
                                             };
                                         }
 
@@ -743,7 +735,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
     }
 
-    private static Globals getGlobals(Context context, XHook hook) {
+    private static Globals getGlobals(Context context, XHook hook, Map<String, String> settings) {
         Globals globals = JsePlatform.standardGlobals();
         // base, bit32, coroutine, io, math, os, package, string, table, luajava
 
@@ -751,6 +743,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             globals.load(new DebugLib());
 
         globals.set("log", new LuaLog(context.getPackageName(), context.getApplicationInfo().uid, hook.getId()));
+        globals.set("hook", new LuaHook(context, settings));
 
         return new LuaLocals(globals);
     }
@@ -789,6 +782,43 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 super.rawset(key, value);
             else
                 error("Globals not allowed: " + key + "=" + value);
+        }
+    }
+
+    private static class LuaHook extends ThreeArgFunction {
+        private Context context;
+        private Map<String, String> settings;
+
+        LuaHook(Context context, Map<String, String> settings) {
+            this.context = context;
+            this.settings = settings;
+        }
+
+        @Override
+        public LuaValue call(LuaValue obj, LuaValue method, final LuaValue func) {
+            Class<?> cls = obj.touserdata().getClass();
+            String m = method.checkjstring();
+            func.checkfunction();
+            Log.i(TAG, "Dynamic hook " + cls.getName() + "." + m);
+
+            XposedBridge.hookAllMethods(cls, m, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    execute("before", param);
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    execute("after", param);
+                }
+
+                private void execute(String when, MethodHookParam param) {
+                    Log.i(TAG, "Dynamic invoke " + param.method);
+                    func.invoke(LuaValue.valueOf(when), CoerceJavaToLua.coerce(new XParam(context, param, settings)));
+                }
+            });
+
+            return LuaValue.NIL;
         }
     }
 
