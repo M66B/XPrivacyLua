@@ -2536,6 +2536,84 @@
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
+    "name": "TelephonyManager/getNetworkCountryIso",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getNetworkCountryIso",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_country_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "TelephonyManager/getNetworkOperator",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getNetworkOperator",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_operator_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "TelephonyManager/getNetworkOperatorName",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getNetworkOperatorName",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "TelephonyManager/getSimCountryIso",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getSimCountryIso",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_country_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "TelephonyManager/getSimOperator",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getSimOperator",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_operator_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "TelephonyManager/getSimOperatorName",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getSimOperatorName",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
     "name": "WebView.constructor.1a",
     "author": "M66B",
     "className": "android.webkit.WebView",
