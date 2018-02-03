@@ -68,13 +68,13 @@ Information about e-mail accounts and messages depends on the installed e-mail a
 * Identification
 	* **return a fake Android ID**
 	* **return a fake device serial number**
-	* ~~return a fake host name~~ tracking related
+	* ~~return a fake host name~~ not available on recent Android versions anymore
 	* **return a fake Google services framework ID**
 	* ~~return file not found for folder [/proc](http://linux.die.net/man/5/proc)~~ will result in crashes
 	* **return a fake Google advertising ID**
 	* ~~return a fake system property CID (Card Identification Register = SD-card serial number)~~ tracking related
-	* ~~return file not found for /sys/block/.../cid~~ will result in crashes / tracking related
-	* ~~return file not found for /sys/class/.../cid~~ will result in crashes / tracking related
+	* ~~return file not found for /sys/block/.../cid~~ will result in crashes
+	* ~~return file not found for /sys/class/.../cid~~ will result in crashes
 	* ~~return a fake input device descriptor~~ tracking related
 	* ~~return a fake USB ID/name/number~~ tracking related
 	* ~~return a fake Cast device ID / IP address~~ tracking related
@@ -127,7 +127,7 @@ If you want to fake offline state, see [the example definitions](https://github.
 
 <a name="network"></a>
 * Network
-	* ~~return fake IP's~~ tracking related
+	* ~~return fake IP's~~ see [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#FAQ4)
 	* ~~return fake MAC's (network, Wi-Fi, bluetooth)~~ see remark below
 	* **return fake BSSID/SSID**
 	* **return an empty list of Wi-Fi scan results**
@@ -159,17 +159,17 @@ MAC addresses are [not available anymore](https://developer.android.com/training
 	* **return a fake phone device ID (IMEI): 000000000000000**
 	* ~~return a fake phone type: GSM (matching IMEI)~~ not privacy related
 	* ~~return a fake network type: unknown~~ not privacy related
-	* ~~return an empty ISIM domain~~ tracking related / not available in user space
+	* ~~return an empty ISIM domain~~ not available in user space
 	* **return an empty IMPI/IMPU**
 	* **return a fake MSISDN**
-	* ~~return fake mobile network info~~ tracking related
-		* ~~Country: XX~~
-		* ~~Operator: 00101 (test network)~~
-		* ~~Operator name: fake~~
-	* ~~return fake SIM info~~
-		* ~~Country: XX~~ tracking related
-		* ~~Operator: 00101~~ tracking related
-		* ~~Operator name: fake~~ tracking related
+	* return fake mobile network info
+		* Country: XX
+		* Operator: 00101 (test network)
+		* Operator name: fake
+	* return fake SIM info
+		* Country: XX
+		* Operator: 00101
+		* Operator name: faket
 		* **Serial number (ICCID): fake**
 	* ~~return empty [APN](http://en.wikipedia.org/wiki/Access_Point_Name) list~~ not privacy related
 	* ~~return no currently used APN~~ not privacy related
@@ -236,7 +236,5 @@ If you want to confine apps to their own folder, see [the example definitions](h
 <a name="view"></a>
 * View
 	* ~~prevent links from opening in the browser~~ not privacy related
-	* ~~return fake browser user agent string~~
-		* ~~*Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9*~~ tracking related
-
-The browser is a user choice, so the browser could/should provide different user agent string and preventing opening malicious links.
+	* return fake browser user agent string (WebView)
+		* *Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9*
