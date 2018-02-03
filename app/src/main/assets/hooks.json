@@ -2536,6 +2536,20 @@
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
+    "name": "Configuration.createFromParcel",
+    "author": "M66B",
+    "className": "android.content.res.Configuration",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.content.res.Configuration",
+    "minSdk": 1,
+    "luaScript": "@configuration_createfromparcel"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
     "name": "TelephonyManager/getNetworkCountryIso",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
