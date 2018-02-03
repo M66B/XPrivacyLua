@@ -6,7 +6,7 @@
   <string name="title_fix">تعمیر</string>
   <string name="title_all">همه</string>
   <string name="title_restrict">محدود کردن</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">توقف اجباری به صورت خودکار</string>
   <string name="title_help_instructions">
         روی آیکون یا نام برنامه‌ها ضربه زده و تیک محدویت‌ها را برای اعمال انتخاب کنید.
         ممکن است برنامه‌ها برای اعمال (یا حذف محدودیت‌ها) بلافاصله متوقف شوند,
@@ -20,9 +20,9 @@
   <string name="title_help_settings">تنظیمات محدودیت برنامه</string>
   <string name="title_help_persistent">اعمال کردن محدودیت‌ها مستلزم راه‌اندازی مجدد دستگاه است</string>
   <string name="title_help_exception">اعمال محدودیت ناموفق بود( آیکون را برای دلیل آن لمس کنید)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">نمایش</string>
+  <string name="menu_show_user">نمایش برنامه‌های کاربر</string>
+  <string name="menu_show_icon">نمایش برنامه‌ها با آیکون آنها</string>
   <string name="menu_show_all">نمایش تمام برنامه‌ها</string>
   <string name="menu_search">جستجو</string>
   <string name="menu_help">کمک</string>
