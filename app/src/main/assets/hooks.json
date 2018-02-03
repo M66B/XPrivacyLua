@@ -2285,6 +2285,257 @@
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
+    "name": "Build.BOARD",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#BOARD",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.BOOTLOADER",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#BOOTLOADER",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 8,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.BRAND",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#BRAND",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.DEVICE",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#DEVICE",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.DISPLAY",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#DISPLAY",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 3,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.FINGERPRINT",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#FINGERPRINT",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.HARDWARE",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#HARDWARE",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 8,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.HOST",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#HOST",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.ID",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#ID",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.MANUFACTURER",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#MANUFACTURER",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 4,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.MODEL",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#MODEL",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.PRODUCT",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#PRODUCT",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.RADIO",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#RADIO",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 8,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.TAGS",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#TAGS",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.TIME",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#TIME",
+    "parameterTypes": [
+    ],
+    "returnType": "long",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_zero_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.TYPE",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#TYPE",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Build.USER",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "#USER",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "usage": false,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Build.getRadioVersion",
+    "author": "M66B",
+    "className": "android.os.Build",
+    "methodName": "getRadioVersion",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 14,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
     "name": "WebView.constructor.1a",
     "author": "M66B",
     "className": "android.webkit.WebView",
