@@ -364,7 +364,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 };
 
                                 // Run function
-                                Varargs result = func.invoke(args);
+                                Varargs result = func.invoke(LuaValue.varargsOf(args));
 
                                 // Report use
                                 boolean restricted = result.arg1().checkboolean();
@@ -461,7 +461,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         }
 
                                         // Run function
-                                        Varargs result = func.invoke(args);
+                                        Varargs result = func.invoke(LuaValue.varargsOf(args));
 
                                         // Report use
                                         boolean restricted = result.arg1().checkboolean();
@@ -814,7 +814,11 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 private void execute(String when, MethodHookParam param) {
                     Log.i(TAG, "Dynamic invoke " + param.method);
-                    func.invoke(LuaValue.valueOf(when), CoerceJavaToLua.coerce(new XParam(context, param, settings)));
+                    LuaValue[] args = new LuaValue[]{
+                            LuaValue.valueOf(when),
+                            CoerceJavaToLua.coerce(new XParam(context, param, settings))
+                    };
+                    func.invoke(LuaValue.varargsOf(args));
                 }
             });
 
