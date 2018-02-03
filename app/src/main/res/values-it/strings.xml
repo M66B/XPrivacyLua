@@ -6,7 +6,7 @@
   <string name="title_fix">Risolvi</string>
   <string name="title_all">Tutte</string>
   <string name="title_restrict">Restringere</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Arresto forzato automatico</string>
   <string name="title_help_instructions">
 Clicca sull\'icona o il nome di un\'applicazione e seleziona le restrizioni per applicarle.
 Se possibile, le applicazioni vengono chiuse automaticamente per applicare (o rimuovere) le restrizioni immediatamente,
@@ -19,9 +19,9 @@ e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui<
   <string name="title_help_settings">Impostazioni delle restrizioni dell\'app</string>
   <string name="title_help_persistent">Applicare le restrizioni richiede un riavvio del dispositivo</string>
   <string name="title_help_exception">Applicazione delle restrizioni fallita (clicca l\'icona per sapere il motivo)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Mostra</string>
+  <string name="menu_show_user">Mostra le app utente</string>
+  <string name="menu_show_icon">Mostra le app con icone</string>
   <string name="menu_show_all">Mostra tutte le applicazioni</string>
   <string name="menu_search">Cerca</string>
   <string name="menu_help">Aiuto</string>
@@ -55,4 +55,5 @@ e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui<
   <string name="group_send_messages">Invia messaggi</string>
   <string name="group_use_analytics">Usa i dati analitici</string>
   <string name="group_use_camera">Usa la fotocamera</string>
+  <string name="group_use_tracking">Usa il tracciamento</string>
 </resources>

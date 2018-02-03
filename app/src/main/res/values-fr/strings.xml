@@ -17,7 +17,7 @@
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
   <string name="title_help_system">L\'application de restrictions (applis système) peut causer des problèmes</string>
-  <string name="title_help_settings">Paramètres de restrictions des applis (Appli compagnon XPrivacyLua Pro)</string>
+  <string name="title_help_settings">Paramètres de restrictions des applis (appli compagnon XPrivacyLua Pro)</string>
   <string name="title_help_persistent">L\'application de restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>
   <string name="menu_show">Afficher</string>
@@ -56,4 +56,5 @@
   <string name="group_send_messages">Envoyer des messages</string>
   <string name="group_use_analytics">Utiliser des outils analytiques</string>
   <string name="group_use_camera">Utiliser l\'appareil photo</string>
+  <string name="group_use_tracking">Pistage utilisé</string>
 </resources>

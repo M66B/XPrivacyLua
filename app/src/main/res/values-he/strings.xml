@@ -57,4 +57,5 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">The Documentati
   <string name="group_send_messages">שליחת הודעות</string>
   <string name="group_use_analytics">שימוש במעקב אנליסטי</string>
   <string name="group_use_camera">שימוש במצלמה</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

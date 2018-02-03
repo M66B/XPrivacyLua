@@ -56,4 +56,5 @@
   <string name="group_send_messages">Enviar mensajes</string>
   <string name="group_use_analytics">Utilizar análisis</string>
   <string name="group_use_camera">Utilizar la cámara</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

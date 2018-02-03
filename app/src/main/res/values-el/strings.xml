@@ -56,4 +56,5 @@
   <string name="group_send_messages">Αποστολή μηνυμάτων</string>
   <string name="group_use_analytics">Αναλυτικά στοιχεία</string>
   <string name="group_use_camera">Χρήση κάμερας</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

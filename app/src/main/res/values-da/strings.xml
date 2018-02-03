@@ -55,4 +55,5 @@ Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem
   <string name="group_send_messages">Send beskeder</string>
   <string name="group_use_analytics">Benyt analyser</string>
   <string name="group_use_camera">Benyt kamera</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

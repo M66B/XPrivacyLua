@@ -55,4 +55,5 @@
   <string name="group_send_messages">Send meldinger</string>
   <string name="group_use_analytics">Bruk analyser</string>
   <string name="group_use_camera">Bruk kameraet</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

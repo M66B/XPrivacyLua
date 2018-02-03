@@ -55,4 +55,5 @@
   <string name="group_send_messages">Üzenetek küldése</string>
   <string name="group_use_analytics">Analitika használata</string>
   <string name="group_use_camera">Kamera használata</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

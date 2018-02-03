@@ -57,4 +57,5 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="group_send_messages">Enviar mensagens</string>
   <string name="group_use_analytics">Usar analítica</string>
   <string name="group_use_camera">Usar câmera</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>

@@ -54,4 +54,5 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="group_send_messages">Berichten sturen</string>
   <string name="group_use_analytics">Analytics gebruiken</string>
   <string name="group_use_camera">Camera gebruiken</string>
+  <string name="group_use_tracking">Use tracking</string>
 </resources>
