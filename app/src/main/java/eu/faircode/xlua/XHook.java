@@ -28,7 +28,6 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -298,7 +297,8 @@ public class XHook {
         jroot.put("className", this.className);
         if (this.resolvedClassName != null)
             jroot.put("resolvedClassName", this.resolvedClassName);
-        jroot.put("methodName", this.methodName);
+        if (this.methodName != null)
+            jroot.put("methodName", this.methodName);
 
         JSONArray jparam = new JSONArray();
         for (int i = 0; i < this.parameterTypes.length; i++)
@@ -343,7 +343,7 @@ public class XHook {
 
         hook.className = jroot.getString("className");
         hook.resolvedClassName = (jroot.has("resolvedClassName") ? jroot.getString("resolvedClassName") : null);
-        hook.methodName = jroot.getString("methodName");
+        hook.methodName = (jroot.has("methodName") ? jroot.getString("methodName") : null);
 
         JSONArray jparam = jroot.getJSONArray("parameterTypes");
         hook.parameterTypes = new String[jparam.length()];
@@ -382,8 +382,6 @@ public class XHook {
             throw new IllegalArgumentException("author missing");
         if (TextUtils.isEmpty(this.className))
             throw new IllegalArgumentException("class name missing");
-        if (TextUtils.isEmpty(this.methodName))
-            throw new IllegalArgumentException("method name missing");
         if (parameterTypes == null)
             throw new IllegalArgumentException("parameter types missing");
         if (TextUtils.isEmpty(this.luaScript))

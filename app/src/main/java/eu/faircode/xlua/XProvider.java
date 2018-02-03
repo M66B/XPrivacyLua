@@ -83,6 +83,7 @@ class XProvider {
         } catch (RemoteException ex) {
             throw ex;
         } catch (Throwable ex) {
+            Log.e(TAG, Log.getStackTraceString(ex));
             throw new RemoteException(ex.getMessage());
         }
     }
@@ -212,14 +213,12 @@ class XProvider {
                 if (builtins.containsKey(id)) {
                     Log.i(TAG, "Restoring builtin id=" + id);
                     XHook builtin = builtins.get(id);
-                    builtin.resolveClassName(context);
                     hooks.put(id, builtin);
                 } else
                     Log.w(TAG, "Builtin not found id=" + id);
             } else {
                 if (!hook.isBuiltin())
                     Log.i(TAG, "Storing hook id=" + id);
-                hook.resolveClassName(context);
                 hooks.put(id, hook);
             }
         }
@@ -786,7 +785,7 @@ class XProvider {
             dbLock.readLock().unlock();
         }
 
-        Log.i(TAG, "Get setting " + userid + ":" + category + ":" + name + "=" + value);
+        Log.d(TAG, "Get setting " + userid + ":" + category + ":" + name + "=" + value);
         Bundle result = new Bundle();
         result.putString("value", value);
         return result;
@@ -997,7 +996,6 @@ class XProvider {
         String self = XProvider.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
         for (XHook hook : XHook.readHooks(context, ai.publicSourceDir)) {
-            hook.resolveClassName(context);
             hooks.put(hook.getId(), hook);
             builtins.put(hook.getId(), hook);
         }

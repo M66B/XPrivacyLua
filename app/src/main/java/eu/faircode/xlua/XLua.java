@@ -24,7 +24,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.Uri;
@@ -47,7 +46,9 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -225,17 +226,18 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     if (!made) {
                         made = true;
                         Application app = (Application) param.getResult();
-                        ContentResolver resolver = app.getContentResolver();
 
+                        // Check for isolate process
                         int userid = Util.getUserId(uid);
                         int start = Util.getUserUid(userid, 99000);
                         int end = Util.getUserUid(userid, 99999);
                         boolean isolated = (uid >= start && uid <= end);
-
                         if (isolated) {
                             Log.i(TAG, "Skipping isolated " + lpparam.packageName + ":" + uid);
                             return;
                         }
+
+                        ContentResolver resolver = app.getContentResolver();
 
                         // Get hooks
                         List<XHook> hooks = new ArrayList<>();
@@ -299,21 +301,30 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         long install = SystemClock.elapsedRealtime();
 
+                        // Resolve actual class name
+                        hook.resolveClassName(context);
+
                         // Compile script
                         InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
                         final Prototype compiledScript = LuaC.instance.compile(is, "script");
+
+                        // Prevent threading problems
+                        final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
 
                         // Get class
                         Class<?> cls = Class.forName(hook.getResolvedClassName(), false, context.getClassLoader());
 
                         // Handle field method
-                        String[] m = hook.getMethodName().split(":");
-                        if (m.length > 1) {
-                            Field field = cls.getField(m[0]);
-                            Object obj = field.get(null);
-                            cls = obj.getClass();
+                        String methodName = hook.getMethodName();
+                        if (methodName != null) {
+                            String[] m = methodName.split(":");
+                            if (m.length > 1) {
+                                Field field = cls.getField(m[0]);
+                                Object obj = field.get(null);
+                                cls = obj.getClass();
+                            }
+                            methodName = m[m.length - 1];
                         }
-                        String methodName = m[m.length - 1];
 
                         // Get parameter types
                         String[] p = hook.getParameterTypes();
@@ -325,10 +336,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         final Class<?> returnType = (hook.getReturnType() == null ? null :
                                 resolveClass(hook.getReturnType(), context.getClassLoader()));
 
-                        // Prevent threading problems
-                        final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
-
-                        if (methodName.startsWith("#")) {
+                        if (methodName != null && methodName.startsWith("#")) {
                             // Get field
                             Field field = resolveField(cls, methodName.substring(1), returnType);
                             field.setAccessible(true);
@@ -401,14 +409,18 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             }
                         } else {
                             // Get method
-                            final Method method = resolveMethod(cls, methodName, paramTypes);
+                            final Member member = resolveMember(cls, methodName, paramTypes);
+                            final Class<?> memberReturnType = (methodName == null ? null : ((Method) member).getReturnType());
+                            final Class<?>[] memberParameterTypes = (methodName == null
+                                    ? ((Constructor) member).getParameterTypes()
+                                    : ((Method) member).getParameterTypes());
 
                             // Check return type
-                            if (returnType != null && !method.getReturnType().equals(returnType))
-                                throw new Throwable("Invalid return type got " + method.getReturnType() + " expected " + returnType);
+                            if (returnType != null && memberReturnType != null && !memberReturnType.equals(returnType))
+                                throw new Throwable("Invalid return type got " + memberReturnType + " expected " + returnType);
 
                             // Hook method
-                            XposedBridge.hookMethod(method, new XC_MethodHook() {
+                            XposedBridge.hookMethod(member, new XC_MethodHook() {
                                 private final WeakHashMap<Thread, Globals> threadGlobals = new WeakHashMap<>();
 
                                 @Override
@@ -450,8 +462,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                                     CoerceJavaToLua.coerce(new XParam(
                                                             context,
                                                             param,
-                                                            method.getParameterTypes(),
-                                                            method.getReturnType(),
+                                                            memberParameterTypes,
+                                                            memberReturnType,
                                                             settings))
                                             };
                                         }
@@ -488,7 +500,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                         sb.append("\nMethod:\n");
                                         sb.append(function);
                                         sb.append(' ');
-                                        sb.append(method.toString());
+                                        sb.append(member.toString());
                                         sb.append("\n");
 
                                         sb.append("\nArguments:\n");
@@ -676,21 +688,26 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
     }
 
-    private static Method resolveMethod(Class<?> cls, String name, Class<?>[] params) throws NoSuchMethodException {
+    private static Member resolveMember(Class<?> cls, String name, Class<?>[] params) throws NoSuchMethodException {
         boolean exists = false;
         try {
             Class<?> c = cls;
             while (c != null && !c.equals(Object.class))
                 try {
-                    return c.getDeclaredMethod(name, params);
+                    if (name == null)
+                        return c.getDeclaredConstructor(params);
+                    else
+                        return c.getDeclaredMethod(name, params);
                 } catch (NoSuchMethodException ex) {
-                    for (Method method : c.getDeclaredMethods()) {
-                        if (!name.equals(method.getName()))
+                    for (Member member : name == null ? c.getDeclaredConstructors() : c.getDeclaredMethods()) {
+                        if (name != null && !name.equals(member.getName()))
                             continue;
 
                         exists = true;
 
-                        Class<?>[] mparams = method.getParameterTypes();
+                        Class<?>[] mparams = (name == null
+                                ? ((Constructor) member).getParameterTypes()
+                                : ((Method) member).getParameterTypes());
 
                         if (mparams.length != params.length)
                             continue;
@@ -705,8 +722,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         if (!same)
                             continue;
 
-                        Log.i(TAG, "Resolved method=" + method);
-                        return method;
+                        Log.i(TAG, "Resolved member=" + member);
+                        return member;
                     }
                     c = c.getSuperclass();
                     if (c == null)
@@ -717,9 +734,9 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             Class<?> c = cls;
             while (c != null && !c.equals(Object.class)) {
                 Log.i(TAG, c.toString());
-                for (Method method : c.getDeclaredMethods())
-                    if (!exists || name.equals(method.getName()))
-                        Log.i(TAG, "    " + method.toString());
+                for (Member member : name == null ? c.getDeclaredConstructors() : c.getDeclaredMethods())
+                    if (!exists || name == null || name.equals(member.getName()))
+                        Log.i(TAG, "    " + member.toString());
                 c = c.getSuperclass();
             }
             throw ex;
