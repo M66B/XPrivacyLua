@@ -31,7 +31,6 @@ This message means either that:
 **(4) Can you add ...?**
 
 * *Network and storage restrictions*: access to the internet and to the device storage can only be prevented by revoking Linux permission from an app, which will often result in the app crashing. Therefore this will not be added.
-* *Tracking/profiling restrictions*: there are hundreds of data items that can be used for tracking and profiling purposes. It is too much work to add restrictions for all of them.
 * *User interface features*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
 * *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added. See also [here](https://forum.xda-developers.com/showpost.php?p=75419161&postcount=49).
 * *Randomizing fake values*: this is known to let apps crash, so this will not be added.
@@ -41,17 +40,6 @@ This message means either that:
 * *Crowd sourced restrictions*: there are not enough users for this to be useful.
 
 If you want to confine apps to their own folder, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
-
-Considered as tracking/profile related:
-
-* IP address, see remark below
-* MAC address, see remark below
-* Host name
-* Device [data](https://developer.android.com/reference/android/os/Build.html)
-* Country, MCC
-* Network type
-* Network operator, MNC
-* Browser user agent string
 
 Apps having access to the IP address generally have access to the internet and therefore can get your IP address in a simple way,
 see for example [here](https://www.privateinternetaccess.com/pages/whats-my-ip/). Therefore an IP address restriction doesn't make sense.
