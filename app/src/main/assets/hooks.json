@@ -2281,6 +2281,76 @@
     "notify": true,
     "luaScript": "@camera2_open"
   },
+  // Use tracking
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.1a",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context"
+    ],
+    "minSdk": 1,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.1b",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet"
+    ],
+    "minSdk": 1,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.1c",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int"
+    ],
+    "minSdk": 1,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.21",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int",
+      "int"
+    ],
+    "minSdk": 21,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.11",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int",
+      "boolean"
+    ],
+    "minSdk": 11,
+    "luaScript": "@webview_constructor"
+  },
   // Misc
   {
     "collection": "Privacy",
