@@ -121,6 +121,8 @@ With XPrivacyLua you'll never have to worry about this because you can simply ge
 	local context = param:getApplicationContext()
 ```
 
+You can hook into a constructor by omitting the method name.
+
 You can also modify field values in an *after* function by prefixing the method name with a # character, for example:
 
 ```JSON
