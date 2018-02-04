@@ -15,11 +15,13 @@ android {
 
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
             useProguard = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            shrinkResources false
             minifyEnabled false
             useProguard = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
