@@ -390,22 +390,42 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                             visible.add(app);
 
                 List<XApp> results = new ArrayList<>();
-                if (TextUtils.isEmpty(query))
+
+                String q = query.toString().toLowerCase().trim();
+                if (TextUtils.isEmpty(q))
                     results.addAll(visible);
                 else {
-                    query = query.toString().toLowerCase().trim();
+                    boolean restricted = false;
+                    boolean unrestricted = false;
+                    if (q.startsWith("!")) {
+                        restricted = true;
+                        q = q.substring(1);
+                    } else if (q.startsWith("?")) {
+                        unrestricted = true;
+                        q = q.substring(1);
+                    }
+
                     int uid;
                     try {
-                        uid = Integer.parseInt(query.toString());
+                        uid = Integer.parseInt(q.toString());
                     } catch (NumberFormatException ignore) {
                         uid = -1;
                     }
 
-                    for (XApp app : visible)
+                    for (XApp app : visible) {
+                        if (restricted || unrestricted) {
+                            int assigments = app.getAssignments(group).size();
+                            if (restricted && assigments == 0)
+                                continue;
+                            if (unrestricted && assigments > 0)
+                                continue;
+                        }
+
                         if (app.uid == uid ||
-                                app.packageName.toLowerCase().contains(query) ||
-                                (app.label != null && app.label.toLowerCase().contains(query)))
+                                app.packageName.toLowerCase().contains(q) ||
+                                (app.label != null && app.label.toLowerCase().contains(q)))
                             results.add(app);
+                    }
                 }
 
                 if (results.size() == 1) {
