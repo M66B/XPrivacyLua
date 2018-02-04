@@ -391,10 +391,11 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
                 List<XApp> results = new ArrayList<>();
 
-                String q = query.toString().toLowerCase().trim();
-                if (TextUtils.isEmpty(q))
+                if (TextUtils.isEmpty(query))
                     results.addAll(visible);
                 else {
+                    String q = query.toString().toLowerCase().trim();
+
                     boolean restricted = false;
                     boolean unrestricted = false;
                     if (q.startsWith("!")) {
