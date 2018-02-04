@@ -21,6 +21,13 @@ function before(hook, param)
         return false
     end
 
-    analytics:optOut(true)
-    return true
+    if type(analytics.optOut) == 'function' then
+        analytics:optOut(true)
+        return true
+    elseif type(analytics.optOut) == 'userdata' then
+        analytics.optOut:set(false)
+        return true
+    else
+        return false
+    end
 end
