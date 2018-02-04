@@ -302,9 +302,6 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         long install = SystemClock.elapsedRealtime();
 
-                        // Resolve actual class name
-                        hook.resolveClassName(context);
-
                         // Compile script
                         InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
                         final Prototype compiledScript = LuaC.instance.compile(is, "script");

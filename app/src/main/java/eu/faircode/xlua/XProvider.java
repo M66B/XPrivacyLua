@@ -213,12 +213,14 @@ class XProvider {
                 if (builtins.containsKey(id)) {
                     Log.i(TAG, "Restoring builtin id=" + id);
                     XHook builtin = builtins.get(id);
+                    // class name is already resolved
                     hooks.put(id, builtin);
                 } else
                     Log.w(TAG, "Builtin not found id=" + id);
             } else {
                 if (!hook.isBuiltin())
                     Log.i(TAG, "Storing hook id=" + id);
+                hook.resolveClassName(context);
                 hooks.put(id, hook);
             }
         }
@@ -995,9 +997,10 @@ class XProvider {
         PackageManager pm = context.getPackageManager();
         String self = XProvider.class.getPackage().getName();
         ApplicationInfo ai = pm.getApplicationInfo(self, 0);
-        for (XHook hook : XHook.readHooks(context, ai.publicSourceDir)) {
-            hooks.put(hook.getId(), hook);
-            builtins.put(hook.getId(), hook);
+        for (XHook builtin : XHook.readHooks(context, ai.publicSourceDir)) {
+            builtin.resolveClassName(context);
+            builtins.put(builtin.getId(), builtin);
+            hooks.put(builtin.getId(), builtin);
         }
 
         // Read external definitions
@@ -1014,6 +1017,7 @@ class XProvider {
                     while (cursor.moveToNext()) {
                         String definition = cursor.getString(colDefinition);
                         XHook hook = XHook.fromJSON(definition);
+                        hook.resolveClassName(context);
                         hooks.put(hook.getId(), hook);
                     }
                 } finally {
