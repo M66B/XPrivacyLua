@@ -238,17 +238,15 @@ public class XHook {
                     hook.builtin = true;
 
                     // Link script
-                    String script = hook.getLuaScript();
-                    if (script.startsWith("@")) {
-                        ZipEntry luaEntry = zipFile.getEntry("assets/" + script.substring(1) + ".lua");
+                    if (hook.luaScript.startsWith("@")) {
+                        ZipEntry luaEntry = zipFile.getEntry("assets/" + hook.luaScript.substring(1) + ".lua");
                         if (luaEntry == null)
-                            throw new IllegalArgumentException(script + " not found for " + hook.getId());
+                            throw new IllegalArgumentException(hook.luaScript + " not found for " + hook.getId());
                         else {
                             InputStream lis = null;
                             try {
                                 lis = zipFile.getInputStream(luaEntry);
-                                script = new Scanner(lis).useDelimiter("\\A").next();
-                                hook.luaScript = script;
+                                hook.luaScript = new Scanner(lis).useDelimiter("\\A").next();
                             } finally {
                                 if (lis != null)
                                     try {
