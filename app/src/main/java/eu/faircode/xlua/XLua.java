@@ -404,12 +404,9 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         } else {
                             // Get method
                             final Member member = resolveMember(cls, methodName, paramTypes);
-                            final Class<?> memberReturnType = (methodName == null ? null : ((Method) member).getReturnType());
-                            final Class<?>[] memberParameterTypes = (methodName == null
-                                    ? ((Constructor) member).getParameterTypes()
-                                    : ((Method) member).getParameterTypes());
 
                             // Check return type
+                            final Class<?> memberReturnType = (methodName == null ? null : ((Method) member).getReturnType());
                             if (returnType != null && memberReturnType != null && !memberReturnType.equals(returnType))
                                 throw new Throwable("Invalid return type got " + memberReturnType + " expected " + returnType);
 
@@ -811,7 +808,11 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 private void execute(String when, MethodHookParam param) {
                     Log.i(TAG, "Dynamic invoke " + param.method);
-                    func.invoke(LuaValue.valueOf(when), CoerceJavaToLua.coerce(new XParam(context, param, settings)));
+                    LuaValue[] args = new LuaValue[]{
+                            LuaValue.valueOf(when),
+                            CoerceJavaToLua.coerce(new XParam(context, param, settings))
+                    };
+                    func.invoke(args);
                 }
             });
 
