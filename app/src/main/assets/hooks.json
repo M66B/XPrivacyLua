@@ -2545,6 +2545,7 @@
     ],
     "returnType": "android.content.res.Configuration",
     "minSdk": 1,
+    "usage": false,
     "luaScript": "@configuration_createfromparcel"
   },
   {
@@ -2635,6 +2636,7 @@
       "android.content.Context"
     ],
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2648,6 +2650,7 @@
       "android.util.AttributeSet"
     ],
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2662,6 +2665,7 @@
       "int"
     ],
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2677,6 +2681,7 @@
       "int"
     ],
     "minSdk": 21,
+    "enabled": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2692,6 +2697,7 @@
       "boolean"
     ],
     "minSdk": 11,
+    "enabled": false,
     "luaScript": "@webview_constructor"
   },
   // Misc

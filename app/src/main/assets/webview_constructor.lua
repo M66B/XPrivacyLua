@@ -16,7 +16,16 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(h, param)
-    local settings = param:getThis():getSettings()
+    local this = param:getThis()
+
+    local hooked = param:getValue('hooked', this)
+    if hooked then
+        return false
+    else
+        param:putValue('hooked', true, this)
+    end
+
+    local settings = this:getSettings()
     hook(settings, 'setUserAgentString', setUserAgentString)
     settings:setUserAgentString('dummy')
     return true
