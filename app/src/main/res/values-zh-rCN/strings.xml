@@ -55,5 +55,5 @@
   <string name="group_send_messages">发送信息​​​​​​​​</string>
   <string name="group_use_analytics">使用分析（Google/Firebase Analytics）</string>
   <string name="group_use_camera">使用相机</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">使用跟踪</string>
 </resources>

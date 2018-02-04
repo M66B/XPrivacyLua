@@ -56,5 +56,5 @@
   <string name="group_send_messages">ارسال پیام</string>
   <string name="group_use_analytics">استفاده از آمارهای تحلیلی</string>
   <string name="group_use_camera">استفاده از دوربین</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">استفاده از ردیابی</string>
 </resources>

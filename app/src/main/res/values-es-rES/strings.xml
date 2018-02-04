@@ -6,7 +6,7 @@
   <string name="title_fix">Reparar</string>
   <string name="title_all">Todas</string>
   <string name="title_restrict">Restringir</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Detener forzadamente en automático</string>
   <string name="title_help_instructions">
         Pulsa en el ícono o nombre de una app y marca las restricciones para aplicarlas.
         Si es posible, las apps se detienen automáticamente para aplicar (o eliminar) las restricciones inmediatamente,
@@ -20,9 +20,9 @@
   <string name="title_help_settings">Configuración de restricciones de la app</string>
   <string name="title_help_persistent">Para la aplicación de restricciones se requiere reiniciar el dispositivo</string>
   <string name="title_help_exception">La aplicación de restricciones ha fallado (Pulsa el ícono para mayor información)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Mostrar</string>
+  <string name="menu_show_user">Mostrar apps del usuario</string>
+  <string name="menu_show_icon">Mostrar apps con ícono</string>
   <string name="menu_show_all">Mostrar todas las apps</string>
   <string name="menu_search">Buscar</string>
   <string name="menu_help">Ayuda</string>
@@ -56,5 +56,5 @@
   <string name="group_send_messages">Enviar mensajes</string>
   <string name="group_use_analytics">Utilizar análisis</string>
   <string name="group_use_camera">Utilizar la cámara</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Utilizar rastreo</string>
 </resources>
