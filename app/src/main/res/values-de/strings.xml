@@ -54,5 +54,5 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_send_messages">Nachrichten senden</string>
   <string name="group_use_analytics">Analyse verwenden</string>
   <string name="group_use_camera">Kamera verwenden</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Tracking verwenden</string>
 </resources>

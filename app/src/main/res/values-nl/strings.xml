@@ -6,7 +6,7 @@
   <string name="title_fix">Repareer</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Beperk</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Automatisch geforceerd stoppen</string>
   <string name="title_help_instructions">Klik op een app icoon of naam en vink een beperking aan om deze toe te passen.
 Indien mogelijk worden apps automatisch gestopt om de beperkingen direct toe te passen,
 maar soms is het nodig om het apparaat te herstarten (zie iconen hieronder).
@@ -18,15 +18,15 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="title_help_settings">App beperking instellingen</string>
   <string name="title_help_persistent">Het toepassen van beperkingen vereist een apparaat herstart</string>
   <string name="title_help_exception">Toepassen beperking mislukt (klik op icoon voor waarom)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Toon</string>
+  <string name="menu_show_user">Toon gebruikersapps</string>
+  <string name="menu_show_icon">Toon apps met icoon</string>
   <string name="menu_show_all">Toon alle apps</string>
   <string name="menu_search">Zoeken</string>
   <string name="menu_help">Help</string>
   <string name="menu_notify_new">Meldt nieuwe apps</string>
   <string name="menu_restrict_new">Beperk nieuwe apps</string>
-  <string name="menu_readme">Documentation</string>
+  <string name="menu_readme">Documentatie</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Doneer</string>
   <string name="msg_no_service">Module niet actief of bijgwerkt</string>
@@ -54,5 +54,5 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="group_send_messages">Berichten sturen</string>
   <string name="group_use_analytics">Analytics gebruiken</string>
   <string name="group_use_camera">Camera gebruiken</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Bijhouden gebruik</string>
 </resources>
