@@ -41,7 +41,7 @@ import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.DebugLib;
 import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.ThreeArgFunction;
+import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
@@ -779,7 +779,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
     }
 
-    private static class LuaHook extends ThreeArgFunction {
+    private static class LuaHook extends VarArgFunction {
         private Context context;
         private Map<String, String> settings;
 
@@ -789,10 +789,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         }
 
         @Override
-        public LuaValue call(LuaValue obj, LuaValue method, final LuaValue func) {
-            Class<?> cls = obj.touserdata().getClass();
-            String m = method.checkjstring();
-            func.checkfunction();
+        public Varargs invoke(final Varargs args) {
+            Class<?> cls = args.arg(1).checkuserdata().getClass();
+            String m = args.arg(2).checkjstring();
+            args.arg(3).checkfunction();
             Log.i(TAG, "Dynamic hook " + cls.getName() + "." + m);
 
             XposedBridge.hookAllMethods(cls, m, new XC_MethodHook() {
@@ -808,11 +808,12 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                 private void execute(String when, MethodHookParam param) {
                     Log.i(TAG, "Dynamic invoke " + param.method);
-                    LuaValue[] args = new LuaValue[]{
-                            LuaValue.valueOf(when),
-                            CoerceJavaToLua.coerce(new XParam(context, param, settings))
-                    };
-                    func.invoke(args);
+                    List<LuaValue> values = new ArrayList<>();
+                    values.add(LuaValue.valueOf(when));
+                    values.add(CoerceJavaToLua.coerce(new XParam(context, param, settings)));
+                    for (int i = 4; i <= args.narg(); i++)
+                        values.add(args.arg(i));
+                    args.arg(3).invoke(values.toArray(new LuaValue[0]));
                 }
             });
 

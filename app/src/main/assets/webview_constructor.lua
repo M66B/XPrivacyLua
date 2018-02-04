@@ -26,14 +26,14 @@ function after(h, param)
     end
 
     local settings = this:getSettings()
-    hook(settings, 'setUserAgentString', setUserAgentString)
+    local ua = 'Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9'
+    hook(settings, 'setUserAgentString', setUserAgentString, ua)
     settings:setUserAgentString('dummy')
     return true
 end
 
-function setUserAgentString(when, param)
+function setUserAgentString(when, param, ua)
     if when == 'before' then
-        local ua = 'Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9'
         if param:getArgument(0) ~= ua then
             log('Setting ua=' .. ua)
             param:setArgument(0, ua)
