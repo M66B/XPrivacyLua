@@ -1125,6 +1125,8 @@ class XProvider {
             renameHook(_db, "TelephonyManager/getVoiceMailAlphaTag", "TelephonyManager.getVoiceMailAlphaTag");
             renameHook(_db, "TelephonyManager/getVoiceMailNumber", "TelephonyManager.getVoiceMailNumber");
             renameHook(_db, "Settings.Secure.getString", "Settings.Secure.getString/android_id");
+            renameHook(_db, "SystemProperties.get", "SystemProperties.get/serial");
+            renameHook(_db, "SystemProperties.get/default", "SystemProperties.get.default/serial");
 
             Log.i(TAG, "Database version=" + _db.getVersion());
 

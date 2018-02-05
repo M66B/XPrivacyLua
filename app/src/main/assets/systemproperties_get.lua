@@ -21,23 +21,33 @@ function after(hook, param)
         return false
     end
 
-    --local name = hook:getName()
-    --if name ~= 'SystemProperties.get' and name ~= 'SystemProperties.get/default' then
-    --    return false
-    --end
-
     local key = param:getArgument(0)
-    log(key .. '=' .. result)
 
-    if key ~= 'ro.serialno' and key ~= 'ro.boot.serialno' then
+    local h = hook:getName()
+    local match = string.gmatch(h, '[^/]+')
+    local func = match()
+    local name = match()
+
+    if func ~= 'SystemProperties.get' and func ~= 'SystemProperties.get.default' then
+        log(func .. ' unsupported')
         return false
     end
 
-    local fake = param:getSetting('value.serial')
-    if fake == nil then
-        fake = 'unknown'
-    end
+    log(key .. '=' .. result .. ' name=' .. name)
 
-    param:setResult(fake)
-    return true, result, fake
+    if name == 'serial' and (key == 'ro.serialno' or key == 'ro.boot.serialno') then
+        local fake = param:getSetting('value.serial')
+        if fake == nil then
+            fake = 'unknown'
+        end
+
+        param:setResult(fake)
+        return true, result, fake
+    elseif name == 'vendor' and string.sub(key, 1, string.len('ro.vendor.')) == 'ro.vendor.' then
+        local fake
+        param:setResult(fake)
+        return true, result, fake
+    else
+        return false
+    end
 end

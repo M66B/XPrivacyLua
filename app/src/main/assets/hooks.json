@@ -1008,7 +1008,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
-    "name": "SystemProperties.get",
+    "name": "SystemProperties.get/serial",
     "author": "M66B",
     "className": "android.os.SystemProperties",
     "methodName": "get",
@@ -1022,7 +1022,36 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
-    "name": "SystemProperties.get/default",
+    "name": "SystemProperties.get.default/serial",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.get/vendor",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "SystemProperties.get.default/vendor",
     "author": "M66B",
     "className": "android.os.SystemProperties",
     "methodName": "get",
