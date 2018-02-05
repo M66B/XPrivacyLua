@@ -16,7 +16,7 @@ All data is stored in the folder */data/system/xlua*.
 <a name="FAQ2"></a>
 **(2) Can I run XPrivacy and XPrivacyLua side by side?**
 
-Yes, you can, but be aware that both modules will apply the configured restrictions.
+Since XPrivacyLua is [in many aspects better](#FAQ7) than XPrivacy, running XPrivacy and XPrivacyLua side by side isn't supported.
 
 <a name="FAQ3"></a>
 **(3) How can I fix 'Module not running or updated'?**
