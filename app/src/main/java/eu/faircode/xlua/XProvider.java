@@ -494,7 +494,7 @@ class XProvider {
 
         String packageName = selection[0];
         int uid = Integer.parseInt(selection[1]);
-        MatrixCursor result = new MatrixCursor(new String[]{"json"});
+        MatrixCursor result = new MatrixCursor(new String[]{"json", "used"});
 
         String collection = getCollection(context, Util.getUserId(uid));
 
@@ -506,18 +506,19 @@ class XProvider {
                 try {
                     cursor = db.query(
                             "assignment",
-                            new String[]{"hook"},
+                            new String[]{"hook", "used"},
                             "package = ? AND uid = ?",
                             new String[]{packageName, Integer.toString(uid)},
                             null, null, "hook");
                     int colHook = cursor.getColumnIndex("hook");
+                    int colUsed = cursor.getColumnIndex("used");
                     while (cursor.moveToNext()) {
                         String hookid = cursor.getString(colHook);
                         synchronized (lock) {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
                                 if (hook.isAvailable(packageName, collection))
-                                    result.addRow(new String[]{hook.toJSON()});
+                                    result.addRow(new String[]{hook.toJSON(), cursor.getString(colUsed)});
                             } else if (BuildConfig.DEBUG)
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }
