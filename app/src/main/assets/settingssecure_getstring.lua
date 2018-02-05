@@ -22,6 +22,8 @@ function after(hook, param)
     end
 
     local key = param:getArgument(1)
+    log(key .. '=' .. result)
+
     if key ~= 'android_id' then
         return false
     end

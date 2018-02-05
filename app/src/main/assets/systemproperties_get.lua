@@ -27,6 +27,8 @@ function after(hook, param)
     --end
 
     local key = param:getArgument(0)
+    log(key .. '=' .. result)
+
     if key ~= 'ro.serialno' and key ~= 'ro.boot.serialno' then
         return false
     end

@@ -988,7 +988,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 3,
-    "luaScript": "@value_settings"
+    "luaScript": "@settingssecure_getstring"
   },
   {
     "collection": "Privacy",
