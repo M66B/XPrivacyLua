@@ -1124,6 +1124,7 @@ class XProvider {
             renameHook(_db, "TelephonyManager/getSubscriberId", "TelephonyManager.getSubscriberId");
             renameHook(_db, "TelephonyManager/getVoiceMailAlphaTag", "TelephonyManager.getVoiceMailAlphaTag");
             renameHook(_db, "TelephonyManager/getVoiceMailNumber", "TelephonyManager.getVoiceMailNumber");
+            renameHook(_db, "Settings.Secure.getString", "Settings.Secure.getString/android_id");
 
             Log.i(TAG, "Database version=" + _db.getVersion());
 

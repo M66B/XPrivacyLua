@@ -978,7 +978,22 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
-    "name": "Settings.Secure.getString",
+    "name": "Settings.Secure.getString/android_id",
+    "author": "M66B",
+    "className": "android.provider.Settings$Secure",
+    "methodName": "getString",
+    "parameterTypes": [
+      "android.content.ContentResolver",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 3,
+    "luaScript": "@settingssecure_getstring"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Identifiers",
+    "name": "Settings.Secure.getString/bluetooth_name",
     "author": "M66B",
     "className": "android.provider.Settings$Secure",
     "methodName": "getString",
