@@ -6,7 +6,7 @@
   <string name="title_fix">Fiks</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Innskrenk</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Fremtving avslutting automatisk</string>
   <string name="title_help_instructions">        Trykk på ikonet eller navnet til en app og avkryss restriksjoner til å anvende de.
         Hvis mulig, blir apper stoppet automatisk for å anvende (eller fjerne) restriksjoner umiddelbart,
         men anvendelsen av restriksjoner til noen få apper krever en omstart (se ikonene nedenfor).
@@ -36,7 +36,7 @@
   <string name="msg_exception">Feil i %1$s</string>
   <string name="msg_restrict_sure">Er du sikker på at du skal innskrenke \"%1$s\" for alle apper?</string>
   <string name="group_determine_activity">Bestem aktivitet</string>
-  <string name="group_get_applications">Hent programmer</string>
+  <string name="group_get_applications">Hent apper</string>
   <string name="group_get_calendars">Hent kalendere</string>
   <string name="group_get_call_log">Hent samtaleloggen</string>
   <string name="group_get_contacts">Hent kontakter</string>
@@ -55,5 +55,5 @@
   <string name="group_send_messages">Send meldinger</string>
   <string name="group_use_analytics">Bruk analyser</string>
   <string name="group_use_camera">Bruk kameraet</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Bruk sporing</string>
 </resources>
