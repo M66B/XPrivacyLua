@@ -269,16 +269,16 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 if (index >= 0) {
                     List<XAssignment> copies = new ArrayList<>();
                     List<XAssignment> existing = all.get(index).assignments;
-                    for (XAssignment updated : app.assignments)
-                        if (existing.indexOf(updated) >= 0) {
-                            XAssignment copy = new XAssignment(updated.hook);
-                            copy.installed = updated.installed;
-                            copy.used = updated.used;
-                            copy.restricted = updated.restricted;
-                            copy.exception = updated.exception;
-                            copies.add(copy);
-                        } else
+                    for (XAssignment updated : app.assignments) {
+                        if (existing.indexOf(updated) < 0)
                             Log.w(TAG, app.packageName + "/" + updated.hook.getId() + " missing");
+                        XAssignment copy = new XAssignment(updated.hook);
+                        copy.installed = updated.installed;
+                        copy.used = updated.used;
+                        copy.restricted = updated.restricted;
+                        copy.exception = updated.exception;
+                        copies.add(copy);
+                    }
                     app.assignments = copies;
                 }
             }
