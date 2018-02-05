@@ -1234,11 +1234,77 @@
     "luaScript": "@generic_empty_list"
   },
   // Read telephony data
+  // https://developer.android.com/reference/android/telephony/SubscriptionInfo.html
   // https://developer.android.com/reference/android/telephony/TelephonyManager.html
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getDeviceId",
+    "name": "SubscriptionInfo.getIccId",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getIccId",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 22,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "SubscriptionInfo.getMcc",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getMcc",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 22,
+    "luaScript": "@generic_mcc_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "SubscriptionInfo.getMnc",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getMnc",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 22,
+    "luaScript": "@generic_mnc_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "SubscriptionInfo.getNumber",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getNumber",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 22,
+    "luaScript": "@value_phone_number"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "SubscriptionInfo.getSubscriptionId",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getSubscriptionId",
+    "parameterTypes": [
+    ],
+    "returnType": "int",
+    "minSdk": 22,
+    "luaScript": "@generic_zero_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager.getDeviceId",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getDeviceId",
@@ -1252,7 +1318,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getDeviceId/slot",
+    "name": "TelephonyManager.getDeviceId/slot",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getDeviceId",
@@ -1260,13 +1326,15 @@
       "int"
     ],
     "returnType": "java.lang.String",
-    "minSdk": 23,
+    "minSdk": 1,
+    // officially SDK 23
+    "optional": true,
     "luaScript": "@value_device_id"
   },
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getGroupIdLevel1",
+    "name": "TelephonyManager.getGroupIdLevel1",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getGroupIdLevel1",
@@ -1279,7 +1347,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getImei",
+    "name": "TelephonyManager.getImei",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getImei",
@@ -1292,7 +1360,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getImei/slot",
+    "name": "TelephonyManager.getImei/slot",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getImei",
@@ -1306,7 +1374,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getLine1Number",
+    "name": "TelephonyManager.getLine1Number",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getLine1Number",
@@ -1320,7 +1388,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getMeid",
+    "name": "TelephonyManager.getMeid",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getMeid",
@@ -1333,7 +1401,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getMeid/slot",
+    "name": "TelephonyManager.getMeid/slot",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getMeid",
@@ -1347,7 +1415,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getNetworkSpecifier",
+    "name": "TelephonyManager.getNetworkSpecifier",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getNetworkSpecifier",
@@ -1361,7 +1429,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getSimSerialNumber",
+    "name": "TelephonyManager.getSimSerialNumber",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getSimSerialNumber",
@@ -1374,7 +1442,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getSubscriberId",
+    "name": "TelephonyManager.getSubscriberId",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getSubscriberId",
@@ -1387,7 +1455,23 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getVoiceMailAlphaTag",
+    "name": "TelephonyManager.getSubscriberId/slot",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getSubscriberId",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "optional": true,
+    // Not an official API
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Read.Telephony",
+    "name": "TelephonyManager.getVoiceMailAlphaTag",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getVoiceMailAlphaTag",
@@ -1400,7 +1484,7 @@
   {
     "collection": "Privacy",
     "group": "Read.Telephony",
-    "name": "TelephonyManager/getVoiceMailNumber",
+    "name": "TelephonyManager.getVoiceMailNumber",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
     "methodName": "getVoiceMailNumber",
@@ -2282,6 +2366,11 @@
     "luaScript": "@camera2_open"
   },
   // Use tracking
+  // https://developer.android.com/reference/android/os/Build.html
+  // https://developer.android.com/reference/android/content/res/Configuration.html
+  // https://developer.android.com/reference/android/telephony/SubscriptionInfo.html
+  // https://developer.android.com/reference/android/telephony/TelephonyManager.html
+  // https://developer.android.com/reference/android/webkit/WebView.html
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
@@ -2547,6 +2636,32 @@
     "minSdk": 1,
     "usage": false,
     "luaScript": "@configuration_createfromparcel"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SubscriptionInfo.getCarrierName",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getCarrierName",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.CharSequence",
+    "minSdk": 22,
+    "luaScript": "@generic_unknown_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SubscriptionInfo.getCountryIso",
+    "author": "M66B",
+    "className": "android.telephony.SubscriptionInfo",
+    "methodName": "getCountryIso",
+    "parameterTypes": [
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 22,
+    "luaScript": "@generic_country_value"
   },
   {
     "collection": "Privacy",

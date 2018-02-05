@@ -544,7 +544,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             Log.i(TAG, "Optional hook=" + hook.getId() +
                                     ": " + ex.getClass().getName() + ": " + ex.getMessage());
                         else {
-                            Log.e(TAG, Log.getStackTraceString(ex));
+                            Log.e(TAG, hook.getId() + ": " + Log.getStackTraceString(ex));
 
                             // Report install error
                             Bundle data = new Bundle();

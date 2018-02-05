@@ -1111,8 +1111,19 @@ class XProvider {
             //deleteHook(_db, "Privacy.ContentResolver/query1");
             //deleteHook(_db, "Privacy.ContentResolver/query16");
             //deleteHook(_db, "Privacy.ContentResolver/query26");
-            //renameHook(_db, "Privacy.MediaRecorder.start", "Privacy.MediaRecorder.start.Audio");
-            //renameHook(_db, "Privacy.MediaRecorder.stop", "Privacy.MediaRecorder.stop.Audio");
+            renameHook(_db, "TelephonyManager/getDeviceId", "TelephonyManager.getDeviceId");
+            renameHook(_db, "TelephonyManager/getDeviceId/slot", "TelephonyManager.getDeviceId/slot");
+            renameHook(_db, "TelephonyManager/getGroupIdLevel1", "TelephonyManager.getGroupIdLevel1");
+            renameHook(_db, "TelephonyManager/getImei", "TelephonyManager.getImei");
+            renameHook(_db, "TelephonyManager/getImei/slot", "TelephonyManager.getImei/slot");
+            renameHook(_db, "TelephonyManager/getLine1Number", "TelephonyManager.getLine1Number");
+            renameHook(_db, "TelephonyManager/getMeid", "TelephonyManager.getMeid");
+            renameHook(_db, "TelephonyManager/getMeid/slot", "TelephonyManager.getMeid/slot");
+            renameHook(_db, "TelephonyManager/getNetworkSpecifier", "TelephonyManager.getNetworkSpecifier");
+            renameHook(_db, "TelephonyManager/getSimSerialNumber", "TelephonyManager.getSimSerialNumber");
+            renameHook(_db, "TelephonyManager/getSubscriberId", "TelephonyManager.getSubscriberId");
+            renameHook(_db, "TelephonyManager/getVoiceMailAlphaTag", "TelephonyManager.getVoiceMailAlphaTag");
+            renameHook(_db, "TelephonyManager/getVoiceMailNumber", "TelephonyManager.getVoiceMailNumber");
 
             Log.i(TAG, "Database version=" + _db.getVersion());
 
@@ -1134,9 +1145,9 @@ class XProvider {
 
     private static void renameHook(SQLiteDatabase _db, String oldId, String newId) {
         try {
-            ContentValues cvMediaStart = new ContentValues();
-            cvMediaStart.put("hook", oldId);
-            long rows = _db.update("assignment", cvMediaStart, "hook = ?", new String[]{newId});
+            ContentValues cv = new ContentValues();
+            cv.put("hook", newId);
+            long rows = _db.update("assignment", cv, "hook = ?", new String[]{oldId});
             Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " rows=" + rows);
         } catch (Throwable ex) {
             Log.i(TAG, "Renamed hook " + oldId + " into " + newId + " ex=" + ex.getMessage());
