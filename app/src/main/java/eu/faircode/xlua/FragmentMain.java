@@ -147,9 +147,6 @@ public class FragmentMain extends Fragment {
     public void onResume() {
         super.onResume();
 
-        IntentFilter ifData = new IntentFilter(XProvider.ACTION_DATA_CHANGED);
-        getContext().registerReceiver(dataChangedReceiver, ifData);
-
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addAction(Intent.ACTION_PACKAGE_CHANGED);
@@ -164,7 +161,6 @@ public class FragmentMain extends Fragment {
     public void onPause() {
         super.onPause();
 
-        getContext().unregisterReceiver(dataChangedReceiver);
         getContext().unregisterReceiver(packageChangedReceiver);
     }
 
@@ -331,17 +327,6 @@ public class FragmentMain extends Fragment {
             return data;
         }
     }
-
-    private BroadcastReceiver dataChangedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            String packageName = intent.getStringExtra("packageName");
-            int uid = intent.getIntExtra("uid", -1);
-            Log.i(TAG, "pkg=" + packageName + ":" + uid);
-            loadData();
-        }
-    };
 
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override

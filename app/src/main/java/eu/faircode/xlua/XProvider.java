@@ -70,7 +70,6 @@ class XProvider {
     final static String cChannelName = "xlua";
 
     static Uri URI = Settings.System.CONTENT_URI;
-    static String ACTION_DATA_CHANGED = XProvider.class.getPackage().getName() + ".DATA_CHANGED";
 
     static void loadData(Context context) throws RemoteException {
         try {
@@ -438,6 +437,7 @@ class XProvider {
         return result;
     }
 
+    @SuppressLint("MissingPermission")
     private static Bundle assignHooks(Context context, Bundle extras) throws Throwable {
         enforcePermission(context);
 
@@ -484,6 +484,19 @@ class XProvider {
 
         if (kill)
             forceStop(context, packageName, Util.getUserId(uid));
+
+        // Notify data changed
+        long ident = Binder.clearCallingIdentity();
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
+            intent.setPackage(XProvider.class.getPackage().getName());
+            intent.setData(Uri.parse("package://" + packageName));
+            intent.putExtra(Intent.EXTRA_UID, uid);
+            context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
+        } finally {
+            Binder.restoreCallingIdentity(ident);
+        }
 
         return new Bundle();
     }
@@ -636,14 +649,6 @@ class XProvider {
 
         long ident = Binder.clearCallingIdentity();
         try {
-            // Notify data changed
-            Intent intent = new Intent();
-            intent.setAction(ACTION_DATA_CHANGED);
-            intent.setPackage(XProvider.class.getPackage().getName());
-            intent.putExtra("packageName", packageName);
-            intent.putExtra("uid", uid);
-            context.sendBroadcastAsUser(intent, Util.getUserHandle(uid));
-
             Context ctx = Util.createContextForUser(context, Util.getUserId(uid));
             PackageManager pm = ctx.getPackageManager();
             String self = XProvider.class.getPackage().getName();
@@ -717,6 +722,14 @@ class XProvider {
 
                 Util.notifyAsUser(ctx, "xlua_exception", uid, builder.build(), Util.getUserId(uid));
             }
+
+            // Notify data changed
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
+            intent.setPackage(XProvider.class.getPackage().getName());
+            intent.setData(Uri.parse("package://" + packageName));
+            intent.putExtra(Intent.EXTRA_UID, uid);
+            context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
         } finally {
             Binder.restoreCallingIdentity(ident);
         }
