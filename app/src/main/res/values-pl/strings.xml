@@ -6,7 +6,7 @@
   <string name="title_fix">Napraw</string>
   <string name="title_all">Wszystkie</string>
   <string name="title_restrict">Ogranicz</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Wymuś automatyczne zatrzymanie</string>
   <string name="title_help_instructions">
         Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenia, aby je zastosować.
         Jeśli to możliwe, aplikacje są automatycznie zatrzymywane w celu natychmiastowego zastosowania (lub usunięcia) ograniczeń,
@@ -20,22 +20,22 @@
   <string name="title_help_settings">Ustawienia ograniczeń aplikacji</string>
   <string name="title_help_persistent">Zastosowanie ograniczeń wymaga ponownego uruchomienia urządzenia</string>
   <string name="title_help_exception">Zastosowanie ograniczenia nie powiodło się (dotknij ikonę, aby dowiedzieć się dlaczego)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Pokaż</string>
+  <string name="menu_show_user">Pokaż aplikacje użytkownika</string>
+  <string name="menu_show_icon">Pokaż aplikacje wraz z ikoną</string>
   <string name="menu_show_all">Pokaż wszystkie aplikacje</string>
   <string name="menu_search">Szukaj</string>
   <string name="menu_help">Pomoc</string>
   <string name="menu_notify_new">Powiadamiaj dla nowych aplikacji</string>
   <string name="menu_restrict_new">Ogranicz nowe aplikacje</string>
-  <string name="menu_readme">Documentation</string>
+  <string name="menu_readme">Dokumentacja</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Wesprzyj</string>
   <string name="msg_no_service">Moduł nie działa lub nie jest zaktualizowany</string>
   <string name="msg_review_settings">Przejrzyj ustawienia prywatności</string>
   <string name="msg_usage">Ograniczono \'%1$s\'</string>
   <string name="msg_exception">Błąd w %1$s</string>
-  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
+  <string name="msg_restrict_sure">Czy na pewno chcesz przełączyć \'%1$s\' dla wszystkich aplikacji?</string>
   <string name="group_determine_activity">Określanie aktywności</string>
   <string name="group_get_applications">Odczyt aplikacji</string>
   <string name="group_get_calendars">Dostęp do kalendarza</string>
@@ -54,7 +54,7 @@
   <string name="group_record_audio">Nagrywanie dźwięku</string>
   <string name="group_record_video">Nagrywanie wideo</string>
   <string name="group_send_messages">Wysyłanie wiadomości</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">Użycie danych analitycznych</string>
   <string name="group_use_camera">Użycie aparatu</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Użycie śledzenia</string>
 </resources>

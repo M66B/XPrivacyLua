@@ -6,7 +6,7 @@
   <string name="title_fix">Corriger</string>
   <string name="title_all">Toutes</string>
   <string name="title_restrict">Restreindre</string>
-  <string name="title_force_stop">Forcer l\'arrêt automatiquement</string>
+  <string name="title_force_stop">Arrêt forcé automatiquement</string>
   <string name="title_help_instructions">
         Appuyez sur l\'icône de l\'appli ou son nom et cochez les restrictions pour les appliquer.
         Si possible, les applis sont automatiquement stoppées pour immédiatement appliquer (ou annuler) les restrictions,
