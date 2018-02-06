@@ -446,6 +446,7 @@ class XProvider {
         int uid = extras.getInt("uid");
         boolean delete = extras.getBoolean("delete");
         boolean kill = extras.getBoolean("kill");
+        boolean notify = extras.getBoolean("notify", true);
 
         dbLock.writeLock().lock();
         try {
@@ -486,16 +487,18 @@ class XProvider {
             forceStop(context, packageName, Util.getUserId(uid));
 
         // Notify data changed
-        long ident = Binder.clearCallingIdentity();
-        try {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
-            intent.setPackage(XProvider.class.getPackage().getName());
-            intent.setData(Uri.parse("package://" + packageName));
-            intent.putExtra(Intent.EXTRA_UID, uid);
-            context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
-        } finally {
-            Binder.restoreCallingIdentity(ident);
+        if (notify) {
+            long ident = Binder.clearCallingIdentity();
+            try {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
+                intent.setPackage(XProvider.class.getPackage().getName());
+                intent.setData(Uri.parse("package://" + packageName));
+                intent.putExtra(Intent.EXTRA_UID, uid);
+                context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
+            } finally {
+                Binder.restoreCallingIdentity(ident);
+            }
         }
 
         return new Bundle();
