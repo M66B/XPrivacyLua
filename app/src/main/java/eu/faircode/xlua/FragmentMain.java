@@ -180,9 +180,13 @@ public class FragmentMain extends Fragment {
     }
 
     private void loadData() {
-        Log.i(TAG, "Starting data loader");
-        getActivity().getSupportLoaderManager().restartLoader(
-                ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+        LoaderManager manager = getActivity().getSupportLoaderManager();
+        Loader loader = manager.getLoader(ActivityMain.LOADER_DATA);
+        if (loader == null || loader.isStarted()) {
+            Log.i(TAG, "Starting data loader");
+            manager.restartLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+        } else
+            Log.i(TAG, "Data loader already active");
     }
 
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
