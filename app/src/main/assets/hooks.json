@@ -2679,6 +2679,7 @@
     "returnType": "android.content.res.Configuration",
     "minSdk": 1,
     "usage": false,
+    "enabled": false,
     "luaScript": "@configuration_createfromparcel"
   },
   {
