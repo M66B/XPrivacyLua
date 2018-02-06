@@ -446,7 +446,6 @@ class XProvider {
         int uid = extras.getInt("uid");
         boolean delete = extras.getBoolean("delete");
         boolean kill = extras.getBoolean("kill");
-        boolean notify = extras.getBoolean("notify", true);
 
         dbLock.writeLock().lock();
         try {
@@ -485,21 +484,6 @@ class XProvider {
 
         if (kill)
             forceStop(context, packageName, Util.getUserId(uid));
-
-        // Notify data changed
-        if (notify) {
-            long ident = Binder.clearCallingIdentity();
-            try {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
-                intent.setPackage(XProvider.class.getPackage().getName());
-                intent.setData(Uri.parse("package://" + packageName));
-                intent.putExtra(Intent.EXTRA_UID, uid);
-                context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-        }
 
         return new Bundle();
     }
@@ -725,14 +709,6 @@ class XProvider {
 
                 Util.notifyAsUser(ctx, "xlua_exception", uid, builder.build(), Util.getUserId(uid));
             }
-
-            // Notify data changed
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_PACKAGE_CHANGED);
-            intent.setPackage(XProvider.class.getPackage().getName());
-            intent.setData(Uri.parse("package://" + packageName));
-            intent.putExtra(Intent.EXTRA_UID, uid);
-            context.sendBroadcastAsUser(intent, Util.getUserHandle(Util.getUserId(uid)));
         } finally {
             Binder.restoreCallingIdentity(ident);
         }

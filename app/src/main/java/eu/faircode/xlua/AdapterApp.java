@@ -334,7 +334,6 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 args.putInt("uid", app.uid);
                 args.putBoolean("delete", revert);
                 args.putBoolean("kill", app.forceStop);
-                args.putBoolean("notify", false);
                 actions.add(args);
             }
         }
