@@ -48,16 +48,22 @@
         app:layout_constraintEnd_toEndOf="@id/btnRestrict"
         app:layout_constraintTop_toTopOf="@id/btnRestrict" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvApplication"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRestrict" />
+        app:layout_constraintTop_toBottomOf="@id/btnRestrict">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvApplication"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.constraint.Group
         android:id="@+id/grpApplication"

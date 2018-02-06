@@ -34,10 +34,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +66,7 @@ public class FragmentMain extends Fragment {
     private Button btnRestrict;
     private TextView tvRestrict;
     private Group grpApplication;
+    private SwipeRefreshLayout swipeRefresh;
     private AdapterApp rvAdapter;
 
     private AdapterApp.enumShow show = AdapterApp.enumShow.none;
@@ -77,6 +80,18 @@ public class FragmentMain extends Fragment {
         btnRestrict = main.findViewById(R.id.btnRestrict);
         tvRestrict = main.findViewById(R.id.tvRestrict);
         grpApplication = main.findViewById(R.id.grpApplication);
+
+        TypedValue tv = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+
+        swipeRefresh = main.findViewById(R.id.swipeRefresh);
+        swipeRefresh.setColorSchemeColors(tv.data, tv.data, tv.data);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
 
         // Initialize app list
         RecyclerView rvApplication = main.findViewById(R.id.rvApplication);
@@ -201,6 +216,7 @@ public class FragmentMain extends Fragment {
                 rvAdapter.setShow(data.show);
                 rvAdapter.set(data.collection, data.hooks, data.apps);
 
+                swipeRefresh.setRefreshing(false);
                 pbApplication.setVisibility(View.GONE);
                 grpApplication.setVisibility(View.VISIBLE);
 
