@@ -24,12 +24,11 @@ function before(hook, param)
             name == 'Runtime.exec/cmd/env' or
             name == 'Runtime.exec/cmd/env/file' then
         log(command)
-    elseif name == 'ProcessBuilder.command/list' then
-        local length = command:size()
-        for index = 0, length - 1 do
-            log(command:get(index))
-        end
     else
+        if name == 'ProcessBuilder.command/list' then
+            command = command:toArray()
+        end
+
         local index
         local array = luajava.bindClass('java.lang.reflect.Array')
         local length = array:getLength(command)

@@ -21,12 +21,16 @@ function after(hook, param)
         return false
     end
 
-    local index = 0
     local filtered = false
     local name = hook:getName()
     local cuid = param:getUid()
-    while index < list:size() do
-        local item = list:get(index)
+
+    local index
+    local info = list:toArray()
+    local array = luajava.bindClass('java.lang.reflect.Array')
+    local length = array:getLength(info)
+    for index = length - 1, 0, -1 do
+        local item = array:get(info, index)
 
         local uid
         if item == nil then
@@ -46,9 +50,7 @@ function after(hook, param)
             uid = item.uid
         end
 
-        if uid == cuid then
-            index = index + 1
-        else
+        if uid ~= cuid then
             filtered = true
             list:remove(index)
         end
