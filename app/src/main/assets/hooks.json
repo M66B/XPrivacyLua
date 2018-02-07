@@ -2893,5 +2893,139 @@
     "minSdk": 1,
     "enabled": false,
     "luaScript": "@blockguardos_open"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "ProcessBuilder.command/array",
+    "author": "M66B",
+    "className": "java.lang.ProcessBuilder",
+    "methodName": "command",
+    "parameterTypes": [
+      "[Ljava.lang.String;"
+    ],
+    "returnType": "java.lang.ProcessBuilder",
+    "minSdk": 1,
+    "enabled": true,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "ProcessBuilder.command/list",
+    "author": "M66B",
+    "className": "java.lang.ProcessBuilder",
+    "methodName": "command",
+    "parameterTypes": [
+      "java.util.List"
+    ],
+    "returnType": "java.lang.ProcessBuilder",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/array",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "[Ljava.lang.String;"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/array/env",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "[Ljava.lang.String;",
+      "[Ljava.lang.String;"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/cmd",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/cmd/env",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "java.lang.String",
+      "[Ljava.lang.String;"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/array/env/file",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "[Ljava.lang.String;",
+      "[Ljava.lang.String;",
+      "java.io.File"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
+  },
+  {
+    "builtin": true,
+    "collection": "Privacy",
+    "group": "Use.Shell",
+    "name": "Runtime.exec/cmd/env/file",
+    "author": "M66B",
+    "className": "java.lang.Runtime",
+    "methodName": "exec",
+    "parameterTypes": [
+      "java.lang.String",
+      "[Ljava.lang.String;",
+      "java.io.File"
+    ],
+    "returnType": "java.lang.Process",
+    "minSdk": 1,
+    "enabled": false,
+    "luaScript": "@shell"
   }
 ]
