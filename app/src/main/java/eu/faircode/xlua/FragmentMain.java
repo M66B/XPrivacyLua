@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class FragmentMain extends Fragment {
-    private final static String TAG = "XLua.Main";
+    private final static String TAG = "XLua.Fragment";
 
     private ProgressBar pbApplication;
     private Spinner spGroup;
@@ -89,7 +89,7 @@ public class FragmentMain extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                loadData(true);
             }
         });
 
@@ -169,7 +169,7 @@ public class FragmentMain extends Fragment {
         ifPackage.addDataScheme("package");
         getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
-        loadData();
+        loadData(false);
     }
 
     @Override
@@ -194,10 +194,14 @@ public class FragmentMain extends Fragment {
             rvAdapter.getFilter().filter(query);
     }
 
-    private void loadData() {
-        Log.i(TAG, "Starting data loader");
-        getActivity().getSupportLoaderManager().restartLoader(
-                ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+    private void loadData(boolean restart) {
+        Log.i(TAG, "Starting data loader restart=" + restart);
+        LoaderManager manager = getActivity().getSupportLoaderManager();
+        Loader loader = manager.getLoader(ActivityMain.LOADER_DATA);
+        if (loader == null || loader.isReset())
+            manager.initLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+        else if (restart)
+            manager.restartLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
     }
 
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
@@ -351,7 +355,7 @@ public class FragmentMain extends Fragment {
             String packageName = intent.getData().getSchemeSpecificPart();
             int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
             Log.i(TAG, "pkg=" + packageName + ":" + uid);
-            loadData();
+            loadData(true);
         }
     };
 
