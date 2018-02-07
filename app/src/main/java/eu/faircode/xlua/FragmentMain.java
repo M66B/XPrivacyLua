@@ -198,9 +198,9 @@ public class FragmentMain extends Fragment {
         Log.i(TAG, "Starting data loader restart=" + restart);
         LoaderManager manager = getActivity().getSupportLoaderManager();
         Loader loader = manager.getLoader(ActivityMain.LOADER_DATA);
-        if (loader == null || loader.isReset())
+        if (!restart && (loader == null || loader.isReset()))
             manager.initLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
-        else if (restart)
+        else
             manager.restartLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
     }
 
