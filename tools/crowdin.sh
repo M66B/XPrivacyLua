@@ -31,3 +31,16 @@ cp -R ${project}/app/src/main/res/values-ar/* \
 
 cp -R ${project}/app/src/main/res/values-ar/* \
 	${project}/app/src/main/res/values-ar-rYE/
+
+mkdir -p ${project}/app/src/main/res/values-nb-rNO/
+mkdir -p ${project}/app/src/main/res/values-nn-rNO/
+mkdir -p ${project}/app/src/main/res/values-no-rNO/
+
+cp -R ${project}/app/src/main/res/values-no/* \
+	${project}/app/src/main/res/values-nb-rNO/
+
+cp -R ${project}/app/src/main/res/values-no/* \
+	${project}/app/src/main/res/values-nn-rNO/
+
+cp -R ${project}/app/src/main/res/values-no/* \
+	${project}/app/src/main/res/values-no-rNO/
