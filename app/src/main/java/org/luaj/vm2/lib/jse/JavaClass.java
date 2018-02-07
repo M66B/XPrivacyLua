@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,10 +76,22 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	Field getField(LuaValue key) {
 		if ( fields == null ) {
 			Map m = new HashMap();
-			Field[] f = ((Class)m_instance).getFields();
+			List<String> n = new ArrayList();
+			for (Method p : ((Class) m_instance).getMethods())
+				n.add(p.getName());
+			for (Method p : ((Class) m_instance).getDeclaredMethods())
+				n.add(p.getName());
+			List<Field> lf = new ArrayList();
+			for (Field p : ((Class) m_instance).getFields())
+				if (!n.contains(p.getName()))
+					lf.add(p);
+			for (Field p : ((Class) m_instance).getDeclaredFields())
+				if (!n.contains(p.getName()) && !lf.contains(p))
+					lf.add(p);
+			Field[] f = lf.toArray(new Field[0]);
 			for ( int i=0; i<f.length; i++ ) {
 				Field fi = f[i];
-				if ( Modifier.isPublic(fi.getModifiers()) ) {
+				if ( true || Modifier.isPublic(fi.getModifiers()) ) {
 					m.put(LuaValue.valueOf(fi.getName()), fi);
 					try {
 						if (!fi.isAccessible())
@@ -95,10 +108,15 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	LuaValue getMethod(LuaValue key) {
 		if ( methods == null ) {
 			Map namedlists = new HashMap();
-			Method[] m = ((Class)m_instance).getMethods();
+			List<Method> lm = new ArrayList();
+			lm.addAll(Arrays.asList(((Class) m_instance).getMethods()));
+			for (Method p : ((Class) m_instance).getDeclaredMethods())
+				if (!lm.contains(p))
+					lm.add(p);
+			Method[] m = lm.toArray(new Method[0]);
 			for ( int i=0; i<m.length; i++ ) {
 				Method mi = m[i];
-				if ( Modifier.isPublic( mi.getModifiers()) ) {
+				if ( true || Modifier.isPublic( mi.getModifiers()) ) {
 					String name = mi.getName();
 					List list = (List) namedlists.get(name);
 					if ( list == null )
@@ -107,10 +125,15 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 				}
 			}
 			Map map = new HashMap();
-			Constructor[] c = ((Class)m_instance).getConstructors();
+			List<Constructor> lc = new ArrayList();
+			lc.addAll(Arrays.asList(((Class) m_instance).getConstructors()));
+			for (Constructor p : ((Class) m_instance).getDeclaredConstructors())
+				if (!lc.contains(p))
+					lc.add(p);
+			Constructor[] c = lc.toArray(new Constructor[0]);
 			List list = new ArrayList();
 			for ( int i=0; i<c.length; i++ ) 
-				if ( Modifier.isPublic(c[i].getModifiers()) )
+				if ( true || Modifier.isPublic(c[i].getModifiers()) )
 					list.add( JavaConstructor.forConstructor(c[i]) );
 			switch ( list.size() ) {
 			case 0: break;
