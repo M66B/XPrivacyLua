@@ -35,6 +35,8 @@ import java.util.Map.Entry;
 
 import org.luaj.vm2.LuaValue;
 
+import eu.faircode.xlua.BuildConfig;
+
 /**
  * LuaValue that represents a Java class.
  * <p>
@@ -71,8 +73,23 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	public LuaValue coerce(Object javaValue) {
 		return this;
 	}
-		
+
 	Field getField(LuaValue key) {
+		String name = key.checkjstring();
+		Class<?> cls = (Class) m_instance;
+		while (cls != null) {
+			for (Field field : cls.getDeclaredFields())
+				if (field.getName().equals(name)) {
+					if (BuildConfig.DEBUG)
+						android.util.Log.d("LuaJ", "Resolved " + name + " > " + field);
+					field.setAccessible(true);
+					return field;
+				}
+			cls = cls.getSuperclass();
+		}
+		android.util.Log.d("LuaJ", "Unresolved field " + name);
+		return null;
+/*
 		if ( fields == null ) {
 			Map m = new HashMap();
 			Field[] f = ((Class)m_instance).getFields();
@@ -90,9 +107,34 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 			fields = m;
 		}
 		return (Field) fields.get(key);
+*/
 	}
 	
 	LuaValue getMethod(LuaValue key) {
+		String name = key.checkjstring();
+		boolean instantiate = NEW.checkjstring().equals(name);
+		Class<?> cls = (Class) m_instance;
+		while (cls != null) {
+			if (instantiate) {
+				for (Constructor ctor : cls.getDeclaredConstructors()) {
+					if (BuildConfig.DEBUG)
+						android.util.Log.d("LuaJ", "Resolved " + name + " > " + ctor);
+					return JavaConstructor.forConstructor(ctor);
+				}
+			} else {
+				for (Method method : cls.getDeclaredMethods())
+					if (method.getName().equals(name)) {
+						if (BuildConfig.DEBUG)
+							android.util.Log.d("LuaJ", "Resolved " + name + " > " + method);
+						return JavaMethod.forMethod(method);
+					}
+			}
+			cls = cls.getSuperclass();
+		}
+		if (BuildConfig.DEBUG)
+			android.util.Log.d("LuaJ", "Unresolved method " + name);
+		return LuaValue.NIL;
+/*
 		if ( methods == null ) {
 			Map namedlists = new HashMap();
 			Method[] m = ((Class)m_instance).getMethods();
@@ -130,6 +172,7 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 			methods = map;
 		}
 		return (LuaValue) methods.get(key);
+*/
 	}
 	
 	Class getInnerClass(LuaValue key) {
