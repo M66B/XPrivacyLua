@@ -2907,7 +2907,7 @@
     ],
     "returnType": "java.lang.ProcessBuilder",
     "minSdk": 1,
-    "enabled": true,
+    "enabled": false,
     "luaScript": "@shell"
   },
   {
