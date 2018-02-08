@@ -52,7 +52,7 @@
   <string name="group_read_telephony">读取电话数据</string>
   <string name="group_record_audio">录音</string>
   <string name="group_record_video">录制视频</string>
-  <string name="group_send_messages">发送短信​​​​​​​​</string>
+  <string name="group_send_messages">发送短信</string>
   <string name="group_use_analytics">使用分析（Google/Firebase Analytics）</string>
   <string name="group_use_camera">使用相机</string>
   <string name="group_use_tracking">使用跟踪</string>
