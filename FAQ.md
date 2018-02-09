@@ -24,8 +24,11 @@ Since XPrivacyLua is [in many aspects better](#FAQ7) than XPrivacy, running XPri
 This message means either that:
 
 * The Xposed framework is not running: check if Xposed is enabled and running in the Xposed installer app.
-* The XPrivacyLua module is not running: check if XPrivacyLua is enabled in the Xposed installer app and make sure you restarted your device after installing/updating XPrivacyLua.
+* The XPrivacyLua module is not running: check if XPrivacyLua is enabled in the Xposed installer app and make sure you restarted your device (hard reboot) after installing/updating XPrivacyLua.
 * There is a problem with the XPrivacyLua service: check the Xposed log in the Xposed installer app for XPrivacyLua problems.
+
+Rebooting too soon after updating an Xposed module (before the Xposed installer shows the update notification) is known to cause problems.
+Disable and enable the module in the Xposed installer and hard reboot again to fix this problem.
 
 <a name="FAQ4"></a>
 **(4) Can you add ...?**
