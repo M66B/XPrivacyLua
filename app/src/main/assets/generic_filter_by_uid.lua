@@ -27,10 +27,8 @@ function after(hook, param)
 
     local index
     local info = list:toArray()
-    local array = luajava.bindClass('java.lang.reflect.Array')
-    local length = array:getLength(info)
-    for index = length - 1, 0, -1 do
-        local item = array:get(info, index)
+    for index = info['length'], 1, -1 do
+        local item = info[index]
 
         local uid
         if item == nil then
@@ -52,7 +50,7 @@ function after(hook, param)
 
         if uid ~= cuid then
             filtered = true
-            list:remove(index)
+            list:remove(index - 1)
         end
     end
 

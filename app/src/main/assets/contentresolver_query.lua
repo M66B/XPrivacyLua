@@ -80,10 +80,8 @@ function before(hook, param)
                 local line = path .. ' where ' .. where .. ' ('
                 if args ~= nil then
                     local index
-                    local array = luajava.bindClass('java.lang.reflect.Array')
-                    local length = array:getLength(args)
-                    for index = 0, length - 1 do
-                        line = line .. ' ' .. array:get(args, index)
+                    for index = 1, args['length'] do
+                        line = line .. ' ' .. args[index]
                     end
                 end
                 line = line .. ')'
@@ -154,14 +152,10 @@ function after(hook, param)
                 return false
             end
 
-            local array = luajava.bindClass('java.lang.reflect.Array')
-
             local found = false
             local index
-            local length = array:getLength(args)
-            for index = 0, length - 1 do
-                local arg = array:get(args, index)
-                if arg == 'android_id' then
+            for index = 1, args['length'] do
+                if args[index] == 'android_id' then
                     found = true
                     break
                 end

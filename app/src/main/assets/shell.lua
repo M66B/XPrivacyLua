@@ -20,9 +20,7 @@ function before(hook, param)
     local command = param:getArgument(0)
     if command == nil then
         log('null')
-    elseif name == 'Runtime.exec/cmd' or
-            name == 'Runtime.exec/cmd/env' or
-            name == 'Runtime.exec/cmd/env/file' then
+    elseif type(command) == 'string' then
         log(command)
     else
         if name == 'ProcessBuilder.command/list' then
@@ -30,10 +28,9 @@ function before(hook, param)
         end
 
         local index
-        local array = luajava.bindClass('java.lang.reflect.Array')
-        local length = array:getLength(command)
-        for index = 0, length - 1 do
-            log(array:get(command, index))
+        local length = command['length']
+        for index = 1, length do
+            log(command[index])
         end
     end
     return false

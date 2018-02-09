@@ -21,9 +21,8 @@ function after(hook, param)
         return false
     end
 
-    local clsArray = luajava.bindClass('java.lang.reflect.Array')
-    for index = 0, kits.length - 1 do
-        local kit = clsArray:get(kits, index)
+    for index = 1, kits['length'] do
+        local kit = kits[index]
         if kit ~= nil and kit.getIdentifier ~= nil and type(kit.getIdentifier) == 'function' then
             local identifier = kit:getIdentifier()
             log(identifier)

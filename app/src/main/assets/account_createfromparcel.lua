@@ -27,9 +27,8 @@ function after(hook, param)
 
     local restricted = true
     local packageName = param:getPackageName()
-    local clsArray = luajava.bindClass('java.lang.reflect.Array')
-    for index = 0, auths.length - 1 do
-        local auth = clsArray:get(auths, index)
+    for index = 1, auths['length'] do
+        local auth = auths[index]
         if result.type == auth.type and auth.packageName == packageName then
             restricted = false
             break
