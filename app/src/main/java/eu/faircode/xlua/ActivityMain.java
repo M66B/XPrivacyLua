@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -157,6 +159,25 @@ public class ActivityMain extends AppCompatActivity {
             public void onClick(DrawerItem item) {
                 XProvider.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
                 drawerArray.notifyDataSetChanged();
+            }
+        }));
+
+        drawerArray.add(new DrawerItem(this, R.string.menu_companion, new DrawerItem.IListener() {
+            @Override
+            public void onClick(DrawerItem item) {
+                PackageManager pm = getPackageManager();
+                Intent companion = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
+                if (companion == null) {
+                    companion = new Intent(Intent.ACTION_VIEW);
+                    companion.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
+                    Intent temp = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu"));
+                    for (ResolveInfo ri : pm.queryIntentActivities(temp, 0)) {
+                        Log.i(TAG, "resolved=" + ri);
+                        companion.setPackage(ri.activityInfo.processName);
+                        break;
+                    }
+                }
+                startActivity(companion);
             }
         }));
 
