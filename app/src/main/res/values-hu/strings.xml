@@ -6,7 +6,7 @@
   <string name="title_fix">Javítás</string>
   <string name="title_all">Összes</string>
   <string name="title_restrict">Korlátoz</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Automatikus leállítás</string>
   <string name="title_help_instructions">
         Érintsd meg egy app ikonját vagy nevét és pipáld ki a korlátozásokat a bekapcsolásukhoz.
         Ha lehetséges, akkor az appok automatikusan leállnak és azonnal érvényre jutnak (vagy törlődnek) a korlátozások,
@@ -19,9 +19,9 @@
   <string name="title_help_settings">App korlátozásainak beállításai</string>
   <string name="title_help_persistent">A korlátozások bekapcsolásához újra kell indítani az eszközt</string>
   <string name="title_help_exception">A korlátozás bekapcsolása nem sikerült (nyomd meg az ikont a részletekért)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Megjelenítés</string>
+  <string name="menu_show_user">Felhasználói appok megjelenítése</string>
+  <string name="menu_show_icon">Ikonnal rendelkező appok megjelenítése</string>
   <string name="menu_show_all">Összes app megjelenítése</string>
   <string name="menu_search">Keresés</string>
   <string name="menu_help">Súgó</string>
@@ -55,5 +55,5 @@
   <string name="group_send_messages">Üzenetek küldése</string>
   <string name="group_use_analytics">Analitika használata</string>
   <string name="group_use_camera">Kamera használata</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Követés használata</string>
 </resources>
