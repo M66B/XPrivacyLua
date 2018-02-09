@@ -70,8 +70,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private String group = null;
     private CharSequence query = null;
     private String collection = "Privacy";
-    private boolean collectionChanged = false;
+    private boolean dataChanged = false;
     private List<XHook> hooks = new ArrayList<>();
+    private List<XGroup> groups = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
     private Map<String, Boolean> expanded = new HashMap<>();
@@ -255,12 +256,15 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(String collection, List<XHook> hooks, List<XApp> apps) {
+    void set(String collection, List<XHook> hooks, List<XGroup> groups, List<XApp> apps) {
         Log.i(TAG, "Set collection=" + collection + " hooks=" + hooks.size() + " apps=" + apps.size());
 
-        this.collectionChanged = !this.collection.equals(collection);
+        this.dataChanged =
+                (!this.collection.equals(collection) || this.groups.size() != groups.size());
+
         this.collection = collection;
         this.hooks = hooks;
+        this.groups = groups;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
@@ -427,10 +431,10 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 final List<XApp> apps = (result.values == null
                         ? new ArrayList<XApp>()
                         : (List<XApp>) result.values);
-                Log.i(TAG, "Filtered apps count=" + apps.size() + " collection changed=" + collectionChanged);
+                Log.i(TAG, "Filtered apps count=" + apps.size() + " collection changed=" + dataChanged);
 
-                if (collectionChanged) {
-                    collectionChanged = false;
+                if (dataChanged) {
+                    dataChanged = false;
                     filtered = apps;
                     notifyDataSetChanged();
                 } else {

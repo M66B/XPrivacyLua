@@ -218,7 +218,7 @@ public class FragmentMain extends Fragment {
 
                 show = data.show;
                 rvAdapter.setShow(data.show);
-                rvAdapter.set(data.collection, data.hooks, data.apps);
+                rvAdapter.set(data.collection, data.hooks, data.groups, data.apps);
 
                 swipeRefresh.setRefreshing(false);
                 pbApplication.setVisibility(View.GONE);
@@ -366,15 +366,5 @@ public class FragmentMain extends Fragment {
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();
         Throwable exception = null;
-    }
-
-    private static class XGroup {
-        String name;
-        String title;
-
-        @Override
-        public String toString() {
-            return title;
-        }
     }
 }
