@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/tvUsed"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
@@ -49,9 +49,10 @@
 
     <TextView
         android:id="@+id/tvGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="12dp"
+        android:ellipsize="end"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center_vertical|end"
         android:lines="1"
@@ -59,6 +60,7 @@
         android:textAppearance="@android:style/TextAppearance.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cbAssigned"
+        app:layout_constraintStart_toEndOf="@id/tvUsed"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatCheckBox
