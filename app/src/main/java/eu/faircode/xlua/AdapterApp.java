@@ -381,11 +381,15 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
                     boolean restricted = false;
                     boolean unrestricted = false;
+                    boolean system = false;
                     if (q.startsWith("!")) {
                         restricted = true;
                         q = q.substring(1);
                     } else if (q.startsWith("?")) {
                         unrestricted = true;
+                        q = q.substring(1);
+                    } else if (q.startsWith("#")) {
+                        system = true;
                         q = q.substring(1);
                     }
 
@@ -404,6 +408,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                             if (unrestricted && assigments > 0)
                                 continue;
                         }
+                        if (system && !app.system)
+                            continue;
 
                         if (app.uid == uid ||
                                 app.packageName.toLowerCase().contains(q) ||
