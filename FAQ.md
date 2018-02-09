@@ -112,6 +112,18 @@ For example XPrivacyLua can return no data to an app while the app is not expect
 
 If you suspect that a restriction is causing a crash because there is a bug in the restriction, please provide a logcat and I will check the restriction.
 
+<a name="FAQ11"></a>
+**(11) How can I filter on ...?**
+
+You can filter on restricted apps, on not restricted apps and on system apps by typing special characters into the search field:
+
+* Filter on restricted apps: exclamation mark (!)
+* Filter on not restricted apps: question mark (?)
+* Filter on system apps: hash character (#)
+
+The special search character should be the first character in the search field
+and can be followed by additional characters to refine the search result.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
