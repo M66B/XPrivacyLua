@@ -45,7 +45,6 @@ import android.provider.Settings;
 import android.util.Log;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
