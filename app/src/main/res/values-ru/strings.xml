@@ -28,6 +28,7 @@
   <string name="menu_help">Справка</string>
   <string name="menu_notify_new">Уведомлять о новых приложениях</string>
   <string name="menu_restrict_new">Ограничивать новые приложения</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Документация</string>
   <string name="menu_faq">Часто задаваемые вопросы</string>
   <string name="menu_donate">Поддержать</string>

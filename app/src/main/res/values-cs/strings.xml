@@ -28,6 +28,7 @@
   <string name="menu_help">Nápověda</string>
   <string name="menu_notify_new">Oznámit nové aplikace</string>
   <string name="menu_restrict_new">Omezit nové aplikace</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Documentation</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Přispět</string>

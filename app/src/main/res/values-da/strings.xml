@@ -27,6 +27,7 @@ Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem
   <string name="menu_help">Hjælp</string>
   <string name="menu_notify_new">Advisér om nye apps</string>
   <string name="menu_restrict_new">Begrænse nye apps</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Dokumentation</string>
   <string name="menu_faq">Ofte stillede spørgsmål (FAQ)</string>
   <string name="menu_donate">Donér</string>

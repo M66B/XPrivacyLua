@@ -28,6 +28,7 @@
   <string name="menu_help">Aide</string>
   <string name="menu_notify_new">Notifier si nouvelles applis</string>
   <string name="menu_restrict_new">Restreindre les nouvelles applis</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Documentation</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Faire un don</string>

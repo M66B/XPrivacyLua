@@ -29,6 +29,7 @@ href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">The Documentati
   <string name="menu_help">עזרה</string>
   <string name="menu_notify_new">התראה על יישומים חדשים</string>
   <string name="menu_restrict_new">הגבל יישומים חדשים</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">מסמכים</string>
   <string name="menu_faq">שאלות נפוצות</string>
   <string name="menu_donate">תרום</string>

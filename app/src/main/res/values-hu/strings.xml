@@ -27,6 +27,7 @@
   <string name="menu_help">Súgó</string>
   <string name="menu_notify_new">Értesítés új app esetén</string>
   <string name="menu_restrict_new">Új appok korlátozása</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Dokumentáció</string>
   <string name="menu_faq">GYIK</string>
   <string name="menu_donate">Támogatás</string>

@@ -27,6 +27,7 @@
   <string name="menu_help">帮助</string>
   <string name="menu_notify_new">提示新应用</string>
   <string name="menu_restrict_new">限制新应用</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">文档</string>
   <string name="menu_faq">常见问题</string>
   <string name="menu_donate">捐赠</string>

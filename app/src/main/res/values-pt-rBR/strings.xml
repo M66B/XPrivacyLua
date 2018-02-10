@@ -6,7 +6,7 @@
   <string name="title_fix">Corrigir</string>
   <string name="title_all">Todos</string>
   <string name="title_restrict">Restringir</string>
-  <string name="title_force_stop">Auto forçar parada</string>
+  <string name="title_force_stop">Forçar a parar automaticamente</string>
   <string name="title_help_instructions">
 Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-los.
         Se possível, os aplicativos são automaticamente interrompidos para aplicar (ou remover) restrições imediatamente,
@@ -29,6 +29,7 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="menu_help">Ajuda</string>
   <string name="menu_notify_new">Notificar sobre novos apps</string>
   <string name="menu_restrict_new">Restringir novos apps</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Documentação</string>
   <string name="menu_faq">Perguntas Frequentes</string>
   <string name="menu_donate">Doar</string>

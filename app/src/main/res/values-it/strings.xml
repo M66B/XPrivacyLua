@@ -27,6 +27,7 @@ e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui<
   <string name="menu_help">Aiuto</string>
   <string name="menu_notify_new">Notifica nuove applicazioni</string>
   <string name="menu_restrict_new">Applica tutte le restrizioni alle nuove app</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Documentazione</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Dona</string>
