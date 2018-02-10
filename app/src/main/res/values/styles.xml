@@ -1,8 +1,46 @@
 <resources>
+    <attr name="expander" format="reference" />
+    <attr name="hookError" format="reference" />
+    <attr name="hookInstalled" format="reference" />
+    <attr name="appPersistent" format="reference" />
+    <attr name="appSettings" format="reference" />
+    <attr name="colorSystem" format="reference" />
+    <attr name="colorDrawerScrim" format="reference" />
+    <attr name="colorDrawerBackground" format="reference" />
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowDisablePreview">true</item>
+
+        <item name="expander">@drawable/expander_black</item>
+        <item name="hookError">@drawable/ic_error_outline_black_24dp</item>
+        <item name="hookInstalled">@drawable/ic_done_black_24dp</item>
+        <item name="appPersistent">@drawable/ic_settings_backup_restore_black_24dp</item>
+        <item name="appSettings">@drawable/ic_settings_black_24dp</item>
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorSystem">@color/lightColorSystem</item>
+        <item name="colorDrawerScrim">@color/lightColorDrawerScrim</item>
+        <item name="colorDrawerBackground">@color/lightColorDrawerBackground</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat">
+        <item name="android:windowDisablePreview">true</item>
+
+        <item name="expander">@drawable/expander_white</item>
+        <item name="hookError">@drawable/ic_error_outline_white_24dp</item>
+        <item name="hookInstalled">@drawable/ic_done_white_24dp</item>
+        <item name="appPersistent">@drawable/ic_settings_backup_restore_white_24dp</item>
+        <item name="appSettings">@drawable/ic_settings_white_24dp</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorSystem">@color/darkColorSystem</item>
+        <item name="colorDrawerScrim">@color/darkColorDrawerScrim</item>
+        <item name="colorDrawerBackground">@color/darkColorDrawerBackground</item>
     </style>
 </resources>

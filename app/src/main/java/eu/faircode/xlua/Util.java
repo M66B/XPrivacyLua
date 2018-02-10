@@ -38,6 +38,7 @@ import android.os.UserHandle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -152,6 +153,13 @@ class Util {
                 "cancelAsUser", String.class, int.class, UserHandle.class);
         mCancelAsUser.invoke(nm, tag, id, Util.getUserHandle(userid));
         Log.i(TAG, "Cancelled " + tag + ":" + id + " as " + userid);
+    }
+
+    public static int resolveColor(Context context, int attr) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
     }
 
     static void areYouSure(AppCompatActivity activity, String question, final DoubtListener listener) {

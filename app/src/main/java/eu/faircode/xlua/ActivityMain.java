@@ -35,7 +35,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
@@ -57,7 +56,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ActivityMain extends AppCompatActivity {
+public class ActivityMain extends ActivityBase {
     private final static String TAG = "XLua.Main";
 
     private FragmentMain fragmentMain = null;
@@ -110,6 +109,7 @@ public class ActivityMain extends AppCompatActivity {
 
         // Get drawer layout
         drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.setScrimColor(Util.resolveColor(this, R.attr.colorDrawerScrim));
 
         // Create drawer toggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name) {

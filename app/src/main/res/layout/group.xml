@@ -14,7 +14,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:scaleX="@dimen/group_scale"
         android:scaleY="@dimen/group_scale"
-        android:src="@drawable/ic_error_outline_black_24dp"
+        android:src="?attr/hookError"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_marginStart="6dp"
         android:scaleX="@dimen/group_scale"
         android:scaleY="@dimen/group_scale"
-        android:src="@drawable/ic_done_black_24dp"
+        android:src="?attr/hookInstalled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivException"
         app:layout_constraintTop_toTopOf="parent" />

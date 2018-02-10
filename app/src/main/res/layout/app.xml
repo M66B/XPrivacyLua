@@ -14,7 +14,7 @@
         android:alpha="0.5"
         android:clickable="false"
         android:focusable="false"
-        android:src="@drawable/expander"
+        android:src="?attr/expander"
         app:layout_constraintBottom_toBottomOf="@+id/ivIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivIcon" />
@@ -83,7 +83,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="6dp"
-        android:src="@drawable/ic_settings_backup_restore_black_24dp"
+        android:src="?attr/appPersistent"
         app:layout_constraintBottom_toBottomOf="@+id/ivIcon"
         app:layout_constraintEnd_toStartOf="@+id/ivSettings"
         app:layout_constraintTop_toTopOf="@+id/ivIcon" />
@@ -98,7 +98,7 @@
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="6dp"
-        android:src="@drawable/ic_settings_black_24dp"
+        android:src="?attr/appSettings"
         app:layout_constraintBottom_toBottomOf="@+id/ivIcon"
         app:layout_constraintEnd_toStartOf="@+id/cbAssigned"
         app:layout_constraintTop_toTopOf="@+id/ivIcon" />

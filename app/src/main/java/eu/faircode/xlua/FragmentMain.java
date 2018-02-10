@@ -39,7 +39,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,11 +80,10 @@ public class FragmentMain extends Fragment {
         tvRestrict = main.findViewById(R.id.tvRestrict);
         grpApplication = main.findViewById(R.id.grpApplication);
 
-        TypedValue tv = new TypedValue();
-        getContext().getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        int colorAccent = Util.resolveColor(getContext(), R.attr.colorAccent);
 
         swipeRefresh = main.findViewById(R.id.swipeRefresh);
-        swipeRefresh.setColorSchemeColors(tv.data, tv.data, tv.data);
+        swipeRefresh.setColorSchemeColors(colorAccent, colorAccent, colorAccent);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

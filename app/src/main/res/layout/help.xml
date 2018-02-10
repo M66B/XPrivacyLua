@@ -48,7 +48,7 @@
             android:layout_width="30dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
-            android:background="@color/colorSystem"
+            android:background="?attr/colorSystem"
             android:minHeight="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvSystem"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
             android:layout_marginTop="24dp"
             android:contentDescription="@string/title_help_installed"
             android:minHeight="30dp"
-            android:src="@drawable/ic_done_black_24dp"
+            android:src="?attr/hookInstalled"
             app:layout_constraintBottom_toBottomOf="@+id/tvInstalled"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivSystem" />
@@ -97,7 +97,7 @@
             android:layout_marginTop="24dp"
             android:contentDescription="@string/title_help_settings"
             android:minHeight="30dp"
-            android:src="@drawable/ic_settings_black_24dp"
+            android:src="?attr/appSettings"
             app:layout_constraintBottom_toBottomOf="@+id/tvSettings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivInstalled" />
@@ -121,7 +121,7 @@
             android:layout_marginTop="24dp"
             android:contentDescription="@string/title_help_settings"
             android:minHeight="30dp"
-            android:src="@drawable/ic_settings_backup_restore_black_24dp"
+            android:src="?attr/appPersistent"
             app:layout_constraintBottom_toBottomOf="@+id/tvPersistent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivSettings" />
@@ -145,7 +145,7 @@
             android:layout_marginTop="24dp"
             android:contentDescription="@string/title_help_exception"
             android:minHeight="30dp"
-            android:src="@drawable/ic_error_outline_black_24dp"
+            android:src="?attr/hookError"
             app:layout_constraintBottom_toBottomOf="@+id/tvException"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivPersistent" />

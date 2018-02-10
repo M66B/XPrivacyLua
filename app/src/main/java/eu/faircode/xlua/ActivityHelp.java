@@ -21,7 +21,6 @@ package eu.faircode.xlua;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -32,7 +31,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class ActivityHelp extends AppCompatActivity {
+public class ActivityHelp extends ActivityBase {
     private static final String TAG = "XLua.Help";
 
     @Override
