@@ -260,7 +260,18 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         Log.i(TAG, "Set collection=" + collection + " hooks=" + hooks.size() + " apps=" + apps.size());
 
         this.dataChanged =
-                (!this.collection.equals(collection) || this.groups.size() != groups.size());
+                (!this.collection.equals(collection) ||
+                        this.hooks.size() != hooks.size() ||
+                        this.groups.size() != groups.size());
+
+        if (!this.dataChanged) {
+            for (int i = 0; i < this.hooks.size() && !this.dataChanged; i++)
+                if (!this.hooks.get(i).equals(hooks.get(i)))
+                    this.dataChanged = true;
+            for (int i = 0; i < this.groups.size() && !this.dataChanged; i++)
+                if (!this.groups.get(i).equals(groups.get(i)))
+                    this.dataChanged = true;
+        }
 
         this.collection = collection;
         this.hooks = hooks;

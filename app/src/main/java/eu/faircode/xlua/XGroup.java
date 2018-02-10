@@ -27,4 +27,12 @@ class XGroup {
     public String toString() {
         return title;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof XGroup))
+            return false;
+        XGroup other = (XGroup) obj;
+        return this.name.equals(other.name);
+    }
 }
