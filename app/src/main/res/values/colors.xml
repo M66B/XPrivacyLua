@@ -6,13 +6,11 @@
 
     <!-- Light theme -->
     <color name="lightColorDrawerScrim">#99000000</color>
-    <color name="lightColorDrawerText">#111</color>
     <color name="lightColorDrawerBackground">#eee</color>
     <color name="lightColorSystem">#20FF0000</color>
 
     <!-- Dark theme -->
     <color name="darkColorDrawerScrim">#997f7f7f</color>
-    <color name="darkColorDrawerText">#fff</color>
     <color name="darkColorDrawerBackground">#222</color>
     <color name="darkColorSystem">#20FF0000</color>
 
