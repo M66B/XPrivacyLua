@@ -2257,6 +2257,70 @@
   {
     "collection": "Privacy",
     "group": "Use.Analytics",
+    "name": "MixpanelAPI.track",
+    "author": "M66B",
+    "className": "com.mixpanel.android.mpmetrics.MixpanelAPI",
+    "methodName": "track",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "MixpanelAPI.track/json",
+    "author": "M66B",
+    "className": "com.mixpanel.android.mpmetrics.MixpanelAPI",
+    "methodName": "track",
+    "parameterTypes": [
+      "java.lang.String",
+      "org.json.JSONObject"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "MixpanelAPI.track/json/auto",
+    "author": "M66B",
+    "className": "com.mixpanel.android.mpmetrics.MixpanelAPI",
+    "methodName": "track",
+    "parameterTypes": [
+      "java.lang.String",
+      "org.json.JSONObject",
+      "boolean"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
+    "name": "MixpanelAPI.trackMap",
+    "author": "M66B",
+    "className": "com.mixpanel.android.mpmetrics.MixpanelAPI",
+    "methodName": "trackMap",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.util.Map"
+    ],
+    "returnType": "void",
+    "minSdk": 1,
+    "optional": true,
+    "luaScript": "@generic_block_method"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Analytics",
     "name": "GoogleAnalytics.getInstance",
     "author": "M66B",
     "className": "com.google.android.gms.analytics.GoogleAnalytics",
