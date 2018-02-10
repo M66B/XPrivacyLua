@@ -15,22 +15,23 @@
         og <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ofte stilte spørsmål (FAQ)</a>]]>;.
     </string>
   <string name="title_help_installed">Restriksjon installert</string>
-  <string name="title_help_system">Anvendelsen av restriksjoner kan utløse problemer</string>
+  <string name="title_help_system">Anvendelsen av restriksjoner kan føre til problemer</string>
   <string name="title_help_settings">Innstillinger til restriksjon av appen</string>
   <string name="title_help_persistent">Anvendelsen av restriksjoner krever en omstart</string>
-  <string name="title_help_exception">Anvendelsen av restriksjonen feilet (trykk på ikon til å vise hvorfor)</string>
+  <string name="title_help_exception">Anvendelsen av restriksjonen feilet (trykk på ikonet til å vise hvorfor)</string>
   <string name="menu_show">Vis</string>
   <string name="menu_show_user">Vis bruker-apper</string>
   <string name="menu_show_icon">Vis apper med ikon</string>
   <string name="menu_show_all">Vis alle apper</string>
   <string name="menu_search">Søk</string>
   <string name="menu_help">Hjelp</string>
-  <string name="menu_notify_new">Varsling på nye apper</string>
+  <string name="menu_notify_new">Varsling om nye apper</string>
   <string name="menu_restrict_new">Innskrenk nye apper</string>
+  <string name="menu_companion">Pro features</string>
   <string name="menu_readme">Dokumentasjon</string>
   <string name="menu_faq">Ofte stilte spørsmål (FAQ)</string>
   <string name="menu_donate">Doner</string>
-  <string name="msg_no_service">Modulen kjører ikke eller ble oppdatert</string>
+  <string name="msg_no_service">Modulen kjører ikke eller har blitt oppdatert</string>
   <string name="msg_review_settings">Sjekk personverninnstillinger</string>
   <string name="msg_usage">Innskrenket \'%1$s\'</string>
   <string name="msg_exception">Feil i %1$s</string>

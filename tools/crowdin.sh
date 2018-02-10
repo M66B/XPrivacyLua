@@ -8,6 +8,9 @@ rm -R ${project}/app/src/main/res/values-ar-rBH/
 rm -R ${project}/app/src/main/res/values-ar-rEG/
 rm -R ${project}/app/src/main/res/values-ar-rSA/
 rm -R ${project}/app/src/main/res/values-ar-rYE/
+rm -R ${project}/app/src/main/res/values-nb-rNO/
+rm -R ${project}/app/src/main/res/values-nn-rNO/
+rm -R ${project}/app/src/main/res/values-no-rNO/
 
 python $importer_dir/crowdin.py --p=app/src/main -a=get -i xprivacylua -k $api_key
 
