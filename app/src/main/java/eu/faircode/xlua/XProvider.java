@@ -45,6 +45,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -258,7 +259,7 @@ class XProvider {
     private static Bundle getGroups(Context context, Bundle extras) throws Throwable {
         List<String> groups = new ArrayList<>();
 
-        String collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
+        List<String> collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
 
         synchronized (lock) {
             for (XHook hook : hooks.values())
@@ -273,7 +274,7 @@ class XProvider {
 
     private static Cursor getHooks(Context context, String[] selection) throws Throwable {
         boolean all = (selection != null && selection.length == 1 && "all".equals(selection[0]));
-        String collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
+        List<String> collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
 
         List<XHook> hv = new ArrayList();
         synchronized (lock) {
@@ -373,7 +374,7 @@ class XProvider {
         }
 
         // Get assigned hooks
-        String collection = getCollection(context, userid);
+        List<String> collection = getCollection(context, userid);
         dbLock.readLock().lock();
         try {
             db.beginTransaction();
@@ -496,7 +497,7 @@ class XProvider {
         int uid = Integer.parseInt(selection[1]);
         MatrixCursor result = new MatrixCursor(new String[]{"json", "used"});
 
-        String collection = getCollection(context, Util.getUserId(uid));
+        List<String> collection = getCollection(context, Util.getUserId(uid));
 
         dbLock.readLock().lock();
         try {
@@ -741,12 +742,15 @@ class XProvider {
         }
     }
 
-    private static String getCollection(Context context, int userid) throws Throwable {
+    private static List<String> getCollection(Context context, int userid) throws Throwable {
         Bundle args = new Bundle();
         args.putInt("user", userid);
         args.putString("category", "global");
         args.putString("name", "collection");
-        return getSetting(context, args).getString("value", "Privacy");
+        String collection = getSetting(context, args).getString("value", "Privacy");
+        List<String> result = new ArrayList<>();
+        Collections.addAll(result, collection.split(","));
+        return result;
     }
 
     private static Bundle getSetting(Context context, Bundle extras) throws Throwable {
@@ -836,7 +840,7 @@ class XProvider {
         boolean kill = extras.getBoolean("kill", false);
 
         int userid = Util.getUserId(uid);
-        String collection = getCollection(context, Util.getUserId(uid));
+        List<String> collection = getCollection(context, Util.getUserId(uid));
 
         List<String> hookids = new ArrayList<>();
         synchronized (lock) {

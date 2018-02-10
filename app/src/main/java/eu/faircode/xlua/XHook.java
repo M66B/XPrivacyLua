@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -124,8 +125,8 @@ public class XHook {
         return this.returnType;
     }
 
-    public boolean isAvailable(String packageName, String collection) {
-        if (!this.collection.equals(collection))
+    public boolean isAvailable(String packageName, List<String> collection) {
+        if (!collection.contains(this.collection))
             return false;
 
         if (!this.enabled)

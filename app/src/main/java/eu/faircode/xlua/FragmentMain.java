@@ -216,7 +216,7 @@ public class FragmentMain extends Fragment {
 
                 show = data.show;
                 rvAdapter.setShow(data.show);
-                rvAdapter.set(data.collection, data.hooks, data.groups, data.apps);
+                rvAdapter.set(data.collection, data.hooks, data.apps);
 
                 swipeRefresh.setRefreshing(false);
                 pbApplication.setVisibility(View.GONE);
@@ -273,9 +273,11 @@ public class FragmentMain extends Fragment {
                     data.show = AdapterApp.enumShow.icon;
 
                 // Get collection
-                data.collection = XProvider.getSetting(getContext(), "global", "collection");
-                if (data.collection == null)
-                    data.collection = "Privacy";
+                String collection = XProvider.getSetting(getContext(), "global", "collection");
+                if (collection == null)
+                    data.collection.add("Privacy");
+                else
+                    Collections.addAll(data.collection, collection.split(","));
 
                 // Load groups
                 Resources res = getContext().getResources();
@@ -359,7 +361,7 @@ public class FragmentMain extends Fragment {
 
     private static class DataHolder {
         AdapterApp.enumShow show;
-        String collection;
+        List<String> collection = new ArrayList<>();
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
         List<XApp> apps = new ArrayList<>();

@@ -69,10 +69,9 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     private enumShow show = enumShow.icon;
     private String group = null;
     private CharSequence query = null;
-    private String collection = "Privacy";
+    private List<String> collection = new ArrayList<>();
     private boolean dataChanged = false;
     private List<XHook> hooks = new ArrayList<>();
-    private List<XGroup> groups = new ArrayList<>();
     private List<XApp> all = new ArrayList<>();
     private List<XApp> filtered = new ArrayList<>();
     private Map<String, Boolean> expanded = new HashMap<>();
@@ -256,26 +255,22 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         setHasStableIds(true);
     }
 
-    void set(String collection, List<XHook> hooks, List<XGroup> groups, List<XApp> apps) {
-        Log.i(TAG, "Set collection=" + collection + " hooks=" + hooks.size() + " apps=" + apps.size());
-
-        this.dataChanged =
-                (!this.collection.equals(collection) ||
-                        this.hooks.size() != hooks.size() ||
-                        this.groups.size() != groups.size());
-
-        if (!this.dataChanged) {
-            for (int i = 0; i < this.hooks.size() && !this.dataChanged; i++)
-                if (!this.hooks.get(i).equals(hooks.get(i)))
-                    this.dataChanged = true;
-            for (int i = 0; i < this.groups.size() && !this.dataChanged; i++)
-                if (!this.groups.get(i).equals(groups.get(i)))
-                    this.dataChanged = true;
+    void set(List<String> collection, List<XHook> hooks, List<XApp> apps) {
+        this.dataChanged = (this.hooks.size() != hooks.size());
+        for (int i = 0; i < this.hooks.size() && !this.dataChanged; i++) {
+            XHook hook = this.hooks.get(i);
+            XHook other = hooks.get(i);
+            if (!hook.getGroup().equals(other.getGroup()) || !hook.getId().equals(other.getId()))
+                this.dataChanged = true;
         }
+
+        Log.i(TAG, "Set collections=" + collection.size() +
+                " hooks=" + hooks.size() +
+                " apps=" + apps.size() +
+                " changed=" + this.dataChanged);
 
         this.collection = collection;
         this.hooks = hooks;
-        this.groups = groups;
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
@@ -448,7 +443,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 final List<XApp> apps = (result.values == null
                         ? new ArrayList<XApp>()
                         : (List<XApp>) result.values);
-                Log.i(TAG, "Filtered apps count=" + apps.size() + " collection changed=" + dataChanged);
+                Log.i(TAG, "Filtered apps count=" + apps.size());
 
                 if (dataChanged) {
                     dataChanged = false;
