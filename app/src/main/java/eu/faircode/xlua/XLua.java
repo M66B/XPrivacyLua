@@ -28,6 +28,7 @@ import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Process;
 import android.os.SystemClock;
 import android.util.Log;
@@ -242,33 +243,40 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         // Get hooks
                         List<XHook> hooks = new ArrayList<>();
-                        Cursor hcursor = null;
+                        Cursor chooks = null;
                         try {
-                            hcursor = resolver
-                                    .query(XProvider.URI, new String[]{"xlua.getAssignedHooks"},
+                            chooks = resolver
+                                    .query(XProvider.URI, new String[]{"xlua.getAssignedHooks2"},
                                             null, new String[]{lpparam.packageName, Integer.toString(uid)},
                                             null);
-                            while (hcursor != null && hcursor.moveToNext())
-                                hooks.add(XHook.fromJSON(hcursor.getString(0)));
+                            while (chooks != null && chooks.moveToNext()) {
+                                byte[] marshaled = chooks.getBlob(0);
+                                Parcel parcel = Parcel.obtain();
+                                parcel.unmarshall(marshaled, 0, marshaled.length);
+                                parcel.setDataPosition(0);
+                                XHook hook = XHook.CREATOR.createFromParcel(parcel);
+                                parcel.recycle();
+                                hooks.add(hook);
+                            }
                         } finally {
-                            if (hcursor != null)
-                                hcursor.close();
+                            if (chooks != null)
+                                chooks.close();
                         }
 
                         Map<String, String> settings = new HashMap<>();
 
                         // Get global settings
-                        Cursor scursor1 = null;
+                        Cursor csettings = null;
                         try {
-                            scursor1 = resolver
+                            csettings = resolver
                                     .query(XProvider.URI, new String[]{"xlua.getSettings"},
                                             null, new String[]{"global", Integer.toString(uid)},
                                             null);
-                            while (scursor1 != null && scursor1.moveToNext())
-                                settings.put(scursor1.getString(0), scursor1.getString(1));
+                            while (csettings != null && csettings.moveToNext())
+                                settings.put(csettings.getString(0), csettings.getString(1));
                         } finally {
-                            if (scursor1 != null)
-                                scursor1.close();
+                            if (csettings != null)
+                                csettings.close();
                         }
 
                         // Get package settings

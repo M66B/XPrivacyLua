@@ -153,13 +153,22 @@ class XProvider {
             StrictMode.allowThreadDiskWrites();
             switch (method) {
                 case "getHooks":
-                    result = getHooks(context, selection);
+                    result = getHooks(context, selection, false);
+                    break;
+                case "getHooks2":
+                    result = getHooks(context, selection, true);
                     break;
                 case "getApps":
-                    result = getApps(context, selection);
+                    result = getApps(context, selection, false);
+                    break;
+                case "getApps2":
+                    result = getApps(context, selection, true);
                     break;
                 case "getAssignedHooks":
-                    result = getAssignedHooks(context, selection);
+                    result = getAssignedHooks(context, selection, false);
+                    break;
+                case "getAssignedHooks2":
+                    result = getAssignedHooks(context, selection, true);
                     break;
                 case "getSettings":
                     result = getSettings(context, selection);
@@ -272,7 +281,8 @@ class XProvider {
         return result;
     }
 
-    private static Cursor getHooks(Context context, String[] selection) throws Throwable {
+    @SuppressLint("WrongConstant")
+    private static Cursor getHooks(Context context, String[] selection, boolean marshall) throws Throwable {
         boolean all = (selection != null && selection.length == 1 && "all".equals(selection[0]));
         List<String> collection = getCollection(context, Util.getUserId(Binder.getCallingUid()));
 
@@ -290,13 +300,19 @@ class XProvider {
             }
         });
 
-        MatrixCursor result = new MatrixCursor(new String[]{"json"});
+        MatrixCursor result = new MatrixCursor(new String[]{marshall ? "blob" : "json"});
         for (XHook hook : hv)
-            result.addRow(new Object[]{hook.toJSON()});
+            if (marshall) {
+                Parcel parcel = Parcel.obtain();
+                hook.writeToParcel(parcel, XHook.FLAG_WITH_LUA);
+                result.newRow().add(parcel.marshall());
+                parcel.recycle();
+            } else
+                result.addRow(new Object[]{hook.toJSON()});
         return result;
     }
 
-    private static Cursor getApps(Context context, String[] selection) throws Throwable {
+    private static Cursor getApps(Context context, String[] selection, boolean marshall) throws Throwable {
         Map<String, XApp> apps = new HashMap<>();
 
         int cuid = Binder.getCallingUid();
@@ -432,13 +448,15 @@ class XProvider {
             dbLock.readLock().unlock();
         }
 
-        MatrixCursor result = new MatrixCursor(new String[]{"blob"});
-        for (XApp app : apps.values()) {
-            Parcel parcel = Parcel.obtain();
-            app.writeToParcel(parcel, 0);
-            result.newRow().add(parcel.marshall());
-            parcel.recycle();
-        }
+        MatrixCursor result = new MatrixCursor(new String[]{marshall ? "blob" : "json"});
+        for (XApp app : apps.values())
+            if (marshall) {
+                Parcel parcel = Parcel.obtain();
+                app.writeToParcel(parcel, 0);
+                result.newRow().add(parcel.marshall());
+                parcel.recycle();
+            } else
+                result.newRow().add(app.toJSON());
         return result;
     }
 
@@ -493,13 +511,14 @@ class XProvider {
         return new Bundle();
     }
 
-    private static Cursor getAssignedHooks(Context context, String[] selection) throws Throwable {
+    @SuppressLint("WrongConstant")
+    private static Cursor getAssignedHooks(Context context, String[] selection, boolean marshall) throws Throwable {
         if (selection == null || selection.length != 2)
             throw new IllegalArgumentException("selection invalid");
 
         String packageName = selection[0];
         int uid = Integer.parseInt(selection[1]);
-        MatrixCursor result = new MatrixCursor(new String[]{"json", "used"});
+        MatrixCursor result = new MatrixCursor(new String[]{marshall ? "blob" : "json", "used"});
 
         List<String> collection = getCollection(context, Util.getUserId(uid));
 
@@ -523,7 +542,13 @@ class XProvider {
                             if (hooks.containsKey(hookid)) {
                                 XHook hook = hooks.get(hookid);
                                 if (hook.isAvailable(packageName, collection))
-                                    result.addRow(new String[]{hook.toJSON(), cursor.getString(colUsed)});
+                                    if (marshall) {
+                                        Parcel parcel = Parcel.obtain();
+                                        hook.writeToParcel(parcel, XHook.FLAG_WITH_LUA);
+                                        result.newRow().add(parcel.marshall()).add(cursor.getString(colUsed));
+                                        parcel.recycle();
+                                    } else
+                                        result.newRow().add(hook.toJSON()).add(cursor.getString(colUsed));
                             } else if (BuildConfig.DEBUG)
                                 Log.w(TAG, "Hook " + hookid + " not found");
                         }

@@ -314,9 +314,14 @@ public class FragmentMain extends Fragment {
                 Cursor chooks = null;
                 try {
                     chooks = getContext().getContentResolver()
-                            .query(XProvider.URI, new String[]{"xlua.getHooks"}, null, null, null);
+                            .query(XProvider.URI, new String[]{"xlua.getHooks2"}, null, null, null);
                     while (chooks != null && chooks.moveToNext()) {
-                        XHook hook = XHook.fromJSON(chooks.getString(0));
+                        byte[] marshaled = chooks.getBlob(0);
+                        Parcel parcel = Parcel.obtain();
+                        parcel.unmarshall(marshaled, 0, marshaled.length);
+                        parcel.setDataPosition(0);
+                        XHook hook = XHook.CREATOR.createFromParcel(parcel);
+                        parcel.recycle();
                         data.hooks.add(hook);
                     }
                 } finally {
@@ -330,11 +335,11 @@ public class FragmentMain extends Fragment {
                 Cursor capps = null;
                 try {
                     capps = getContext().getContentResolver()
-                            .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
+                            .query(XProvider.URI, new String[]{"xlua.getApps2"}, null, null, null);
                     while (capps != null && capps.moveToNext()) {
-                        byte[] marshalled = capps.getBlob(0);
+                        byte[] marshaled = capps.getBlob(0);
                         Parcel parcel = Parcel.obtain();
-                        parcel.unmarshall(marshalled, 0, marshalled.length);
+                        parcel.unmarshall(marshaled, 0, marshaled.length);
                         parcel.setDataPosition(0);
                         XApp app = XApp.CREATOR.createFromParcel(parcel);
                         parcel.recycle();
