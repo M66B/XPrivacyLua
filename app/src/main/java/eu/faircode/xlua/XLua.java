@@ -285,6 +285,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 scursor2.close();
                         }
 
+                        Runtime.getRuntime().gc();
+
                         hookPackage(app, hooks, settings);
                     }
                 } catch (Throwable ex) {

@@ -8,7 +8,7 @@ android {
         applicationId "eu.faircode.xlua"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 77
+        versionCode 78
         versionName "1.18"
         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
     }

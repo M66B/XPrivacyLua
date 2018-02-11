@@ -315,6 +315,7 @@ public class FragmentMain extends Fragment {
                     while (chooks != null && chooks.moveToNext()) {
                         XHook hook = XHook.fromJSON(chooks.getString(0));
                         data.hooks.add(hook);
+                        Runtime.getRuntime().gc();
                     }
                 } finally {
                     if (chooks != null)
@@ -329,6 +330,7 @@ public class FragmentMain extends Fragment {
                     while (capps != null && capps.moveToNext()) {
                         XApp app = XApp.fromJSON(capps.getString(0));
                         data.apps.add(app);
+                        Runtime.getRuntime().gc();
                     }
                 } finally {
                     if (capps != null)
