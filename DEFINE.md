@@ -68,9 +68,7 @@ Note that you can conveniently edit hook definitions in the pro companion app, s
 * Setting *usage* to *false* means that executing the hook will not be reported (default *true*)
 * Setting *notify* to *true* will result in showing notifications when the hook is applied (default *false*)
 
-The pro companion app allows you to select which *collection* of hooks XPrivacyLua should use. You can select only one collection at a time.
-If you want to use the built in privacy related hooks together with your own hooks, you should define your own hooks in the collection with the name *Privacy*.
-If you want to use your own hooks only, you should define your own hooks in collection named something else and select that collection in the companion app.
+The pro companion app allows you to select which *collection*s of hooks XPrivacyLua should use.
 
 The Lua script from the above definition without the JSON escapes looks like this:
 
