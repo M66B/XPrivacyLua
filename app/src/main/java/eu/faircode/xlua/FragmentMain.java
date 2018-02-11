@@ -307,6 +307,8 @@ public class FragmentMain extends Fragment {
                 all.title = getContext().getString(R.string.title_all);
                 data.groups.add(0, all);
 
+                Runtime.getRuntime().gc();
+
                 // Load hooks
                 Cursor chooks = null;
                 try {
@@ -315,12 +317,13 @@ public class FragmentMain extends Fragment {
                     while (chooks != null && chooks.moveToNext()) {
                         XHook hook = XHook.fromJSON(chooks.getString(0));
                         data.hooks.add(hook);
-                        Runtime.getRuntime().gc();
                     }
                 } finally {
                     if (chooks != null)
                         chooks.close();
                 }
+
+                Runtime.getRuntime().gc();
 
                 // Load apps
                 Cursor capps = null;
@@ -330,12 +333,14 @@ public class FragmentMain extends Fragment {
                     while (capps != null && capps.moveToNext()) {
                         XApp app = XApp.fromJSON(capps.getString(0));
                         data.apps.add(app);
-                        Runtime.getRuntime().gc();
                     }
                 } finally {
                     if (capps != null)
                         capps.close();
                 }
+
+                Runtime.getRuntime().gc();
+
             } catch (Throwable ex) {
                 data.collection = null;
                 data.groups.clear();
