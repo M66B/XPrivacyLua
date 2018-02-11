@@ -38,6 +38,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
 import android.os.Process;
 import android.os.RemoteException;
 import android.os.StrictMode;
@@ -431,9 +432,13 @@ class XProvider {
             dbLock.readLock().unlock();
         }
 
-        MatrixCursor result = new MatrixCursor(new String[]{"json"});
-        for (XApp app : apps.values())
-            result.addRow(new String[]{app.toJSON()});
+        MatrixCursor result = new MatrixCursor(new String[]{"blob"});
+        for (XApp app : apps.values()) {
+            Parcel parcel = Parcel.obtain();
+            app.writeToParcel(parcel, 0);
+            result.newRow().add(parcel.marshall());
+            parcel.recycle();
+        }
         return result;
     }
 

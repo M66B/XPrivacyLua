@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
@@ -331,7 +332,12 @@ public class FragmentMain extends Fragment {
                     capps = getContext().getContentResolver()
                             .query(XProvider.URI, new String[]{"xlua.getApps"}, null, null, null);
                     while (capps != null && capps.moveToNext()) {
-                        XApp app = XApp.fromJSON(capps.getString(0));
+                        byte[] marshalled = capps.getBlob(0);
+                        Parcel parcel = Parcel.obtain();
+                        parcel.unmarshall(marshalled, 0, marshalled.length);
+                        parcel.setDataPosition(0);
+                        XApp app = XApp.CREATOR.createFromParcel(parcel);
+                        parcel.recycle();
                         data.apps.add(app);
                     }
                 } finally {
