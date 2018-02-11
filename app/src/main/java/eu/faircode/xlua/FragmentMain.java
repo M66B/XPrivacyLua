@@ -308,8 +308,6 @@ public class FragmentMain extends Fragment {
                 all.title = getContext().getString(R.string.title_all);
                 data.groups.add(0, all);
 
-                Runtime.getRuntime().gc();
-
                 // Load hooks
                 Cursor chooks = null;
                 try {
@@ -329,8 +327,6 @@ public class FragmentMain extends Fragment {
                         chooks.close();
                 }
 
-                Runtime.getRuntime().gc();
-
                 // Load apps
                 Cursor capps = null;
                 try {
@@ -349,9 +345,6 @@ public class FragmentMain extends Fragment {
                     if (capps != null)
                         capps.close();
                 }
-
-                Runtime.getRuntime().gc();
-
             } catch (Throwable ex) {
                 data.collection = null;
                 data.groups.clear();
