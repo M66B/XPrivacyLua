@@ -19,10 +19,13 @@
 
 package eu.faircode.xlua;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class XAssignment {
+class XAssignment implements Parcelable {
     XHook hook;
     long installed = -1;
     long used = -1;
@@ -80,4 +83,38 @@ class XAssignment {
     public int hashCode() {
         return this.hook.getId().hashCode();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.hook, flags);
+        dest.writeLong(this.installed);
+        dest.writeLong(this.used);
+        dest.writeByte(this.restricted ? (byte) 1 : (byte) 0);
+        dest.writeString(this.exception);
+    }
+
+    protected XAssignment(Parcel in) {
+        this.hook = in.readParcelable(XHook.class.getClassLoader());
+        this.installed = in.readLong();
+        this.used = in.readLong();
+        this.restricted = (in.readByte() != 0);
+        this.exception = in.readString();
+    }
+
+    public static final Parcelable.Creator<XAssignment> CREATOR = new Parcelable.Creator<XAssignment>() {
+        @Override
+        public XAssignment createFromParcel(Parcel source) {
+            return new XAssignment(source);
+        }
+
+        @Override
+        public XAssignment[] newArray(int size) {
+            return new XAssignment[size];
+        }
+    };
 }

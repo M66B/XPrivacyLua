@@ -26,6 +26,8 @@ import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 
@@ -42,7 +44,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class XHook {
+public class XHook implements Parcelable {
     private final static String TAG = "XLua.XHook";
 
     private boolean builtin = false;
@@ -69,6 +71,8 @@ public class XHook {
     private boolean notify;
 
     private String luaScript;
+
+    private final static int FLAG_WITH_LUA = 1;
 
     private XHook() {
     }
@@ -404,4 +408,73 @@ public class XHook {
     public int hashCode() {
         return this.getId().hashCode();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(this.builtin ? (byte) 1 : (byte) 0);
+        dest.writeString(this.collection);
+        dest.writeString(this.group);
+        dest.writeString(this.name);
+        dest.writeString(this.author);
+        dest.writeString(this.description);
+        dest.writeString(this.className);
+        dest.writeString(this.resolvedClassName);
+        dest.writeString(this.methodName);
+        dest.writeStringArray(this.parameterTypes);
+        dest.writeString(this.returnType);
+        dest.writeInt(this.minSdk);
+        dest.writeInt(this.maxSdk);
+        dest.writeInt(this.minApk);
+        dest.writeInt(this.maxApk);
+        dest.writeStringArray(this.excludePackages);
+        dest.writeByte(this.enabled ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.optional ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.usage ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.notify ? (byte) 1 : (byte) 0);
+        if ((flags & FLAG_WITH_LUA) == 0)
+            dest.writeString(null);
+        else
+            dest.writeString(this.luaScript);
+    }
+
+    protected XHook(Parcel in) {
+        this.builtin = (in.readByte() != 0);
+        this.collection = in.readString();
+        this.group = in.readString();
+        this.name = in.readString();
+        this.author = in.readString();
+        this.description = in.readString();
+        this.className = in.readString();
+        this.resolvedClassName = in.readString();
+        this.methodName = in.readString();
+        this.parameterTypes = in.createStringArray();
+        this.returnType = in.readString();
+        this.minSdk = in.readInt();
+        this.maxSdk = in.readInt();
+        this.minApk = in.readInt();
+        this.maxApk = in.readInt();
+        this.excludePackages = in.createStringArray();
+        this.enabled = (in.readByte() != 0);
+        this.optional = (in.readByte() != 0);
+        this.usage = (in.readByte() != 0);
+        this.notify = (in.readByte() != 0);
+        this.luaScript = in.readString();
+    }
+
+    public static final Parcelable.Creator<XHook> CREATOR = new Parcelable.Creator<XHook>() {
+        @Override
+        public XHook createFromParcel(Parcel source) {
+            return new XHook(source);
+        }
+
+        @Override
+        public XHook[] newArray(int size) {
+            return new XHook[size];
+        }
+    };
 }

@@ -20,6 +20,8 @@
 package eu.faircode.xlua;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-class XApp {
+class XApp implements Parcelable {
     String packageName;
     int uid;
     int icon;
@@ -129,4 +131,46 @@ class XApp {
     public int hashCode() {
         return this.packageName.hashCode();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.packageName);
+        dest.writeInt(this.uid);
+        dest.writeInt(this.icon);
+        dest.writeString(this.label);
+        dest.writeByte(this.enabled ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.persistent ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.system ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.forceStop ? (byte) 1 : (byte) 0);
+        dest.writeTypedList(this.assignments);
+    }
+
+    protected XApp(Parcel in) {
+        this.packageName = in.readString();
+        this.uid = in.readInt();
+        this.icon = in.readInt();
+        this.label = in.readString();
+        this.enabled = (in.readByte() != 0);
+        this.persistent = (in.readByte() != 0);
+        this.system = (in.readByte() != 0);
+        this.forceStop = (in.readByte() != 0);
+        this.assignments = in.createTypedArrayList(XAssignment.CREATOR);
+    }
+
+    public static final Parcelable.Creator<XApp> CREATOR = new Parcelable.Creator<XApp>() {
+        @Override
+        public XApp createFromParcel(Parcel source) {
+            return new XApp(source);
+        }
+
+        @Override
+        public XApp[] newArray(int size) {
+            return new XApp[size];
+        }
+    };
 }
