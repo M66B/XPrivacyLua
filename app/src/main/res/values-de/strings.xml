@@ -26,7 +26,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="menu_help">Hilfe</string>
   <string name="menu_notify_new">Benachrichtigung für neu installierte Apps</string>
   <string name="menu_restrict_new">Neue Apps beschränken</string>
-  <string name="menu_companion">Pro features</string>
+  <string name="menu_companion">Pro-Funktionen</string>
   <string name="menu_readme">Dokumentation</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_donate">Spenden</string>
@@ -53,7 +53,7 @@ Wenn möglich, werden Apps automatisch gestoppt, um die Beschränkungen sofort a
   <string name="group_record_audio">Audio aufnehmen</string>
   <string name="group_record_video">Video aufzeichnen</string>
   <string name="group_send_messages">Nachrichten senden</string>
-  <string name="group_use_analytics">Analyse verwenden</string>
+  <string name="group_use_analytics">Analytics verwenden</string>
   <string name="group_use_camera">Kamera verwenden</string>
   <string name="group_use_tracking">Tracking verwenden</string>
 </resources>
