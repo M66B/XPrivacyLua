@@ -7,12 +7,12 @@
     <!-- Light theme -->
     <color name="lightColorDrawerScrim">#99000000</color>
     <color name="lightColorDrawerBackground">#eee</color>
-    <color name="lightColorSystem">#20FF0000</color>
+    <color name="lightColorSystem">#20B10000</color>
 
     <!-- Dark theme -->
     <color name="darkColorDrawerScrim">#997f7f7f</color>
     <color name="darkColorDrawerBackground">#222</color>
-    <color name="darkColorSystem">#20FF0000</color>
+    <color name="darkColorSystem">#40B10000</color>
 
     <!-- Primokorn -->
     <color name="_primaryColor">#1c8adb</color>
