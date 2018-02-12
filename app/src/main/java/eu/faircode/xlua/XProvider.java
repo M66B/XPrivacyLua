@@ -1238,7 +1238,7 @@ class XProvider {
         args.putString("name", name);
         Bundle result = context.getContentResolver()
                 .call(XProvider.URI, "xlua", "getSetting", args);
-        return result.getString("value");
+        return (result == null ? null : result.getString("value"));
     }
 
     static void putSetting(Context context, String category, String name, String value) {

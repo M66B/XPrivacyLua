@@ -292,15 +292,16 @@ public class FragmentMain extends Fragment {
                 Resources res = getContext().getResources();
                 Bundle result = getContext().getContentResolver()
                         .call(XProvider.URI, "xlua", "getGroups", new Bundle());
-                for (String name : result.getStringArray("groups")) {
-                    String g = name.toLowerCase().replaceAll("[^a-z]", "_");
-                    int id = res.getIdentifier("group_" + g, "string", getContext().getPackageName());
+                if (result != null)
+                    for (String name : result.getStringArray("groups")) {
+                        String g = name.toLowerCase().replaceAll("[^a-z]", "_");
+                        int id = res.getIdentifier("group_" + g, "string", getContext().getPackageName());
 
-                    XGroup group = new XGroup();
-                    group.name = name;
-                    group.title = (id > 0 ? res.getString(id) : name);
-                    data.groups.add(group);
-                }
+                        XGroup group = new XGroup();
+                        group.name = name;
+                        group.title = (id > 0 ? res.getString(id) : name);
+                        data.groups.add(group);
+                    }
 
                 final Collator collator = Collator.getInstance(Locale.getDefault());
                 collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
