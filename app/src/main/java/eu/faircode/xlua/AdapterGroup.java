@@ -222,13 +222,6 @@ public class AdapterGroup extends RecyclerView.Adapter<AdapterGroup.ViewHolder> 
         holder.wire();
     }
 
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.unwire();
-        app = null;
-        groups.clear();
-    }
-
     private class Group {
         int id;
         String name;
