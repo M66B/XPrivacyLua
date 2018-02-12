@@ -23,11 +23,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 public class ActivityBase extends AppCompatActivity {
+    private String theme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String theme = XProvider.getSetting(this, "global", "theme");
+        theme = XProvider.getSetting(this, "global", "theme");
         setTheme("dark".equals(theme) ? R.style.AppThemeDark : R.style.AppThemeLight);
 
         super.onCreate(savedInstanceState);
+    }
+
+    String getThemeName() {
+        return (theme == null ? "light" : theme);
     }
 }

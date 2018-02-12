@@ -212,6 +212,10 @@ public class FragmentMain extends Fragment {
         @Override
         public void onLoadFinished(Loader<DataHolder> loader, DataHolder data) {
             if (data.exception == null) {
+                ActivityBase activity = (ActivityBase) getActivity();
+                if (!data.theme.equals(activity.getThemeName()))
+                    activity.recreate();
+
                 spAdapter.clear();
                 spAdapter.addAll(data.groups);
 
@@ -251,6 +255,10 @@ public class FragmentMain extends Fragment {
             Log.i(TAG, "Data loader started");
             DataHolder data = new DataHolder();
             try {
+                data.theme = XProvider.getSetting(getContext(), "global", "theme");
+                if (data.theme == null)
+                    data.theme = "light";
+
                 // Define hooks
                 if (BuildConfig.DEBUG) {
                     String apk = getContext().getApplicationInfo().publicSourceDir;
@@ -372,6 +380,7 @@ public class FragmentMain extends Fragment {
 
     private static class DataHolder {
         AdapterApp.enumShow show;
+        String theme;
         List<String> collection = new ArrayList<>();
         List<XGroup> groups = new ArrayList<>();
         List<XHook> hooks = new ArrayList<>();
