@@ -250,7 +250,7 @@ class XProvider {
                         cv.put("definition", hook.toJSON());
                         long rows = db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting hook");
+                            throw new Throwable("Error inserting hook id=" + id);
                     }
 
                     db.setTransactionSuccessful();
@@ -494,7 +494,7 @@ class XProvider {
                         cv.putNull("exception");
                         long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting assignment");
+                            throw new Throwable("Error inserting assignment pkg=" + packageName + ":" + uid);
                     }
 
                 db.setTransactionSuccessful();
@@ -893,7 +893,7 @@ class XProvider {
                     cv.putNull("exception");
                     long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                     if (rows < 0)
-                        throw new Throwable("Error inserting assignment");
+                        throw new Throwable("Error inserting assignment pkg=" + packageName + ":" + uid);
                 }
 
                 db.setTransactionSuccessful();
@@ -1089,7 +1089,7 @@ class XProvider {
         try {
             // Upgrade database if needed
             if (_db.needUpgrade(1)) {
-                Log.i(TAG, "Database upgrade 1");
+                Log.i(TAG, "Database upgrade version 1");
                 _db.beginTransaction();
                 try {
                     _db.execSQL("CREATE TABLE assignment (package TEXT NOT NULL, uid INTEGER NOT NULL, hook TEXT NOT NULL, installed INTEGER, used INTEGER, restricted INTEGER, exception TEXT)");
@@ -1106,7 +1106,7 @@ class XProvider {
             }
 
             if (_db.needUpgrade(2)) {
-                Log.i(TAG, "Database upgrade 2");
+                Log.i(TAG, "Database upgrade version 2");
                 _db.beginTransaction();
                 try {
                     _db.execSQL("CREATE TABLE hook (id TEXT NOT NULL, definition TEXT NOT NULL)");
@@ -1120,7 +1120,7 @@ class XProvider {
             }
 
             if (_db.needUpgrade(3)) {
-                Log.i(TAG, "Database upgrade 3");
+                Log.i(TAG, "Database upgrade version 3");
                 _db.beginTransaction();
                 try {
                     _db.execSQL("ALTER TABLE assignment ADD COLUMN old TEXT");
@@ -1128,6 +1128,49 @@ class XProvider {
                     _db.execSQL("CREATE INDEX idx_assignment_used ON assignment(used)");
 
                     _db.setVersion(3);
+                    _db.setTransactionSuccessful();
+                } finally {
+                    _db.endTransaction();
+                }
+            }
+
+            if (_db.needUpgrade(4)) {
+                Log.i(TAG, "Database upgrade version 4");
+                _db.beginTransaction();
+                try {
+                    Map<String, XHook> tmp = new HashMap<>();
+                    Cursor cursor = null;
+                    try {
+                        cursor = _db.query("hook", null,
+                                null, null,
+                                null, null, null);
+                        int colDefinition = cursor.getColumnIndex("definition");
+                        while (cursor.moveToNext()) {
+                            String definition = cursor.getString(colDefinition);
+                            XHook hook = XHook.fromJSON(definition);
+                            tmp.put(hook.getId(), hook);
+                        }
+                    } finally {
+                        if (cursor != null)
+                            cursor.close();
+                    }
+                    Log.i(TAG, "Converting definitions=" + tmp.size());
+
+                    _db.execSQL("DROP INDEX idx_hook");
+                    _db.execSQL("DELETE FROM hook");
+                    _db.execSQL("CREATE UNIQUE INDEX idx_hook ON hook(id)");
+
+                    for (String id : tmp.keySet()) {
+                        ContentValues cv = new ContentValues();
+                        cv.put("id", id);
+                        cv.put("definition", tmp.get(id).toJSON());
+                        long rows = _db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                        if (rows < 0)
+                            throw new Throwable("Error inserting hook id=" + id);
+                    }
+
+
+                    _db.setVersion(4);
                     _db.setTransactionSuccessful();
                 } finally {
                     _db.endTransaction();
