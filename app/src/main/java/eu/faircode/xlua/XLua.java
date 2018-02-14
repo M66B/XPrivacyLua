@@ -842,9 +842,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
         @Override
         public LuaValue call(LuaValue arg) {
-            if (BuildConfig.DEBUG)
-                Log.i(TAG, "Log " + packageName + ":" + uid + " " + hook + " " +
-                        arg.toString() + " (" + arg.typename() + ")");
+            Log.i(TAG, "Log " + packageName + ":" + uid + " " + hook + " " +
+                    arg.toString() + " (" + arg.typename() + ")");
             return LuaValue.NIL;
         }
     }
