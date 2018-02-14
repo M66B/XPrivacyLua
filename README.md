@@ -40,6 +40,9 @@ Restrictions
 * Use camera (fake camera not available and/or hide cameras)
 * Use tracking (fake user agent for [WebView](https://developer.android.com/reference/android/webkit/WebView.html) only, [Build properties](https://developer.android.com/reference/android/os/Build.html), network/SIM country/operator)
 
+The tracking restrictions will work only if the code of the target app was not [obfuscated](https://developer.android.com/studio/build/shrink-code.html).
+The other restrictions will work always.
+
 Hide or fake?
 
 * Hide: return empty list
