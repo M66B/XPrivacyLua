@@ -6,7 +6,7 @@
   <string name="title_fix">Opravit</string>
   <string name="title_all">Vše</string>
   <string name="title_restrict">Omezit</string>
-  <string name="title_force_stop">Force stop automatically</string>
+  <string name="title_force_stop">Vynutit zastavení automaticky</string>
   <string name="title_help_instructions">
         Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
@@ -20,17 +20,17 @@
   <string name="title_help_settings">Nastavení omezení aplikace</string>
   <string name="title_help_persistent">Použití omezení vyžaduje restart zařízení</string>
   <string name="title_help_exception">Použití omezení se nezdařilo (klepněte na ikonu Ukázat, proč)</string>
-  <string name="menu_show">Show</string>
-  <string name="menu_show_user">Show user apps</string>
-  <string name="menu_show_icon">Show apps with icon</string>
+  <string name="menu_show">Ukázat</string>
+  <string name="menu_show_user">Zobrazit uživatelské aplikace</string>
+  <string name="menu_show_icon">Zobrazit aplikace s ikonou</string>
   <string name="menu_show_all">Zobrazit všechny aplikace</string>
   <string name="menu_search">Hledat</string>
   <string name="menu_help">Nápověda</string>
   <string name="menu_notify_new">Oznámit nové aplikace</string>
   <string name="menu_restrict_new">Omezit nové aplikace</string>
-  <string name="menu_companion">Pro features</string>
-  <string name="menu_readme">Documentation</string>
-  <string name="menu_faq">FAQ</string>
+  <string name="menu_companion">Pro funkce</string>
+  <string name="menu_readme">Dokumentace</string>
+  <string name="menu_faq">Časté dotazy</string>
   <string name="menu_donate">Přispět</string>
   <string name="msg_no_service">Modul není spuštěn nebo aktualizován (restartujte zařízení)</string>
   <string name="msg_review_settings">Zkontrolujte nastavení ochrany osobních údajů</string>
