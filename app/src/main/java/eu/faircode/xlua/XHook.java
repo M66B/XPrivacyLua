@@ -72,7 +72,7 @@ public class XHook implements Parcelable {
 
     private String luaScript;
 
-    final static int FLAG_WITH_LUA = 1;
+    final static int FLAG_WITH_LUA = 2; // =PARCELABLE_ELIDE_DUPLICATES
 
     private XHook() {
     }
