@@ -139,6 +139,16 @@ Another special case is hooking a method of a field using the syntax *[field nam
 Remarks
 -------
 
+You can write to the Android logcat using the *log* function:
+
+```Lua
+log('hello world')
+log(some_object) -- will call toString()
+```
+
+A log line starts with the word *Log* followed by the package name and uid of the app and the name of the hook
+and ends with the log text.
+
 An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
 By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
 
