@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1c8adb</color>
-    <color name="colorPrimaryDark">#005da9</color>
+    <color name="colorPrimary">#1C8ADB</color>
+    <color name="colorPrimaryDark">#005DA9</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- Light theme -->
     <color name="lightColorDrawerScrim">#99000000</color>
-    <color name="lightColorDrawerBackground">#eee</color>
+    <color name="lightColorDrawerBackground">#EEE</color>
     <color name="lightColorSystem">#20B10000</color>
 
     <!-- Dark theme -->
-    <color name="darkColorDrawerScrim">#997f7f7f</color>
+    <color name="darkColorDrawerScrim">#997F7F7F</color>
     <color name="darkColorDrawerBackground">#222</color>
     <color name="darkColorSystem">#40B10000</color>
 
