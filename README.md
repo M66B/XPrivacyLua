@@ -12,6 +12,7 @@ Features
 
 * Simple to use
 * Manage any user or system app
+* [Extensible](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md)
 * Multi-user support
 * Free and open source
 

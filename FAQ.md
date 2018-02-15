@@ -94,7 +94,7 @@ For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPriv
 <a name="FAQ8"></a>
 **(8) How can I define custom restrictions?**
 
-See [here](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) for the documenation.
+Yes, see [here](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) for the documentation on defining hooks.
 
 <a name="FAQ9"></a>
 **(9) Why can an app still access my accounts?**

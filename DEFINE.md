@@ -50,6 +50,10 @@ An exported definition in [JSON](https://en.wikipedia.org/wiki/JSON) format look
   "optional": false,
   "usage": true,
   "notify": false,
+  "settings": [
+	"setting_name1",
+	"setting_name2"
+  ],
   "luaScript": "function after(hook, param)\n    local result = param:getResult()\n    if result == nil then\n        return false\n    end\n\n    param:setResult(null)\n    return true\nend\n"
 }
 ```
@@ -67,6 +71,7 @@ Note that you can conveniently edit hook definitions in the pro companion app, s
 * Setting *optional* to *true* will suppress error messages about the class or method not being found (default *false*)
 * Setting *usage* to *false* means that executing the hook will not be reported (default *true*)
 * Setting *notify* to *true* will result in showing notifications when the hook is applied (default *false*)
+* Settings (custom values) can be set using the pro companion app and read using *param:getSetting('setting_name1')*
 
 The pro companion app allows you to select which *collection*s of hooks XPrivacyLua should use.
 
@@ -101,7 +106,7 @@ The most important functions of *hook* are:
 
 The most important functions of *param* are:
 
-* *param:getApplicationContext()*: see below
+* *param:getApplicationContext()*: see remarks below
 * *param:getThis()*: the current object instance or *nil* if the method is static
 * *param:getArgument(index)*: get the argument at the specified index (one based)
 * *param:setArgument(index, value)*
@@ -112,23 +117,19 @@ The most important functions of *param* are:
 The before/after function should return *true* when something was done and *false* otherwise.
 XPrivacyLua will show the last date/time of the last time *true* was returned.
 
-A common problem when developing an Xposed module is getting [a context](https://developer.android.com/reference/android/content/Context.html).
-With XPrivacyLua you'll never have to worry about this because you can simply get a context like this:
-
-```Lua
-	local context = param:getApplicationContext()
-```
+Special cases
+-------------
 
 You can hook into a constructor by omitting the method name.
 
-You can also modify field values in an *after* function by prefixing the method name with a # character, for example:
+You can modify field values in an *after* function by prefixing the method name with a # character, for example:
 
 ```JSON
   "methodName": "#SERIAL"
 ```
 
 Note that *final static* fields (constants) might be optimized 'away' at compile time,
-so setting such a field might not work because it doesn't exist on run time anymore.
+so setting such a field might not work because it doesn't exist at run time anymore.
 
 Another special case is hooking a method of a field using the syntax *[field name]:[method name]*, for example:
 
@@ -139,15 +140,31 @@ Another special case is hooking a method of a field using the syntax *[field nam
 Remarks
 -------
 
+A common problem when developing an Xposed module is getting [a context](https://developer.android.com/reference/android/content/Context.html).
+With XPrivacyLua you'll never have to worry about this because you can simply get a context like this:
+
+```Lua
+	local context = param:getApplicationContext()
+```
+
 You can write to the Android logcat using the *log* function:
 
 ```Lua
-log('hello world')
-log(some_object) -- will call toString()
+	log('hello world')
+	log(some_object) -- will call toString()
+```
+
+[LuaJ](http://www.luaj.org/luaj/3.0/README.html) globals are not thread safe.
+If you need global caching, you can use something like this:
+
+```Lua
+	local scope = param:getApplicationContext()
+	param:putValue(name, value, scope)
+	local value = param:getValue(name, scope)
 ```
 
 A log line starts with the word *Log* followed by the package name and uid of the app and the name of the hook
-and ends with the log text.
+and ends with the log text. This way it is always clear which hook/app logging belongs to.
 
 An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
 By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
@@ -160,3 +177,5 @@ The pro companion app can also export and import definitions, making it easy to 
 
 You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
 and the definitions built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
+
+If you have questions, you can ask them in [this XDA thread](https://forum.xda-developers.com/xposed/modules/xposed-developing-module-t3741692).
