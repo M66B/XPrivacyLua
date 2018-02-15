@@ -72,6 +72,8 @@ public class XHook implements Parcelable {
 
     private String luaScript;
 
+    private String[] settings;
+
     final static int FLAG_WITH_LUA = 2; // =PARCELABLE_ELIDE_DUPLICATES
 
     private XHook() {
@@ -327,6 +329,13 @@ public class XHook implements Parcelable {
 
         jroot.put("luaScript", this.luaScript);
 
+        if (this.settings != null) {
+            JSONArray jsettings = new JSONArray();
+            for (int i = 0; i < this.settings.length; i++)
+                jsettings.put(this.settings[i]);
+            jroot.put("settings", jsettings);
+        }
+
         return jroot;
     }
 
@@ -370,6 +379,14 @@ public class XHook implements Parcelable {
         hook.notify = (jroot.has("notify") ? jroot.getBoolean("notify") : false);
 
         hook.luaScript = jroot.getString("luaScript");
+
+        if (jroot.has("settings")) {
+            JSONArray jsettings = jroot.getJSONArray("settings");
+            hook.settings = new String[jsettings.length()];
+            for (int i = 0; i < jsettings.length(); i++)
+                hook.settings[i] = jsettings.getString(i);
+        } else
+            hook.settings = null;
 
         return hook;
     }
@@ -440,6 +457,7 @@ public class XHook implements Parcelable {
             dest.writeString(null);
         else
             dest.writeString(this.luaScript);
+        dest.writeStringArray(this.settings);
     }
 
     protected XHook(Parcel in) {
@@ -464,6 +482,7 @@ public class XHook implements Parcelable {
         this.usage = (in.readByte() != 0);
         this.notify = (in.readByte() != 0);
         this.luaScript = in.readString();
+        this.settings = in.createStringArray();
     }
 
     public static final Parcelable.Creator<XHook> CREATOR = new Parcelable.Creator<XHook>() {
