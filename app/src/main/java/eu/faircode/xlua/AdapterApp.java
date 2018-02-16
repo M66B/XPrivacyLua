@@ -388,15 +388,27 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     boolean restricted = false;
                     boolean unrestricted = false;
                     boolean system = false;
-                    if (q.startsWith("!")) {
-                        restricted = true;
-                        q = q.substring(1);
-                    } else if (q.startsWith("?")) {
-                        unrestricted = true;
-                        q = q.substring(1);
-                    } else if (q.startsWith("#")) {
-                        system = true;
-                        q = q.substring(1);
+                    boolean user = false;
+
+                    while (true) {
+                        if (q.startsWith("!")) {
+                            restricted = true;
+                            q = q.substring(1);
+                            continue;
+                        } else if (q.startsWith("?")) {
+                            unrestricted = true;
+                            q = q.substring(1);
+                            continue;
+                        } else if (q.startsWith("#")) {
+                            system = true;
+                            q = q.substring(1);
+                            continue;
+                        } else if (q.startsWith("@")) {
+                            user = true;
+                            q = q.substring(1);
+                            continue;
+                        }
+                        break;
                     }
 
                     int uid;
@@ -415,6 +427,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                                 continue;
                         }
                         if (system && !app.system)
+                            continue;
+                        if (user && app.system)
                             continue;
 
                         if (app.uid == uid ||
