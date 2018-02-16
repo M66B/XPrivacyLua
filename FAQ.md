@@ -125,6 +125,14 @@ You can filter on restricted apps, on not restricted apps, on system apps and on
 The special search characters should be the first characters in the search field (it is possible to combine special characters)
 and can be followed by additional characters to refine the search result.
 
+<a name="FAQ12"></a>
+**(12) Can I use an XPrivacy pro license to get the XPrivacyLua pro features?**
+
+XPrivacyLua was written from the ground up to support recent Android versions, which was really a lot of work.
+Since I believe everybody should be able to protect his/her privacy, XPrivacyLua is free to use.
+However, the XPrivacyLua pro features, mostly convencience and advanced features, not really needed to protect your privacy,
+need to be purchased and it is not possible to 'pay' with an XPrivacy pro license.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
