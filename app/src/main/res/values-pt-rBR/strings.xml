@@ -29,7 +29,7 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="menu_help">Ajuda</string>
   <string name="menu_notify_new">Notificar sobre novos apps</string>
   <string name="menu_restrict_new">Restringir novos apps</string>
-  <string name="menu_companion">Pro features</string>
+  <string name="menu_companion">Recursos PRO</string>
   <string name="menu_readme">Documentação</string>
   <string name="menu_faq">Perguntas Frequentes</string>
   <string name="menu_donate">Doar</string>
