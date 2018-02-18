@@ -133,6 +133,12 @@ Since I believe everybody should be able to protect his/her privacy, XPrivacyLua
 However, the XPrivacyLua pro features, mostly convencience and advanced features, not really needed to protect your privacy,
 need to be purchased and it is not possible to 'pay' with an XPrivacy pro license.
 
+<a name="FAQ13"></a>
+**(13) Will XPrivacyLua slow down my apps?**
+
+Depending on the number of applied restrictions, you might notice a slight delay when starting apps,
+but you will generally not notice delays when using apps.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
