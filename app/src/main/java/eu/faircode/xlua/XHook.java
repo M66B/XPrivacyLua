@@ -52,6 +52,7 @@ public class XHook implements Parcelable {
     private String group;
     private String name;
     private String author;
+    private int version = 0;
     private String description;
 
     private String className;
@@ -296,6 +297,7 @@ public class XHook implements Parcelable {
         jroot.put("group", this.group);
         jroot.put("name", this.name);
         jroot.put("author", this.author);
+        jroot.put("version", this.version);
         if (this.description != null)
             jroot.put("description", this.description);
 
@@ -351,6 +353,7 @@ public class XHook implements Parcelable {
         hook.group = jroot.getString("group");
         hook.name = jroot.getString("name");
         hook.author = jroot.getString("author");
+        hook.version = (jroot.has("version") ? jroot.getInt("version") : 0);
         hook.description = (jroot.has("description") ? jroot.getString("description") : null);
 
         hook.className = jroot.getString("className");
@@ -438,6 +441,7 @@ public class XHook implements Parcelable {
         dest.writeString(this.group);
         dest.writeString(this.name);
         dest.writeString(this.author);
+        dest.writeInt(this.version);
         dest.writeString(this.description);
         dest.writeString(this.className);
         dest.writeString(this.resolvedClassName);
@@ -466,6 +470,7 @@ public class XHook implements Parcelable {
         this.group = in.readString();
         this.name = in.readString();
         this.author = in.readString();
+        this.version = in.readInt();
         this.description = in.readString();
         this.className = in.readString();
         this.resolvedClassName = in.readString();
