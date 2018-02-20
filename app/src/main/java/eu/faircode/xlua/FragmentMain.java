@@ -88,7 +88,7 @@ public class FragmentMain extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData(true);
+                loadData();
             }
         });
 
@@ -168,7 +168,7 @@ public class FragmentMain extends Fragment {
         ifPackage.addDataScheme("package");
         getContext().registerReceiver(packageChangedReceiver, ifPackage);
 
-        loadData(false);
+        loadData();
     }
 
     @Override
@@ -193,14 +193,10 @@ public class FragmentMain extends Fragment {
             rvAdapter.getFilter().filter(query);
     }
 
-    private void loadData(boolean restart) {
-        Log.i(TAG, "Starting data loader restart=" + restart);
+    private void loadData() {
+        Log.i(TAG, "Starting data loader");
         LoaderManager manager = getActivity().getSupportLoaderManager();
-        Loader loader = manager.getLoader(ActivityMain.LOADER_DATA);
-        if (!restart && (loader == null || loader.isReset()))
-            manager.initLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
-        else
-            manager.restartLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
+        manager.restartLoader(ActivityMain.LOADER_DATA, new Bundle(), dataLoaderCallbacks).forceLoad();
     }
 
     LoaderManager.LoaderCallbacks dataLoaderCallbacks = new LoaderManager.LoaderCallbacks<DataHolder>() {
@@ -375,7 +371,7 @@ public class FragmentMain extends Fragment {
             String packageName = intent.getData().getSchemeSpecificPart();
             int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
             Log.i(TAG, "pkg=" + packageName + ":" + uid);
-            loadData(true);
+            loadData();
         }
     };
 
