@@ -302,6 +302,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             }
 
             private void hookPackage(final Context context, List<XHook> hooks, final Map<String, String> settings) throws Throwable {
+                Map<ScriptHolder, Prototype> scriptPrototype = new HashMap<>();
                 PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                 for (final XHook hook : hooks)
                     try {
@@ -311,8 +312,15 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         long install = SystemClock.elapsedRealtime();
 
                         // Compile script
-                        InputStream is = new ByteArrayInputStream(hook.getLuaScript().getBytes());
-                        final Prototype compiledScript = LuaC.instance.compile(is, "script");
+                        final Prototype compiledScript;
+                        ScriptHolder sh = new ScriptHolder(hook.getLuaScript());
+                        if (scriptPrototype.containsKey(sh))
+                            compiledScript = scriptPrototype.get(sh);
+                        else {
+                            InputStream is = new ByteArrayInputStream(sh.script.getBytes());
+                            compiledScript = LuaC.instance.compile(is, "script");
+                            scriptPrototype.put(sh, compiledScript);
+                        }
 
                         // Prevent threading problems
                         final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
@@ -845,6 +853,27 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             Log.i(TAG, "Log " + packageName + ":" + uid + " " + hook + " " +
                     arg.toString() + " (" + arg.typename() + ")");
             return LuaValue.NIL;
+        }
+    }
+
+    private class ScriptHolder {
+        String script;
+
+        ScriptHolder(String script) {
+            this.script = script;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof ScriptHolder))
+                return false;
+            ScriptHolder other = (ScriptHolder) obj;
+            return this.script.equals(other.script);
+        }
+
+        @Override
+        public int hashCode() {
+            return this.script.hashCode();
         }
     }
 }
