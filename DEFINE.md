@@ -154,6 +154,12 @@ You can write to the Android logcat using the *log* function:
 	log(some_object) -- will call toString()
 ```
 
+A log line starts with the word *Log* followed by the package name and uid of the app and the name of the hook
+and ends with the log text. This way it is always clear which hook/app logging belongs to.
+
+An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
+By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
+
 [LuaJ](http://www.luaj.org/luaj/3.0/README.html) globals are not thread safe.
 If you need global caching, you can use something like this:
 
@@ -163,17 +169,14 @@ If you need global caching, you can use something like this:
 	local value = param:getValue(name, scope)
 ```
 
-A log line starts with the word *Log* followed by the package name and uid of the app and the name of the hook
-and ends with the log text. This way it is always clear which hook/app logging belongs to.
-
-An error in the definition, like class or method not found, or a compile time or run time error of/in the Lua script will result in a status bar notification.
-By tapping on the error notification you can navigate to the app settings where you can tap on the corresponding **!**-icon to see the details of the error.
+You can only hook into apps, so not into Android system.
 
 Using the pro companion app you can edit built-in definitions, which will result in making a copy of the definition.
 You could for example enable usage notifications or change returned fake values.
 Deleting copied definitions will restore the built-in definitions.
 
-The pro companion app can also export and import definitions, making it easy to use definitions provided by others.
+The pro companion app can upload defintions to and download definitions from a [hook definition repository](https://lua.xprivacy.eu/repo/),
+making it easy to share hook definitions with others and to use hook definitions provided by others.
 
 You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
 and the definitions built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
