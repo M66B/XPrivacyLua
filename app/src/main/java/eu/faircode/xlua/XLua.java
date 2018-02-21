@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Process;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.luaj.vm2.Globals;
@@ -860,7 +861,14 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         String script;
 
         ScriptHolder(String script) {
-            this.script = script;
+            String[] lines = script.split("\\r?\\n");
+            StringBuilder sb = new StringBuilder();
+            for (String line : lines)
+                if (!TextUtils.isEmpty(line) && !line.startsWith("--")) {
+                    sb.append(line.trim());
+                    sb.append("\n");
+                }
+            this.script = sb.toString();
         }
 
         @Override
