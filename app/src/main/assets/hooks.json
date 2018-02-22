@@ -993,21 +993,6 @@
   {
     "collection": "Privacy",
     "group": "Read.Identifiers",
-    "name": "Settings.Secure.getString/bluetooth_name",
-    "author": "M66B",
-    "className": "android.provider.Settings$Secure",
-    "methodName": "getString",
-    "parameterTypes": [
-      "android.content.ContentResolver",
-      "java.lang.String"
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 3,
-    "luaScript": "@settingssecure_getstring"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
     "name": "SystemProperties.get/serial",
     "author": "M66B",
     "className": "android.os.SystemProperties",
@@ -1032,83 +1017,6 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
-    "luaScript": "@systemproperties_get"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "SystemProperties.get/vendor",
-    "author": "M66B",
-    "className": "android.os.SystemProperties",
-    "methodName": "get",
-    "parameterTypes": [
-      "java.lang.String"
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 1,
-    "luaScript": "@systemproperties_get"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "SystemProperties.get.default/vendor",
-    "author": "M66B",
-    "className": "android.os.SystemProperties",
-    "methodName": "get",
-    "parameterTypes": [
-      "java.lang.String",
-      "java.lang.String"
-    ],
-    "returnType": "java.lang.String",
-    "minSdk": 1,
-    "luaScript": "@systemproperties_get"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "SystemProperties.getInt",
-    "author": "M66B",
-    "className": "android.os.SystemProperties",
-    "methodName": "getInt",
-    "parameterTypes": [
-      "java.lang.String",
-      "int"
-    ],
-    "returnType": "int",
-    "minSdk": 1,
-    "enabled": false,
-    "luaScript": "@systemproperties_get"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "SystemProperties.getLong",
-    "author": "M66B",
-    "className": "android.os.SystemProperties",
-    "methodName": "getLong",
-    "parameterTypes": [
-      "java.lang.String",
-      "long"
-    ],
-    "returnType": "long",
-    "minSdk": 1,
-    "enabled": false,
-    "luaScript": "@systemproperties_get"
-  },
-  {
-    "collection": "Privacy",
-    "group": "Read.Identifiers",
-    "name": "SystemProperties.getBoolean",
-    "author": "M66B",
-    "className": "android.os.SystemProperties",
-    "methodName": "getBoolean",
-    "parameterTypes": [
-      "java.lang.String",
-      "boolean"
-    ],
-    "returnType": "boolean",
-    "minSdk": 1,
-    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   // Read network data
@@ -2535,6 +2443,108 @@
     "usage": false,
     "enabled": false,
     "luaScript": "@configuration_createfromparcel"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "Settings.Secure.getString/bluetooth_name",
+    "author": "M66B",
+    "className": "android.provider.Settings$Secure",
+    "methodName": "getString",
+    "parameterTypes": [
+      "android.content.ContentResolver",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 3,
+    "luaScript": "@settingssecure_getstring"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get/build",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get.default/build",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get/operator",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get.default/operator",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get/vendor",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "SystemProperties.get.default/vendor",
+    "author": "M66B",
+    "className": "android.os.SystemProperties",
+    "methodName": "get",
+    "parameterTypes": [
+      "java.lang.String",
+      "java.lang.String"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@systemproperties_get"
   },
   {
     "collection": "Privacy",
