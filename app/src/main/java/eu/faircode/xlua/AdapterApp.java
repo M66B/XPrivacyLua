@@ -298,7 +298,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
     void setGroup(String name) {
         if (group == null ? name != null : !group.equals(name)) {
             group = name;
-            notifyDataSetChanged();
+            this.dataChanged = true;
+            getFilter().filter(query);
         }
     }
 
