@@ -863,11 +863,11 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         ScriptHolder(String script) {
             String[] lines = script.split("\\r?\\n");
             StringBuilder sb = new StringBuilder();
-            for (String line : lines)
-                if (!TextUtils.isEmpty(line) && !line.startsWith("--")) {
+            for (String line : lines) {
+                if (!line.startsWith("--"))
                     sb.append(line.trim());
-                    sb.append("\n");
-                }
+                sb.append("\n");
+            }
             this.script = sb.toString();
         }
 
