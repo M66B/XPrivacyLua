@@ -87,6 +87,8 @@ You can enable the new hooks by toggling the check box once (turning it off and 
 * The restrictions of XPrivacyLua are designed to prevent apps from crashing, while a number of XPrivacy restrictions can apps cause to crash, see also [question 4](#FAQ4)
 * XPrivacyLua has no on demand restricting for stability and maintenance reasons, see also [question 4](#FAQ4)
 * XPrivacyLua can unlike XPrivacy restrict analytics services like [Google Analytics](https://www.google.com/analytics/) and [Fabric/Crashlytics](https://get.fabric.io/)
+* XPrivacyLua [is user extensible](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) while XPrivacy is not
+* XPrivacyLua is easier to maintain than XPrivacy, so XPrivacyLua is easier to update for new Android versions
 
 In general XPrivacyLua and XPrivacy are comparable in protecting your privacy.
 For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPrivacyLua/blob/master/XPRIVACY.md).
