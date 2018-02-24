@@ -99,7 +99,8 @@ are prefered in the form of [pull requests](https://help.github.com/articles/cre
 
 *Translations*
 
-* You can translate the in-app texts [here](https://crowdin.com/project/xprivacylua/)
+* You can translate the in-app texts of XPrivacyLua [here](https://crowdin.com/project/xprivacylua/)
+* You can download the in-app texts of XPrivacyLua Pro for translation [here](https://lua.xprivacy.eu/strings_pro.xml)
 * If your language is not listed, please send a message through [this contact form](https://contact.faircode.eu/)
 
 *Source code*
