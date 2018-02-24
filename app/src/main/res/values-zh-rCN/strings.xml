@@ -36,6 +36,7 @@
   <string name="msg_usage">受限于\'%1$s\'</string>
   <string name="msg_exception">错误：%1$s</string>
   <string name="msg_restrict_sure">你确定要对所有应用切换\"%1$s\"吗？</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">确定活动状态</string>
   <string name="group_get_applications">读取应用列表</string>
   <string name="group_get_calendars">读取日历</string>

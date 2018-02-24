@@ -37,6 +37,7 @@
   <string name="msg_usage">Restringido \'%1$s\'</string>
   <string name="msg_exception">Error en %1$s</string>
   <string name="msg_restrict_sure">¿Estás seguro que quieres alternar \'%1$s\' para todas las apps?</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">Determinar actividad</string>
   <string name="group_get_applications">Obtener apps</string>
   <string name="group_get_calendars">Obtener los calendarios</string>

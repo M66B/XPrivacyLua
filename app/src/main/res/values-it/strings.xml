@@ -36,6 +36,7 @@ e <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">qui<
   <string name="msg_usage">\'%1$s\' Ristretta</string>
   <string name="msg_exception">Errore in %1$s</string>
   <string name="msg_restrict_sure">Se sicuro di voler attivare/disattivare \'%1$s\' per tutte le applicazioni?</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">Determina l\'attività</string>
   <string name="group_get_applications">Ottieni lista delle applicazioni</string>
   <string name="group_get_calendars">Ottieni il calendario</string>

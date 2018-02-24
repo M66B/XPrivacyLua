@@ -36,6 +36,7 @@
   <string name="msg_usage">\"%1$s\" korlátozva</string>
   <string name="msg_exception">Hiba a következőben: %1$s</string>
   <string name="msg_restrict_sure">Biztosan szeretnéd bekapcsolni az összes appra a következőt: \"%1$s\"</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">Aktivitások meghatározása</string>
   <string name="group_get_applications">Alkalmazások lekérdezése</string>
   <string name="group_get_calendars">Naptárak lekérdezése</string>

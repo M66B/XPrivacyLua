@@ -36,6 +36,7 @@ Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem
   <string name="msg_usage">\'%1$s\' begrænset</string>
   <string name="msg_exception">Fejl i %1$s</string>
   <string name="msg_restrict_sure">Sikker på, du vil skifte \'%1$s\' for alle apps?</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">Bestem aktivitet</string>
   <string name="group_get_applications">Hent apps-oversigt</string>
   <string name="group_get_calendars">Hent kalendere</string>

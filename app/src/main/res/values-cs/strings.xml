@@ -8,12 +8,12 @@
   <string name="title_restrict">Omezit</string>
   <string name="title_force_stop">Vynutit zastavení automaticky</string>
   <string name="title_help_instructions">
-        Tap on an app icon or name and tick restrictions to apply them.
-        If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
-        but applying restrictions to some apps requires a device restart (see icons below).
-        <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
-        <![CDATA[<br><br>]]>See <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">the documentation</a>]]>
-        and <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">the frequently asked questions</a>]]> for more information.
+        Ťukni na ikonu nebo název aplikace a omez jejich aktivitu.
+        Pokud je to možné, aplikace se automaticky zastaví, aby bylo možné okamžitě uplatnit (nebo odstranit) omezení,
+        ale použití omezení některých aplikací vyžaduje restart zařízení (viz níže uvedené ikony).
+        <![CDATA[<br><br>]]>Dlouhým stisknutím názvu aplikace nebo ikony spusťte aplikaci.
+        <![CDATA[<br><br>]]>Podívej se na<![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/README.md">dokumentace</a>]]>
+        a na <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">FAQ</a>]]> pro více informací.
     </string>
   <string name="title_help_installed">Omezit nově instalované</string>
   <string name="title_help_system">Použití omezení může mít za následek problémy</string>
@@ -36,8 +36,9 @@
   <string name="msg_review_settings">Zkontrolujte nastavení ochrany osobních údajů</string>
   <string name="msg_usage">S omezeným přístupem \"%1$s\"</string>
   <string name="msg_exception">Chyba %1$s</string>
-  <string name="msg_restrict_sure">Are you sure to toggle \'%1$s\' for all apps?</string>
-  <string name="group_determine_activity">Určení aktivity</string>
+  <string name="msg_restrict_sure">Opravdu chcete nastavit \"%1$s\' pro všechny aplikace?</string>
+  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="group_determine_activity">Determinovat aktivitu</string>
   <string name="group_get_applications">Spustit aplikaci</string>
   <string name="group_get_calendars">Přístup ke kalendáři</string>
   <string name="group_get_call_log">Přístup k hovorům</string>
@@ -55,7 +56,7 @@
   <string name="group_record_audio">Nahrávání zvuku</string>
   <string name="group_record_video">Nahrát video</string>
   <string name="group_send_messages">Odeslat zprávu</string>
-  <string name="group_use_analytics">Use analytics</string>
+  <string name="group_use_analytics">Použití služby Analytics</string>
   <string name="group_use_camera">Použití fotoaparátu</string>
-  <string name="group_use_tracking">Use tracking</string>
+  <string name="group_use_tracking">Použití sledování</string>
 </resources>

@@ -35,6 +35,7 @@ en <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">hie
   <string name="msg_usage">\'%1$s\' werd beperkt</string>
   <string name="msg_exception">Fout in %1$s</string>
   <string name="msg_restrict_sure">Weet u zeker dat u \'%1$s\' voor alle apps wilt in- of uitschakelen?</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">Activiteit bepalen</string>
   <string name="group_get_applications">Apps opvragen</string>
   <string name="group_get_calendars">Agenda\'s opvragen</string>

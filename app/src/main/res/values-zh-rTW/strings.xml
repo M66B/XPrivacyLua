@@ -36,6 +36,7 @@
   <string name="msg_usage">\'%1$s\' 已限制</string>
   <string name="msg_exception">%1$s 發生錯誤</string>
   <string name="msg_restrict_sure">您確定要為所有應用程式切換 \"%1$s\" 嗎？</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">確認活動</string>
   <string name="group_get_applications">讀取程式列表</string>
   <string name="group_get_calendars">讀取日曆</string>

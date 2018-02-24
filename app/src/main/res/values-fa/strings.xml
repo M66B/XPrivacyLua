@@ -37,6 +37,7 @@
   <string name="msg_usage">محدود شده \'%1$s\'</string>
   <string name="msg_exception">خطا در \'%1$s\'</string>
   <string name="msg_restrict_sure">برای تغییر %1$s در تمام برنامه‌ها مطمئنید؟</string>
+  <string name="msg_no_browser">No browser available to open link</string>
   <string name="group_determine_activity">تعیین فعالیت‌ها</string>
   <string name="group_get_applications">دریافت برنامه‌ها</string>
   <string name="group_get_calendars">دریافت تقویم</string>
