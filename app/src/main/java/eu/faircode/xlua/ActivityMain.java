@@ -168,16 +168,20 @@ public class ActivityMain extends ActivityBase {
                 PackageManager pm = getPackageManager();
                 Intent companion = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
                 if (companion == null) {
-                    companion = new Intent(Intent.ACTION_VIEW);
-                    companion.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
+                    Intent browse = new Intent(Intent.ACTION_VIEW);
+                    browse.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
                     Intent temp = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu"));
                     for (ResolveInfo ri : pm.queryIntentActivities(temp, 0)) {
                         Log.i(TAG, "resolved=" + ri);
-                        companion.setPackage(ri.activityInfo.processName);
+                        browse.setPackage(ri.activityInfo.processName);
                         break;
                     }
-                }
-                startActivity(companion);
+                    if (browse.resolveActivity(pm) == null)
+                        Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                    else
+                        startActivity(browse);
+                } else
+                    startActivity(companion);
             }
         }));
 
@@ -185,7 +189,9 @@ public class ActivityMain extends ActivityBase {
             @Override
             public void onClick(DrawerItem item) {
                 Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M66B/XPrivacyLua"));
-                if (browse.resolveActivity(getPackageManager()) != null)
+                if (browse.resolveActivity(getPackageManager()) == null)
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                else
                     startActivity(browse);
             }
         }));
@@ -194,7 +200,9 @@ public class ActivityMain extends ActivityBase {
             @Override
             public void onClick(DrawerItem item) {
                 Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md"));
-                if (browse.resolveActivity(getPackageManager()) != null)
+                if (browse.resolveActivity(getPackageManager()) == null)
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                else
                     startActivity(browse);
             }
         }));
@@ -203,7 +211,9 @@ public class ActivityMain extends ActivityBase {
             @Override
             public void onClick(DrawerItem item) {
                 Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu/"));
-                if (browse.resolveActivity(getPackageManager()) != null)
+                if (browse.resolveActivity(getPackageManager()) == null)
+                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                else
                     startActivity(browse);
             }
         }));

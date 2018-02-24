@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.constraint.Group;
+import android.support.design.widget.Snackbar;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
@@ -151,18 +152,22 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     PackageManager pm = view.getContext().getPackageManager();
                     Intent settings = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
                     if (settings == null) {
-                        settings = new Intent(Intent.ACTION_VIEW);
-                        settings.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
+                        Intent browse = new Intent(Intent.ACTION_VIEW);
+                        browse.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
                         Intent temp = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu"));
                         for (ResolveInfo ri : pm.queryIntentActivities(temp, 0)) {
                             Log.i(TAG, "resolved=" + ri);
-                            settings.setPackage(ri.activityInfo.processName);
+                            browse.setPackage(ri.activityInfo.processName);
                             break;
                         }
-                    } else
+                        if (browse.resolveActivity(pm) == null)
+                            Snackbar.make(view, view.getContext().getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
+                        else
+                            view.getContext().startActivity(browse);
+                    } else {
                         settings.putExtra("packageName", app.packageName);
-
-                    view.getContext().startActivity(settings);
+                        view.getContext().startActivity(settings);
+                    }
                     break;
             }
         }
