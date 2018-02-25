@@ -2471,6 +2471,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
@@ -2486,6 +2487,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
@@ -2500,6 +2502,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
@@ -2515,6 +2518,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
@@ -2529,6 +2533,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
@@ -2544,6 +2549,7 @@
     ],
     "returnType": "java.lang.String",
     "minSdk": 1,
+    "enabled": false,
     "luaScript": "@systemproperties_get"
   },
   {
