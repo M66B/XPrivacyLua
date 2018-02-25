@@ -37,8 +37,8 @@
   <string name="msg_usage">S omezeným přístupem \"%1$s\"</string>
   <string name="msg_exception">Chyba %1$s</string>
   <string name="msg_restrict_sure">Opravdu chcete nastavit \"%1$s\' pro všechny aplikace?</string>
-  <string name="msg_no_browser">No browser available to open link</string>
-  <string name="group_determine_activity">Determinovat aktivitu</string>
+  <string name="msg_no_browser">Žádný prohlížeč k dispozici pro otevření odkazu</string>
+  <string name="group_determine_activity">Vypnout sledování Vaší aktivity</string>
   <string name="group_get_applications">Spustit aplikaci</string>
   <string name="group_get_calendars">Přístup ke kalendáři</string>
   <string name="group_get_call_log">Přístup k hovorům</string>

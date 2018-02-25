@@ -38,7 +38,7 @@ Toque em um ícone ou nome do aplicativo e marque as restrições para aplicá-l
   <string name="msg_usage">Restrito \'%1$s\'</string>
   <string name="msg_exception">Erro em %1$s</string>
   <string name="msg_restrict_sure">Tem certeza que quer alternar o \'%1$s\' para todos os apps?</string>
-  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="msg_no_browser">Nenhum navegador disponível para abrir o link</string>
   <string name="group_determine_activity">Determinar a activity</string>
   <string name="group_get_applications">Obter lista de aplicativos</string>
   <string name="group_get_calendars">Obter os calendários</string>
