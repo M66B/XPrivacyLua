@@ -418,6 +418,8 @@ class XProvider {
                         String hookid = cursor.getString(colHook);
                         if (apps.containsKey(pkg)) {
                             XApp app = apps.get(pkg);
+                            if (app.uid != uid)
+                                continue;
                             synchronized (lock) {
                                 if (hooks.containsKey(hookid)) {
                                     XHook hook = hooks.get(hookid);
