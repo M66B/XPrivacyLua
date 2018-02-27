@@ -75,6 +75,8 @@ Note that you can conveniently edit hook definitions in the pro companion app, s
 
 The pro companion app allows you to select which *collection*s of hooks XPrivacyLua should use.
 
+See [here](https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/types.html#wp276) about Java type signatures (names).
+
 The Lua script from the above definition without the JSON escapes looks like this:
 
 ```Lua
