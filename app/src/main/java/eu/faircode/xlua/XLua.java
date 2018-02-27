@@ -424,7 +424,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Check return type
                             final Class<?> memberReturnType = (methodName == null ? null : ((Method) member).getReturnType());
-                            if (returnType != null && memberReturnType != null && !returnType.isAssignableFrom(memberReturnType))
+                            if (returnType != null && memberReturnType != null && !memberReturnType.isAssignableFrom(returnType))
                                 throw new Throwable("Invalid return type " + memberReturnType + " got " + returnType);
 
                             // Hook method
@@ -717,7 +717,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         boolean same = true;
                         for (int i = 0; i < mparams.length; i++) {
-                            if (!params[i].isAssignableFrom(mparams[i])) {
+                            if (!mparams[i].isAssignableFrom(params[i])) {
                                 same = false;
                                 break;
                             }
