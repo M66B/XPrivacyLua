@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Process;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.luaj.vm2.Globals;
@@ -467,7 +466,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             // Build arguments
                                             args = new LuaValue[]{
                                                     coercedHook,
-                                                    CoerceJavaToLua.coerce(new XParam(context, param, returnType, settings))
+                                                    CoerceJavaToLua.coerce(new XParam(context, param, settings))
                                             };
                                         }
 

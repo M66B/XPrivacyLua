@@ -61,15 +61,6 @@ public class XParam {
             Context context,
             XC_MethodHook.MethodHookParam param,
             Map<String, String> settings) {
-        this(context, param, ((Method) param.method).getReturnType(), settings);
-    }
-
-    // Method param
-    public XParam(
-            Context context,
-            XC_MethodHook.MethodHookParam param,
-            Class<?> returnType,
-            Map<String, String> settings) {
         this.context = context;
         this.field = null;
         this.param = param;
@@ -78,7 +69,7 @@ public class XParam {
             this.returnType = null;
         } else {
             this.paramTypes = ((Method) param.method).getParameterTypes();
-            this.returnType = returnType;
+            this.returnType = ((Method) param.method).getReturnType();
         }
         this.settings = settings;
     }
