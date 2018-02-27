@@ -3186,7 +3186,7 @@ public class LuaValue extends Varargs {
 	 * @param bytes byte array to convert
 	 * @return {@link LuaString} instance, possibly pooled, whose bytes are those in the supplied array
 	 */
-	public static LuaString valueOf(byte[] bytes) { return LuaString.valueOf(bytes); }
+	//public static LuaString valueOf(byte[] bytes) { return LuaString.valueOf(bytes); }
 	
 	/** Convert bytes in an array to a {@link LuaValue}.
 	 * 
@@ -3195,9 +3195,9 @@ public class LuaValue extends Varargs {
 	 * @param len number of bytes to include in the {@link LuaString}
 	 * @return {@link LuaString} instance, possibly pooled, whose bytes are those in the supplied array
 	 */
-	public static LuaString valueOf(byte[] bytes, int off, int len) { 
-		return LuaString.valueOf(bytes,off,len); 
-	}
+	//public static LuaString valueOf(byte[] bytes, int off, int len) {
+	//	return LuaString.valueOf(bytes,off,len);
+	//}
 	
 	/** Construct an empty {@link LuaTable}. 
 	 * @return new {@link LuaTable} instance with no values and no metatable. 

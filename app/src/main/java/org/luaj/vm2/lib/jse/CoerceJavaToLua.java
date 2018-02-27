@@ -101,11 +101,11 @@ public class CoerceJavaToLua {
 		}
 	}
 
-	private static final class BytesCoercion implements Coercion {
-		public LuaValue coerce( Object javaValue ) {
-			return LuaValue.valueOf((byte[]) javaValue);
-		}
-	}
+	//private static final class BytesCoercion implements Coercion {
+	//	public LuaValue coerce( Object javaValue ) {
+	//		return LuaValue.valueOf((byte[]) javaValue);
+	//	}
+	//}
 
 	private static final class ClassCoercion implements Coercion {
 		public LuaValue coerce( Object javaValue ) {
@@ -141,7 +141,7 @@ public class CoerceJavaToLua {
 		Coercion charCoercion = new CharCoercion() ;
 		Coercion doubleCoercion = new DoubleCoercion() ;
 		Coercion stringCoercion = new StringCoercion() ;
-		Coercion bytesCoercion = new BytesCoercion() ;
+		//Coercion bytesCoercion = new BytesCoercion() ;
 		Coercion classCoercion = new ClassCoercion() ;
 		COERCIONS.put( Boolean.class, boolCoercion );
 		COERCIONS.put( Byte.class, intCoercion );
@@ -152,7 +152,7 @@ public class CoerceJavaToLua {
 		COERCIONS.put( Float.class, doubleCoercion );
 		COERCIONS.put( Double.class, doubleCoercion );
 		COERCIONS.put( String.class, stringCoercion );
-		COERCIONS.put( byte[].class, bytesCoercion );
+		//COERCIONS.put( byte[].class, bytesCoercion );
 		COERCIONS.put( Class.class, classCoercion );
 	}
 
