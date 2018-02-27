@@ -61,6 +61,15 @@ public class XParam {
             Context context,
             XC_MethodHook.MethodHookParam param,
             Map<String, String> settings) {
+        this(context, param, ((Method) param.method).getReturnType(), settings);
+    }
+
+    // Method param
+    public XParam(
+            Context context,
+            XC_MethodHook.MethodHookParam param,
+            Class<?> returnType,
+            Map<String, String> settings) {
         this.context = context;
         this.field = null;
         this.param = param;
@@ -69,7 +78,7 @@ public class XParam {
             this.returnType = null;
         } else {
             this.paramTypes = ((Method) param.method).getParameterTypes();
-            this.returnType = ((Method) param.method).getReturnType();
+            this.returnType = returnType;
         }
         this.settings = settings;
     }
@@ -148,7 +157,7 @@ public class XParam {
             else {
                 if (BuildConfig.DEBUG)
                     Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() + " result=" + result);
-                if (result != null && !boxType(this.returnType).isInstance(result))
+                if (result != null && this.returnType != null && !result.getClass().isAssignableFrom(boxType(this.returnType)))
                     throw new IllegalArgumentException(
                             "Expected return " + this.returnType + " got " + result.getClass());
                 this.param.setResult(result);
@@ -196,6 +205,12 @@ public class XParam {
     private static Class<?> boxType(Class<?> type) {
         if (type == boolean.class)
             return Boolean.class;
+        else if (type == byte.class)
+            return Byte.class;
+        else if (type == char.class)
+            return Character.class;
+        else if (type == short.class)
+            return Short.class;
         else if (type == int.class)
             return Integer.class;
         else if (type == long.class)

@@ -424,8 +424,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                             // Check return type
                             final Class<?> memberReturnType = (methodName == null ? null : ((Method) member).getReturnType());
-                            if (returnType != null && memberReturnType != null && !memberReturnType.equals(returnType))
-                                throw new Throwable("Invalid return type got " + memberReturnType + " expected " + returnType);
+                            if (returnType != null && memberReturnType != null && !returnType.isAssignableFrom(memberReturnType))
+                                throw new Throwable("Invalid return type " + memberReturnType + " got " + returnType);
 
                             // Hook method
                             XposedBridge.hookMethod(member, new XC_MethodHook() {
@@ -467,7 +467,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             // Build arguments
                                             args = new LuaValue[]{
                                                     coercedHook,
-                                                    CoerceJavaToLua.coerce(new XParam(context, param, settings))
+                                                    CoerceJavaToLua.coerce(new XParam(context, param, returnType, settings))
                                             };
                                         }
 

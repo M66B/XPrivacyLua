@@ -175,6 +175,22 @@ public class LuajavaLib extends VarArgFunction {
 
 	// load classes using app loader to allow luaj to be used as an extension
 	protected Class classForName(String name) throws ClassNotFoundException {
+		if ("boolean".equals(name))
+			return boolean.class;
+		else if ("byte".equals(name))
+			return byte.class;
+		else if ("char".equals(name))
+			return char.class;
+		else if ("short".equals(name))
+			return short.class;
+		else if ("int".equals(name))
+			return int.class;
+		else if ("long".equals(name))
+			return long.class;
+		else if ("float".equals(name))
+			return float.class;
+		else if ("double".equals(name))
+			return double.class;
 		return Class.forName(name, true, Thread.currentThread().getContextClassLoader());
 	}
 	
