@@ -37,7 +37,7 @@
   <string name="msg_usage">Ograniczono \'%1$s\'</string>
   <string name="msg_exception">Błąd w %1$s</string>
   <string name="msg_restrict_sure">Czy na pewno chcesz przełączyć \'%1$s\' dla wszystkich aplikacji?</string>
-  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="msg_no_browser">Brak dostępnej przeglądarki do otwarcia odnośnika</string>
   <string name="group_determine_activity">Określanie aktywności</string>
   <string name="group_get_applications">Odczyt aplikacji</string>
   <string name="group_get_calendars">Dostęp do kalendarza</string>

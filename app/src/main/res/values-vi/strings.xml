@@ -37,7 +37,7 @@
   <string name="msg_usage">Đã chặn \'\'%1$s\'</string>
   <string name="msg_exception">Lỗi ở %1$s</string>
   <string name="msg_restrict_sure">Bạn có chắc muốn bật/tắt \'%1$s\' cho tất cả các ứng dụng?</string>
-  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="msg_no_browser">Không có trình duyệt để mở đường dẫn</string>
   <string name="group_determine_activity">Xác định hoạt động</string>
   <string name="group_get_applications">Thu thập ứng dụng</string>
   <string name="group_get_calendars">Thu thập lịch</string>
