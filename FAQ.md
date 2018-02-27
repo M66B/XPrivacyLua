@@ -7,9 +7,9 @@ Frequently Asked Questions
 <a name="FAQ1"></a>
 **(1) How can I clear all data?**
 
-Primary users can clear all data of all users by uninstalling XPrivacyLua while it is running.
+Primary users can clear all data of all users by uninstalling XPrivacyLua *while it is running*.
 
-Secondary users can clear their own data by uninstalling XPrivacyLua while it is running.
+Secondary users can clear their own data by uninstalling XPrivacyLua *while it is running*.
 
 All data is stored in the folder */data/system/xlua*.
 
