@@ -1055,7 +1055,7 @@ public class LuaValue extends Varargs {
 	 * @param expected String naming the type that was expected
 	 * @throws LuaError in all cases
 	 */
-	protected LuaValue argerror(String expected) { throw new LuaError("bad argument: "+expected+" expected, got "+typename()); }
+	protected LuaValue argerror(String expected) { throw new LuaError("bad argument: "+expected+" expected, got "+typename()+" value="+this.tostring()); }
 	
 	/** 
 	 * Throw a {@link LuaError} indicating an invalid argument was supplied to a function
@@ -1070,7 +1070,7 @@ public class LuaValue extends Varargs {
 	 * @param expected String naming the type that was expected
 	 * @throws LuaError in all cases
 	 */
-	protected LuaValue typerror(String expected) { throw new LuaError(expected+" expected, got "+typename()); }
+	protected LuaValue typerror(String expected) { throw new LuaError(expected+" expected, got "+typename()+" value="+this.tostring()); }
 	
 	/** 
 	 * Throw a {@link LuaError} indicating an operation is not implemented 
