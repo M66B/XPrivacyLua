@@ -322,9 +322,6 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                             scriptPrototype.put(sh, compiledScript);
                         }
 
-                        // Prevent threading problems
-                        final LuaValue coercedHook = CoerceJavaToLua.coerce(hook);
-
                         // Get class
                         Class<?> cls = Class.forName(hook.getResolvedClassName(), false, context.getClassLoader());
 
@@ -372,7 +369,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                     return;
 
                                 LuaValue[] args = new LuaValue[]{
-                                        coercedHook,
+                                        CoerceJavaToLua.coerce(hook),
                                         CoerceJavaToLua.coerce(new XParam(context, field, settings))
                                 };
 
@@ -465,7 +462,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                             // Build arguments
                                             args = new LuaValue[]{
-                                                    coercedHook,
+                                                    CoerceJavaToLua.coerce(hook),
                                                     CoerceJavaToLua.coerce(new XParam(context, param, settings))
                                             };
                                         }
@@ -487,6 +484,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                             report(context, hook.getId(), function, "use", data);
                                         }
                                     } catch (Throwable ex) {
+                                        synchronized (threadGlobals) {
+                                            threadGlobals.remove(Thread.currentThread());
+                                        }
+
                                         StringBuilder sb = new StringBuilder();
 
                                         sb.append("Exception:\n");
