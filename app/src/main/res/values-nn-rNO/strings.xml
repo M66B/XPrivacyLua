@@ -36,7 +36,7 @@
   <string name="msg_usage">Innskrenket \'%1$s\'</string>
   <string name="msg_exception">Feil i %1$s</string>
   <string name="msg_restrict_sure">Er du sikker på at du skal innskrenke \"%1$s\" for alle apper?</string>
-  <string name="msg_no_browser">Ingen nettleser tilgjengelig for åpne lenken</string>
+  <string name="msg_no_browser">Ingen nettleser tilgjengelig for å åpne lenken</string>
   <string name="group_determine_activity">Bestem aktivitet</string>
   <string name="group_get_applications">Hent apper</string>
   <string name="group_get_calendars">Hent kalendere</string>
