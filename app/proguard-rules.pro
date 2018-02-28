@@ -28,6 +28,7 @@
 
 #LuaJ
 -dontwarn org.luaj.vm2.**
+-keepnames org.luaj.vm2.** {*; }
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
