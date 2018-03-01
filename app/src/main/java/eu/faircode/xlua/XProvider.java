@@ -250,7 +250,7 @@ class XProvider {
                         cv.put("definition", hook.toJSON());
                         long rows = db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting hook id=" + id);
+                            throw new Throwable("Error inserting hook");
                     }
 
                     db.setTransactionSuccessful();
@@ -476,7 +476,16 @@ class XProvider {
         try {
             db.beginTransaction();
             try {
-                for (String hookid : hookids)
+                List<String> groups = new ArrayList<>();
+                for (String hookid : hookids) {
+                    XHook hook = null;
+                    synchronized (lock) {
+                        if (hooks.containsKey(hookid))
+                            hook = hooks.get(hookid);
+                    }
+                    if (hook != null && !groups.contains(hook.getGroup()))
+                        groups.add(hook.getGroup());
+
                     if (delete) {
                         Log.i(TAG, packageName + ":" + uid + "/" + hookid + " deleted");
                         long rows = db.delete("assignment",
@@ -496,8 +505,17 @@ class XProvider {
                         cv.putNull("exception");
                         long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting assignment pkg=" + packageName + ":" + uid);
+                            throw new Throwable("Error inserting assignment");
                     }
+                }
+
+                for (String group : groups) {
+                    long rows = db.delete("`group`",
+                            "package = ? AND uid = ? AND name = ?",
+                            new String[]{packageName, Integer.toString(uid), group});
+                    if (rows < 0)
+                        throw new Throwable("Error deleting group");
+                }
 
                 db.setTransactionSuccessful();
             } finally {
@@ -615,9 +633,11 @@ class XProvider {
         String hookid = extras.getString("hook");
         String packageName = extras.getString("packageName");
         int uid = extras.getInt("uid");
+        int userid = Util.getUserId(uid);
         String event = extras.getString("event");
         long time = extras.getLong("time");
         Bundle data = extras.getBundle("data");
+        int restricted = data.getInt("restricted", 0);
 
         if (uid != Binder.getCallingUid())
             throw new SecurityException();
@@ -632,18 +652,32 @@ class XProvider {
         }
         Log.i(TAG, "Hook " + hookid + " pkg=" + packageName + ":" + uid + " event=" + event + sb.toString());
 
-        // Store event
+        // Get hook
+        XHook hook = null;
+        synchronized (lock) {
+            if (hooks.containsKey(hookid))
+                hook = hooks.get(hookid);
+        }
+
+        // Get notify setting
+        Bundle args = new Bundle();
+        args.putInt("user", userid);
+        args.putString("category", packageName);
+        args.putString("name", "notify");
+        boolean notify = Boolean.parseBoolean(getSetting(context, args).getString("value"));
+
+        long used = -1;
         dbLock.writeLock().lock();
         try {
             db.beginTransaction();
             try {
+                // Store event
                 ContentValues cv = new ContentValues();
                 if ("install".equals(event))
                     cv.put("installed", time);
                 else if ("use".equals(event)) {
                     cv.put("used", time);
-                    if (data.containsKey("restricted"))
-                        cv.put("restricted", data.getInt("restricted"));
+                    cv.put("restricted", restricted);
                 }
                 if (data.containsKey("exception"))
                     cv.put("exception", data.getString("exception"));
@@ -655,8 +689,33 @@ class XProvider {
                 long rows = db.update("assignment", cv,
                         "package = ? AND uid = ? AND hook = ?",
                         new String[]{packageName, Integer.toString(uid), hookid});
-                if (rows < 1)
-                    Log.i(TAG, packageName + ":" + uid + "/" + hookid + " not updated");
+                if (rows != 1)
+                    throw new Throwable("Error updating assignment");
+
+                // Update group
+                if (hook != null && "use".equals(event) && restricted == 1 && notify) {
+                    Cursor cursor = null;
+                    try {
+                        cursor = db.query("`group`", new String[]{"used"},
+                                "package = ? AND uid = ? AND name = ?",
+                                new String[]{packageName, Integer.toString(uid), hook.getGroup()},
+                                null, null, null);
+                        if (cursor.moveToNext())
+                            used = cursor.getLong(0);
+                    } finally {
+                        if (cursor != null)
+                            cursor.close();
+                    }
+
+                    cv.clear();
+                    cv.put("package", packageName);
+                    cv.put("uid", uid);
+                    cv.put("name", hook.getGroup());
+                    cv.put("used", time);
+                    rows = db.insertWithOnConflict("`group`", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                    if (rows < 0)
+                        throw new Throwable("Error inserting group");
+                }
 
                 db.setTransactionSuccessful();
             } finally {
@@ -668,54 +727,42 @@ class XProvider {
 
         long ident = Binder.clearCallingIdentity();
         try {
-            Context ctx = Util.createContextForUser(context, Util.getUserId(uid));
+            Context ctx = Util.createContextForUser(context, userid);
             PackageManager pm = ctx.getPackageManager();
             String self = XProvider.class.getPackage().getName();
             Resources resources = pm.getResourcesForApplication(self);
 
             // Notify usage
-            if ("use".equals(event) && data.getInt("restricted", 0) == 1) {
-                // Get hook
-                XHook hook = null;
-                synchronized (lock) {
-                    if (hooks.containsKey(hookid))
-                        hook = hooks.get(hookid);
-                }
+            if (hook != null && "use".equals(event) && restricted == 1 &&
+                    (hook.doNotify() || (notify && used < 0))) {
+                // Get group name
+                String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
+                int resId = resources.getIdentifier("group_" + name, "string", self);
+                String group = (resId == 0 ? hookid : resources.getString(resId));
 
-                if (hook != null && hook.doNotify()) {
-                    // Get group name
-                    String group = hookid;
-                    if (hook != null) {
-                        String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
-                        int resId = resources.getIdentifier("group_" + name, "string", self);
-                        if (resId != 0)
-                            group = resources.getString(resId);
-                    }
+                // Build notification
+                Notification.Builder builder = new Notification.Builder(ctx);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    builder.setChannelId(cChannelName);
+                builder.setSmallIcon(android.R.drawable.ic_dialog_info);
+                builder.setContentTitle(resources.getString(R.string.msg_usage, group));
+                builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
+                if (BuildConfig.DEBUG)
+                    builder.setSubText(hookid);
 
-                    // Build notification
-                    Notification.Builder builder = new Notification.Builder(ctx);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                        builder.setChannelId(cChannelName);
-                    builder.setSmallIcon(android.R.drawable.ic_dialog_info);
-                    builder.setContentTitle(resources.getString(R.string.msg_usage, group));
-                    builder.setContentText(pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)));
-                    if (BuildConfig.DEBUG)
-                        builder.setSubText(hookid);
+                builder.setPriority(Notification.PRIORITY_DEFAULT);
+                builder.setCategory(Notification.CATEGORY_STATUS);
+                builder.setVisibility(Notification.VISIBILITY_SECRET);
 
-                    builder.setPriority(Notification.PRIORITY_DEFAULT);
-                    builder.setCategory(Notification.CATEGORY_STATUS);
-                    builder.setVisibility(Notification.VISIBILITY_SECRET);
+                // Main
+                Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                builder.setContentIntent(pi);
 
-                    // Main
-                    Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
-                    main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
-                    builder.setContentIntent(pi);
+                builder.setAutoCancel(true);
 
-                    builder.setAutoCancel(true);
-
-                    Util.notifyAsUser(ctx, "xlua_usage", uid, builder.build(), Util.getUserId(uid));
-                }
+                Util.notifyAsUser(ctx, "xlua_use_" + hook.getGroup(), uid, builder.build(), userid);
             }
 
             // Notify exception
@@ -739,7 +786,7 @@ class XProvider {
 
                 builder.setAutoCancel(true);
 
-                Util.notifyAsUser(ctx, "xlua_exception", uid, builder.build(), Util.getUserId(uid));
+                Util.notifyAsUser(ctx, "xlua_exception", uid, builder.build(), userid);
             }
         } finally {
             Binder.restoreCallingIdentity(ident);
@@ -836,17 +883,21 @@ class XProvider {
             db.beginTransaction();
             try {
                 if (value == null) {
-                    db.delete(
+                    long rows = db.delete(
                             "setting",
                             "user = ? AND category = ? AND name = ?",
                             new String[]{Integer.toString(userid), category, name});
+                    if (rows < 0)
+                        throw new Throwable("Error deleting setting");
                 } else {
                     ContentValues cv = new ContentValues();
                     cv.put("user", userid);
                     cv.put("category", category);
                     cv.put("name", name);
                     cv.put("value", value);
-                    db.insertWithOnConflict("setting", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                    long rows = db.insertWithOnConflict("setting", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                    if (rows < 0)
+                        throw new Throwable("Error inserting setting");
                 }
 
                 db.setTransactionSuccessful();
@@ -895,7 +946,7 @@ class XProvider {
                     cv.putNull("exception");
                     long rows = db.insertWithOnConflict("assignment", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                     if (rows < 0)
-                        throw new Throwable("Error inserting assignment pkg=" + packageName + ":" + uid);
+                        throw new Throwable("Error inserting assignment");
                 }
 
                 db.setTransactionSuccessful();
@@ -1168,11 +1219,25 @@ class XProvider {
                         cv.put("definition", tmp.get(id).toJSON());
                         long rows = _db.insertWithOnConflict("hook", null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                         if (rows < 0)
-                            throw new Throwable("Error inserting hook id=" + id);
+                            throw new Throwable("Error inserting hook");
                     }
 
 
                     _db.setVersion(4);
+                    _db.setTransactionSuccessful();
+                } finally {
+                    _db.endTransaction();
+                }
+            }
+
+            if (_db.needUpgrade(5)) {
+                Log.i(TAG, "Database upgrade version 5");
+                _db.beginTransaction();
+                try {
+                    _db.execSQL("CREATE TABLE `group` (package TEXT NOT NULL, uid INTEGER NOT NULL, name TEXT NOT NULL, used INTEGER)");
+                    _db.execSQL("CREATE UNIQUE INDEX idx_group ON `group`(package, uid, name)");
+
+                    _db.setVersion(5);
                     _db.setTransactionSuccessful();
                 } finally {
                     _db.endTransaction();
