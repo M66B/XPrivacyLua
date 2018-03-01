@@ -509,13 +509,14 @@ class XProvider {
                     }
                 }
 
-                for (String group : groups) {
-                    long rows = db.delete("`group`",
-                            "package = ? AND uid = ? AND name = ?",
-                            new String[]{packageName, Integer.toString(uid), group});
-                    if (rows < 0)
-                        throw new Throwable("Error deleting group");
-                }
+                if (!delete)
+                    for (String group : groups) {
+                        long rows = db.delete("`group`",
+                                "package = ? AND uid = ? AND name = ?",
+                                new String[]{packageName, Integer.toString(uid), group});
+                        if (rows < 0)
+                            throw new Throwable("Error deleting group");
+                    }
 
                 db.setTransactionSuccessful();
             } finally {
