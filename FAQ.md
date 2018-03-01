@@ -34,15 +34,17 @@ Disable and enable the module in the Xposed installer and hard reboot again to f
 **(4) Can you add ...?**
 
 * *Network and storage restrictions*: access to the internet and to the device storage can only be prevented by revoking Linux permission from an app, which will often result in the app crashing. Therefore this will not be added.
-* *User interface features*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
+* *User interface features* like *templates*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
 * *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added. See also [here](https://forum.xda-developers.com/showpost.php?p=75419161&postcount=49).
 * *Randomizing fake values*: this is known to let apps crash, so this will not be added.
 * *App specific*: anything specific for an app will not be added.
 * *Security specific*: features related to security only will not be added.
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
 * *Crowd sourced restrictions*: there are not enough users for this to be useful.
+* *An app settings button*: see [here](https://forum.xda-developers.com/showpost.php?p=75745469&postcount=2071) why this won't be added.
 
-If you want to confine apps to their own folder, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
+If you want to confine apps to their own folder, you can download the hook definition *BlockGuardOs.open*
+from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
 
 Apps having access to the IP address generally have access to the internet and therefore can get your IP address in a simple way,
 see for example [here](https://www.privateinternetaccess.com/pages/whats-my-ip/). Therefore an IP address restriction doesn't make sense.
@@ -52,9 +54,15 @@ and faking offline state doesn't prevent apps from accessing the internet.
 Therefore internet restriction cannot properly be implemented.
 You are adviced to use a firewall app to control internet access, for example [NetGuard](https://forum.xda-developers.com/android/apps-games/app-netguard-root-firewall-t3233012).
 
-If you still want to fake offline state, see [the example definitions](https://github.com/M66B/XPrivacyLua/tree/master/examples) about how this can be done with a custom restriction definition.
+If you still want to fake offline state, you can download the hook definition *NetworkInfo.createFromParcel*
+from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
 
 MAC addresses are [not available anymore](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m) on supported Android versions.
+Some manufacturers made an exception for this and to fix this you can download the hook definitions *BluetoothAdapter.getAddress*, *WifiInfo.getMacAddress* and *NetworkInterface.getHardwareAddress*
+from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
+
+Since XPrivacyLua version 1.22 it is possible to enable status bar notifications on applying restrictions using the pro companion app.
+This can be used as a replacement for on demand restricting by removing a restriction when needed.
 
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
 
@@ -128,18 +136,36 @@ The special search characters should be the first characters in the search field
 and can be followed by additional characters to refine the search result.
 
 <a name="FAQ12"></a>
-**(12) Can I use an XPrivacy pro license to get the XPrivacyLua pro features?**
+**(12) Can I get a discount / use an XPrivacy pro license to get the XPrivacyLua pro features?**
 
 XPrivacyLua was written from the ground up to support recent Android versions, which was really a lot of work.
 Since I believe everybody should be able to protect his/her privacy, XPrivacyLua is free to use.
 However, the XPrivacyLua pro features, mostly convencience and advanced features, not really needed to protect your privacy,
-need to be purchased and it is not possible to 'pay' with an XPrivacy pro license.
+need to be purchased and it is not possible to 'pay' with an XPrivacy pro license and there will be no discounts either.
 
 <a name="FAQ13"></a>
 **(13) Will XPrivacyLua slow down my apps?**
 
 Depending on the number of applied restrictions, you might notice a slight delay when starting apps,
 but you will generally not notice delays when using apps.
+
+<a name="FAQ14"></a>
+**(14) Will XPrivacyLua keep running after updating?**
+
+Yes, if XPrivacyLua was running before the update, it will keep running after the update,
+even though the user interface and new features will not be available until after a reboot.
+
+<a name="FAQ15"></a>
+**(15) Can I get a refund?**
+
+If a purchased pro feature doesn't work as described
+and this isn't caused by a problem in the free features
+and I cannot fix the problem in a timely manner, you can get a refund.
+In all other cases there is no refund possible.
+In no circumstances there is a refund possible for any problem related to the free features, which include all restrictions,
+since there wasn't paid anything for them and because they can be evaluated without any limitation.
+I take my responsibility as seller to deliver what has been promised
+and I expect that you take responsibility for informing yourself of what you are buying.
 
 <br>
 
