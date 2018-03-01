@@ -67,6 +67,8 @@ Compatibility
 XPrivacyLua is supported on Android 6.0 Marshmallow and later.
 For Android 4.0.3 KitKat to Android 5.1.1 Lollipop you can use [XPrivacy](https://github.com/M66B/XPrivacy/blob/master/README.md).
 
+XPrivacyLua with [Island](http://forum.xda-developers.com/android/-t3366295) is not supported.
+
 Installation
 ------------
 
