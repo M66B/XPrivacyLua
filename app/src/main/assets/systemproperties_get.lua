@@ -28,7 +28,7 @@ function after(hook, param)
     local func = match()
     local name = match()
 
-    log(key .. '=' .. result .. ' name=' .. name)
+    --log(key .. '=' .. result .. ' name=' .. name)
 
     if name == 'serial' and (key == 'ro.serialno' or key == 'ro.boot.serialno') then
         local fake = param:getSetting('value.serial')

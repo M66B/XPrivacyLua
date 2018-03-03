@@ -158,7 +158,7 @@ even though the user interface and new features will not be available until afte
 <a name="FAQ15"></a>
 **(15) Can I get a refund?**
 
-If a purchased pro feature doesn't work as described
+If a purchased pro feature doesn't work properly
 and this isn't caused by a problem in the free features
 and I cannot fix the problem in a timely manner, you can get a refund.
 In all other cases there is no refund possible.

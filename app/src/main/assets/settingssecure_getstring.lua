@@ -31,7 +31,7 @@ function after(hook, param)
     local func = match()
     local name = match()
 
-    log(key .. '=' .. result .. ' name=' .. name)
+    --log(key .. '=' .. result .. ' name=' .. name)
 
     if name == 'android_id' and key == 'android_id' then
         local fake = param:getSetting('value.android_id')

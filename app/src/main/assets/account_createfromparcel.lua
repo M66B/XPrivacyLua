@@ -35,7 +35,7 @@ function after(hook, param)
         end
     end
 
-    log((restricted and 'Restricted' or 'Allowed') .. ' account ' .. result.type .. '/' .. result.name)
+    --log((restricted and 'Restricted' or 'Allowed') .. ' account ' .. result.type .. '/' .. result.name)
     if restricted then
         local old = result.name
         local fake = param:getSetting('value.email')
