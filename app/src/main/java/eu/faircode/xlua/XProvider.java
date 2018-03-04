@@ -863,7 +863,8 @@ class XProvider {
             dbLock.readLock().unlock();
         }
 
-        Log.d(TAG, "Get setting " + userid + ":" + category + ":" + name + "=" + value);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "Get setting " + userid + ":" + category + ":" + name + "=" + value);
         Bundle result = new Bundle();
         result.putString("value", value);
         return result;
