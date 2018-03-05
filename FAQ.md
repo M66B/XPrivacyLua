@@ -167,6 +167,13 @@ since there wasn't paid anything for them and because they can be evaluated with
 I take my responsibility as seller to deliver what has been promised
 and I expect that you take responsibility for informing yourself of what you are buying.
 
+<a name="FAQ16"></a>
+**(16) Can apps with root access be restricted?**
+
+Apps with root permissions can do whatever they like, so they can circumvent any restriction.
+So, be careful which apps you grant root permissions.
+There is no support on restricting apps with root access.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
