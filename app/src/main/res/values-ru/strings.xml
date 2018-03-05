@@ -32,7 +32,7 @@
   <string name="menu_readme">Документация</string>
   <string name="menu_faq">Часто задаваемые вопросы</string>
   <string name="menu_donate">Поддержать</string>
-  <string name="msg_no_service">Модуль не запущен или не обновлен</string>
+  <string name="msg_no_service">Модуль обновлен или не запущен</string>
   <string name="msg_review_settings">Настройки конфиденциальности</string>
   <string name="msg_usage">Ограничено \'%1$s\'</string>
   <string name="msg_exception">Ошибка в %1$s</string>

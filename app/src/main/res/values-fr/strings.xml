@@ -51,12 +51,12 @@
   <string name="group_read_identifiers">Lire les identifiants</string>
   <string name="group_read_network">Lire les données réseaux</string>
   <string name="group_read_notifications">Lire les notifications</string>
-  <string name="group_read_sync">Lire les données de synchro.</string>
+  <string name="group_read_sync">Lire les données de synchronisation</string>
   <string name="group_read_telephony">Lire les données téléphoniques</string>
   <string name="group_record_audio">Enregistrement audio</string>
   <string name="group_record_video">Enregistrement vidéo</string>
   <string name="group_send_messages">Envoyer des messages</string>
   <string name="group_use_analytics">Utiliser des outils analytiques</string>
   <string name="group_use_camera">Utiliser l\'appareil photo</string>
-  <string name="group_use_tracking">Le suivi utilisé</string>
+  <string name="group_use_tracking">Pistage utilisé</string>
 </resources>
