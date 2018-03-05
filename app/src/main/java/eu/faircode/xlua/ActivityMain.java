@@ -169,13 +169,7 @@ public class ActivityMain extends ActivityBase {
                 Intent companion = pm.getLaunchIntentForPackage(Util.PRO_PACKAGE_NAME);
                 if (companion == null) {
                     Intent browse = new Intent(Intent.ACTION_VIEW);
-                    browse.setData(Uri.parse("https://play.google.com/apps/testing/" + Util.PRO_PACKAGE_NAME));
-                    Intent temp = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lua.xprivacy.eu"));
-                    for (ResolveInfo ri : pm.queryIntentActivities(temp, 0)) {
-                        Log.i(TAG, "resolved=" + ri);
-                        browse.setPackage(ri.activityInfo.processName);
-                        break;
-                    }
+                    browse.setData(Uri.parse("https://lua.xprivacy.eu/pro/"));
                     if (browse.resolveActivity(pm) == null)
                         Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_browser), Snackbar.LENGTH_LONG).show();
                     else
