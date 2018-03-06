@@ -691,7 +691,7 @@ class XProvider {
                         "package = ? AND uid = ? AND hook = ?",
                         new String[]{packageName, Integer.toString(uid), hookid});
                 if (rows != 1)
-                    throw new Throwable("Error updating assignment");
+                    Log.w(TAG, "Error updating assignment");
 
                 // Update group
                 if (hook != null && "use".equals(event) && restricted == 1 && notify) {
