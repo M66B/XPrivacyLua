@@ -78,7 +78,6 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         int uid = Process.myUid();
-        String self = XLua.class.getPackage().getName();
         Log.i(TAG, "Loaded " + lpparam.packageName + ":" + uid);
 
         if ("android".equals(lpparam.packageName))
@@ -88,7 +87,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             hookSettings(lpparam);
 
         if (!"android".equals(lpparam.packageName) &&
-                !self.equals(lpparam.packageName) && !Util.PRO_PACKAGE_NAME.equals(lpparam.packageName))
+                !lpparam.packageName.startsWith(BuildConfig.APPLICATION_ID))
             hookApplication(lpparam);
     }
 
@@ -118,8 +117,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                         throw new Throwable("Context not found");
 
                     // Store current module version
-                    String self = XLua.class.getPackage().getName();
-                    PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
+                    PackageInfo pi = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, 0);
                     version = pi.versionCode;
                     Log.i(TAG, "Module version " + version);
 

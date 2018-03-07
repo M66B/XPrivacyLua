@@ -49,15 +49,6 @@ class Util {
     static final String PRO_PACKAGE_NAME = "eu.faircode.xlua.pro";
     private static final int PER_USER_RANGE = 100000;
 
-    static String getSelfVersionName(Context context) {
-        try {
-            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return pi.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {
-            return ex.toString();
-        }
-    }
-
     static void setPermissions(String path, int mode, int uid, int gid) {
         try {
             Class<?> fileUtils = Class.forName("android.os.FileUtils");
@@ -130,8 +121,7 @@ class Util {
         // Create notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PackageManager pm = context.getPackageManager();
-            String self = Util.class.getPackage().getName();
-            Resources resources = pm.getResourcesForApplication(self);
+            Resources resources = pm.getResourcesForApplication(BuildConfig.APPLICATION_ID);
             NotificationChannel channel = new NotificationChannel(
                     XProvider.cChannelName, resources.getString(R.string.channel_privacy), NotificationManager.IMPORTANCE_HIGH);
             channel.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);

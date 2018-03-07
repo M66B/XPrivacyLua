@@ -322,12 +322,10 @@ class XProvider {
         long ident = Binder.clearCallingIdentity();
         try {
             // Get installed apps for current user
-            String self = XProvider.class.getPackage().getName();
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
                 if (!"android".equals(ai.packageName) &&
-                        !self.equals(ai.packageName) &&
-                        !Util.PRO_PACKAGE_NAME.equals(ai.packageName)) {
+                        !ai.packageName.startsWith(BuildConfig.APPLICATION_ID)) {
                     int esetting = pm.getApplicationEnabledSetting(ai.packageName);
                     boolean enabled = (ai.enabled &&
                             (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
@@ -730,15 +728,14 @@ class XProvider {
         try {
             Context ctx = Util.createContextForUser(context, userid);
             PackageManager pm = ctx.getPackageManager();
-            String self = XProvider.class.getPackage().getName();
-            Resources resources = pm.getResourcesForApplication(self);
+            Resources resources = pm.getResourcesForApplication(BuildConfig.APPLICATION_ID);
 
             // Notify usage
             if (hook != null && "use".equals(event) && restricted == 1 &&
                     (hook.doNotify() || (notify && used < 0))) {
                 // Get group name
                 String name = hook.getGroup().toLowerCase().replaceAll("[^a-z]", "_");
-                int resId = resources.getIdentifier("group_" + name, "string", self);
+                int resId = resources.getIdentifier("group_" + name, "string", BuildConfig.APPLICATION_ID);
                 String group = (resId == 0 ? hookid : resources.getString(resId));
 
                 // Build notification
@@ -756,7 +753,7 @@ class XProvider {
                 builder.setVisibility(Notification.VISIBILITY_SECRET);
 
                 // Main
-                Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                 main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
                 PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
                 builder.setContentIntent(pi);
@@ -780,7 +777,7 @@ class XProvider {
                 builder.setVisibility(Notification.VISIBILITY_SECRET);
 
                 // Main
-                Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                 main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
                 PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
                 builder.setContentIntent(pi);
@@ -1059,8 +1056,7 @@ class XProvider {
 
             // Allow same signature
             PackageManager pm = context.getPackageManager();
-            String self = XProvider.class.getPackage().getName();
-            int uid = pm.getApplicationInfo(self, 0).uid;
+            int uid = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, 0).uid;
             if (pm.checkSignatures(cuid, uid) != PackageManager.SIGNATURE_MATCH)
                 throw new SecurityException("Signature error cuid=" + cuid);
         } catch (PackageManager.NameNotFoundException ex) {
@@ -1076,8 +1072,7 @@ class XProvider {
 
         // Read built-in definition
         PackageManager pm = context.getPackageManager();
-        String self = XProvider.class.getPackage().getName();
-        ApplicationInfo ai = pm.getApplicationInfo(self, 0);
+        ApplicationInfo ai = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, 0);
         for (XHook builtin : XHook.readHooks(context, ai.publicSourceDir)) {
             builtin.resolveClassName(context);
             builtins.put(builtin.getId(), builtin);
@@ -1306,8 +1301,7 @@ class XProvider {
 
     static boolean isAvailable(Context context) {
         try {
-            String self = XProvider.class.getPackage().getName();
-            PackageInfo pi = context.getPackageManager().getPackageInfo(self, 0);
+            PackageInfo pi = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, 0);
             Bundle result = context.getContentResolver()
                     .call(XProvider.URI, "xlua", "getVersion", new Bundle());
             return (result != null && pi.versionCode == result.getInt("version"));

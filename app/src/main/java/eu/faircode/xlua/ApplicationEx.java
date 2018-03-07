@@ -28,6 +28,6 @@ public class ApplicationEx extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this));
+        Log.i(TAG, "Create version=" + BuildConfig.VERSION_NAME);
     }
 }

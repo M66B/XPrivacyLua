@@ -44,11 +44,10 @@ public class ReceiverPackage extends BroadcastReceiver {
             Log.i(TAG, "Received " + intent + " uid=" + uid);
 
             int userid = Util.getUserId(uid);
-            String self = XLua.class.getPackage().getName();
             Context ctx = Util.createContextForUser(context, userid);
 
             if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-                if (!replacing && !self.equals(packageName) && !Util.PRO_PACKAGE_NAME.equals(packageName)) {
+                if (!replacing && !packageName.startsWith(BuildConfig.APPLICATION_ID)) {
                     // Initialize app
                     Bundle args = new Bundle();
                     args.putString("packageName", packageName);
@@ -62,7 +61,7 @@ public class ReceiverPackage extends BroadcastReceiver {
                     // Notify new app
                     if (XProvider.getSettingBoolean(context, userid, "global", "notify_new_apps")) {
                         PackageManager pm = ctx.getPackageManager();
-                        Resources resources = pm.getResourcesForApplication(self);
+                        Resources resources = pm.getResourcesForApplication(BuildConfig.APPLICATION_ID);
 
                         Notification.Builder builder = new Notification.Builder(ctx);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -76,7 +75,7 @@ public class ReceiverPackage extends BroadcastReceiver {
                         builder.setVisibility(Notification.VISIBILITY_SECRET);
 
                         // Main
-                        Intent main = ctx.getPackageManager().getLaunchIntentForPackage(self);
+                        Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                         main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
                         PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
                         builder.setContentIntent(pi);
@@ -87,7 +86,7 @@ public class ReceiverPackage extends BroadcastReceiver {
                     }
                 }
             } else if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(intent.getAction())) {
-                if (self.equals(packageName)) {
+                if (BuildConfig.APPLICATION_ID.equals(packageName)) {
                     Bundle args = new Bundle();
                     args.putInt("user", userid);
                     context.getContentResolver()

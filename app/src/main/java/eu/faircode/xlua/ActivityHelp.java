@@ -53,7 +53,7 @@ public class ActivityHelp extends ActivityBase {
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
-        tvVersion.setText(Util.getSelfVersionName(this));
+        tvVersion.setText(BuildConfig.VERSION_NAME);
         tvLicense.setText(Html.fromHtml(getString(R.string.title_license, year)));
         tvInstructions.setText(Html.fromHtml(getString(R.string.title_help_instructions)));
 
