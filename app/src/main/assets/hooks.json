@@ -2667,6 +2667,7 @@
     ],
     "minSdk": 1,
     "enabled": false,
+    "usage": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2681,6 +2682,7 @@
     ],
     "minSdk": 1,
     "enabled": false,
+    "usage": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2696,6 +2698,7 @@
     ],
     "minSdk": 1,
     "enabled": false,
+    "usage": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2712,6 +2715,7 @@
     ],
     "minSdk": 21,
     "enabled": false,
+    "usage": false,
     "luaScript": "@webview_constructor"
   },
   {
@@ -2728,6 +2732,7 @@
     ],
     "minSdk": 11,
     "enabled": false,
+    "usage": false,
     "luaScript": "@webview_constructor"
   }
 ]

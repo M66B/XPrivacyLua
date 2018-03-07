@@ -17,6 +17,9 @@
 
 function after(h, param)
     local this = param:getThis()
+    if this == nil then
+        return false
+    end
 
     local hooked = param:getValue('hooked', this)
     if hooked then
@@ -26,10 +29,14 @@ function after(h, param)
     end
 
     local settings = this:getSettings()
-    local ua = 'Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9'
-    hook(settings, 'setUserAgentString', setUserAgentString, ua)
-    settings:setUserAgentString('dummy')
-    return true
+    if settings == nil then
+        return false
+    else
+        local ua = 'Mozilla/5.0 (Linux; U; Android; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9'
+        hook(settings, 'setUserAgentString', setUserAgentString, ua)
+        settings:setUserAgentString('dummy')
+        return true
+    end
 end
 
 function setUserAgentString(when, param, ua)
