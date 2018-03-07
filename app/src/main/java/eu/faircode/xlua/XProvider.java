@@ -324,8 +324,7 @@ class XProvider {
             // Get installed apps for current user
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
-                if (!"android".equals(ai.packageName) &&
-                        !ai.packageName.startsWith(BuildConfig.APPLICATION_ID)) {
+                if (!ai.packageName.startsWith(BuildConfig.APPLICATION_ID)) {
                     int esetting = pm.getApplicationEnabledSetting(ai.packageName);
                     boolean enabled = (ai.enabled &&
                             (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||

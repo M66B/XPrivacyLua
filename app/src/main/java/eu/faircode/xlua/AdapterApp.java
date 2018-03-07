@@ -583,7 +583,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         // Assignment info
         holder.cbAssigned.setChecked(app.getAssignments(group).size() > 0);
         holder.cbAssigned.setButtonTintList(ColorStateList.valueOf(resources.getColor(
-                app.getAssignments(group).size() == selectedHooks.size()
+                selectedHooks.size() > 0 && app.getAssignments(group).size() == selectedHooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
 

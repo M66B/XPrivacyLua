@@ -171,8 +171,6 @@ If you need global caching, you can use something like this:
 	local value = param:getValue(name, scope)
 ```
 
-You can only hook into apps, so not into Android system.
-
 Using the pro companion app you can edit built-in definitions, which will result in making a copy of the definition.
 You could for example enable usage notifications or change returned fake values.
 Deleting copied definitions will restore the built-in definitions.
