@@ -89,6 +89,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
         final TextView tvPackage;
         final ImageView ivPersistent;
         final ImageView ivSettings;
+        final TextView tvAndroid;
         final AppCompatCheckBox cbAssigned;
         final AppCompatCheckBox cbForceStop;
         final RecyclerView rvGroup;
@@ -107,6 +108,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             tvPackage = itemView.findViewById(R.id.tvPackage);
             ivPersistent = itemView.findViewById(R.id.ivPersistent);
             ivSettings = itemView.findViewById(R.id.ivSettings);
+            tvAndroid = itemView.findViewById(R.id.tvAndroid);
             cbAssigned = itemView.findViewById(R.id.cbAssigned);
             cbForceStop = itemView.findViewById(R.id.cbForceStop);
 
@@ -586,6 +588,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                 selectedHooks.size() > 0 && app.getAssignments(group).size() == selectedHooks.size()
                         ? R.color.colorAccent
                         : android.R.color.darker_gray, null)));
+
+        holder.tvAndroid.setVisibility("android".equals(app.packageName) ? View.VISIBLE : View.GONE);
 
         holder.cbForceStop.setChecked(app.forceStop);
         holder.cbForceStop.setEnabled(!app.persistent);

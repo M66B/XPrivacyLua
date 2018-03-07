@@ -113,6 +113,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivIcon" />
 
+    <TextView
+        android:id="@+id/tvAndroid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_bootloop"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintTop_toBottomOf="@id/ivIcon" />
+
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/cbForceStop"
         android:layout_width="0dp"
@@ -122,7 +134,7 @@
         android:textAppearance="@android:style/TextAppearance.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivIcon"
-        app:layout_constraintTop_toBottomOf="@id/ivIcon" />
+        app:layout_constraintTop_toBottomOf="@id/tvAndroid" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvGroup"
