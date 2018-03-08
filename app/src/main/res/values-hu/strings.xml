@@ -6,6 +6,7 @@
   <string name="title_fix">Javítás</string>
   <string name="title_all">Összes</string>
   <string name="title_restrict">Korlátoz</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Automatikus leállítás</string>
   <string name="title_help_instructions">
         Érintsd meg egy app ikonját vagy nevét és pipáld ki a korlátozásokat a bekapcsolásukhoz.

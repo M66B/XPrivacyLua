@@ -6,6 +6,7 @@
   <string name="title_fix">Fiks</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Innskrenk</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Fremtving avslutting automatisk</string>
   <string name="title_help_instructions">        Trykk på ikonet eller navnet til en app og avkryss restriksjoner til å anvende de.
         Hvis mulig, blir apper stoppet automatisk for å anvende (eller fjerne) restriksjoner umiddelbart,

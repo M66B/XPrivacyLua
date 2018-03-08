@@ -6,6 +6,7 @@
   <string name="title_fix">Problem beheben</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Beschränken</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Automatisches Beenden erzwingen</string>
   <string name="title_help_instructions">
 Tippen Sie auf ein App-Symbol oder einen App-Namen und aktivieren Sie eine Beschränkung, um diese anzuwenden.

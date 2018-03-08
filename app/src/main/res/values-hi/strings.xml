@@ -6,6 +6,7 @@
   <string name="title_fix">ठीक करें</string>
   <string name="title_all">सभी</string>
   <string name="title_restrict">प्रतिबंधित</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">बलपूर्वक रोकें स्वचालित रूप से</string>
   <string name="title_help_instructions">
         ऐप आइकन या नाम पर टैप करें और प्रतिबंध लागू करने के लिए टिक करें।

@@ -6,6 +6,7 @@
   <string name="title_fix">تعمیر</string>
   <string name="title_all">همه</string>
   <string name="title_restrict">محدود کردن</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">توقف اجباری به صورت خودکار</string>
   <string name="title_help_instructions">
         روی آیکون یا نام برنامه‌ها ضربه زده و تیک محدویت‌ها را برای اعمال انتخاب کنید.

@@ -6,6 +6,7 @@
   <string name="title_fix">Επιδιόρθωσε</string>
   <string name="title_all">Όλα</string>
   <string name="title_restrict">Περιορισμός</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Πατήστε ένα εικονίδιο ή όνομα εφαρμογής και τικάρετε περιορισμούς για να τους εφαρμόσετε.

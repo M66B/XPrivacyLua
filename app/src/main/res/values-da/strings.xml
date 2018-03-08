@@ -6,6 +6,7 @@
   <string name="title_fix">Ret</string>
   <string name="title_all">Samtlige</string>
   <string name="title_restrict">Begræns</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Gennnemtving stop automatisk</string>
   <string name="title_help_instructions">
 Tryk på et app-ikon eller -navn og markér-begrænsninger for at effektuere dem.

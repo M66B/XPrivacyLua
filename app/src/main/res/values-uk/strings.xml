@@ -6,6 +6,7 @@
   <string name="title_fix">Виправити</string>
   <string name="title_all">Усі</string>
   <string name="title_restrict">Обмежити</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Змусити зупинитися автоматично</string>
   <string name="title_help_instructions">
         Торкніться значка програми або назви та позначте обмеження, щоб застосувати їх.

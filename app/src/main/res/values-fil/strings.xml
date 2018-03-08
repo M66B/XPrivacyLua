@@ -6,6 +6,7 @@
   <string name="title_fix">Ayusin</string>
   <string name="title_all">Lahat</string>
   <string name="title_restrict">Limitado</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Awtomatikong pilit na hininto</string>
   <string name="title_help_instructions">
 Pindutin ang app aykon o pangalan at piliin ang restriksyon para e apply sila. 

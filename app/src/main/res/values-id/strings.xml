@@ -6,6 +6,7 @@
   <string name="title_fix">Perbaiki</string>
   <string name="title_all">Semua</string>
   <string name="title_restrict">Membatasi</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Force stop automatically</string>
   <string name="title_help_instructions">
         Tap on an app icon or name and tick restrictions to apply them.

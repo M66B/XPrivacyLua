@@ -6,6 +6,7 @@
   <string name="title_fix">修復</string>
   <string name="title_all">全部</string>
   <string name="title_restrict">限制</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">自動強制停止</string>
   <string name="title_help_instructions">
         按下應用程式的圖示或名稱並勾選限制項目，從而將限制套用到應用程式。

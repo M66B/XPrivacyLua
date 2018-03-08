@@ -6,6 +6,7 @@
   <string name="title_fix">Repareer</string>
   <string name="title_all">Alle</string>
   <string name="title_restrict">Beperk</string>
+  <string name="title_bootloop">Restricting can cause a bootloop</string>
   <string name="title_force_stop">Automatisch geforceerd stoppen</string>
   <string name="title_help_instructions">Klik op een app icoon of naam en vink een beperking aan om deze toe te passen.
 Indien mogelijk worden apps automatisch gestopt om de beperkingen direct toe te passen,
