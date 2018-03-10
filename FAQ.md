@@ -42,6 +42,7 @@ Disable and enable the module in the Xposed installer and hard reboot again to f
 * *User choice*: if you can already control the data, like selecting an account, no restriction is needed.
 * *Crowd sourced restrictions*: there are not enough users for this to be useful.
 * *An app settings button*: see [here](https://forum.xda-developers.com/showpost.php?p=75745469&postcount=2071) why this won't be added.
+* *Select contacts groups to allow/block*: the Android contacts provider doesn't support contact groups at all hierarchy levels and working around this has appeared to be not possible reliably.
 
 If you want to confine apps to their own folder, you can download the hook definition *BlockGuardOs.open*
 from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
@@ -173,6 +174,11 @@ and I expect that you take responsibility for informing yourself of what you are
 Apps with root permissions can do whatever they like, so they can circumvent any restriction.
 So, be careful which apps you grant root permissions.
 There is no support on restricting apps with root access.
+
+<a name="FAQ17"></a>
+**(17) Can I import my XPrivacy settings?**
+
+XPrivacy and XPrivacyLua work differently, so this is not possible.
 
 <br>
 
