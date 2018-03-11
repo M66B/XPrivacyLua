@@ -6,7 +6,7 @@
   <string name="title_fix">Sửa</string>
   <string name="title_all">Tất cả</string>
   <string name="title_restrict">Chặn</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">Hạn chế có thể gây ra một bootloop</string>
   <string name="title_force_stop">Buộc dừng tự động</string>
   <string name="title_help_instructions">
         Bấm vào biểu tượng hoặc tên ứng dụng rồi đánh dấu chặn để tiến hành.

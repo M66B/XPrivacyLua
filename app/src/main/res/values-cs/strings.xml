@@ -6,7 +6,7 @@
   <string name="title_fix">Opravit</string>
   <string name="title_all">Vše</string>
   <string name="title_restrict">Omezit</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">Omezení mohou způsobit neustálé restarty zařízení (bootloop)</string>
   <string name="title_force_stop">Vynutit zastavení automaticky</string>
   <string name="title_help_instructions">
         Ťukni na ikonu nebo název aplikace a omez jejich aktivitu.

@@ -6,7 +6,7 @@
   <string name="title_fix">Ripara</string>
   <string name="title_all">Tutti</string>
   <string name="title_restrict">Restringi</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">La restrizione può causare un bootloop</string>
   <string name="title_force_stop">Forza arresto automatico</string>
   <string name="title_help_instructions">
 Clicca sull\'icona o il nome di un\'applicazione e seleziona le restrizioni per applicarle.

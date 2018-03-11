@@ -6,7 +6,7 @@
   <string name="title_fix">修复</string>
   <string name="title_all">全部</string>
   <string name="title_restrict">受限</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">限制可能导致bootloop问题</string>
   <string name="title_force_stop">强制自动停止</string>
   <string name="title_help_instructions">
         点击应用程序的图标或名称来勾选并应用限制选项。    

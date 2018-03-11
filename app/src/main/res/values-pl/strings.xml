@@ -6,7 +6,7 @@
   <string name="title_fix">Napraw</string>
   <string name="title_all">Wszystkie</string>
   <string name="title_restrict">Ogranicz</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">Ograniczenie może spowodować pętlę restartów</string>
   <string name="title_force_stop">Wymuś automatyczne zatrzymanie</string>
   <string name="title_help_instructions">
         Dotknij ikonę lub nazwę aplikacji i zaznacz ograniczenia, aby je zastosować.
