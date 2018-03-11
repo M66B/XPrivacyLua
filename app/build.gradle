@@ -8,8 +8,8 @@ android {
         applicationId "eu.faircode.xlua"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 102
-        versionName "1.23.1"
+        versionCode 103
+        versionName "1.23.2"
         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
     }
 
@@ -41,8 +41,8 @@ dependencies {
     // https://bumptech.github.io/glide/
     // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     // { exclude group: "com.android.support" }
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
     // https://github.com/rovo89/XposedBridge/wiki/Using-the-Xposed-Framework-API
     // https://bintray.com/rovo89/de.robv.android.xposed/api
