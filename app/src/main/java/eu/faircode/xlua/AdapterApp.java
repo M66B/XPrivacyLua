@@ -47,6 +47,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.text.Collator;
@@ -563,6 +564,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             GlideApp.with(holder.itemView.getContext())
                     .applyDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565))
                     .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .override(iconSize, iconSize)
                     .into(holder.ivIcon);
         }
