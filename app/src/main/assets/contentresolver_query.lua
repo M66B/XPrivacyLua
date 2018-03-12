@@ -52,10 +52,10 @@ function before(hook, param)
                 where = param:getArgument(2)
             end
 
-            if where == nil then
-                where = 'starred = ' .. starred
+            if where == nil or where == '' then
+                where = '(starred = ' .. starred .. ')'
             else
-                where = 'starred = ' .. starred .. ' AND (' .. where .. ')'
+                where = '(starred = ' .. starred .. ') AND (' .. where .. ')'
             end
 
             if func == 'ContentResolver.query26' then
