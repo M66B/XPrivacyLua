@@ -17,7 +17,7 @@
         et <![CDATA[<a href="https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md">ici</a>]]> pour les questions fréquemment posées.
     </string>
   <string name="title_help_installed">Restriction appliquée</string>
-  <string name="title_help_system">L\'application de restrictions (applis système) peut causer des problèmes</string>
+  <string name="title_help_system">L\'application de restrictions peut causer des problèmes</string>
   <string name="title_help_settings">Paramètres des restrictions des applis</string>
   <string name="title_help_persistent">L\'application de restrictions requiert un redémarrage</string>
   <string name="title_help_exception">Échec de l\'application de la restriction (appuyez sur l\'icône pour savoir pourquoi)</string>

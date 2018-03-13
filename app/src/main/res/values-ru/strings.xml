@@ -6,7 +6,7 @@
   <string name="title_fix">Исправить</string>
   <string name="title_all">Все</string>
   <string name="title_restrict">Ограничить</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">Ограничения могут вызвать циклическую перезагрузку</string>
   <string name="title_force_stop">Останавливать автоматически</string>
   <string name="title_help_instructions">
         Коснитесь значка или имени приложения и отметьте ограничения, чтобы их применить.
