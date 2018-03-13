@@ -324,7 +324,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             ArrayList<String> hookids = new ArrayList<>();
 
             for (XHook hook : hooks)
-                if (group == null || group.equals(hook.getGroup())) {
+                if (hook.isAvailable(app.packageName, this.collection) &&
+                        (group == null || group.equals(hook.getGroup()))) {
                     XAssignment assignment = new XAssignment(hook);
                     if (revert) {
                         if (app.assignments.contains(assignment)) {
