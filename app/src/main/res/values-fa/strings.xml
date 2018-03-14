@@ -6,7 +6,7 @@
   <string name="title_fix">تعمیر</string>
   <string name="title_all">همه</string>
   <string name="title_restrict">محدود کردن</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">اعمال محدودیت ممکن است موجب بوت‌لوپ شود</string>
   <string name="title_force_stop">توقف اجباری به صورت خودکار</string>
   <string name="title_help_instructions">
         روی آیکون یا نام برنامه‌ها ضربه زده و تیک محدویت‌ها را برای اعمال انتخاب کنید.
@@ -38,7 +38,7 @@
   <string name="msg_usage">محدود شده \'%1$s\'</string>
   <string name="msg_exception">خطا در \'%1$s\'</string>
   <string name="msg_restrict_sure">برای تغییر %1$s در تمام برنامه‌ها مطمئنید؟</string>
-  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="msg_no_browser">مرورگری برای بارکردن لینک در دسترس نیست</string>
   <string name="group_determine_activity">تعیین فعالیت‌ها</string>
   <string name="group_get_applications">دریافت برنامه‌ها</string>
   <string name="group_get_calendars">دریافت تقویم</string>
