@@ -796,6 +796,11 @@ class XProvider {
         if (selection != null)
             throw new IllegalArgumentException("selection invalid");
 
+        int cuid = Binder.getCallingUid();
+        int userid = Util.getUserId(cuid);
+        int start = Util.getUserUid(userid, 0);
+        int end = Util.getUserUid(userid, Process.LAST_APPLICATION_UID);
+
         dbLock.readLock().lock();
         try {
             db.beginTransaction();
@@ -803,7 +808,8 @@ class XProvider {
                 Cursor cursor = db.query(
                         "assignment",
                         new String[]{"package", "uid", "hook", "used", "old", "new"},
-                        "restricted = 1", new String[]{},
+                        "restricted = 1 AND uid >= ? AND uid <= ?",
+                        new String[]{Integer.toString(start), Integer.toString(end)},
                         null, null, "used DESC");
 
                 db.setTransactionSuccessful();
