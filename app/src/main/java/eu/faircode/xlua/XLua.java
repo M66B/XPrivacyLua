@@ -492,7 +492,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                                 // Report use
                                 boolean restricted = result.arg1().checkboolean();
-                                if (restricted) {
+                                if (restricted && hook.doUsage()) {
                                     Bundle data = new Bundle();
                                     data.putString("function", function);
                                     data.putInt("restricted", restricted ? 1 : 0);
