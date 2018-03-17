@@ -793,6 +793,8 @@ class XProvider {
     }
 
     private static Cursor getLog(Context context, String[] selection) throws Throwable {
+        enforcePermission(context);
+
         if (selection != null)
             throw new IllegalArgumentException("selection invalid");
 
