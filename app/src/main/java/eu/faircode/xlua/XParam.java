@@ -114,11 +114,11 @@ public class XParam {
         if (index < 0 || index >= this.paramTypes.length)
             throw new ArrayIndexOutOfBoundsException("Argument #" + index);
 
-        try {
+        if (value != null) {
             value = coerceValue(this.paramTypes[index], value);
-        } catch (Throwable IllegalArgumentException) {
-            throw new IllegalArgumentException(
-                    "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value.getClass());
+            if (!boxType(this.paramTypes[index]).isInstance(value))
+                throw new IllegalArgumentException(
+                        "Expected argument #" + index + " " + this.paramTypes[index] + " got " + value.getClass());
         }
 
         this.param.args[index] = value;
@@ -148,9 +148,12 @@ public class XParam {
             else {
                 if (BuildConfig.DEBUG)
                     Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() + " result=" + result);
-                if (result != null && this.returnType != null && !boxType(this.returnType).isInstance(result))
-                    throw new IllegalArgumentException(
-                            "Expected return " + this.returnType + " got " + result.getClass());
+                if (result != null && this.returnType != null) {
+                    result = coerceValue(this.returnType, result);
+                    if (!boxType(this.returnType).isInstance(result))
+                        throw new IllegalArgumentException(
+                                "Expected return " + this.returnType + " got " + result.getClass());
+                }
                 this.param.setResult(result);
             }
         else
@@ -215,12 +218,12 @@ public class XParam {
 
     private static Object coerceValue(Class<?> type, Object value) {
         // TODO: check for null primitives
-        if (value == null)
-            return null;
 
         // Lua 5.2 auto converts numbers into floating or integer values
         if (Integer.class.equals(value.getClass())) {
-            if (float.class.equals(type))
+            if (long.class.equals(type))
+                return (long) value;
+            else if (float.class.equals(type))
                 return (float) (int) value;
             else if (double.class.equals(type))
                 return (double) (int) value;
@@ -229,8 +232,6 @@ public class XParam {
                 return (float) (double) value;
         }
 
-        if (!boxType(type).isInstance(value))
-            throw new IllegalArgumentException();
         return value;
     }
 }
