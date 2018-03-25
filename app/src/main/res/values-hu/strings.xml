@@ -6,7 +6,7 @@
   <string name="title_fix">Javítás</string>
   <string name="title_all">Összes</string>
   <string name="title_restrict">Korlátoz</string>
-  <string name="title_bootloop">Restricting can cause a bootloop</string>
+  <string name="title_bootloop">A korlátozás bootloop-ot okozhat</string>
   <string name="title_force_stop">Automatikus leállítás</string>
   <string name="title_help_instructions">
         Érintsd meg egy app ikonját vagy nevét és pipáld ki a korlátozásokat a bekapcsolásukhoz.
@@ -37,7 +37,7 @@
   <string name="msg_usage">\"%1$s\" korlátozva</string>
   <string name="msg_exception">Hiba a következőben: %1$s</string>
   <string name="msg_restrict_sure">Biztosan szeretnéd bekapcsolni az összes appra a következőt: \"%1$s\"</string>
-  <string name="msg_no_browser">No browser available to open link</string>
+  <string name="msg_no_browser">Nincs elérhető böngésző a link megnyitásához</string>
   <string name="group_determine_activity">Aktivitások meghatározása</string>
   <string name="group_get_applications">Alkalmazások lekérdezése</string>
   <string name="group_get_calendars">Naptárak lekérdezése</string>
