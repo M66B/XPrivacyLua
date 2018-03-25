@@ -222,7 +222,7 @@ public class XParam {
         // Lua 5.2 auto converts numbers into floating or integer values
         if (Integer.class.equals(value.getClass())) {
             if (long.class.equals(type))
-                return (long) value;
+                return (long) (int) value;
             else if (float.class.equals(type))
                 return (float) (int) value;
             else if (double.class.equals(type))
