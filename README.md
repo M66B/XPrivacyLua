@@ -86,6 +86,8 @@ Support
 * For support on Xposed, please go [here](http://forum.xda-developers.com/xposed)
 * For support on XPrivacyLua, please go [here](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663)
 
+Only the XPrivacyLua version released in the Xposed repository is supported, so for example the F-Droid build is not supported.
+
 Donations
 ---------
 
