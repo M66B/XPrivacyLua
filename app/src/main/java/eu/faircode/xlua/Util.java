@@ -42,6 +42,7 @@ import android.util.TypedValue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
 
 class Util {
     private final static String TAG = "XLua.Util";
@@ -102,6 +103,13 @@ class Util {
             Log.e(TAG, Log.getStackTraceString(ex));
             return Process.myUserHandle();
         }
+    }
+
+    static byte[] getSha1Fingerprint(Context context, String packageName) throws Throwable {
+        PackageManager pm = context.getPackageManager();
+        PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+        MessageDigest digest = MessageDigest.getInstance("SHA1");
+        return digest.digest(packageInfo.signatures[0].toByteArray());
     }
 
     static Context createContextForUser(Context context, int userid) throws Throwable {

@@ -1064,9 +1064,23 @@ class XProvider {
             // Allow same signature
             PackageManager pm = context.getPackageManager();
             int uid = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, 0).uid;
-            if (pm.checkSignatures(cuid, uid) != PackageManager.SIGNATURE_MATCH)
-                throw new SecurityException("Signature error cuid=" + cuid);
-        } catch (PackageManager.NameNotFoundException ex) {
+            if (pm.checkSignatures(cuid, uid) == PackageManager.SIGNATURE_MATCH)
+                return;
+
+            // Allow specific signature
+            String[] cpkg = pm.getPackagesForUid(cuid);
+            if (cpkg.length > 0) {
+                byte[] bytes = Util.getSha1Fingerprint(context, cpkg[0]);
+                StringBuilder sb = new StringBuilder();
+                for (byte b : bytes)
+                    sb.append(Integer.toString(b & 0xff, 16).toLowerCase());
+
+                Resources resources = pm.getResourcesForApplication(BuildConfig.APPLICATION_ID);
+                if (sb.toString().equals(resources.getString(R.string.pro_fingerprint)))
+                    return;
+            }
+            throw new SecurityException("Signature error cuid=" + cuid);
+        } catch (Throwable ex) {
             throw new SecurityException(ex);
         } finally {
             Binder.restoreCallingIdentity(ident);
