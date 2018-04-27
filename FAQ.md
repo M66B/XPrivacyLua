@@ -180,6 +180,24 @@ There is no support on restricting apps with root access.
 
 XPrivacy and XPrivacyLua work differently, so this is not possible.
 
+<a name="FAQ18"></a>
+**(18) How do I selectively block/allow contacts?**
+
+This is a pro feature, which needs to be purchased.
+
+The pro companion app contacts settings are:
+
+* Block all: hide all contacts (the default)
+* Allow starred: make starred contacts visible
+* Allow not starred: make not starred contacts visible
+
+These settings can be applied to one app or globally to all apps.
+
+You'll need to apply the contacts restriction as well to apply these settings.
+
+You can star contacts (make contacts favorite) in the Android contacts app.
+Mostly the 'star' is in the upper right corner in the contact data.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
