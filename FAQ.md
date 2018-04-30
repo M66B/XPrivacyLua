@@ -35,7 +35,7 @@ Disable and enable the module in the Xposed installer and hard reboot again to f
 
 * *Network and storage restrictions*: access to the internet and to the device storage can only be prevented by revoking Linux permission from an app, which will often result in the app crashing. Therefore this will not be added.
 * *User interface features* like *templates*: I want to limit the time I put into this project and I want to keep things simple, so don't expect anything more than basic restriction management.
-* *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added. See also [here](https://forum.xda-developers.com/showpost.php?p=75419161&postcount=49).
+* *On demand restricting*: It is not really possible to add on demand restricting so that it works stable and can be supported on the long term, so this will not be added. See also [here](https://forum.xda-developers.com/showpost.php?p=75419161&postcount=49). However, you can use *Notify on restriction* (a pro feature) in combination with restricting by default.
 * *Randomizing fake values*: this is known to let apps crash, so this will not be added.
 * *App specific*: anything specific for an app will not be added.
 * *Security specific*: features related to security only will not be added.
