@@ -130,6 +130,7 @@ class XProvider {
         } catch (RemoteException ex) {
             throw ex;
         } catch (Throwable ex) {
+            Log.e(TAG, Log.getStackTraceString(ex));
             throw new RemoteException(ex.getMessage());
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
@@ -180,6 +181,7 @@ class XProvider {
         } catch (RemoteException ex) {
             throw ex;
         } catch (Throwable ex) {
+            Log.e(TAG, Log.getStackTraceString(ex));
             throw new RemoteException(ex.getMessage());
         } finally {
             StrictMode.setThreadPolicy(originalPolicy);
@@ -753,9 +755,11 @@ class XProvider {
 
                 // Main
                 Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
-                main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
-                builder.setContentIntent(pi);
+                if (main != null) {
+                    main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                    builder.setContentIntent(pi);
+                }
 
                 builder.setAutoCancel(true);
 
@@ -777,9 +781,11 @@ class XProvider {
 
                 // Main
                 Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
-                main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
-                builder.setContentIntent(pi);
+                if (main != null) {
+                    main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
+                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                    builder.setContentIntent(pi);
+                }
 
                 builder.setAutoCancel(true);
 
