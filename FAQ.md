@@ -198,6 +198,14 @@ You'll need to apply the contacts restriction as well to apply these settings.
 You can star contacts (make contacts favorite) in the Android contacts app.
 Mostly the 'star' is in the upper right corner in the contact data.
 
+<a name="FAQ19"></a>
+**(19) Why is import/export disabled (dimmed) ?**
+
+Assuming you purchased the pro features
+this will happen if the [Storage Access Framework](https://developer.android.com/guide/topics/providers/document-provider) is missing from your Android version.
+This is an important Android component to select files and folders.
+If you removed it yourself, you'll need to restore it, else you'll have to ask your ROM developer to add it.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
