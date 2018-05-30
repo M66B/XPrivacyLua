@@ -198,6 +198,8 @@ You'll need to apply the contacts restriction as well to apply these settings.
 You can star contacts (make contacts favorite) in the Android contacts app.
 Mostly the 'star' is in the upper right corner in the contact data.
 
+Due to limitations of the Android contacts provider it is not possible to block/allow contacts by contacts group in a reliable way.
+
 <a name="FAQ19"></a>
 **(19) Why is import/export disabled (dimmed) ?**
 
