@@ -535,8 +535,8 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
 
     @Override
     public long getItemId(int position) {
-        XApp assigment = filtered.get(position);
-        return assigment.packageName.hashCode() << 32 | assigment.uid;
+        XApp assignment = filtered.get(position);
+        return ((long) assignment.packageName.hashCode()) << 32 | assignment.uid;
     }
 
     @Override
