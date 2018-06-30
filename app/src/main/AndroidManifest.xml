@@ -45,5 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityMain" />
         </activity>
+
+        <provider
+            android:name=".XContentProvider"
+            android:authorities="eu.faircode.xlua"
+            android:process=":x" />
     </application>
 </manifest>
