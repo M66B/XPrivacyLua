@@ -104,6 +104,7 @@ class XProvider {
                     result = getGroups(context, extras);
                     break;
                 case "assignHooks":
+                    Log.i(TAG, "assignHooks...");
                     result = assignHooks(context, extras);
                     break;
                 case "report":
@@ -126,8 +127,10 @@ class XProvider {
                     break;
             }
         } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
             throw ex;
         } catch (RemoteException ex) {
+            ex.printStackTrace();
             throw ex;
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
@@ -1146,6 +1149,15 @@ class XProvider {
                         "system" + File.separator +
                         "xlua" + File.separator +
                         "xlua.db");
+
+        if (Util.isVirtualXposed()) {
+            // In VirtualXposed, we can not access /data/system, use /sdcard/ instead
+            dbFile = new File(
+                    Environment.getExternalStorageDirectory() + File.separator +
+                            "xlua" + File.separator +
+                            "xlua.db");
+        }
+
         dbFile.getParentFile().mkdirs();
 
         // Open database

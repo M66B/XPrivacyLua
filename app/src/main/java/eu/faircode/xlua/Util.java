@@ -113,6 +113,10 @@ class Util {
     }
 
     static Context createContextForUser(Context context, int userid) throws Throwable {
+        if (isVirtualXposed()) {
+            return context;
+        }
+
         // public UserHandle(int h)
         Class<?> clsUH = Class.forName("android.os.UserHandle");
         Constructor<?> cUH = clsUH.getDeclaredConstructor(int.class);
@@ -186,6 +190,10 @@ class Util {
                 .create();
         ad.show();
         observer.startObserving(activity, ad);
+    }
+
+    static boolean isVirtualXposed() {
+        return System.getProperty("vxp") != null;
     }
 
     public interface DoubtListener {
