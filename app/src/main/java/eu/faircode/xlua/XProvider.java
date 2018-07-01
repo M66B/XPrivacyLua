@@ -1150,14 +1150,6 @@ class XProvider {
                         "xlua" + File.separator +
                         "xlua.db");
 
-        if (Util.isVirtualXposed()) {
-            // In VirtualXposed, we can not access /data/system, use /sdcard/ instead
-            dbFile = new File(
-                    Environment.getExternalStorageDirectory() + File.separator +
-                            "xlua" + File.separator +
-                            "xlua.db");
-        }
-
         dbFile.getParentFile().mkdirs();
 
         // Open database
