@@ -234,7 +234,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
                     args.putBoolean("delete", !assign);
                     args.putBoolean("kill", app.forceStop);
                     context.getContentResolver()
-                            .call(XProvider.URI, "xlua", "assignHooks", args);
+                            .call(XProvider.getURI(), "xlua", "assignHooks", args);
                 }
             });
         }
@@ -359,7 +359,7 @@ public class AdapterApp extends RecyclerView.Adapter<AdapterApp.ViewHolder> impl
             public void run() {
                 for (Bundle args : actions)
                     context.getContentResolver()
-                            .call(XProvider.URI, "xlua", "assignHooks", args);
+                            .call(XProvider.getURI(), "xlua", "assignHooks", args);
             }
         });
     }

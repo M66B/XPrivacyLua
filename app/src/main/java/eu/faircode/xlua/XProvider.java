@@ -70,13 +70,18 @@ class XProvider {
 
     final static String cChannelName = "xlua";
 
-    static Uri URI = Settings.System.CONTENT_URI;
+    static Uri getURI() {
+        if (Util.isVirtualXposed())
+            return Uri.parse("content://eu.faircode.xlua.vxp/");
+        else
+            return Settings.System.CONTENT_URI;
+    }
 
     static void loadData(Context context) throws RemoteException {
         try {
             synchronized (lock) {
                 if (db == null)
-                    db = getDatabase();
+                    db = getDatabase(context);
                 if (hooks == null)
                     loadHooks(context);
             }
@@ -97,6 +102,9 @@ class XProvider {
             StrictMode.allowThreadDiskReads();
             StrictMode.allowThreadDiskWrites();
             switch (method) {
+                case "getVersion":
+                    result = getVersion(context, extras);
+                    break;
                 case "putHook":
                     result = putHook(context, extras);
                     break;
@@ -195,6 +203,16 @@ class XProvider {
         if (result != null)
             result.moveToPosition(-1);
         return result;
+    }
+
+    private static Bundle getVersion(Context context, Bundle extras) throws Throwable {
+        if (Util.isVirtualXposed()) {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, 0);
+            Bundle result = new Bundle();
+            result.putInt("version", pi.versionCode);
+            return result;
+        } else
+            return null;
     }
 
     private static Bundle putHook(Context context, Bundle extras) throws Throwable {
@@ -1139,28 +1157,35 @@ class XProvider {
         Log.i(TAG, "Loaded hook definitions hooks=" + hooks.size() + " builtins=" + builtins.size());
     }
 
-    private static SQLiteDatabase getDatabase() throws Throwable {
+    private static SQLiteDatabase getDatabase(Context context) throws Throwable {
         // Build database file
-        File dbFile = new File(
-                Environment.getDataDirectory() + File.separator +
-                        "system" + File.separator +
-                        "xlua" + File.separator +
-                        "xlua.db");
-        dbFile.getParentFile().mkdirs();
+        File dbFile;
+        if (Util.isVirtualXposed())
+            dbFile = new File(context.getFilesDir(), "xlua.db");
+        else {
+            dbFile = new File(
+                    Environment.getDataDirectory() + File.separator +
+                            "system" + File.separator +
+                            "xlua" + File.separator +
+                            "xlua.db");
+            dbFile.getParentFile().mkdirs();
+        }
 
         // Open database
         SQLiteDatabase _db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
         Log.i(TAG, "Database file=" + dbFile);
 
-        // Set database file permissions
-        // Owner: rwx (system)
-        // Group: rwx (system)
-        // World: ---
-        Util.setPermissions(dbFile.getParentFile().getAbsolutePath(), 0770, Process.SYSTEM_UID, Process.SYSTEM_UID);
-        File[] files = dbFile.getParentFile().listFiles();
-        if (files != null)
-            for (File file : files)
-                Util.setPermissions(file.getAbsolutePath(), 0770, Process.SYSTEM_UID, Process.SYSTEM_UID);
+        if (!Util.isVirtualXposed()) {
+            // Set database file permissions
+            // Owner: rwx (system)
+            // Group: rwx (system)
+            // World: ---
+            Util.setPermissions(dbFile.getParentFile().getAbsolutePath(), 0770, Process.SYSTEM_UID, Process.SYSTEM_UID);
+            File[] files = dbFile.getParentFile().listFiles();
+            if (files != null)
+                for (File file : files)
+                    Util.setPermissions(file.getAbsolutePath(), 0770, Process.SYSTEM_UID, Process.SYSTEM_UID);
+        }
 
         dbLock.writeLock().lock();
         try {
@@ -1330,7 +1355,7 @@ class XProvider {
         try {
             PackageInfo pi = context.getPackageManager().getPackageInfo(BuildConfig.APPLICATION_ID, 0);
             Bundle result = context.getContentResolver()
-                    .call(XProvider.URI, "xlua", "getVersion", new Bundle());
+                    .call(XProvider.getURI(), "xlua", "getVersion", new Bundle());
             return (result != null && pi.versionCode == result.getInt("version"));
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
@@ -1370,7 +1395,7 @@ class XProvider {
         args.putString("category", category);
         args.putString("name", name);
         Bundle result = context.getContentResolver()
-                .call(XProvider.URI, "xlua", "getSetting", args);
+                .call(XProvider.getURI(), "xlua", "getSetting", args);
         return (result == null ? null : result.getString("value"));
     }
 
@@ -1380,7 +1405,7 @@ class XProvider {
         args.putString("category", category);
         args.putString("name", name);
         args.putString("value", value);
-        context.getContentResolver().call(XProvider.URI, "xlua", "putSetting", args);
+        context.getContentResolver().call(XProvider.getURI(), "xlua", "putSetting", args);
     }
 
     static void putSettingBoolean(Context context, String category, String name, boolean value) {

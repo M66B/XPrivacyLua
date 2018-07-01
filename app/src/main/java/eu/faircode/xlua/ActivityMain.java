@@ -145,21 +145,23 @@ public class ActivityMain extends ActivityBase {
 
         final ArrayAdapterDrawer drawerArray = new ArrayAdapterDrawer(ActivityMain.this, R.layout.draweritem);
 
-        drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
-            @Override
-            public void onClick(DrawerItem item) {
-                XProvider.putSettingBoolean(ActivityMain.this, "global", "notify_new_apps", item.isChecked());
-                drawerArray.notifyDataSetChanged();
-            }
-        }));
+        if (!Util.isVirtualXposed())
+            drawerArray.add(new DrawerItem(this, R.string.menu_notify_new, notifyNew, new DrawerItem.IListener() {
+                @Override
+                public void onClick(DrawerItem item) {
+                    XProvider.putSettingBoolean(ActivityMain.this, "global", "notify_new_apps", item.isChecked());
+                    drawerArray.notifyDataSetChanged();
+                }
+            }));
 
-        drawerArray.add(new DrawerItem(this, R.string.menu_restrict_new, restrictNew, new DrawerItem.IListener() {
-            @Override
-            public void onClick(DrawerItem item) {
-                XProvider.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
-                drawerArray.notifyDataSetChanged();
-            }
-        }));
+        if (!Util.isVirtualXposed())
+            drawerArray.add(new DrawerItem(this, R.string.menu_restrict_new, restrictNew, new DrawerItem.IListener() {
+                @Override
+                public void onClick(DrawerItem item) {
+                    XProvider.putSettingBoolean(ActivityMain.this, "global", "restrict_new_apps", item.isChecked());
+                    drawerArray.notifyDataSetChanged();
+                }
+            }));
 
         drawerArray.add(new DrawerItem(this, R.string.menu_companion, new DrawerItem.IListener() {
             @Override

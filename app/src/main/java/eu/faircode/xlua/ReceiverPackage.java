@@ -53,10 +53,10 @@ public class ReceiverPackage extends BroadcastReceiver {
                     args.putString("packageName", packageName);
                     args.putInt("uid", uid);
                     context.getContentResolver()
-                            .call(XProvider.URI, "xlua", "clearApp", args);
+                            .call(XProvider.getURI(), "xlua", "clearApp", args);
                     if (XProvider.getSettingBoolean(context, userid, "global", "restrict_new_apps"))
                         context.getContentResolver()
-                                .call(XProvider.URI, "xlua", "initApp", args);
+                                .call(XProvider.getURI(), "xlua", "initApp", args);
 
                     // Notify new app
                     if (XProvider.getSettingBoolean(context, userid, "global", "notify_new_apps")) {
@@ -90,14 +90,14 @@ public class ReceiverPackage extends BroadcastReceiver {
                     Bundle args = new Bundle();
                     args.putInt("user", userid);
                     context.getContentResolver()
-                            .call(XProvider.URI, "xlua", "clearData", args);
+                            .call(XProvider.getURI(), "xlua", "clearData", args);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("packageName", packageName);
                     args.putInt("uid", uid);
                     args.putBoolean("settings", true);
                     context.getContentResolver()
-                            .call(XProvider.URI, "xlua", "clearApp", args);
+                            .call(XProvider.getURI(), "xlua", "clearApp", args);
 
                     Util.cancelAsUser(ctx, "xlua_new_app", uid, userid);
                 }

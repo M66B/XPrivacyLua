@@ -273,7 +273,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         Cursor chooks = null;
         try {
             chooks = context.getContentResolver()
-                    .query(XProvider.URI, new String[]{"xlua.getAssignedHooks2"},
+                    .query(XProvider.getURI(), new String[]{"xlua.getAssignedHooks2"},
                             null, new String[]{lpparam.packageName, Integer.toString(uid)},
                             null);
             while (chooks != null && chooks.moveToNext()) {
@@ -296,7 +296,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         Cursor csettings1 = null;
         try {
             csettings1 = context.getContentResolver()
-                    .query(XProvider.URI, new String[]{"xlua.getSettings"},
+                    .query(XProvider.getURI(), new String[]{"xlua.getSettings"},
                             null, new String[]{"global", Integer.toString(uid)},
                             null);
             while (csettings1 != null && csettings1.moveToNext())
@@ -310,7 +310,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         Cursor csettings2 = null;
         try {
             csettings2 = context.getContentResolver()
-                    .query(XProvider.URI, new String[]{"xlua.getSettings"},
+                    .query(XProvider.getURI(), new String[]{"xlua.getSettings"},
                             null, new String[]{lpparam.packageName, Integer.toString(uid)},
                             null);
             while (csettings2 != null && csettings2.moveToNext())
@@ -626,7 +626,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
                         for (Bundle args : work)
                             context.getContentResolver()
-                                    .call(XProvider.URI, "xlua", "report", args);
+                                    .call(XProvider.getURI(), "xlua", "report", args);
                     }
                 }, 1000);
             }

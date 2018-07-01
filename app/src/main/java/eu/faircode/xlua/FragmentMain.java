@@ -265,7 +265,7 @@ public class FragmentMain extends Fragment {
                         args.putString("id", hook.getId());
                         args.putString("definition", hook.toJSON());
                         getContext().getContentResolver()
-                                .call(XProvider.URI, "xlua", "putHook", args);
+                                .call(XProvider.getURI(), "xlua", "putHook", args);
                     }
                 }
 
@@ -287,7 +287,7 @@ public class FragmentMain extends Fragment {
                 // Load groups
                 Resources res = getContext().getResources();
                 Bundle result = getContext().getContentResolver()
-                        .call(XProvider.URI, "xlua", "getGroups", new Bundle());
+                        .call(XProvider.getURI(), "xlua", "getGroups", new Bundle());
                 if (result != null)
                     for (String name : result.getStringArray("groups")) {
                         String g = name.toLowerCase().replaceAll("[^a-z]", "_");
@@ -317,7 +317,7 @@ public class FragmentMain extends Fragment {
                 Cursor chooks = null;
                 try {
                     chooks = getContext().getContentResolver()
-                            .query(XProvider.URI, new String[]{"xlua.getHooks2"}, null, null, null);
+                            .query(XProvider.getURI(), new String[]{"xlua.getHooks2"}, null, null, null);
                     while (chooks != null && chooks.moveToNext()) {
                         byte[] marshaled = chooks.getBlob(0);
                         Parcel parcel = Parcel.obtain();
@@ -336,7 +336,7 @@ public class FragmentMain extends Fragment {
                 Cursor capps = null;
                 try {
                     capps = getContext().getContentResolver()
-                            .query(XProvider.URI, new String[]{"xlua.getApps2"}, null, null, null);
+                            .query(XProvider.getURI(), new String[]{"xlua.getApps2"}, null, null, null);
                     while (capps != null && capps.moveToNext()) {
                         byte[] marshaled = capps.getBlob(0);
                         Parcel parcel = Parcel.obtain();

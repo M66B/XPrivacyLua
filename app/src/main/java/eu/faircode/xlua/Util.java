@@ -37,6 +37,7 @@ import android.os.Process;
 import android.os.UserHandle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -113,6 +114,9 @@ class Util {
     }
 
     static Context createContextForUser(Context context, int userid) throws Throwable {
+        if (isVirtualXposed())
+            return context;
+
         // public UserHandle(int h)
         Class<?> clsUH = Class.forName("android.os.UserHandle");
         Constructor<?> cUH = clsUH.getDeclaredConstructor(int.class);
@@ -136,6 +140,11 @@ class Util {
             nm.createNotificationChannel(channel);
         }
 
+        if (Util.isVirtualXposed()) {
+            nm.notify(tag, id, notification);
+            return;
+        }
+
         // public void notifyAsUser(String tag, int id, Notification notification, UserHandle user)
         Method mNotifyAsUser = nm.getClass().getDeclaredMethod(
                 "notifyAsUser", String.class, int.class, Notification.class, UserHandle.class);
@@ -146,11 +155,20 @@ class Util {
     static void cancelAsUser(Context context, String tag, int id, int userid) throws Throwable {
         NotificationManager nm = context.getSystemService(NotificationManager.class);
 
+        if (Util.isVirtualXposed()) {
+            nm.cancel(tag, id);
+            return;
+        }
+
         // public void cancelAsUser(String tag, int id, UserHandle user)
         Method mCancelAsUser = nm.getClass().getDeclaredMethod(
                 "cancelAsUser", String.class, int.class, UserHandle.class);
         mCancelAsUser.invoke(nm, tag, id, Util.getUserHandle(userid));
         Log.i(TAG, "Cancelled " + tag + ":" + id + " as " + userid);
+    }
+
+    static boolean isVirtualXposed() {
+        return !TextUtils.isEmpty(System.getProperty("vxp"));
     }
 
     public static int resolveColor(Context context, int attr) {
