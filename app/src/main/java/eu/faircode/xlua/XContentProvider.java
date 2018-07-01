@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import java.util.Arrays;
 
 /**
  * @author weishu
@@ -15,13 +18,15 @@ import android.support.annotation.Nullable;
  */
 public class XContentProvider extends ContentProvider {
 
+    private static final String TAG = "XContentProvider";
+
     @Nullable
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
         try {
             return XProvider.call(getContext(), arg, extras);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "XProvider call failed, method: " + method, e);
         }
         return super.call(method, arg, extras);
     }
@@ -37,6 +42,7 @@ public class XContentProvider extends ContentProvider {
         try {
             return XProvider.query(getContext(), projection[0].split("\\.")[1], selectionArgs);
         } catch (RemoteException e) {
+            Log.e(TAG, "XProvider query failed, uri: "  + uri + " projection: " + Arrays.toString(projection), e);
             return null;
         }
     }

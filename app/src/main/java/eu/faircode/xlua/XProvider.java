@@ -104,7 +104,6 @@ class XProvider {
                     result = getGroups(context, extras);
                     break;
                 case "assignHooks":
-                    Log.i(TAG, "assignHooks...");
                     result = assignHooks(context, extras);
                     break;
                 case "report":
