@@ -24,9 +24,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -35,7 +35,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -82,7 +81,7 @@ public class ActivityMain extends ActivityBase {
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_no_service), Snackbar.LENGTH_INDEFINITE);
 
             final Intent intent = getPackageManager().getLaunchIntentForPackage("de.robv.android.xposed.installer");
-            if (intent.resolveActivity(getPackageManager()) != null)
+            if (intent != null && intent.resolveActivity(getPackageManager()) != null)
                 snackbar.setAction(R.string.title_fix, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
