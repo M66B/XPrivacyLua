@@ -126,8 +126,10 @@ class XProvider {
                     break;
             }
         } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
             throw ex;
         } catch (RemoteException ex) {
+            ex.printStackTrace();
             throw ex;
         } catch (Throwable ex) {
             Log.e(TAG, Log.getStackTraceString(ex));
@@ -1146,6 +1148,7 @@ class XProvider {
                         "system" + File.separator +
                         "xlua" + File.separator +
                         "xlua.db");
+
         dbFile.getParentFile().mkdirs();
 
         // Open database
