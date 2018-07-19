@@ -25,6 +25,7 @@ Since account info can be faked, it is not really necessary to hide the account 
 	* ~~return empty search history~~ see remark below
 
 Different browsers (stock, Chrome, Firefox, etc) have different content providers, so this is app specific.
+Browser data is generally not accessible on recent Android versions anymore.
 
 <a name="calendar"></a>
 * Calendar
@@ -63,6 +64,7 @@ Different browsers (stock, Chrome, Firefox, etc) have different content provider
 	* ~~return an empty list of accounts, e-mails, etc (Gmail)~~ see remark below
 
 Information about e-mail accounts and messages depends on the installed e-mail app and is therefore app specific.
+E-mail data is generally not accessible on recent Android versions anymore.
 
 <a name="identification"></a>
 * Identification
