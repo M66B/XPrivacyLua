@@ -643,11 +643,26 @@
     "luaScript": "@generic_null_value"
   },
   // Get messages
+  // https://developer.android.com/reference/android/provider/Telephony.Sms.Intents#SMS_RECEIVED_ACTION
   // https://developer.android.com/reference/android/provider/Telephony.Mms.html API 19
   // https://developer.android.com/reference/android/provider/Telephony.MmsSms.html API 19
   // https://developer.android.com/reference/android/provider/VoicemailContract.html API 14
   // https://developer.android.com/reference/android/telephony/SmsManager.html API 4
   // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/provider/VoicemailContract.java
+  {
+    "collection": "Privacy",
+    "group": "Get.Messages",
+    "name": "Intent.createFromParcel/message",
+    "author": "M66B",
+    "className": "android.content.Intent",
+    "methodName": "CREATOR:createFromParcel",
+    "parameterTypes": [
+      "android.os.Parcel"
+    ],
+    "returnType": "android.content.Intent",
+    "minSdk": 1,
+    "luaScript": "@intent_createfromparcel"
+  },
   {
     "collection": "Privacy",
     "group": "Get.Messages",

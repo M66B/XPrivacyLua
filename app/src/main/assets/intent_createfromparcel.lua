@@ -26,7 +26,12 @@ function after(hook, param)
         return false
     end
 
-    if action == 'android.intent.action.PACKAGE_ADDED' or
+    local h = hook:getName()
+    local match = string.gmatch(h, '[^/]+')
+    local func = match()
+    local name = match()
+
+    if name == 'package' and (action == 'android.intent.action.PACKAGE_ADDED' or
             action == 'android.intent.action.PACKAGE_CHANGED' or
             action == 'android.intent.action.PACKAGE_DATA_CLEARED' or
             action == 'android.intent.action.PACKAGE_FIRST_LAUNCH' or
@@ -36,19 +41,25 @@ function after(hook, param)
             action == 'android.intent.action.PACKAGE_REMOVED' or
             action == 'android.intent.action.PACKAGE_REPLACED' or
             action == 'android.intent.action.PACKAGE_RESTARTED' or
-            action == 'android.intent.action.PACKAGE_VERIFIED' then
+            action == 'android.intent.action.PACKAGE_VERIFIED') then
         local uriClass = luajava.bindClass('android.net.Uri')
         local uri = uriClass:parse('package:' .. param:getPackageName())
         intent:setData(uri)
         return true
-    elseif action == 'android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE' or
+    elseif name == 'package' and (action == 'android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE' or
             action == 'android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE' or
             action == 'android.intent.action.PACKAGES_SUSPENDED' or
-            action == 'android.intent.action.PACKAGES_UNSUSPENDED' then
+            action == 'android.intent.action.PACKAGES_UNSUSPENDED') then
         local stringClass = luajava.bindClass('java.lang.String')
         local arrayClass = luajava.bindClass('java.lang.reflect.Array')
         local stringArray = arrayClass:newInstance(stringClass, 0)
         intent:putExtra('android.intent.extra.changed_package_list', stringArray)
+        return true
+    elseif name == 'message' and action == 'android.provider.Telephony.SMS_RECEIVED' then
+        local objectClass = luajava.bindClass('java.lang.Object')
+        local arrayClass = luajava.bindClass('java.lang.reflect.Array')
+        local objectArray = arrayClass:newInstance(objectClass, 0)
+        intent.putExtra('pdus', objectArray)
         return true
     else
         return false
