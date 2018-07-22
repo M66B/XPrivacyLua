@@ -59,7 +59,7 @@ function after(hook, param)
         local objectClass = luajava.bindClass('java.lang.Object')
         local arrayClass = luajava.bindClass('java.lang.reflect.Array')
         local objectArray = arrayClass:newInstance(objectClass, 0)
-        intent.putExtra('pdus', objectArray)
+        intent:putExtra('pdus', objectArray)
         return true
     else
         return false
