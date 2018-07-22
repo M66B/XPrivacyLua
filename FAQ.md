@@ -208,6 +208,12 @@ this will happen if the [Storage Access Framework](https://developer.android.com
 This is an important Android component to select files and folders.
 If you removed it yourself, you'll need to restore it, else you'll have to ask your ROM developer to add it.
 
+<a name="FAQ20"></a>
+**(20) Why can some incoming SMSes not be restricted?**
+
+Likely because the app is using [this API](https://developers.google.com/identity/sms-retriever/request).
+The app will only see the content of verification SMSes intended for the app, so there is no restriction for this needed.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
