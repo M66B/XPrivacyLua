@@ -214,6 +214,41 @@ If you removed it yourself, you'll need to restore it, else you'll have to ask y
 Likely because the app is using [this API](https://developers.google.com/identity/sms-retriever/request).
 The app will only see the content of verification SMSes intended for the app, so there is no restriction for this needed.
 
+<a name="FAQ21"></a>
+**(21) How do I set up XPrivacy for WhatsApp?**
+
+1. Install XPrivacyLUA
+2. Activate "restrict new apps"
+3. Install Whatsapp
+
+Depending on what you use WA for, you might want to allow:
+- record audio (for voice messages)
+- use camera (for scanning QR code for web.whatsapp.com)
+- get location (for send location)
+- read clipboard (for pasting into WA)
+
+If you don't allow "read contacts", obviously you will only see numbers in your WA chat list. You can use the existing chats, but you cannot start new chats. If that's OK for you, you're done. If you want WA to show the names without accessing/uploading all your contact data, keep reading.
+
+You'll need to selectively allow contacts, which is a pro functionality (see (19)). If you allow access to a contact that includes all data (family name, address, e-mail, birth date, etc.). If you don't want that and just want to give out what's necessary, which are names and the associated numbers, you'll have to create new contacts containing only the minimum info: (nick)name and mobile no.. (You might wanna precede them by a marker like "#" to tag them as WA only contacts and group them in your contact list. If you you put them in a separate adress book, they can be filtered out in the address book app.)
+
+4. [OPTIONAL] Create minimum WA contacts
+
+5. Install, buy and activate XPrivacyLua Pro, activate module
+6. Make sure Whatsapp's access to contacts is blocked
+7. XprivacyLua's app list > WhatsApp > settings (cog wheel)  > Contacts > Allow starred
+8. Tag WA contacts as favorites/starred (star in contact's detail view)
+
+9. [OPTIONAL] Manually sync WA adress book: WA > New Chat > 3 dots > Update (needs internet connection)
+
+WA now sees the starred contacts. During an adress book sync they are compared to the WA server and, if found, copied to the WA contact list (read-only). On some phones these copies don't show up as separate contacts as they are hidden behind the original ones in the automatically created "linked contacts".
+On most phones WA does not have read access to these copies and will therefore keep creating copies on every sync. In order to prevent this, they, too, have to be accessible:
+
+10. [OPTIONAL] Unlink contacts (edit contact>3 dots>unlink) or use an alternative contact manager without linked contacts.
+
+11. Star all WA duplicates (WA will remove unnecessary WA duplicates)
+
+Tip: [Simple-Contacts](https://github.com/SimpleMobileTools/Simple-Contacts) allows "starring" of multiple contacts and does not link contacts.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
