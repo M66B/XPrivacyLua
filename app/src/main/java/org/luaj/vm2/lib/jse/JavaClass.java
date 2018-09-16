@@ -158,12 +158,17 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	Class getInnerClass(LuaValue key) {
 		if ( innerclasses == null ) {
 			Map m = new HashMap();
-			Class[] c = ((Class)m_instance).getClasses();
-			for ( int i=0; i<c.length; i++ ) {
-				Class ci = c[i];
-				String name = ci.getName();
-				String stub = name.substring(Math.max(name.lastIndexOf('$'), name.lastIndexOf('.'))+1);
-				m.put(LuaValue.valueOf(stub), ci);
+			try {
+				Class[] c = ((Class) m_instance).getClasses();
+				for (int i = 0; i < c.length; i++) {
+					Class ci = c[i];
+					String name = ci.getName();
+					String stub = name.substring(Math.max(name.lastIndexOf('$'), name.lastIndexOf('.')) + 1);
+					m.put(LuaValue.valueOf(stub), ci);
+				}
+			}
+			catch (NoClassDefFoundError ex) {
+				ex.printStackTrace();
 			}
 			innerclasses = m;
 		}
