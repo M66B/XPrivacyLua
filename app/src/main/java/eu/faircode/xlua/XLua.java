@@ -577,7 +577,8 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 if (hook.isOptional() &&
                         (ex instanceof NoSuchFieldException ||
                                 ex instanceof NoSuchMethodException ||
-                                ex instanceof ClassNotFoundException))
+                                ex instanceof ClassNotFoundException ||
+                                ex instanceof NoClassDefFoundError))
                     Log.i(TAG, "Optional hook=" + hook.getId() +
                             ": " + ex.getClass().getName() + ": " + ex.getMessage());
                 else {
