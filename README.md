@@ -75,6 +75,12 @@ Installation
 * Download, install and activate the [Xposed framework](http://forum.xda-developers.com/xposed)
 * Download, install and activate the [XPrivacyLua module](http://repo.xposed.info/module/eu.faircode.xlua)
 
+Certificate fingerprints:
+
+* MD5: 42:93:4F:A4:D5:AC:53:7B:04:97:3B:29:A6:6E:7B:B3
+* SHA1: 10:62:0A:E9:61:D7:88:54:F6:C9:CD:87:2C:43:88:23:28:49:C7:99
+* SHA256: 5E:69:9C:5D:AF:61:2C:AB:71:3A:35:BB:38:7C:F6:A8:86:8C:A0:DD:5D:CE:B4:CE:C1:53:8E:82:65:21:95:77
+
 Frequently Asked Questions
 --------------------------
 
