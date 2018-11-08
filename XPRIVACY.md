@@ -6,7 +6,7 @@ The list below is [taken from](https://github.com/M66B/XPrivacy#restrictions) th
 * **Bold** means that XPrivacyLua supports the restriction
 * ~~Strike through~~ means that XPrivacyLua won't support the restriction
 
-Before asking questions, please read [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#FAQ4).
+Before asking questions, please read [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#user-content-faq4).
 
 <a name="accounts"></a>
 * Accounts
@@ -129,7 +129,7 @@ If you want to fake offline state, see [the example definitions](https://github.
 
 <a name="network"></a>
 * Network
-	* ~~return fake IP's~~ see [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#FAQ4)
+	* ~~return fake IP's~~ see [this FAQ](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md#user-content-faq4)
 	* ~~return fake MAC's (network, Wi-Fi, bluetooth)~~ see remark below
 	* **return fake BSSID/SSID**
 	* **return an empty list of Wi-Fi scan results**

@@ -4,7 +4,7 @@ XPrivacyLua
 Frequently Asked Questions
 --------------------------
 
-<a name="FAQ1"></a>
+<a name="faq1"></a>
 **(1) How can I clear all data?**
 
 Primary users can clear all data of all users by uninstalling XPrivacyLua *while it is running*.
@@ -13,12 +13,12 @@ Secondary users can clear their own data by uninstalling XPrivacyLua *while it i
 All data is stored in the system folder */data/system/xlua* and can therefore not be backed up by regular backup apps.
 You can use the pro companion app to backup and restore all restrictions and settings (but not custom hook definitions).
 
-<a name="FAQ2"></a>
+<a name="faq2"></a>
 **(2) Can I run XPrivacy and XPrivacyLua side by side?**
 
-Since XPrivacyLua is [in many aspects better](#FAQ7) than XPrivacy, running XPrivacy and XPrivacyLua side by side isn't supported.
+Since XPrivacyLua is [in many aspects better](#user-content-faq7) than XPrivacy, running XPrivacy and XPrivacyLua side by side isn't supported.
 
-<a name="FAQ3"></a>
+<a name="faq3"></a>
 **(3) How can I fix 'Module not running or updated'?**
 
 This message means either that:
@@ -30,7 +30,7 @@ This message means either that:
 Rebooting too soon after updating an Xposed module (before the Xposed installer shows the update notification) is known to cause problems.
 Disable and enable the module in the Xposed installer and hard reboot again to fix this problem.
 
-<a name="FAQ4"></a>
+<a name="faq4"></a>
 **(4) Can you add ...?**
 
 * *Network and storage restrictions*: access to the internet and to the device storage can only be prevented by revoking Linux permission from an app, which will often result in the app crashing. Therefore this will not be added.
@@ -67,9 +67,9 @@ This can be used as a replacement for on demand restricting by removing a restri
 
 You can ask for new restrictions, but you'll need to explain how it would improve your privacy as well.
 
-See also [question 7](#FAQ7).
+See also [question 7](#user-content-faq7).
 
-<a name="FAQ5"></a>
+<a name="faq5"></a>
 **(5) How can I fix 'There is a Problem Parsing the Package'?**
 
 This error could mean that the downloaded file is corrupt, which could for example be caused by a connection problem or by a virus scanner.
@@ -77,7 +77,7 @@ This error could mean that the downloaded file is corrupt, which could for examp
 It could also mean that you are trying to install XPrivacyLua on an unsupported Android version.
 See [here](https://github.com/M66B/XPrivacyLua/blob/master/README.md#compatibility) for which Android versions are supported.
 
-<a name="FAQ6"></a>
+<a name="faq6"></a>
 **(6) Why is a check box shown grey?**
 
 An app level check box is shown grey when one of the restriction level check boxes is not ticked.
@@ -88,13 +88,13 @@ if one of the hooks that [compose the restriction](https://github.com/M66B/XPriv
 This can happen when a new version adds new hooks. These new hooks are not enabled by default to make sure your apps keeps working.
 You can enable the new hooks by toggling the check box once (turning it off and on once).
 
-<a name="FAQ7"></a>
+<a name="faq7"></a>
 **(7) How does XPrivacyLua compare to XPrivacy?**
 
 * XPrivacy supports Android 4.0.3 KitKat to Android 5.1.1 Lollipop and XPrivacyLua supports Android version 6.0 Marshmallow and later, see [here](https://github.com/M66B/XPrivacyLua/blob/master/README.md#compatibility) about compatibility
-* The user interface of XPrivacyLua is simpler than of XPrivacy, see also [question 4](#FAQ4)
-* The restrictions of XPrivacyLua are designed to prevent apps from crashing, while a number of XPrivacy restrictions can apps cause to crash, see also [question 4](#FAQ4)
-* XPrivacyLua has no on demand restricting for stability and maintenance reasons, see also [question 4](#FAQ4)
+* The user interface of XPrivacyLua is simpler than of XPrivacy, see also [question 4](#user-content-faq4)
+* The restrictions of XPrivacyLua are designed to prevent apps from crashing, while a number of XPrivacy restrictions can apps cause to crash, see also [question 4](#user-content-faq4)
+* XPrivacyLua has no on demand restricting for stability and maintenance reasons, see also [question 4](#user-content-faq4)
 * XPrivacyLua can unlike XPrivacy restrict analytics services like [Google Analytics](https://www.google.com/analytics/) and [Fabric/Crashlytics](https://get.fabric.io/)
 * XPrivacyLua [is user extensible](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) while XPrivacy is not
 * XPrivacyLua is easier to maintain than XPrivacy, so XPrivacyLua is easier to update for new Android versions
@@ -102,19 +102,19 @@ You can enable the new hooks by toggling the check box once (turning it off and 
 In general XPrivacyLua and XPrivacy are comparable in protecting your privacy.
 For a detailed comparison with XPrivacy see [here](https://github.com/M66B/XPrivacyLua/blob/master/XPRIVACY.md).
 
-<a name="FAQ8"></a>
+<a name="faq8"></a>
 **(8) How can I define custom restrictions?**
 
 Yes, see [here](https://github.com/M66B/XPrivacyLua/blob/master/DEFINE.md) for the documentation on defining hooks.
 
-<a name="FAQ9"></a>
+<a name="faq9"></a>
 **(9) Why can an app still access my accounts?**
 
 If you see an app accessing the list of accounts while the accounts restriction is being applied,
 it is likely the Android account selector dialog you are seeing.
 The app will see only the account you actually select.
 
-<a name="FAQ10"></a>
+<a name="faq10"></a>
 **(10) Can applying a restriction let an app crash?**
 
 XPrivacyLua is designed to let apps not crash.
@@ -123,7 +123,7 @@ For example XPrivacyLua can return no data to an app while the app is not expect
 
 If you suspect that a restriction is causing a crash because there is a bug in the restriction, please provide a logcat and I will check the restriction.
 
-<a name="FAQ11"></a>
+<a name="faq11"></a>
 **(11) How can I filter on ...?**
 
 You can filter on restricted apps, on not restricted apps, on system apps and on user apps by typing special characters into the search field:
@@ -136,7 +136,7 @@ You can filter on restricted apps, on not restricted apps, on system apps and on
 The special search characters should be the first characters in the search field (it is possible to combine special characters)
 and can be followed by additional characters to refine the search result.
 
-<a name="FAQ12"></a>
+<a name="faq12"></a>
 **(12) Can I get a discount / use an XPrivacy pro license to get the XPrivacyLua pro features?**
 
 XPrivacyLua was written from the ground up to support recent Android versions, which was really a lot of work.
@@ -144,19 +144,19 @@ Since I believe everybody should be able to protect his/her privacy, XPrivacyLua
 However, the XPrivacyLua pro features, mostly convencience and advanced features, not really needed to protect your privacy,
 need to be purchased and it is not possible to 'pay' with an XPrivacy pro license and there will be no discounts either.
 
-<a name="FAQ13"></a>
+<a name="faq13"></a>
 **(13) Will XPrivacyLua slow down my apps?**
 
 Depending on the number of applied restrictions, you might notice a slight delay when starting apps,
 but you will generally not notice delays when using apps.
 
-<a name="FAQ14"></a>
+<a name="faq14"></a>
 **(14) Will XPrivacyLua keep running after updating?**
 
 Yes, if XPrivacyLua was running before the update, it will keep running after the update,
 even though the user interface and new features will not be available until after a reboot.
 
-<a name="FAQ15"></a>
+<a name="faq15"></a>
 **(15) Can I get a refund?**
 
 If a purchased pro feature doesn't work properly
@@ -168,19 +168,19 @@ since there wasn't paid anything for them and because they can be evaluated with
 I take my responsibility as seller to deliver what has been promised
 and I expect that you take responsibility for informing yourself of what you are buying.
 
-<a name="FAQ16"></a>
+<a name="faq16"></a>
 **(16) Can apps with root access be restricted?**
 
 Apps with root permissions can do whatever they like, so they can circumvent any restriction.
 So, be careful which apps you grant root permissions.
 There is no support on restricting apps with root access.
 
-<a name="FAQ17"></a>
+<a name="faq17"></a>
 **(17) Can I import my XPrivacy settings?**
 
 XPrivacy and XPrivacyLua work differently, so this is not possible.
 
-<a name="FAQ18"></a>
+<a name="faq18"></a>
 **(18) How do I selectively block/allow contacts?**
 
 This is a pro feature, which needs to be purchased.
@@ -200,7 +200,7 @@ Mostly the 'star' is in the upper right corner in the contact data.
 
 Due to limitations of the Android contacts provider it is not possible to block/allow contacts by contacts group in a reliable way.
 
-<a name="FAQ19"></a>
+<a name="faq19"></a>
 **(19) Why is import/export disabled (dimmed) ?**
 
 Assuming you purchased the pro features
@@ -208,7 +208,7 @@ this will happen if the [Storage Access Framework](https://developer.android.com
 This is an important Android component to select files and folders.
 If you removed it yourself, you'll need to restore it, else you'll have to ask your ROM developer to add it.
 
-<a name="FAQ20"></a>
+<a name="faq20"></a>
 **(20) Why can some incoming SMSes not be restricted?**
 
 Likely because the app is using [this API](https://developers.google.com/identity/sms-retriever/request).
