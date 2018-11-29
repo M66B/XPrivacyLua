@@ -16,8 +16,13 @@
 -- Copyright 2017-2018 Marcel Bokhorst (M66B)
 
 function after(hook, param)
+    local this = param:getThis()
+    if this == nil then
+        return false
+    end
+
     local result = param:getResult()
-    local type = param:getThis():getPhoneType()
+    local type = this:getPhoneType()
 
     local fake
     if type == 1 then -- GSM
