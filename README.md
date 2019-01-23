@@ -67,7 +67,7 @@ Compatibility
 XPrivacyLua is supported on Android 6.0 Marshmallow and later.
 For Android 4.0.3 KitKat to Android 5.1.1 Lollipop you can use [XPrivacy](https://github.com/M66B/XPrivacy/blob/master/README.md).
 
-XPrivacyLua with [Island](http://forum.xda-developers.com/android/-t3366295) is not supported.
+XPrivacyLua was tested with the original Xposed framework only.
 
 Installation
 ------------
@@ -89,10 +89,14 @@ See [here](https://github.com/M66B/XPrivacyLua/blob/master/FAQ.md) for a list of
 Support
 -------
 
+Only the XPrivacyLua version released in the Xposed repository is supported.
+
+XPrivacyLua is supported with the original Xposed framework only.
+
+XPrivacyLua with [Island](http://forum.xda-developers.com/android/-t3366295) is not supported.
+
 * For support on Xposed, please go [here](http://forum.xda-developers.com/xposed)
 * For support on XPrivacyLua, please go [here](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663)
-
-Only the XPrivacyLua version released in the Xposed repository is supported, so for example the F-Droid build is not supported.
 
 Donations
 ---------
