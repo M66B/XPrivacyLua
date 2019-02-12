@@ -13,7 +13,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with XPrivacyLua.  If not, see <http://www.gnu.org/licenses/>.
 
--- Copyright 2017-2018 Marcel Bokhorst (M66B)
+-- Copyright 2017-2019 Marcel Bokhorst (M66B)
 
 function before(hook, param)
     param:setArgument(0, 0) -- latitude
