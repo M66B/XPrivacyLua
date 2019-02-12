@@ -23,10 +23,6 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -35,8 +31,6 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Process;
 import android.os.UserHandle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -44,6 +38,12 @@ import android.util.TypedValue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
 
 class Util {
     private final static String TAG = "XLua.Util";
@@ -178,7 +178,7 @@ class Util {
         return typedValue.data;
     }
 
-    static void areYouSure(AppCompatActivity activity, String question, final DoubtListener listener) {
+    static void areYouSure(ActivityBase activity, String question, final DoubtListener listener) {
         final DialogObserver observer = new DialogObserver();
         AlertDialog ad = new AlertDialog.Builder(activity)
                 .setMessage(question)

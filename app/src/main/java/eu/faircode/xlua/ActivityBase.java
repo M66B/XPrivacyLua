@@ -20,7 +20,8 @@
 package eu.faircode.xlua;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityBase extends AppCompatActivity {
     private String theme;

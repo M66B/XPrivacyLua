@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp">
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <ImageView
         android:id="@+id/ivExpander"
@@ -33,8 +33,8 @@
         android:id="@+id/tvLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
         android:clickable="false"
         android:ellipsize="end"
         android:focusable="false"
@@ -62,8 +62,8 @@
         android:id="@+id/tvPackage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
         android:layout_marginStart="3dp"
+        android:layout_marginEnd="6dp"
         android:clickable="false"
         android:ellipsize="start"
         android:focusable="false"
@@ -103,7 +103,7 @@
         app:layout_constraintEnd_toStartOf="@+id/cbAssigned"
         app:layout_constraintTop_toTopOf="@+id/ivIcon" />
 
-    <android.support.v7.widget.AppCompatCheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cbAssigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         app:layout_constraintStart_toEndOf="@id/ivIcon"
         app:layout_constraintTop_toBottomOf="@id/ivIcon" />
 
-    <android.support.v7.widget.AppCompatCheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cbForceStop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         app:layout_constraintStart_toEndOf="@id/ivIcon"
         app:layout_constraintTop_toBottomOf="@id/tvAndroid" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -145,9 +145,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cbForceStop" />
 
-    <android.support.constraint.Group
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/grpExpanded"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:constraint_referenced_ids="cbForceStop,rvGroup" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

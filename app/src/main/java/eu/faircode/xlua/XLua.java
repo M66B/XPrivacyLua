@@ -20,7 +20,6 @@
 package eu.faircode.xlua;
 
 import android.app.Application;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -31,7 +30,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Process;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.luaj.vm2.Globals;
@@ -62,6 +60,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.WeakHashMap;
 
+import androidx.annotation.NonNull;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
