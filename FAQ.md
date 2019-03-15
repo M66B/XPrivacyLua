@@ -213,6 +213,10 @@ If you removed it yourself, you'll need to restore it, else you'll have to ask y
 Likely because the app is using [this API](https://developers.google.com/identity/sms-retriever/request).
 The app will only see the content of verification SMSes intended for the app, so there is no restriction for this needed.
 
+Also, apps with permission to *receive* SMSes (in contrary to read SMSes) cannot be restricted.
+Normally, there is just one app that can receive SMSes, that should not be restricted, else no SMSes can be received anymore.
+If you really don't want an app to receive SMSes, you can revoke the SMS receive permission.
+
 <br>
 
 If you have another question, you can use [this forum](https://forum.xda-developers.com/xposed/modules/xprivacylua6-0-android-privacy-manager-t3730663).
