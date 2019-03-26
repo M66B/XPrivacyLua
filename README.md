@@ -60,6 +60,7 @@ Notes
 * Some apps will use [OpenSL ES for Android](https://developer.android.com/ndk/guides/audio/opensl-for-android.html) to record audio, an example is WhatsApp. Xposed cannot hook into native code, so this cannot be prevented.
 * The get applications restriction will not restrict getting information about individual apps for stability and performance reasons.
 * The telephony data restriction will result in apps seeing a fake IMEI. However, this doesn't change the IMEI address of your device.
+* Restricting activity recognition (location) results for recent Google Maps versions and possibly other apps in the error *... java.lang.ClassNotFoundException ...* for unknown reasons.
 
 Compatibility
 -------------
