@@ -11,7 +11,7 @@ Primary users can clear all data of all users by uninstalling XPrivacyLua *while
 Secondary users can clear their own data by uninstalling XPrivacyLua *while it is running*.
 
 All data is stored in the system folder */data/system/xlua* and can therefore not be backed up by regular backup apps.
-You can use the pro companion app to backup and restore all restrictions and settings (but not custom hook definitions).
+You can use the pro companion app to backup and restore all restrictions and settings.
 
 <a name="faq2"></a>
 **(2) Can I run XPrivacy and XPrivacyLua side by side?**
