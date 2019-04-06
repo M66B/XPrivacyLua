@@ -57,9 +57,7 @@ You are adviced to use a firewall app to control internet access, for example [N
 If you still want to fake offline state, you can download the hook definition *NetworkInfo.createFromParcel*
 from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
 
-MAC addresses are [not available anymore](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m) on supported Android versions.
-Some manufacturers made an exception for this and to fix this you can download the hook definitions *BluetoothAdapter.getAddress*, *WifiInfo.getMacAddress* and *NetworkInterface.getHardwareAddress*
-from the [hook definition repository](https://lua.xprivacy.eu/repo/) using the pro companion app.
+To protect your MAC address, there are hooks available in the [hook definition repository](https://lua.xprivacy.eu/repo/). On Android 8 and higher, you should only protect *NetworkInterface.getHardwareAddress*, since *WifiInfo.getMacAddress* and *BluetoothAdapter.getAddress* are [disabled](https://developer.android.com/training/articles/user-data-ids.html#version_specific_details_identifiers_in_m). However, some manufacturers may override this behavior, so hooks for all 3 methods are available.
 
 Since XPrivacyLua version 1.22 it is possible to enable status bar notifications on applying restrictions using the pro companion app.
 This can be used as a replacement for on demand restricting by removing a restriction when needed.
