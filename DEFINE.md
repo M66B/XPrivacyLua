@@ -177,6 +177,7 @@ Deleting copied definitions will restore the built-in definitions.
 
 The pro companion app can upload defintions to and download definitions from a [hook definition repository](https://lua.xprivacy.eu/repo/),
 making it easy to share hook definitions with others and to use hook definitions provided by others.
+Note that you cannot upload hook definitions with the author name to someone set to someone else.
 
 You can find some example definitions [here](https://github.com/M66B/XPrivacyLua/tree/master/examples)
 and the definitions built into XPrivacyLua [here](https://github.com/M66B/XPrivacyLua/tree/master/app/src/main/assets).
