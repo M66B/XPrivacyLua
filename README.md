@@ -70,6 +70,10 @@ For Android 4.0.3 KitKat to Android 5.1.1 Lollipop you can use [XPrivacy](https:
 
 XPrivacyLua was tested with the original Xposed framework only.
 
+Hooking *com.google.android.gms.location.ActivityRecognitionResult.extractResult* (restriction *Determine activity*)
+is known to fail with *script:25 vm error: java.lang.ClassNotFoundException: com.google.android.gms.location.DetectedActivity*
+and *script:28 attempt to call nil* for some apps, like Google Maps and NetFlix, for yet unknown reasons.
+
 Installation
 ------------
 
