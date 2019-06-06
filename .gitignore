@@ -10,3 +10,4 @@
 .externalNativeBuild
 /tools/config.sh
 /app/release
+keystore.properties
