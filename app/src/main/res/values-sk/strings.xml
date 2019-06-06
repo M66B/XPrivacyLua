@@ -6,7 +6,7 @@
     <string name="title_fix">Oprava</string>
     <string name="title_all">Všetko</string>
     <string name="title_restrict">Blokovať</string>
-    <string name="title_bootloop">Blokovanie môže spôsobiť problémy</string>
+    <string name="title_bootloop">Blokovanie môže spôsobiť problém</string>
     <string name="title_force_stop">Zastaviť automaticky</string>
     <string name="title_help_instructions">Stlačte na ikonu alebo názov a vyberte čo sa má blokovať.
 Ak je to možné, aplikácie sa automaticky zastavia kvôli okamžitej zmene blokovania,
@@ -37,7 +37,7 @@ Ak je to možné, aplikácie sa automaticky zastavia kvôli okamžitej zmene blo
     <string name="group_determine_activity">Aktivita podľa senzorov</string>
     <string name="group_get_applications">Zoznam aplikácií</string>
     <string name="group_get_calendars">Info z kalendára</string>
-    <string name="group_get_call_log">Záznam hovorov</string>
+    <string name="group_get_call_log">Zoznam hovorov</string>
     <string name="group_get_contacts">Adresár kontaktov</string>
     <string name="group_get_location">Poloha</string>
     <string name="group_get_messages">Čítať SMS/MMS</string>
