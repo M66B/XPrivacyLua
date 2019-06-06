@@ -344,28 +344,31 @@ class XProvider {
             // Get installed apps for current user
             PackageManager pm = Util.createContextForUser(context, userid).getPackageManager();
             for (ApplicationInfo ai : pm.getInstalledApplications(0))
-                if (!ai.packageName.startsWith(BuildConfig.APPLICATION_ID)) {
-                    int esetting = pm.getApplicationEnabledSetting(ai.packageName);
-                    boolean enabled = (ai.enabled &&
-                            (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
-                                    esetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED));
-                    boolean persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 ||
-                            "android".equals(ai.packageName));
-                    boolean system = ((ai.flags &
-                            (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
+                if (!ai.packageName.startsWith(BuildConfig.APPLICATION_ID))
+                    try {
+                        int esetting = pm.getApplicationEnabledSetting(ai.packageName);
+                        boolean enabled = (ai.enabled &&
+                                (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
+                                        esetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED));
+                        boolean persistent = ((ai.flags & ApplicationInfo.FLAG_PERSISTENT) != 0 ||
+                                "android".equals(ai.packageName));
+                        boolean system = ((ai.flags &
+                                (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
 
-                    XApp app = new XApp();
-                    app.uid = ai.uid;
-                    app.packageName = ai.packageName;
-                    app.icon = ai.icon;
-                    app.label = (String) pm.getApplicationLabel(ai);
-                    app.enabled = enabled;
-                    app.persistent = persistent;
-                    app.system = system;
-                    app.forceStop = (!persistent && !system);
-                    app.assignments = new ArrayList<>();
-                    apps.put(app.packageName, app);
-                }
+                        XApp app = new XApp();
+                        app.uid = ai.uid;
+                        app.packageName = ai.packageName;
+                        app.icon = ai.icon;
+                        app.label = (String) pm.getApplicationLabel(ai);
+                        app.enabled = enabled;
+                        app.persistent = persistent;
+                        app.system = system;
+                        app.forceStop = (!persistent && !system);
+                        app.assignments = new ArrayList<>();
+                        apps.put(app.packageName, app);
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex + "\n" + Log.getStackTraceString(ex));
+                    }
         } finally {
             Binder.restoreCallingIdentity(ident);
         }
