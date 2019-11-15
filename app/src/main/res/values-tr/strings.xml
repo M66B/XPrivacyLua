@@ -21,14 +21,14 @@
     <string name="title_help_exception">Kısıtlama uygulanamadı (nedenini görmek için simgeye dokunun)</string>
     <string name="menu_show">Göster</string>
     <string name="menu_show_user">Kullanıcı uygulamalarını göster</string>
-    <string name="menu_show_icon">Uygulamaları simgeyle göster</string>
+    <string name="menu_show_icon">Simgesi olan uygulamaları göster</string>
     <string name="menu_show_all">Tüm uygulamaları göster</string>
     <string name="menu_search">Ara</string>
     <string name="menu_help">Yardım</string>
     <string name="menu_notify_new">Yeni uygulamalardan haberdar et</string>
     <string name="menu_restrict_new">Yeni uygulamaları kısıtla</string>
     <string name="menu_companion">Pro özellikleri</string>
-    <string name="menu_readme">Belge</string>
+    <string name="menu_readme">Dokümantasyon</string>
     <string name="menu_faq">SSS</string>
     <string name="menu_donate">Bağış yap</string>
     <string name="msg_no_service">Modül çalışmıyor ya da güncellenmemiş</string>
@@ -38,7 +38,7 @@
     <string name="msg_restrict_sure">\'%1$s\' tüm uygulamalar için değiştirilsin mi?</string>
     <string name="msg_no_browser">Bağlantıyı açacak tarayıcı bulunamadı</string>
     <string name="group_determine_activity">Etkinliği belirle</string>
-    <string name="group_get_applications">Uygulamaları al</string>
+    <string name="group_get_applications">Uygulamaları listele</string>
     <string name="group_get_calendars">Takvimleri al</string>
     <string name="group_get_call_log">Arama kayıtlarını al</string>
     <string name="group_get_contacts">Kişileri al</string>
