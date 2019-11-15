@@ -829,6 +829,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             String m = args.arg(2).checkjstring();
             args.arg(3).checkfunction();
             Log.i(TAG, "Dynamic hook " + cls.getName() + "." + m);
+            final LuaValue fun = args.arg(3);
+            final List<LuaValue> xargs = new ArrayList<>();
+            for (int i = 4; i <= args.narg(); i++)
+                xargs.add(args.arg(i));
 
             XposedBridge.hookAllMethods(cls, m, new XC_MethodHook() {
                 @Override
@@ -846,9 +850,9 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     List<LuaValue> values = new ArrayList<>();
                     values.add(LuaValue.valueOf(when));
                     values.add(CoerceJavaToLua.coerce(new XParam(context, param, settings)));
-                    for (int i = 4; i <= args.narg(); i++)
-                        values.add(args.arg(i));
-                    args.arg(3).invoke(values.toArray(new LuaValue[0]));
+                    for (int i = 0; i < xargs.size(); i++)
+                        values.add(xargs.get(i));
+                    fun.invoke(values.toArray(new LuaValue[0]));
                 }
             });
 
