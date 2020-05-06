@@ -32,6 +32,8 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaClosure;
 import org.luaj.vm2.LuaError;
@@ -60,7 +62,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.WeakHashMap;
 
-import androidx.annotation.NonNull;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -273,7 +274,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         try {
             chooks = context.getContentResolver()
                     .query(XProvider.getURI(), new String[]{"xlua.getAssignedHooks2"},
-                            null, new String[]{lpparam.packageName, Integer.toString(uid)},
+                            "pkg = ? AND uid = ?", new String[]{lpparam.packageName, Integer.toString(uid)},
                             null);
             while (chooks != null && chooks.moveToNext()) {
                 byte[] marshaled = chooks.getBlob(0);
@@ -296,7 +297,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         try {
             csettings1 = context.getContentResolver()
                     .query(XProvider.getURI(), new String[]{"xlua.getSettings"},
-                            null, new String[]{"global", Integer.toString(uid)},
+                            "pkg = ? AND uid = ?", new String[]{"global", Integer.toString(uid)},
                             null);
             while (csettings1 != null && csettings1.moveToNext())
                 settings.put(csettings1.getString(0), csettings1.getString(1));
@@ -310,7 +311,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         try {
             csettings2 = context.getContentResolver()
                     .query(XProvider.getURI(), new String[]{"xlua.getSettings"},
-                            null, new String[]{lpparam.packageName, Integer.toString(uid)},
+                            "pkg = ? AND uid = ?", new String[]{lpparam.packageName, Integer.toString(uid)},
                             null);
             while (csettings2 != null && csettings2.moveToNext())
                 settings.put(csettings2.getString(0), csettings2.getString(1));
