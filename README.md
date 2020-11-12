@@ -2,7 +2,7 @@ XPrivacyLua
 ===========
 
 
-Really simple to use privacy manager for Android 6.0 Marshmallow and later (successor of [XPrivacy](https://forum.xda-developers.com/xposed/modules/xprivacy-ultimate-android-privacy-app-t2320783"]XPrivacy[/URL])).
+Really simple to use privacy manager for Android 6-10 (successor of [XPrivacy](https://forum.xda-developers.com/xposed/modules/xprivacy-ultimate-android-privacy-app-t2320783"]XPrivacy[/URL])).
 
 Revoking Android permissions from apps often let apps crash or malfunction.
 XPrivacyLua solves this by feeding apps fake data instead of real data.
@@ -77,8 +77,10 @@ and *script:28 attempt to call nil* for some apps, like Google Maps and NetFlix,
 Installation
 ------------
 
-* Download, install and activate the [Xposed framework](http://forum.xda-developers.com/xposed)
-* Download, install and activate the [XPrivacyLua module](http://repo.xposed.info/module/eu.faircode.xlua)
+* Install [Magisk](https://www.xda-developers.com/how-to-install-magisk/)
+* Android 6-7: download, install, and activate [Xposed](http://forum.xda-developers.com/xposed)
+* Android 8-10: download, install, and activate [EdXposed](https://forum.xda-developers.com/xposed/development/official-edxposed-successor-xposed-t4070199)
+* Download, install, and activate [XPrivacyLua](http://repo.xposed.info/module/eu.faircode.xlua)
 
 Certificate fingerprints:
 
