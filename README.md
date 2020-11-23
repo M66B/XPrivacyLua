@@ -80,6 +80,7 @@ Installation
 * Install [Magisk](https://www.xda-developers.com/how-to-install-magisk/)
 * Android 6-7: download, install, and activate [Xposed](http://forum.xda-developers.com/xposed)
 * Android 8-10: download, install, and activate [EdXposed](https://forum.xda-developers.com/xposed/development/official-edxposed-successor-xposed-t4070199)
+* Android 11: XPrivacyLua mostly works, but is not supported yet. [See here](https://android.stackexchange.com/questions/231176/how-to-install-edxposed-on-android-11-what-about-safety-net) about installing EdXposed.
 * Download, install, and activate [XPrivacyLua](http://repo.xposed.info/module/eu.faircode.xlua)
 
 Certificate fingerprints:
