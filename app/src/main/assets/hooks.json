@@ -190,6 +190,34 @@
   {
     "collection": "Privacy",
     "group": "Get.Applications",
+    "name": "PackageManager.getNameForUid",
+    "author": "LuigiVampa92",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getNameForUid",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 1,
+    "luaScript": "@generic_null_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
+    "name": "PackageManager.getPackagesForUid",
+    "author": "LuigiVampa92",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getPackagesForUid",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "[Ljava.lang.String;",
+    "minSdk": 1,
+    "luaScript": "@generic_empty_string_array"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
     "name": "PackageManager.getPackagesHoldingPermissions",
     "author": "M66B",
     "className": "android.content.pm.PackageManager",
