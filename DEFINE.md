@@ -110,13 +110,13 @@ The most important functions of *param* are:
 
 * *param:getApplicationContext()*: see remarks below
 * *param:getThis()*: the current object instance or *nil* if the method is static
-* *param:getArgument(index)*: get the argument at the specified index (one based)
+* *param:getArgument(index)*: get the argument at the specified index (zero based)
 * *param:setArgument(index, value)*
 * *param:getResult()*: only available after the hooked method has been executed
 * *param:setResult(value)*
 * For other functions, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
 
-The before/after function should return *true* when something was done and *false* otherwise.
+The before/after function **must** return *true* when something was done and **must** return *false* otherwise.
 XPrivacyLua will show the last date/time of the last time *true* was returned.
 
 Special cases
