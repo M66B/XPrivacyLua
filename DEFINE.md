@@ -116,7 +116,7 @@ The most important functions of *param* are:
 * *param:setResult(value)*
 * For other functions, see [here](https://github.com/M66B/XPrivacyLua/blob/master/app/src/main/java/eu/faircode/xlua/XParam.java) for the available public methods
 
-The before/after function should return *true* when something was done and *false* otherwise. **Returning nil or omitting a return will cause an exception, you must explicitly return a boolean!**
+The before/after function should return *true* when something was done and *false* otherwise. **Returning nil or omitting a return will cause an exception, you should explicitly return a boolean instead.**
 XPrivacyLua will show the last date/time of the last time *true* was returned.
 
 Special cases
