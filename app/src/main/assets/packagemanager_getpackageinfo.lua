@@ -25,7 +25,13 @@ function after(hook, param)
     local uid = result.applicationInfo.uid
 
     if uid ~= cuid then
-        local ex = luajava.newInstance('android.content.pm.PackageManager$NameNotFoundException', param:getArgument(0))
+        local name = param:getArgument(0)
+
+        if type(name) ~= 'string' then -- VersionedPackage
+            name = name:getPackageName()
+        end
+
+        local ex = luajava.newInstance('android.content.pm.PackageManager$NameNotFoundException', name)
         param:setResult(ex)
         return true
     end
