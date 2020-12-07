@@ -251,6 +251,21 @@
   {
     "collection": "Privacy",
     "group": "Get.Applications",
+    "name": "PackageManager.getPackageInfo",
+    "author": "LoganDark",
+    "className": "android.content.pm.PackageManager",
+    "methodName": "getPackageInfo",
+    "parameterTypes": [
+      "java.lang.String",
+      "int"
+    ],
+    "returnType": "android.content.pm.PackageInfo",
+    "minSdk": 1,
+    "luaScript": "@packagemanager_getpackageinfo"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Get.Applications",
     "name": "PackageManager.queryIntentContentProviders",
     "author": "M66B",
     "className": "android.content.pm.PackageManager",
