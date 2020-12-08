@@ -24,7 +24,10 @@ function after(hook, param)
     local cuid = param:getUid()
     local uid = result.applicationInfo.uid
 
-    if uid ~= cuid and bit32.band(result.applicationInfo.flags, 129 --[[ FLAG_SYSTEM | FLAG_UPDATED_SYSTEM_APP ]]) == 0 then
+    local ai = luajava.bindClass('android.content.pm.ApplicationInfo')
+    local system = bit32.bor(ai.FLAG_SYSTEM, ai.FLAG_UPDATED_SYSTEM_APP)
+
+    if uid ~= cuid and bit32.band(result.applicationInfo.flags, system) == 0 then
         local name = param:getArgument(0)
 
         if type(name) ~= 'string' then -- VersionedPackage
