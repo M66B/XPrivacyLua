@@ -24,7 +24,7 @@ function after(hook, param)
     local cuid = param:getUid()
     local uid = result.applicationInfo.uid
 
-    if uid ~= cuid then
+    if uid ~= cuid and bit32.band(result.applicationInfo.flags, 129 --[[ FLAG_SYSTEM | FLAG_UPDATED_SYSTEM_APP ]]) == 0 then
         local name = param:getArgument(0)
 
         if type(name) ~= 'string' then -- VersionedPackage
