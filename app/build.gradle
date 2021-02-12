@@ -6,12 +6,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "eu.faircode.xlua"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 128
         versionName "1.27"
         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
