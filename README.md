@@ -83,6 +83,8 @@ Installation
 * Android 11: XPrivacyLua mostly works, but is not supported yet. [See here](https://android.stackexchange.com/questions/231176/how-to-install-edxposed-on-android-11-what-about-safety-net) about installing EdXposed.
 * Download, install, and activate [XPrivacyLua](http://repo.xposed.info/module/eu.faircode.xlua)
 
+Please make sure that Android (framework) and the Android settings provider (com.android.providers.settings) are being restricted (in the 'scope').
+
 Certificate fingerprints:
 
 * MD5: 42:93:4F:A4:D5:AC:53:7B:04:97:3B:29:A6:6E:7B:B3
