@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPrivacyLua.iml" filepath="$PROJECT_DIR$/.idea/modules/XPrivacyLua.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/XPrivacyLua.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/XPrivacyLua.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xlua.iml" filepath="$PROJECT_DIR$/.idea/modules/xlua.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/xlua.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/xlua.app.iml" />
     </modules>
   </component>
 </project>
