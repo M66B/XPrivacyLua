@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_accept">I Agree</string>
+    <string name="title_accept">මම එකඟයි</string>
     <string name="title_deny">I disagree</string>
     <string name="title_fix">Fix</string>
-    <string name="title_all">All</string>
+    <string name="title_all">සියල්ල</string>
     <string name="title_restrict">Restrict</string>
     <string name="title_bootloop">Restricting can cause a bootloop</string>
     <string name="title_force_stop">Force stop automatically</string>
-    <string name="title_help_instructions">Tap on an app icon or name and tick restrictions to apply them.
+    <string name="title_help_instructions">        Tap on an app icon or name and tick restrictions to apply them.
         If possible, apps are automatically stopped to apply (or remove) restrictions immediately,
         but applying restrictions to some apps requires a device restart (see icons below).
         <![CDATA[<br><br>]]>Long press on an app name or icon to start the app.
@@ -18,18 +18,18 @@
     <string name="title_help_settings">App restriction settings</string>
     <string name="title_help_persistent">Applying restrictions requires a device restart</string>
     <string name="title_help_exception">Applying restriction failed (tap icon to see why)</string>
-    <string name="menu_show">Show</string>
-    <string name="menu_show_user">Show user apps</string>
+    <string name="menu_show">පෙන්වන්න</string>
+    <string name="menu_show_user">පරිශීලක යෙදුම් පෙන්වන්න</string>
     <string name="menu_show_icon">Show apps with icon</string>
     <string name="menu_show_all">Show all apps</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_help">Help</string>
+    <string name="menu_search">සොයන්න</string>
+    <string name="menu_help">උදව්</string>
     <string name="menu_notify_new">Notify on new apps</string>
     <string name="menu_restrict_new">Restrict new apps</string>
     <string name="menu_companion">Pro features</string>
     <string name="menu_readme">Documentation</string>
-    <string name="menu_faq">FAQ</string>
-    <string name="menu_donate">Donate</string>
+    <string name="menu_faq">නිති අසන පැණ</string>
+    <string name="menu_donate">පරිත්‍යාග කරන්න</string>
     <string name="msg_no_service">Module not running or updated</string>
     <string name="msg_review_settings">Review privacy settings</string>
     <string name="msg_usage">Restricted \'%1$s\'</string>
