@@ -12,8 +12,8 @@ android {
         applicationId "eu.faircode.xlua"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 128
-        versionName "1.27"
+        versionCode 129
+        versionName "1.28"
         archivesBaseName = "XPrivacyLua-v$versionName-$versionCode"
     }
     signingConfigs {
