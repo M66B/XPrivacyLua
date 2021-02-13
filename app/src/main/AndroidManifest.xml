@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eu.faircode.xlua">
 
+    <!-- https://developer.android.com/preview/privacy/package-visibility -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:name="ApplicationEx"
         android:allowBackup="false"
