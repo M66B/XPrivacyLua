@@ -82,6 +82,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         int uid = Process.myUid();
         Log.i(TAG, "Loaded " + lpparam.packageName + ":" + uid);
+        XposedBridge.log(TAG + " Loaded " + lpparam.packageName + ":" + uid);
 
         if ("android".equals(lpparam.packageName))
             hookAndroid(lpparam);
@@ -103,8 +104,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 try {
                     Log.i(TAG, "Preparing system");
+                    XposedBridge.log(TAG + " Preparing system");
                     Context context = getContext(param.thisObject);
                     hookPackage(lpparam, Process.myUid(), context);
+
                 } catch (Throwable ex) {
                     Log.e(TAG, Log.getStackTraceString(ex));
                     XposedBridge.log(ex);
@@ -115,6 +118,7 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
                     Log.i(TAG, "System ready");
+                    XposedBridge.log(TAG + " System ready");
                     Context context = getContext(param.thisObject);
 
                     // Store current module version
