@@ -79,7 +79,7 @@ Installation
 
 * Install [Magisk](https://www.xda-developers.com/how-to-install-magisk/)
 * Android 6-7: download, install, and activate [Xposed](http://forum.xda-developers.com/xposed)
-* Android 8-11: download, install, and activate [EdXposed](https://forum.xda-developers.com/xposed/development/official-edxposed-successor-xposed-t4070199) or [LSPosed](https://forum.xda-developers.com/t/lsposed-xposed-framework-8-0-11-0-edxposed-alternetive.4228973/)
+* Android 8-11: download, install, and activate [EdXposed](https://forum.xda-developers.com/t/official-edxposed-the-successor-of-xposed-oreo-pie-q-r-2020-07-19.4070199)) or [LSPosed](https://forum.xda-developers.com/t/lsposed-xposed-framework-8-0-11-0-edxposed-alternetive.4228973/)
 * Download, install, and activate [XPrivacyLua](http://repo.xposed.info/module/eu.faircode.xlua)
 
 Please make sure that Android (framework) and the Android settings provider (com.android.providers.settings) are being restricted (in the 'scope').
