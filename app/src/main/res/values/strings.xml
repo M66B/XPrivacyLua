@@ -80,6 +80,7 @@
     <string-array name="scopes" translatable="false">
         <item>android</item>
         <item>com.android.providers.settings</item>
+        <item>eu.faircode.xlua</item>
     </string-array>
 
     <string name="pro_fingerprint" translatable="false">1062ae961d78854f6c9cd872c4388232849c799</string>
