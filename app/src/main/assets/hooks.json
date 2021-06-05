@@ -2749,5 +2749,21 @@
     "enabled": false,
     "usage": false,
     "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "MediaDrm.getPropertyByteArray",
+    "author": "LuigiVampa92",
+    "description": "DRM manager will return fake unique device ID",
+    "className": "android.media.MediaDrm",
+    "methodName": "getPropertyByteArray",
+    "parameterTypes": [
+      "java.lang.String"
+    ],
+    "returnType": "byte[]",
+    "minSdk": 18,
+    "enabled": true,
+    "luaScript": "@mediadrm_unique_id"
   }
 ]
