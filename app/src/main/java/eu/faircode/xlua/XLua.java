@@ -634,12 +634,6 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                                 context.getContentResolver()
                                         .call(XProvider.getURI(), "xlua", "report", args);
                             } catch (Throwable ex) {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append(packageName).append(':').append(uid);
-                                if (data != null)
-                                    for (String key : data.keySet())
-                                        sb.append(' ').append(key);
-                                ex = new Throwable(sb.toString(), ex);
                                 Log.e(TAG, Log.getStackTraceString(ex));
                                 XposedBridge.log(ex);
                             }
