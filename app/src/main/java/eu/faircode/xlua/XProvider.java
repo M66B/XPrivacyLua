@@ -777,8 +777,9 @@ class XProvider {
                 // Main
                 Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                 if (main != null) {
+                    int flags = (Build.VERSION.SDK_INT > Build.VERSION_CODES.R ? 0x04000000 : 0);
                     main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, flags);
                     builder.setContentIntent(pi);
                 }
 
@@ -803,8 +804,9 @@ class XProvider {
                 // Main
                 Intent main = ctx.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                 if (main != null) {
+                    int flags = (Build.VERSION.SDK_INT > Build.VERSION_CODES.R ? 0x04000000 : 0);
                     main.putExtra(ActivityMain.EXTRA_SEARCH_PACKAGE, packageName);
-                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, 0);
+                    PendingIntent pi = PendingIntent.getActivity(ctx, uid, main, flags);
                     builder.setContentIntent(pi);
                 }
 
