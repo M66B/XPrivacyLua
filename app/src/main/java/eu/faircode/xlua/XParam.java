@@ -142,20 +142,21 @@ public class XParam {
 
     @SuppressWarnings("unused")
     public void setResult(Object result) throws Throwable {
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() +
+                    " result=" + result + " return=" + this.returnType);
+        if (result != null && this.returnType != null) {
+            result = coerceValue(this.returnType, result);
+            if (!boxType(this.returnType).isInstance(result))
+                throw new IllegalArgumentException(
+                        "Expected return " + this.returnType + " got " + result.getClass());
+        }
+
         if (this.field == null)
             if (result instanceof Throwable)
                 this.param.setThrowable((Throwable) result);
-            else {
-                if (BuildConfig.DEBUG)
-                    Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() + " result=" + result);
-                if (result != null && this.returnType != null) {
-                    result = coerceValue(this.returnType, result);
-                    if (!boxType(this.returnType).isInstance(result))
-                        throw new IllegalArgumentException(
-                                "Expected return " + this.returnType + " got " + result.getClass());
-                }
+            else
                 this.param.setResult(result);
-            }
         else
             this.field.set(null, result);
     }
@@ -230,7 +231,14 @@ public class XParam {
         } else if (Double.class.equals(value.getClass())) {
             if (float.class.equals(type))
                 return (float) (double) value;
-        }
+        } else if (value instanceof String && int.class.equals(type))
+            return Integer.parseInt((String) value);
+        else if (value instanceof String && long.class.equals(type))
+            return Long.parseLong((String) value);
+        else if (value instanceof String && float.class.equals(type))
+            return Float.parseFloat((String) value);
+        else if (value instanceof String && double.class.equals(type))
+            return Double.parseDouble((String) value);
 
         return value;
     }
