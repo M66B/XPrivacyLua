@@ -145,7 +145,7 @@ public class XParam {
         if (BuildConfig.DEBUG)
             Log.i(TAG, "Set " + this.getPackageName() + ":" + this.getUid() +
                     " result=" + result + " return=" + this.returnType);
-        if (result != null && this.returnType != null) {
+        if (result != null && !(result instanceof Throwable) && this.returnType != null) {
             result = coerceValue(this.returnType, result);
             if (!boxType(this.returnType).isInstance(result))
                 throw new IllegalArgumentException(
