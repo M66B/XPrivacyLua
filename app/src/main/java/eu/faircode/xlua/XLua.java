@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Process;
@@ -240,8 +241,10 @@ public class XLua implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     private void hookApplication(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         final int uid = Process.myUid();
-        Class<?> at = Class.forName("android.app.LoadedApk", false, lpparam.classLoader);
-        XposedBridge.hookAllMethods(at, "makeApplication", new XC_MethodHook() {
+        final boolean tiramisu = (Build.VERSION.SDK_INT >= 33);
+        // https://android.googlesource.com/platform/frameworks/base/+/169aeafb2d97b810ae123ad036d0c58336961c55%5E%21/#F1
+        Class<?> at = Class.forName(tiramisu ? "android.app.Instrumentation" : "android.app.LoadedApk", false, lpparam.classLoader);
+        XposedBridge.hookAllMethods(at, tiramisu ? "newApplication" : "makeApplication", new XC_MethodHook() {
             private boolean made = false;
 
             @Override
