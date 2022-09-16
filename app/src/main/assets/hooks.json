@@ -2858,6 +2858,61 @@
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
+    "name": "WebView.constructor.5",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int",
+      "java.util.Map"
+    ],
+    "minSdk": 5,
+    "maxSdk": 10,
+    "enabled": false,
+    "usage": false,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.15",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int",
+      "java.util.Map",
+      "boolean"
+    ],
+    "minSdk": 15,
+    "enabled": false,
+    "usage": false,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
+    "name": "WebView.constructor.23",
+    "author": "M66B",
+    "className": "android.webkit.WebView",
+    "parameterTypes": [
+      "android.content.Context",
+      "android.util.AttributeSet",
+      "int",
+      "int",
+      "java.util.Map",
+      "boolean"
+    ],
+    "minSdk": 23,
+    "enabled": false,
+    "usage": false,
+    "luaScript": "@webview_constructor"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
     "name": "MediaDrm.getPropertyByteArray",
     "author": "LuigiVampa92",
     "description": "DRM manager will return fake unique device ID",
