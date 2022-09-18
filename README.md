@@ -80,7 +80,7 @@ Installation
 * Install [Magisk](https://www.xda-developers.com/how-to-install-magisk/)
 * Android 6-7: download, install, and activate [Xposed](http://forum.xda-developers.com/xposed)
 * Android 8-12: download, install, and activate [LSPosed](https://forum.xda-developers.com/t/lsposed-xposed-framework-8-0-11-0-edxposed-alternetive.4228973/) ~~or [EdXposed](https://forum.xda-developers.com/t/official-edxposed-the-successor-of-xposed-oreo-pie-q-r-2020-07-19.4070199)~~
-* Download, install, and activate [XPrivacyLua](http://repo.xposed.info/module/eu.faircode.xlua)
+* Download, install, and activate [XPrivacyLua](https://bitbucket.org/M66B/xlua-companion/downloads/)
 
 LSPosed: please make sure that any app you want to restrict is [in the 'scope'](https://github.com/LSPosed/LSPosed/wiki/How-to-use-it#install--activate-modules) of LSposed.
 
