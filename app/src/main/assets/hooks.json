@@ -2714,6 +2714,20 @@
   {
     "collection": "Privacy",
     "group": "Use.Tracking",
+    "name": "TelephonyManager/getNetworkCountryIso.30",
+    "author": "M66B",
+    "className": "android.telephony.TelephonyManager",
+    "methodName": "getNetworkCountryIso",
+    "parameterTypes": [
+      "int"
+    ],
+    "returnType": "java.lang.String",
+    "minSdk": 30,
+    "luaScript": "@generic_country_value"
+  },
+  {
+    "collection": "Privacy",
+    "group": "Use.Tracking",
     "name": "TelephonyManager/getNetworkOperator",
     "author": "M66B",
     "className": "android.telephony.TelephonyManager",
